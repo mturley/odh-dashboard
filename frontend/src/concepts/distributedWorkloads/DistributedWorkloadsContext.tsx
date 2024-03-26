@@ -19,7 +19,7 @@ import useClusterQueues from './useClusterQueues';
 import useWorkloads from './useWorkloads';
 
 type DistributedWorkloadsContextType = {
-  clusterQueues: FetchStateObject<ClusterQueueKind[]>;
+  clusterQueue: FetchStateObject<ClusterQueueKind | undefined>;
   workloads: FetchStateObject<WorkloadKind[]>;
   projectMetrics: DWProjectMetrics;
   workloadTrendMetrics: DWWorkloadTrendMetrics;
@@ -33,7 +33,7 @@ type DistributedWorkloadsContextProviderProps = {
 };
 
 export const DistributedWorkloadsContext = React.createContext<DistributedWorkloadsContextType>({
-  clusterQueues: DEFAULT_LIST_FETCH_STATE,
+  clusterQueue: DEFAULT_VALUE_FETCH_STATE,
   workloads: DEFAULT_LIST_FETCH_STATE,
   projectMetrics: {
     ...DEFAULT_VALUE_FETCH_STATE,
@@ -70,6 +70,10 @@ export const DistributedWorkloadsContextProvider =
     // TODO mturley implement lazy loading, let the context consumers tell us what data they need and make the other ones throw a NotReadyError
 
     const clusterQueues = useMakeFetchObject<ClusterQueueKind[]>(useClusterQueues(refreshRate));
+    const clusterQueue: FetchStateObject<ClusterQueueKind | undefined> = {
+      ...clusterQueues,
+      data: clusterQueues.data.find((cq) => cq.spec.resourceGroups?.length),
+    };
     const workloads = useMakeFetchObject<WorkloadKind[]>(useWorkloads(namespace, refreshRate));
     const projectMetrics = useDWProjectMetrics(namespace, refreshRate);
 
@@ -115,7 +119,7 @@ export const DistributedWorkloadsContextProvider =
     return (
       <DistributedWorkloadsContext.Provider
         value={{
-          clusterQueues,
+          clusterQueue,
           workloads,
           projectMetrics,
           workloadTrendMetrics,
