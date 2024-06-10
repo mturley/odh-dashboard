@@ -351,4 +351,22 @@ const initIntercepts = () => {
     },
     mockRun2,
   );
+
+  // TODO look at Gage's branch again: https://github.com/opendatahub-io/odh-dashboard/compare/main...Gkrumbach07:odh-dashboard:test-mlmd#diff-9aa5e1d9f4d5bf5c6731a92f2dce95b408b3ac1c8b6a684b003c0bcda65193e2
+  // - What can we keep from it? sample data?
+  // TODO intercepts for these routes:
+  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetContextByTypeAndName
+  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetArtifactTypes
+  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetContextByTypeAndName
+  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetArtifactsByContext
+  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetExecutionsByContext
+  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetEventsByExecutionIDs
+  // TODO For each route --
+  // - Write down sample request and response data
+  // - Mock static responses without looking at request params, see if we can get the tables to populate
+  //   - Try Gage's thing first or look at https://www.npmjs.com/package/@botchris/grpc-web-mock
+  // - Look at conditional intercepts based on request content - how to see this when intercepting? log the request?
+  // - Get the 2 main tests to pass with real intercepts
+  // - Squash to 1 commit, send a branch to Dallas, have him take over Metrics
+  // - Work off the same commit to write tests for Artifacts
 };
