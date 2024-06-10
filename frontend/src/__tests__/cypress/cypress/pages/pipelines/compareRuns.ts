@@ -56,6 +56,21 @@ class CompareRunParamsTable {
   }
 }
 
+class CompareMetricsContent {
+  find() {
+    return cy.findByTestId('compare-runs-metrics-content');
+  }
+
+  findScalarMetricsTable() {
+    return cy.findByTestId('compare-runs-scalar-metrics-table');
+  }
+
+  findScalarMetricsEmptyState() {
+    return cy.findByTestId('compare-runs-scalar-metrics-empty-state');
+  }
+}
+
 export const compareRunsGlobal = new CompareRunsGlobal();
 export const compareRunsListTable = new CompareRunsListTable();
 export const compareRunParamsTable = new CompareRunParamsTable();
+export const compareRunsMetricsContent = new CompareMetricsContent();

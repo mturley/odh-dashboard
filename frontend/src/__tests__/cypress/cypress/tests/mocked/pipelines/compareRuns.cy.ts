@@ -21,8 +21,10 @@ import {
   compareRunsGlobal,
   compareRunsListTable,
   compareRunParamsTable,
+  compareRunsMetricsContent,
 } from '~/__tests__/cypress/cypress/pages/pipelines/compareRuns';
 import { mockCancelledGoogleRpcStatus } from '~/__mocks__/mockGoogleRpcStatusKF';
+import * as scalarUtils from '~/concepts/pipelines/content/compareRuns/metricsSection/scalar/utils';
 
 const projectName = 'test-project-name';
 const initialMockPipeline = buildMockPipelineV2({ display_name: 'Test pipeline' });
@@ -193,6 +195,99 @@ describe('Compare runs', () => {
       compareRunParamsTable.findParamName('paramOne').should('exist');
       compareRunParamsTable.findParamName('paramTwo').should('not.exist');
       compareRunParamsTable.findParamName('paramThree').should('exist');
+    });
+  });
+
+  describe.only('Metrics', () => {
+    beforeEach(() => {
+      cy.stub(scalarUtils, 'generateTableStructure').returns({
+        columns: [
+          {
+            label: 'Run name',
+            field: 'run-name',
+            isStickyColumn: true,
+            hasRightBorder: true,
+            className: 'pf-v5-u-background-color-200',
+            sortable: false,
+          },
+          {
+            label: 'Duplicate of JP matrix testing run 2',
+            field: 'Duplicate of JP matrix testing run 2',
+            colSpan: 1,
+            sortable: false,
+            modifier: 'nowrap',
+            hasRightBorder: true,
+          },
+          {
+            label: 'JP matrix testing run',
+            field: 'JP matrix testing run',
+            colSpan: 1,
+            sortable: false,
+            modifier: 'nowrap',
+            hasRightBorder: false,
+          },
+        ],
+        subColumns: [
+          {
+            label: 'Execution name > Artifact name',
+            field: 'execution-name-artifact-name',
+            isStickyColumn: true,
+            hasRightBorder: true,
+            className: 'pf-v5-u-background-color-200',
+            sortable: false,
+          },
+          {
+            label: 'digit-classification > metrics',
+            field: 'digit-classification > metrics',
+            sortable: false,
+            modifier: 'nowrap',
+            hasRightBorder: true,
+          },
+          {
+            label: 'digit-classification > metrics',
+            field: 'digit-classification > metrics',
+            sortable: false,
+            modifier: 'nowrap',
+            hasRightBorder: false,
+          },
+        ],
+        data: [
+          {
+            key: 'accuracy',
+            values: ['92', '92'],
+          },
+        ],
+      });
+
+      compareRunsGlobal.visit(projectName, mockExperiment.experiment_id, [
+        mockRun.run_id,
+        mockRun2.run_id,
+      ]);
+    });
+
+    it('shows empty state when the Runs list has no selections', () => {
+      compareRunsListTable.findSelectAllCheckbox().click();
+      // Stub the generateTableStructure function
+      cy.stub(scalarUtils, 'generateTableStructure').returns({
+        columns: [],
+        subColumns: [],
+        data: [],
+      });
+
+      compareRunsGlobal.visit(projectName, mockExperiment.experiment_id, [
+        mockRun.run_id,
+        mockRun2.run_id,
+      ]);
+
+      compareRunsMetricsContent.findScalarMetricsEmptyState().should('exist');
+    });
+
+    it.only('displays table data based on selections from Run list', () => {
+      compareRunsListTable.findRowByName('Run 1').should('exist');
+      compareRunsListTable.findRowByName('Run 2').should('exist');
+
+      compareRunsMetricsContent.findScalarMetricsTable().should('exist');
+      //TODO: find in scalar metrics table
     });
   });
 });
