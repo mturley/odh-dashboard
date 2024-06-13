@@ -3,10 +3,11 @@
 import { Message } from 'google-protobuf';
 import * as jspb from 'google-protobuf';
 import { Struct } from 'google-protobuf/google/protobuf/struct_pb';
-import { Artifact, GetArtifactsByContextResponse, Value } from '~/third_party/mlmd';
+import { Artifact, Value } from '~/third_party/mlmd';
+import { GetArtifactsByContextResponse } from '~/third_party/mlmd/generated/ml_metadata/proto/metadata_store_service_pb';
 import createGrpcResponse, { GrpcResponse } from './utils';
 
-const mockedScalarMetricArtifact = {
+const mockedScalarMetricArtifact: Artifact.AsObject = {
   id: 7,
   typeId: 17,
   type: 'system.Metrics',
@@ -17,12 +18,20 @@ const mockedScalarMetricArtifact = {
       'accuracy',
       {
         doubleValue: 92,
+        // TODO are these extra values in the real data? they are all required in the Artifact.AsObject type
+        intValue: 0,
+        stringValue: '',
+        boolValue: false,
       },
     ],
     [
       'display_name',
       {
         stringValue: 'metrics',
+        // TODO are these extra values in the real data? they are all required in the Artifact.AsObject type
+        intValue: 0,
+        doubleValue: 0,
+        boolValue: false,
       },
     ],
   ],
@@ -31,7 +40,7 @@ const mockedScalarMetricArtifact = {
   lastUpdateTimeSinceEpoch: 1711765118976,
 };
 
-const mockedConfusionMatrixArtifact = {
+const mockedConfusionMatrixArtifact: Artifact.AsObject = {
   id: 8,
   typeId: 18,
   type: 'system.ClassificationMetrics',
@@ -264,12 +273,21 @@ const mockedConfusionMatrixArtifact = {
             ],
           ],
         },
+        // TODO are these extra values in the real data? they are all required in the Artifact.AsObject type
+        intValue: 0,
+        doubleValue: 0,
+        stringValue: '',
+        boolValue: false,
       },
     ],
     [
       'display_name',
       {
         stringValue: 'metrics',
+        // TODO are these extra values in the real data? they are all required in the Artifact.AsObject type
+        intValue: 0,
+        doubleValue: 0,
+        boolValue: false,
       },
     ],
   ],
@@ -278,7 +296,7 @@ const mockedConfusionMatrixArtifact = {
   lastUpdateTimeSinceEpoch: 1711765608345,
 };
 
-const mokedRocCurveArtifact = {
+const mokedRocCurveArtifact: Artifact.AsObject = {
   id: 9,
   typeId: 18,
   type: 'system.ClassificationMetrics',
@@ -712,12 +730,21 @@ const mokedRocCurveArtifact = {
             ],
           ],
         },
+        // TODO are these extra values in the real data? they are all required in the Artifact.AsObject type
+        intValue: 0,
+        doubleValue: 0,
+        stringValue: '',
+        boolValue: false,
       },
     ],
     [
       'display_name',
       {
         stringValue: 'metrics',
+        // TODO are these extra values in the real data? they are all required in the Artifact.AsObject type
+        intValue: 0,
+        doubleValue: 0,
+        boolValue: false,
       },
     ],
   ],
@@ -726,7 +753,7 @@ const mokedRocCurveArtifact = {
   lastUpdateTimeSinceEpoch: 1711766424068,
 };
 
-const mockedMarkdownArtifact = {
+const mockedMarkdownArtifact: Artifact.AsObject = {
   id: 16,
   typeId: 19,
   type: 'system.Markdown',
@@ -737,6 +764,10 @@ const mockedMarkdownArtifact = {
       'display_name',
       {
         stringValue: 'markdown_artifact',
+        // TODO are these extra values in the real data? they are all required in the Artifact.AsObject type
+        intValue: 0,
+        doubleValue: 0,
+        boolValue: true,
       },
     ],
   ],
@@ -745,14 +776,14 @@ const mockedMarkdownArtifact = {
   lastUpdateTimeSinceEpoch: 1712841455267,
 };
 
-export const mockArtifact = (displayName: string, id): Artifact => {
+export const mockArtifact = (displayName: string, mock: Artifact.AsObject): Artifact => {
   const artifact = new Artifact();
   artifact.setId(mock.id);
   artifact.setTypeId(mock.typeId);
   artifact.setType(mock.type);
   artifact.setUri(mock.uri);
 
-  const customPropertiesMap: jspb.Map<string, Value> = jspb.Map.fromObject([], null, null);
+  const customPropertiesMap = artifact.getCustomPropertiesMap();
 
   mock.customPropertiesMap.forEach(([key, value]) => {
     const valueObj = new Value();
@@ -763,15 +794,13 @@ export const mockArtifact = (displayName: string, id): Artifact => {
     } else if (value.stringValue) {
       valueObj.setStringValue(value.stringValue);
     } else if (value.structValue) {
-      const val = new Value();
-      val.setStructValue(value);
-      valueObj.setStructValue(value);
+      // TODO does this work as expected?
+      valueObj.setStructValue(Struct.fromJavaScript(value.structValue));
     }
 
     customPropertiesMap.set(key, valueObj);
   });
 
-  Message.setField(artifact, 5, mock.customPropertiesMap);
   artifact.setState(mock.state);
   artifact.setCreateTimeSinceEpoch(mock.createTimeSinceEpoch);
   artifact.setLastUpdateTimeSinceEpoch(mock.lastUpdateTimeSinceEpoch);
@@ -781,6 +810,9 @@ export const mockArtifact = (displayName: string, id): Artifact => {
 
 export const mockGetArtifactsByContext = (): GrpcResponse => {
   const artifactTypesResponse = new GetArtifactsByContextResponse();
+
+  // TODO add Artifacts
+  // artifactTypesResponse.addArtifacts()
 
   return createGrpcResponse(artifactTypesResponse);
 };

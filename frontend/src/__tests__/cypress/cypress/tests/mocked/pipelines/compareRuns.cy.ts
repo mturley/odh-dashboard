@@ -355,12 +355,13 @@ const initIntercepts = () => {
   // TODO look at Gage's branch again: https://github.com/opendatahub-io/odh-dashboard/compare/main...Gkrumbach07:odh-dashboard:test-mlmd#diff-9aa5e1d9f4d5bf5c6731a92f2dce95b408b3ac1c8b6a684b003c0bcda65193e2
   // - What can we keep from it? sample data?
   // TODO intercepts for these routes:
-  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetContextByTypeAndName
-  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetArtifactTypes
-  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetContextByTypeAndName
-  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetArtifactsByContext
-  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetExecutionsByContext
-  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/GetEventsByExecutionIDs
+  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/*
+  // /GetContextByTypeAndName
+  // /GetArtifactTypes
+  // /GetContextByTypeAndName
+  // /GetArtifactsByContext
+  // /GetExecutionsByContext
+  // /GetEventsByExecutionIDs
   // TODO For each route --
   // - Write down sample request and response data
   // - Mock static responses without looking at request params, see if we can get the tables to populate
