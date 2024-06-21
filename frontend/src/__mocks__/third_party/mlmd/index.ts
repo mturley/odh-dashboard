@@ -11,6 +11,8 @@ export {
 export {
   GetArtifactsByIDRequest,
   GetArtifactsByIDResponse,
+  GetArtifactsByContextRequest,
+  GetArtifactsByContextResponse,
   GetArtifactsRequest,
   GetArtifactsResponse,
   GetArtifactTypesByIDRequest,

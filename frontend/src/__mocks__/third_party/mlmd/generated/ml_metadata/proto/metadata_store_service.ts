@@ -5,7 +5,8 @@
 // source: ml_metadata/proto/metadata_store_service.proto
 
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 import { FieldMask } from "../../google/protobuf/field_mask";
 import {
   Artifact,
@@ -24,7 +25,6 @@ import {
   ParentContext,
   TransactionOptions,
 } from "./metadata_store";
-import Long = require("long");
 
 export const protobufPackage = "ml_metadata";
 
@@ -350,8 +350,7 @@ export interface PutExecutionRequest {
   /**
    * A list of contexts associated with the execution and artifacts. For each
    * given context without a context.id, it inserts the context, otherwise it
-   * updates the stored context with the same id (unless the option
-   * force_reuse_context is set).
+   * updates the stored context with the same id.
    * Associations between each pair of contexts and the execution, and
    * attributions between each pair of contexts and artifacts are created if
    * they do not already exist.
@@ -407,24 +406,7 @@ export interface PutExecutionRequest_Options {
    * perform an update. Otherwise, it will fall back to relying on `id` field
    * to decide if it's update (if `id` exists) or insert (if `id` is empty).
    */
-  reuseArtifactIfAlreadyExistByExternalId?:
-    | boolean
-    | undefined;
-  /**
-   * When `force_update_time` is set to true,
-   * `execution.last_update_time_since_epoch` is force-updated even if input
-   * execution is the same as stored execution.
-   */
-  forceUpdateTime?:
-    | boolean
-    | undefined;
-  /**
-   * If true, for contexts with a context.id, the stored context will NOT
-   * be updated. For such contexts, we will only look at the context.id.
-   * We will validate that it exists, and associate the context with the
-   * execution. If the context does not exist, a NotFound error is returned.
-   */
-  forceReuseContext?: boolean | undefined;
+  reuseArtifactIfAlreadyExistByExternalId?: boolean | undefined;
 }
 
 export interface PutExecutionResponse {
@@ -1332,13 +1314,10 @@ export interface GetExecutionsByContextResponse {
 }
 
 /**
- * Deprecated: GetLineageGraph API is deprecated, please refer to
- * GetLineageSubgraph API as the alternative.
- *
+ * TODO(b/283852485): Deprecate GetLineageGraph API after migration to
+ * GetLineageSubgraph API.
  * A lineage query request to specify the query nodes of interest and the
  * boundary conditions for pruning the returned graph.
- *
- * @deprecated
  */
 export interface GetLineageGraphRequest {
   options?:
@@ -1349,13 +1328,8 @@ export interface GetLineageGraphRequest {
 }
 
 /**
- * Deprecated: GetLineageGraph API is deprecated, please refer to
- * GetLineageSubgraph API as the alternative.
- *
  * A connected lineage `subgraph` about the MLMD nodes derived from
  * LineageGraphRequest.query_conditions.
- *
- * @deprecated
  */
 export interface GetLineageGraphResponse {
   subgraph?: LineageGraph | undefined;
@@ -1376,8 +1350,9 @@ export interface GetLineageSubgraphRequest {
    * `read_mask` contains user specified paths of fields that should be included
    * in the returned lineage subgraph.
    *   Supported field paths are: 'artifacts', 'executions', 'contexts',
-   *   'artifact_types', 'execution_types', 'context_types', 'events',
-   *   'associations' and 'attributions'.
+   *   'artifact_types', 'execution_types', 'context_types', and 'events'.
+   *   TODO(b/283852485): Include 'associations' or 'attributions' in the
+   *     returned graph.
    *   If 'artifacts', 'executions', or 'contexts' is specified in `read_mask`,
    *     the dehydrated nodes will be included.
    *     Note: A dehydrated node means a node containing only its id and no
@@ -1385,8 +1360,7 @@ export interface GetLineageSubgraphRequest {
    *     node details later on.
    *   If 'artifact_types', 'execution_types', or 'context_types' is specified
    *     in `read_mask`, all the node types will be included.
-   *   If 'events', 'associations', or 'attributions' is specified in
-   *     `read_mask`, the corresponding edges will be included.
+   *   If 'events' is specified in `read_mask`, the events will be included.
    *   If `read_mask` is not set, the API will return all the fields in
    *     the returned graph.
    *   Note: Only paths of fields in LineageGraph message are supported. Paths
@@ -2960,12 +2934,7 @@ export const PutExecutionRequest_ArtifactAndEvent = {
 };
 
 function createBasePutExecutionRequest_Options(): PutExecutionRequest_Options {
-  return {
-    reuseContextIfAlreadyExist: false,
-    reuseArtifactIfAlreadyExistByExternalId: false,
-    forceUpdateTime: false,
-    forceReuseContext: false,
-  };
+  return { reuseContextIfAlreadyExist: false, reuseArtifactIfAlreadyExistByExternalId: false };
 }
 
 export const PutExecutionRequest_Options = {
@@ -2978,12 +2947,6 @@ export const PutExecutionRequest_Options = {
       message.reuseArtifactIfAlreadyExistByExternalId !== false
     ) {
       writer.uint32(16).bool(message.reuseArtifactIfAlreadyExistByExternalId);
-    }
-    if (message.forceUpdateTime !== undefined && message.forceUpdateTime !== false) {
-      writer.uint32(24).bool(message.forceUpdateTime);
-    }
-    if (message.forceReuseContext !== undefined && message.forceReuseContext !== false) {
-      writer.uint32(32).bool(message.forceReuseContext);
     }
     return writer;
   },
@@ -3009,20 +2972,6 @@ export const PutExecutionRequest_Options = {
 
           message.reuseArtifactIfAlreadyExistByExternalId = reader.bool();
           continue;
-        case 3:
-          if (tag !== 24) {
-            break;
-          }
-
-          message.forceUpdateTime = reader.bool();
-          continue;
-        case 4:
-          if (tag !== 32) {
-            break;
-          }
-
-          message.forceReuseContext = reader.bool();
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -3040,8 +2989,6 @@ export const PutExecutionRequest_Options = {
       reuseArtifactIfAlreadyExistByExternalId: isSet(object.reuseArtifactIfAlreadyExistByExternalId)
         ? globalThis.Boolean(object.reuseArtifactIfAlreadyExistByExternalId)
         : false,
-      forceUpdateTime: isSet(object.forceUpdateTime) ? globalThis.Boolean(object.forceUpdateTime) : false,
-      forceReuseContext: isSet(object.forceReuseContext) ? globalThis.Boolean(object.forceReuseContext) : false,
     };
   },
 
@@ -3056,12 +3003,6 @@ export const PutExecutionRequest_Options = {
     ) {
       obj.reuseArtifactIfAlreadyExistByExternalId = message.reuseArtifactIfAlreadyExistByExternalId;
     }
-    if (message.forceUpdateTime !== undefined && message.forceUpdateTime !== false) {
-      obj.forceUpdateTime = message.forceUpdateTime;
-    }
-    if (message.forceReuseContext !== undefined && message.forceReuseContext !== false) {
-      obj.forceReuseContext = message.forceReuseContext;
-    }
     return obj;
   },
 
@@ -3072,8 +3013,6 @@ export const PutExecutionRequest_Options = {
     const message = createBasePutExecutionRequest_Options();
     message.reuseContextIfAlreadyExist = object.reuseContextIfAlreadyExist ?? false;
     message.reuseArtifactIfAlreadyExistByExternalId = object.reuseArtifactIfAlreadyExistByExternalId ?? false;
-    message.forceUpdateTime = object.forceUpdateTime ?? false;
-    message.forceReuseContext = object.forceReuseContext ?? false;
     return message;
   },
 };
@@ -11529,14 +11468,11 @@ export interface MetadataStoreService {
   /** Gets all direct executions that a context associates with. */
   GetExecutionsByContext(request: GetExecutionsByContextRequest): Promise<GetExecutionsByContextResponse>;
   /**
-   * Deprecated: GetLineageGraph API is deprecated, please refer to
-   * GetLineageSubgraph API as the alternative.
-   *
+   * TODO(b/283852485): Deprecate GetLineageGraph API after migration to
+   * GetLineageSubgraph API.
    * The transaction performs a constrained transitive closure and returns a
    * lineage subgraph satisfying the conditions and constraints specified in
    * the GetLineageGraphRequest.
-   *
-   * @deprecated
    */
   GetLineageGraph(request: GetLineageGraphRequest): Promise<GetLineageGraphResponse>;
   /**

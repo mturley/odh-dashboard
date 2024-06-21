@@ -6,6 +6,5 @@
     // TODO https://github.com/cypress-io/cypress/issues/26203
     "sourceMap": false,
     "types": ["node", "cypress", "@testing-library/cypress", "cypress-axe"],
-    "module": "CommonJS"
   }
 }

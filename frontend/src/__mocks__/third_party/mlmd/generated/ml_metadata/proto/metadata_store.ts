@@ -5,10 +5,10 @@
 // source: ml_metadata/proto/metadata_store.proto
 
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 import { Any } from "../../google/protobuf/any";
 import { Struct } from "../../google/protobuf/struct";
-import Long = require("long");
 
 export const protobufPackage = "ml_metadata";
 
@@ -995,31 +995,19 @@ export interface Context_CustomPropertiesEntry {
 /** the Attribution edges between Context and Artifact instances. */
 export interface Attribution {
   artifactId?: number | undefined;
-  contextId?:
-    | number
-    | undefined;
-  /** Output only. */
-  systemMetadata?: Any | undefined;
+  contextId?: number | undefined;
 }
 
 /** the Association edges between Context and Execution instances. */
 export interface Association {
   executionId?: number | undefined;
-  contextId?:
-    | number
-    | undefined;
-  /** Output only. */
-  systemMetadata?: Any | undefined;
+  contextId?: number | undefined;
 }
 
 /** the Parental Context edges between Context and Context instances. */
 export interface ParentContext {
   childId?: number | undefined;
-  parentId?:
-    | number
-    | undefined;
-  /** Output only. */
-  systemMetadata?: Any | undefined;
+  parentId?: number | undefined;
 }
 
 /**
@@ -1040,7 +1028,6 @@ export interface LineageGraph {
   events: Event[];
   attributions: Attribution[];
   associations: Association[];
-  parentContexts: ParentContext[];
 }
 
 /**
@@ -1869,17 +1856,14 @@ export interface TransactionOptions {
 }
 
 /**
- * Deprecated: GetLineageGraph API is deprecated, please refer to
- * GetLineageSubgraph API as the alternative.
- *
+ * TODO(b/283852485): Deprecate GetLineageGraph API after migration to
+ * GetLineageSubgraph API.
  * The query options for `get_lineage_graph` operation.
  * `query_nodes` is a list of nodes of interest.
  * Currently only artifacts are supported as `query_nodes`.
  * `stop_conditions` defines the filtering rules when querying a lineage graph.
  * `max_node_size` defines the total number of artifacts and executions returned
  * in the subgraph.
- *
- * @deprecated
  */
 export interface LineageGraphQueryOptions {
   artifactsOptions?:
@@ -2030,77 +2014,15 @@ export interface LineageSubgraphQueryOptions {
   /**
    * The direction of lineage graph tracing, which means the direction of all
    * hops in the tracing.
-   *   A DOWNSTREAM hop means an expansion following the path of
+   *   An UPSTREAM hop means an expansion following the path of
    *     execution -> output_event -> artifact or
    *     artifact -> input_event -> execution
-   *   An UPSTREAM hop means an expansion following the path of
+   *   A DOWNSTREAM hop means an expansion following the path of
    *     execution -> input_event -> artifact or
    *     artifact -> output_event -> execution
    * Please refer to `Direction` for more details.
    */
-  direction?:
-    | LineageSubgraphQueryOptions_Direction
-    | undefined;
-  /**
-   * If set, `ending_artifacts` defines the terminal artifacts within
-   * `max_num_hops` of the traversed subgraph. No further expansion will occur
-   * at these terminal artifact nodes.
-   * If not set, expansion will continue until the traversal reaches
-   * `max_num_hops`.
-   * Taking the following lineage graph as example:
-   * (`a` represents an Artifact, `e` represents an Execution, each arrow
-   * represents a hop.)
-   *  a_0   a_1     a_3
-   *   |      \   /     \
-   *  \/      \/ \/     \/
-   *  e_0      e_1      e_3
-   *                   /   \
-   *                  \/   \/
-   *        a_2     a_4     a_5
-   *           \   /
-   *           \/ \/
-   *            e_2
-   * To query all the upstream and downstream nodes 3 hops away from a_4,
-   * and end traversal if a_3 is met, `ending_artifacts` can be set as:
-   * {
-   *   filter_query: 'id = 3'
-   *   include_ending_nodes: false
-   * }
-   * The returned lineage graph looks like:
-   *                    e_3
-   *                   /   \
-   *                  \/   \/
-   *        a_2     a_4     a_5
-   *           \   /
-   *           \/ \/
-   *            e_2
-   * `ending_artifacts` and `ending_executions` can be combined in the request.
-   * Taking the same graph as example, if we combine `ending_artifacts` defined
-   * above with `ending_executions` as:
-   * {
-   *   filter_query: 'id = 2'
-   *   include_ending_nodes: true
-   * }
-   * The returned lineage graph looks like:
-   *            e_3
-   *           /   \
-   *          \/   \/
-   *        a_4     a_5
-   *       /
-   *      \/
-   *     e_2
-   */
-  endingArtifacts?:
-    | LineageSubgraphQueryOptions_EndingNodes
-    | undefined;
-  /**
-   * If set, `ending_executions` defines the terminal executions within
-   * `max_num_hops` of the traversed subgraph. No further expansion will occur
-   * at these terminal execution nodes.
-   * If not set, expansion will continue until the traversal reaches
-   * `max_num_hops`.
-   */
-  endingExecutions?: LineageSubgraphQueryOptions_EndingNodes | undefined;
+  direction?: LineageSubgraphQueryOptions_Direction | undefined;
 }
 
 export enum LineageSubgraphQueryOptions_Direction {
@@ -2166,24 +2088,6 @@ export interface LineageSubgraphQueryOptions_StartingNodes {
    * Please refer to ListOperationOptions.filter_query for more details.
    */
   filterQuery?: string | undefined;
-}
-
-/** `ending_nodes` is a list of nodes that end expanding the graph. */
-export interface LineageSubgraphQueryOptions_EndingNodes {
-  /**
-   * `filter_query` is a boolean expression in SQL syntax that is used to
-   * specify the conditions on ending nodes.
-   * Please refer to ListOperationOptions.filter_query for more details.
-   */
-  filterQuery?:
-    | string
-    | undefined;
-  /**
-   * If true, include the ending nodes defined by the filter query, as well
-   * as edges connected from the traversed subgraph to them.
-   * If false, do not include the nodes and edges connected to them.
-   */
-  includeEndingNodes?: boolean | undefined;
 }
 
 function createBaseSystemTypeExtension(): SystemTypeExtension {
@@ -4705,7 +4609,7 @@ export const Context_CustomPropertiesEntry = {
 };
 
 function createBaseAttribution(): Attribution {
-  return { artifactId: 0, contextId: 0, systemMetadata: undefined };
+  return { artifactId: 0, contextId: 0 };
 }
 
 export const Attribution = {
@@ -4715,9 +4619,6 @@ export const Attribution = {
     }
     if (message.contextId !== undefined && message.contextId !== 0) {
       writer.uint32(16).int64(message.contextId);
-    }
-    if (message.systemMetadata !== undefined) {
-      Any.encode(message.systemMetadata, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -4743,13 +4644,6 @@ export const Attribution = {
 
           message.contextId = longToNumber(reader.int64() as Long);
           continue;
-        case 3:
-          if (tag !== 26) {
-            break;
-          }
-
-          message.systemMetadata = Any.decode(reader, reader.uint32());
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -4763,7 +4657,6 @@ export const Attribution = {
     return {
       artifactId: isSet(object.artifactId) ? globalThis.Number(object.artifactId) : 0,
       contextId: isSet(object.contextId) ? globalThis.Number(object.contextId) : 0,
-      systemMetadata: isSet(object.systemMetadata) ? Any.fromJSON(object.systemMetadata) : undefined,
     };
   },
 
@@ -4775,9 +4668,6 @@ export const Attribution = {
     if (message.contextId !== undefined && message.contextId !== 0) {
       obj.contextId = Math.round(message.contextId);
     }
-    if (message.systemMetadata !== undefined) {
-      obj.systemMetadata = Any.toJSON(message.systemMetadata);
-    }
     return obj;
   },
 
@@ -4788,15 +4678,12 @@ export const Attribution = {
     const message = createBaseAttribution();
     message.artifactId = object.artifactId ?? 0;
     message.contextId = object.contextId ?? 0;
-    message.systemMetadata = (object.systemMetadata !== undefined && object.systemMetadata !== null)
-      ? Any.fromPartial(object.systemMetadata)
-      : undefined;
     return message;
   },
 };
 
 function createBaseAssociation(): Association {
-  return { executionId: 0, contextId: 0, systemMetadata: undefined };
+  return { executionId: 0, contextId: 0 };
 }
 
 export const Association = {
@@ -4806,9 +4693,6 @@ export const Association = {
     }
     if (message.contextId !== undefined && message.contextId !== 0) {
       writer.uint32(16).int64(message.contextId);
-    }
-    if (message.systemMetadata !== undefined) {
-      Any.encode(message.systemMetadata, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -4834,13 +4718,6 @@ export const Association = {
 
           message.contextId = longToNumber(reader.int64() as Long);
           continue;
-        case 3:
-          if (tag !== 26) {
-            break;
-          }
-
-          message.systemMetadata = Any.decode(reader, reader.uint32());
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -4854,7 +4731,6 @@ export const Association = {
     return {
       executionId: isSet(object.executionId) ? globalThis.Number(object.executionId) : 0,
       contextId: isSet(object.contextId) ? globalThis.Number(object.contextId) : 0,
-      systemMetadata: isSet(object.systemMetadata) ? Any.fromJSON(object.systemMetadata) : undefined,
     };
   },
 
@@ -4866,9 +4742,6 @@ export const Association = {
     if (message.contextId !== undefined && message.contextId !== 0) {
       obj.contextId = Math.round(message.contextId);
     }
-    if (message.systemMetadata !== undefined) {
-      obj.systemMetadata = Any.toJSON(message.systemMetadata);
-    }
     return obj;
   },
 
@@ -4879,15 +4752,12 @@ export const Association = {
     const message = createBaseAssociation();
     message.executionId = object.executionId ?? 0;
     message.contextId = object.contextId ?? 0;
-    message.systemMetadata = (object.systemMetadata !== undefined && object.systemMetadata !== null)
-      ? Any.fromPartial(object.systemMetadata)
-      : undefined;
     return message;
   },
 };
 
 function createBaseParentContext(): ParentContext {
-  return { childId: 0, parentId: 0, systemMetadata: undefined };
+  return { childId: 0, parentId: 0 };
 }
 
 export const ParentContext = {
@@ -4897,9 +4767,6 @@ export const ParentContext = {
     }
     if (message.parentId !== undefined && message.parentId !== 0) {
       writer.uint32(16).int64(message.parentId);
-    }
-    if (message.systemMetadata !== undefined) {
-      Any.encode(message.systemMetadata, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -4925,13 +4792,6 @@ export const ParentContext = {
 
           message.parentId = longToNumber(reader.int64() as Long);
           continue;
-        case 3:
-          if (tag !== 26) {
-            break;
-          }
-
-          message.systemMetadata = Any.decode(reader, reader.uint32());
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -4945,7 +4805,6 @@ export const ParentContext = {
     return {
       childId: isSet(object.childId) ? globalThis.Number(object.childId) : 0,
       parentId: isSet(object.parentId) ? globalThis.Number(object.parentId) : 0,
-      systemMetadata: isSet(object.systemMetadata) ? Any.fromJSON(object.systemMetadata) : undefined,
     };
   },
 
@@ -4957,9 +4816,6 @@ export const ParentContext = {
     if (message.parentId !== undefined && message.parentId !== 0) {
       obj.parentId = Math.round(message.parentId);
     }
-    if (message.systemMetadata !== undefined) {
-      obj.systemMetadata = Any.toJSON(message.systemMetadata);
-    }
     return obj;
   },
 
@@ -4970,9 +4826,6 @@ export const ParentContext = {
     const message = createBaseParentContext();
     message.childId = object.childId ?? 0;
     message.parentId = object.parentId ?? 0;
-    message.systemMetadata = (object.systemMetadata !== undefined && object.systemMetadata !== null)
-      ? Any.fromPartial(object.systemMetadata)
-      : undefined;
     return message;
   },
 };
@@ -4988,7 +4841,6 @@ function createBaseLineageGraph(): LineageGraph {
     events: [],
     attributions: [],
     associations: [],
-    parentContexts: [],
   };
 }
 
@@ -5020,9 +4872,6 @@ export const LineageGraph = {
     }
     for (const v of message.associations) {
       Association.encode(v!, writer.uint32(74).fork()).ldelim();
-    }
-    for (const v of message.parentContexts) {
-      ParentContext.encode(v!, writer.uint32(82).fork()).ldelim();
     }
     return writer;
   },
@@ -5097,13 +4946,6 @@ export const LineageGraph = {
 
           message.associations.push(Association.decode(reader, reader.uint32()));
           continue;
-        case 10:
-          if (tag !== 82) {
-            break;
-          }
-
-          message.parentContexts.push(ParentContext.decode(reader, reader.uint32()));
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -5140,9 +4982,6 @@ export const LineageGraph = {
       associations: globalThis.Array.isArray(object?.associations)
         ? object.associations.map((e: any) => Association.fromJSON(e))
         : [],
-      parentContexts: globalThis.Array.isArray(object?.parentContexts)
-        ? object.parentContexts.map((e: any) => ParentContext.fromJSON(e))
-        : [],
     };
   },
 
@@ -5175,9 +5014,6 @@ export const LineageGraph = {
     if (message.associations?.length) {
       obj.associations = message.associations.map((e) => Association.toJSON(e));
     }
-    if (message.parentContexts?.length) {
-      obj.parentContexts = message.parentContexts.map((e) => ParentContext.toJSON(e));
-    }
     return obj;
   },
 
@@ -5195,7 +5031,6 @@ export const LineageGraph = {
     message.events = object.events?.map((e) => Event.fromPartial(e)) || [];
     message.attributions = object.attributions?.map((e) => Attribution.fromPartial(e)) || [];
     message.associations = object.associations?.map((e) => Association.fromPartial(e)) || [];
-    message.parentContexts = object.parentContexts?.map((e) => ParentContext.fromPartial(e)) || [];
     return message;
   },
 };
@@ -7981,14 +7816,7 @@ export const LineageGraphQueryOptions_BoundaryConstraint = {
 };
 
 function createBaseLineageSubgraphQueryOptions(): LineageSubgraphQueryOptions {
-  return {
-    startingArtifacts: undefined,
-    startingExecutions: undefined,
-    maxNumHops: 0,
-    direction: 0,
-    endingArtifacts: undefined,
-    endingExecutions: undefined,
-  };
+  return { startingArtifacts: undefined, startingExecutions: undefined, maxNumHops: 0, direction: 0 };
 }
 
 export const LineageSubgraphQueryOptions = {
@@ -8004,12 +7832,6 @@ export const LineageSubgraphQueryOptions = {
     }
     if (message.direction !== undefined && message.direction !== 0) {
       writer.uint32(32).int32(message.direction);
-    }
-    if (message.endingArtifacts !== undefined) {
-      LineageSubgraphQueryOptions_EndingNodes.encode(message.endingArtifacts, writer.uint32(42).fork()).ldelim();
-    }
-    if (message.endingExecutions !== undefined) {
-      LineageSubgraphQueryOptions_EndingNodes.encode(message.endingExecutions, writer.uint32(50).fork()).ldelim();
     }
     return writer;
   },
@@ -8049,20 +7871,6 @@ export const LineageSubgraphQueryOptions = {
 
           message.direction = reader.int32() as any;
           continue;
-        case 5:
-          if (tag !== 42) {
-            break;
-          }
-
-          message.endingArtifacts = LineageSubgraphQueryOptions_EndingNodes.decode(reader, reader.uint32());
-          continue;
-        case 6:
-          if (tag !== 50) {
-            break;
-          }
-
-          message.endingExecutions = LineageSubgraphQueryOptions_EndingNodes.decode(reader, reader.uint32());
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -8082,12 +7890,6 @@ export const LineageSubgraphQueryOptions = {
         : undefined,
       maxNumHops: isSet(object.maxNumHops) ? globalThis.Number(object.maxNumHops) : 0,
       direction: isSet(object.direction) ? lineageSubgraphQueryOptions_DirectionFromJSON(object.direction) : 0,
-      endingArtifacts: isSet(object.endingArtifacts)
-        ? LineageSubgraphQueryOptions_EndingNodes.fromJSON(object.endingArtifacts)
-        : undefined,
-      endingExecutions: isSet(object.endingExecutions)
-        ? LineageSubgraphQueryOptions_EndingNodes.fromJSON(object.endingExecutions)
-        : undefined,
     };
   },
 
@@ -8105,12 +7907,6 @@ export const LineageSubgraphQueryOptions = {
     if (message.direction !== undefined && message.direction !== 0) {
       obj.direction = lineageSubgraphQueryOptions_DirectionToJSON(message.direction);
     }
-    if (message.endingArtifacts !== undefined) {
-      obj.endingArtifacts = LineageSubgraphQueryOptions_EndingNodes.toJSON(message.endingArtifacts);
-    }
-    if (message.endingExecutions !== undefined) {
-      obj.endingExecutions = LineageSubgraphQueryOptions_EndingNodes.toJSON(message.endingExecutions);
-    }
     return obj;
   },
 
@@ -8127,12 +7923,6 @@ export const LineageSubgraphQueryOptions = {
       : undefined;
     message.maxNumHops = object.maxNumHops ?? 0;
     message.direction = object.direction ?? 0;
-    message.endingArtifacts = (object.endingArtifacts !== undefined && object.endingArtifacts !== null)
-      ? LineageSubgraphQueryOptions_EndingNodes.fromPartial(object.endingArtifacts)
-      : undefined;
-    message.endingExecutions = (object.endingExecutions !== undefined && object.endingExecutions !== null)
-      ? LineageSubgraphQueryOptions_EndingNodes.fromPartial(object.endingExecutions)
-      : undefined;
     return message;
   },
 };
@@ -8194,84 +7984,6 @@ export const LineageSubgraphQueryOptions_StartingNodes = {
   ): LineageSubgraphQueryOptions_StartingNodes {
     const message = createBaseLineageSubgraphQueryOptions_StartingNodes();
     message.filterQuery = object.filterQuery ?? "";
-    return message;
-  },
-};
-
-function createBaseLineageSubgraphQueryOptions_EndingNodes(): LineageSubgraphQueryOptions_EndingNodes {
-  return { filterQuery: "", includeEndingNodes: false };
-}
-
-export const LineageSubgraphQueryOptions_EndingNodes = {
-  encode(message: LineageSubgraphQueryOptions_EndingNodes, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.filterQuery !== undefined && message.filterQuery !== "") {
-      writer.uint32(10).string(message.filterQuery);
-    }
-    if (message.includeEndingNodes !== undefined && message.includeEndingNodes !== false) {
-      writer.uint32(16).bool(message.includeEndingNodes);
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): LineageSubgraphQueryOptions_EndingNodes {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseLineageSubgraphQueryOptions_EndingNodes();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          if (tag !== 10) {
-            break;
-          }
-
-          message.filterQuery = reader.string();
-          continue;
-        case 2:
-          if (tag !== 16) {
-            break;
-          }
-
-          message.includeEndingNodes = reader.bool();
-          continue;
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skipType(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): LineageSubgraphQueryOptions_EndingNodes {
-    return {
-      filterQuery: isSet(object.filterQuery) ? globalThis.String(object.filterQuery) : "",
-      includeEndingNodes: isSet(object.includeEndingNodes) ? globalThis.Boolean(object.includeEndingNodes) : false,
-    };
-  },
-
-  toJSON(message: LineageSubgraphQueryOptions_EndingNodes): unknown {
-    const obj: any = {};
-    if (message.filterQuery !== undefined && message.filterQuery !== "") {
-      obj.filterQuery = message.filterQuery;
-    }
-    if (message.includeEndingNodes !== undefined && message.includeEndingNodes !== false) {
-      obj.includeEndingNodes = message.includeEndingNodes;
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<LineageSubgraphQueryOptions_EndingNodes>, I>>(
-    base?: I,
-  ): LineageSubgraphQueryOptions_EndingNodes {
-    return LineageSubgraphQueryOptions_EndingNodes.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<LineageSubgraphQueryOptions_EndingNodes>, I>>(
-    object: I,
-  ): LineageSubgraphQueryOptions_EndingNodes {
-    const message = createBaseLineageSubgraphQueryOptions_EndingNodes();
-    message.filterQuery = object.filterQuery ?? "";
-    message.includeEndingNodes = object.includeEndingNodes ?? false;
     return message;
   },
 };

@@ -12,23 +12,26 @@ Note: MLMD is still using protobuf.js in the upstream Kubeflow repo, but there a
 
 1. Installed the [protobuf runtime](https://github.com/protocolbuffers/protobuf) on Mac with `brew install protobuf`
 
-2. Created a temporary directory containing a clone of the [ml-metadata repo](https://github.com/google/ml-metadata)
+2. In a new temporary directory: cloned the [google/ml-metadata repo](https://github.com/google/ml-metadata), installed [ts-proto](https://www.npmjs.com/package/ts-proto) from npm, created an empty `generated` directory, and ran the protoc command using ts-proto as a plugin and the `metadata_store_service.proto` file from the ml-metadata repo
+
    ```sh
    mkdir ~/tmp/mlmd
    cd ~/tmp/mlmd
    git clone git@github.com:google/ml-metadata.git
-   ```
-3. Installed ts-proto in the temporary directory
-
-   ```sh
    npm install ts-proto
+   mkdir generated
+   protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=./ml-metadata --ts_proto_out=./generated --ts_proto_opt=esModuleInterop=true --ts_proto_opt=env=browser ./ml-metadata/ml_metadata/proto/metadata_store_service.proto
    ```
 
-4. Within the temporary directory: installed ts-proto, created an empty `dist` directory and ran the protoc command using ts-proto as a plugin and sourcing the `metadata_store_service.proto` file from inside the ml-metadata clone
+3. Copied the contents of the `generated` directory
 
-   ```sh
-   mkdir dist
-   protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=./ml-metadata --ts_proto_out=./dist ./ml-metadata/ml_metadata/proto/metadata_store_service.proto
-   ```
+---
 
-5. Copied the resulting code from `dist`
+TODO: (and look at compareRuns.cy.ts for other TODO mess)
+
+- Give up on the JSON format we see in the browser extension - customPropertiesMap etc
+- Try mocking some artifacts using `fromJSON` with the stuff we got from ts-proto
+  -- see if it works via cypress and actually mocks what the client expects
+- If not ---- abandon the fromJSON idea I guess? Was going to continue exploring to see if there's a way to get a fromObject compiled with the regular protobuf-js builder that was used for production
+- Maybe try protobufjs at run time.... https://github.com/protobufjs/protobuf.js/blob/master/README.md#using-proto-files
+- Check the kubeflow version used by odh, and the mlmd version used by that, maybe this schema difference is from a different proto file.... or, try generating the JS the way it's done in
