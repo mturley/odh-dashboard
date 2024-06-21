@@ -25,6 +25,10 @@ import {
 } from '~/__tests__/cypress/cypress/pages/pipelines/compareRuns';
 import { mockCancelledGoogleRpcStatus } from '~/__mocks__/mockGoogleRpcStatusKF';
 import * as scalarUtils from '~/concepts/pipelines/content/compareRuns/metricsSection/scalar/utils';
+import { mockGetContextByTypeAndName } from '~/__mocks__/mlmd/mockGetContextByTypeAndName';
+import { mockGetArtifactsByContext } from '~/__mocks__/mlmd/mockGetArtifactsByContext';
+import { mockGetExecutionsByContext } from '~/__mocks__/mlmd/mockGetExecutionsByContext';
+import { mockGetEventsByExecutionIDs } from '~/__mocks__/mlmd/mockGetEventsByExecutionIDs';
 
 const projectName = 'test-project-name';
 const initialMockPipeline = buildMockPipelineV2({ display_name: 'Test pipeline' });
@@ -200,65 +204,7 @@ describe('Compare runs', () => {
 
   describe.only('Metrics', () => {
     beforeEach(() => {
-      cy.stub(scalarUtils, 'generateTableStructure').returns({
-        columns: [
-          {
-            label: 'Run name',
-            field: 'run-name',
-            isStickyColumn: true,
-            hasRightBorder: true,
-            className: 'pf-v5-u-background-color-200',
-            sortable: false,
-          },
-          {
-            label: 'Duplicate of JP matrix testing run 2',
-            field: 'Duplicate of JP matrix testing run 2',
-            colSpan: 1,
-            sortable: false,
-            modifier: 'nowrap',
-            hasRightBorder: true,
-          },
-          {
-            label: 'JP matrix testing run',
-            field: 'JP matrix testing run',
-            colSpan: 1,
-            sortable: false,
-            modifier: 'nowrap',
-            hasRightBorder: false,
-          },
-        ],
-        subColumns: [
-          {
-            label: 'Execution name > Artifact name',
-            field: 'execution-name-artifact-name',
-            isStickyColumn: true,
-            hasRightBorder: true,
-            className: 'pf-v5-u-background-color-200',
-            sortable: false,
-          },
-          {
-            label: 'digit-classification > metrics',
-            field: 'digit-classification > metrics',
-            sortable: false,
-            modifier: 'nowrap',
-            hasRightBorder: true,
-          },
-          {
-            label: 'digit-classification > metrics',
-            field: 'digit-classification > metrics',
-            sortable: false,
-            modifier: 'nowrap',
-            hasRightBorder: false,
-          },
-        ],
-        data: [
-          {
-            key: 'accuracy',
-            values: ['92', '92'],
-          },
-        ],
-      });
-
+      initIntercepts();
       compareRunsGlobal.visit(projectName, mockExperiment.experiment_id, [
         mockRun.run_id,
         mockRun2.run_id,
@@ -352,16 +298,39 @@ const initIntercepts = () => {
     mockRun2,
   );
 
+  // TODO add these to interceptOdh
+  // TODO lift them out so we can use them in an artifacts.cy.ts?
+  // cy.interceptOdh(
+  //   'POST /api/service/mlmd/:namespace/:serviceName/ml_metadata.MetadataStoreService/GetArtifactTypes',
+  //   { path: { namespace: projectName, serviceName: 'dspa' } }
+  //   mockGetArtifactTypes(),
+  // );
+
+  cy.interceptOdh(
+    'POST /api/service/mlmd/:namespace/:serviceName/ml_metadata.MetadataStoreService/GetContextByTypeAndName',
+    { path: { namespace: projectName, serviceName: 'dspa' } },
+    mockGetContextByTypeAndName(),
+  );
+  cy.interceptOdh(
+    'POST /api/service/mlmd/:namespace/:serviceName/ml_metadata.MetadataStoreService/GetArtifactsByContext',
+    { path: { namespace: projectName, serviceName: 'dspa' } },
+    mockGetArtifactsByContext(),
+  );
+  // cy.intercept(
+  //   {
+  //     pathname: `/api/service/mlmd/${projectName}/dspa/ml_metadata.MetadataStoreService/GetExecutionsByContext`,
+  //   },
+  //   mockGetExecutionsByContext(),
+  // );
+  // cy.intercept(
+  //   {
+  //     pathname: `/api/service/mlmd/${projectName}/dspa/ml_metadata.MetadataStoreService/GetEventsByExecutionIDs`,
+  //   },
+  //   mockGetEventsByExecutionIDs(),
+  // );
+
   // TODO look at Gage's branch again: https://github.com/opendatahub-io/odh-dashboard/compare/main...Gkrumbach07:odh-dashboard:test-mlmd#diff-9aa5e1d9f4d5bf5c6731a92f2dce95b408b3ac1c8b6a684b003c0bcda65193e2
   // - What can we keep from it? sample data?
-  // TODO intercepts for these routes:
-  // /api/service/mlmd/:namespace/dspa/ml_metadata.MetadataStoreService/*
-  // /GetContextByTypeAndName
-  // /GetArtifactTypes
-  // /GetContextByTypeAndName
-  // /GetArtifactsByContext
-  // /GetExecutionsByContext
-  // /GetEventsByExecutionIDs
   // TODO For each route --
   // - Write down sample request and response data
   // - Mock static responses without looking at request params, see if we can get the tables to populate

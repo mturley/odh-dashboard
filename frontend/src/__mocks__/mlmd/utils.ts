@@ -1,13 +1,10 @@
-import { Message } from 'google-protobuf';
-
 export type GrpcResponse = {
   body: ArrayBuffer;
   headers: Record<string, string>;
 };
 
-export default function createGrpcResponse(message: Message): GrpcResponse {
-  const data = message.serializeBinary();
-  // const data = Message.bytesAsU8(dataString);
+// TODO do we want to explore a library for this instead?
+export default function createGrpcResponse(data: Uint8Array): GrpcResponse {
   // create the data length bytes - there is probably a more concise way, but this works
   const dataLengthBytes = new Uint8Array(new Uint32Array([data.byteLength]).buffer);
   dataLengthBytes.reverse();
