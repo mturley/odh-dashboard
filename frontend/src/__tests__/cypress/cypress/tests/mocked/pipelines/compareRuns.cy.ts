@@ -25,10 +25,7 @@ import {
 } from '~/__tests__/cypress/cypress/pages/pipelines/compareRuns';
 import { mockCancelledGoogleRpcStatus } from '~/__mocks__/mockGoogleRpcStatusKF';
 import * as scalarUtils from '~/concepts/pipelines/content/compareRuns/metricsSection/scalar/utils';
-import { mockGetContextByTypeAndName } from '~/__mocks__/mlmd/mockGetContextByTypeAndName';
-import { mockGetArtifactsByContext } from '~/__mocks__/mlmd/mockGetArtifactsByContext';
-import { mockGetExecutionsByContext } from '~/__mocks__/mlmd/mockGetExecutionsByContext';
-import { mockGetEventsByExecutionIDs } from '~/__mocks__/mlmd/mockGetEventsByExecutionIDs';
+import { initMlmdIntercepts } from './mlmdUtils';
 
 const projectName = 'test-project-name';
 const initialMockPipeline = buildMockPipelineV2({ display_name: 'Test pipeline' });
@@ -233,8 +230,9 @@ describe('Compare runs', () => {
       compareRunsListTable.findRowByName('Run 2').should('exist');
 
       compareRunsMetricsContent.findScalarMetricsTable().should('exist');
-      //TODO: find in scalar metrics table
     });
+
+    // TODO add tests for content appearing in metrics tables
   });
 });
 
@@ -298,45 +296,5 @@ const initIntercepts = () => {
     mockRun2,
   );
 
-  // TODO add these to interceptOdh
-  // TODO lift them out so we can use them in an artifacts.cy.ts?
-  // cy.interceptOdh(
-  //   'POST /api/service/mlmd/:namespace/:serviceName/ml_metadata.MetadataStoreService/GetArtifactTypes',
-  //   { path: { namespace: projectName, serviceName: 'dspa' } }
-  //   mockGetArtifactTypes(),
-  // );
-
-  cy.interceptOdh(
-    'POST /api/service/mlmd/:namespace/:serviceName/ml_metadata.MetadataStoreService/GetContextByTypeAndName',
-    { path: { namespace: projectName, serviceName: 'dspa' } },
-    mockGetContextByTypeAndName(),
-  );
-  cy.interceptOdh(
-    'POST /api/service/mlmd/:namespace/:serviceName/ml_metadata.MetadataStoreService/GetArtifactsByContext',
-    { path: { namespace: projectName, serviceName: 'dspa' } },
-    mockGetArtifactsByContext(),
-  );
-  // cy.intercept(
-  //   {
-  //     pathname: `/api/service/mlmd/${projectName}/dspa/ml_metadata.MetadataStoreService/GetExecutionsByContext`,
-  //   },
-  //   mockGetExecutionsByContext(),
-  // );
-  // cy.intercept(
-  //   {
-  //     pathname: `/api/service/mlmd/${projectName}/dspa/ml_metadata.MetadataStoreService/GetEventsByExecutionIDs`,
-  //   },
-  //   mockGetEventsByExecutionIDs(),
-  // );
-
-  // TODO look at Gage's branch again: https://github.com/opendatahub-io/odh-dashboard/compare/main...Gkrumbach07:odh-dashboard:test-mlmd#diff-9aa5e1d9f4d5bf5c6731a92f2dce95b408b3ac1c8b6a684b003c0bcda65193e2
-  // - What can we keep from it? sample data?
-  // TODO For each route --
-  // - Write down sample request and response data
-  // - Mock static responses without looking at request params, see if we can get the tables to populate
-  //   - Try Gage's thing first or look at https://www.npmjs.com/package/@botchris/grpc-web-mock
-  // - Look at conditional intercepts based on request content - how to see this when intercepting? log the request?
-  // - Get the 2 main tests to pass with real intercepts
-  // - Squash to 1 commit, send a branch to Dallas, have him take over Metrics
-  // - Work off the same commit to write tests for Artifacts
+  initMlmdIntercepts(projectName);
 };

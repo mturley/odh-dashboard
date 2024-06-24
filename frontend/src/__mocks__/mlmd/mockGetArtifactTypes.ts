@@ -1,56 +1,47 @@
-// import { TextEncoder } from 'util';
-// import { ArtifactType, GetArtifactTypesResponse } from '~/third_party/mlmd';
-// import { GrpcResponse } from './utils';
+import { GetArtifactTypesResponse } from '~/__mocks__/third_party/mlmd';
+import createGrpcResponse, { GrpcResponse } from './utils';
 
-// const mockedArtifactTypesResponse = {
-//   artifactTypesList: [
-//     {
-//       id: 14,
-//       name: 'system.Artifact',
-//       propertiesMap: [],
-//     },
-//     {
-//       id: 15,
-//       name: 'system.Dataset',
-//       propertiesMap: [],
-//     },
-//     {
-//       id: 16,
-//       name: 'system.Model',
-//       propertiesMap: [],
-//     },
-//     {
-//       id: 17,
-//       name: 'system.Metrics',
-//       propertiesMap: [],
-//     },
-//     {
-//       id: 18,
-//       name: 'system.ClassificationMetrics',
-//       propertiesMap: [],
-//     },
-//     {
-//       id: 19,
-//       name: 'system.Markdown',
-//       propertiesMap: [],
-//     },
-//     {
-//       id: 20,
-//       name: 'system.HTML',
-//       propertiesMap: [],
-//     },
-//   ],
-// };
+const mockedArtifactTypesResponse: GetArtifactTypesResponse = {
+  artifactTypes: [
+    {
+      id: 14,
+      name: 'system.Artifact',
+      properties: {},
+    },
+    {
+      id: 15,
+      name: 'system.Dataset',
+      properties: {},
+    },
+    {
+      id: 16,
+      name: 'system.Model',
+      properties: {},
+    },
+    {
+      id: 17,
+      name: 'system.Metrics',
+      properties: {},
+    },
+    {
+      id: 18,
+      name: 'system.ClassificationMetrics',
+      properties: {},
+    },
+    {
+      id: 19,
+      name: 'system.Markdown',
+      properties: {},
+    },
+    {
+      id: 20,
+      name: 'system.HTML',
+      properties: {},
+    },
+  ],
+};
 
-// export const mockGetArtifactTypes = (): GrpcResponse => {
-//   const artifactTypesResponse = new GetArtifactTypesResponse();
-//   const artifactTypesList = mockedArtifactTypesResponse.artifactTypesList.map((artifactType) => {
-//     const artifactTypeMessage = new ArtifactType();
-//     artifactTypeMessage.setId(artifactType.id);
-//     artifactTypeMessage.setName(artifactType.name);
-//     return artifactTypeMessage;
-//   });
-//   artifactTypesResponse.setArtifactTypesList(artifactTypesList);
-
-//   return createGrpcResponse(artifactTypesResponse);
-// };
+export const mockGetArtifactTypes = (): GrpcResponse => {
+  const binary = GetArtifactTypesResponse.encode(mockedArtifactTypesResponse).finish();
+  return createGrpcResponse(binary);
+};

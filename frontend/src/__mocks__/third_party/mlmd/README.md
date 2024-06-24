@@ -24,3 +24,9 @@ Note: Upstream Kubeflow is still using protoc-gen-js for MLMD, but there are oth
    ```
 
 3. Copied the contents of the `generated` directory
+
+## Creating new mock data
+
+There is a browser extension called [grpc-web-devtools](https://github.com/SafetyCulture/grpc-web-devtools) which can be used to inspect the response objects of a gRPC request in JSON. Unfortunately, this JSON structure is not formatted the same way the ts-proto code expects.
+
+We have provided a NodeJS script ([formatTsProtoMockJson.js](./formatTsProtoMockJson.js)) for developer convenience which will convert from the JSON returned by the dev tool to the structure expected by ts-proto which you will need in your mock files. See the comment at the top of that file for a usage example.
