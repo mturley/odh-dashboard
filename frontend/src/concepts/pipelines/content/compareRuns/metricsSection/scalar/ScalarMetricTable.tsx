@@ -61,27 +61,27 @@ const ScalarMetricTable: React.FC<ScalarMetricTableProps> = ({ runArtifacts, isL
     );
   };
 
-  // if (!isLoaded) {
-  //   return (
-  //     <Bullseye>
-  //       <Spinner />
-  //     </Bullseye>
-  //   );
-  // }
+  if (!isLoaded) {
+    return (
+      <Bullseye>
+        <Spinner />
+      </Bullseye>
+    );
+  }
 
-  // if (!runArtifacts || runArtifacts.length === 0) {
-  //   return <CompareRunsEmptyState data-testid="compare-runs-scalar-metrics-empty-state" />;
-  // }
-  // if (!hasScalarMetrics) {
-  //   return (
-  //     <EmptyState variant={EmptyStateVariant.xs}>
-  //       <EmptyStateHeader titleText="No scalar metric artifacts" headingLevel="h4" />
-  //       <EmptyStateBody>
-  //         There are no scalar metric artifacts available on the selected runs.
-  //       </EmptyStateBody>
-  //     </EmptyState>
-  //   );
-  // }
+  if (!runArtifacts || runArtifacts.length === 0) {
+    return <CompareRunsEmptyState data-testid="compare-runs-scalar-metrics-empty-state" />;
+  }
+  if (!hasScalarMetrics) {
+    return (
+      <EmptyState variant={EmptyStateVariant.xs}>
+        <EmptyStateHeader titleText="No scalar metric artifacts" headingLevel="h4" />
+        <EmptyStateBody>
+          There are no scalar metric artifacts available on the selected runs.
+        </EmptyStateBody>
+      </EmptyState>
+    );
+  }
 
   return (
     <Flex direction={{ default: 'column' }} spaceItems={{ default: 'spaceItemsMd' }}>
