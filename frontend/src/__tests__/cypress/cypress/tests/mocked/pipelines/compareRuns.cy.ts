@@ -199,7 +199,7 @@ describe('Compare runs', () => {
     });
   });
 
-  describe.only('Metrics', () => {
+  describe('Metrics', () => {
     beforeEach(() => {
       initIntercepts();
       compareRunsGlobal.visit(projectName, mockExperiment.experiment_id, [
@@ -225,14 +225,35 @@ describe('Compare runs', () => {
       compareRunsMetricsContent.findScalarMetricsEmptyState().should('exist');
     });
 
-    it.only('displays table data based on selections from Run list', () => {
-      compareRunsListTable.findRowByName('Run 1').should('exist');
-      compareRunsListTable.findRowByName('Run 2').should('exist');
-
+    it('displays scalar metrics table data based on selections from Run list', () => {
       compareRunsMetricsContent.findScalarMetricsTable().should('exist');
+      compareRunsMetricsContent.findScalarMetricsColumnByName('Run name').should('exist');
+      compareRunsMetricsContent.findScalarMetricsColumnByName('Run 1').should('exist');
+      compareRunsMetricsContent.findScalarMetricsColumnByName('Run 2').should('exist');
+
+      compareRunsMetricsContent
+        .findScalarMetricsColumnByName('Execution name > Artifact name')
+        .should('exist');
+      compareRunsMetricsContent
+        .findScalarMetricsColumnByName('digit-classification > metrics')
+        .should('exist');
+
+      compareRunsMetricsContent.findScalarMetricName('accuracy').should('exist');
+      compareRunsMetricsContent.findScalarMetricCell('accuracy', 1).should('contain.text', '92');
+      compareRunsMetricsContent.findScalarMetricCell('accuracy', 2).should('contain.text', '92');
+
+      compareRunsMetricsContent.findScalarMetricName('displayName').should('exist');
+      compareRunsMetricsContent
+        .findScalarMetricCell('displayName', 1)
+        .should('contain.text', '"metrics"');
+      compareRunsMetricsContent
+        .findScalarMetricCell('displayName', 2)
+        .should('contain.text', '"metrics"');
     });
 
-    // TODO add tests for content appearing in metrics tables
+    // TODO tests for Confusion matrix tab
+    // TODO tests for ROC curve tab
+    // TODO tests for Markdown tab
   });
 });
 

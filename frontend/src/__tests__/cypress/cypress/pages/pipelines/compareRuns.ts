@@ -65,6 +65,18 @@ class CompareMetricsContent {
     return cy.findByTestId('compare-runs-scalar-metrics-table');
   }
 
+  findScalarMetricsColumnByName(name: string) {
+    return this.findScalarMetricsTable().contains('th', name);
+  }
+
+  findScalarMetricName(name: string) {
+    return this.findScalarMetricsTable().find(`[data-label="${name}"]`);
+  }
+
+  findScalarMetricCell(metricName: string, columnIndex: number) {
+    return this.findScalarMetricName(metricName).closest('tr').children().eq(columnIndex);
+  }
+
   findScalarMetricsEmptyState() {
     return cy.findByTestId('compare-runs-scalar-metrics-empty-state');
   }
