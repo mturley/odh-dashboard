@@ -23,27 +23,6 @@ export enum ModelMetricType {
   TRUSTY_AI_DIR = 'trustyai_dir',
 }
 
-export type MetricTypeWithQueryRangeResultValue =
-  | ServerMetricType.REQUEST_COUNT
-  | ServerMetricType.CPU_UTILIZATION
-  | ServerMetricType.MEMORY_UTILIZATION
-  | ModelMetricType.REQUEST_COUNT_SUCCESS
-  | ModelMetricType.REQUEST_COUNT_FAILED;
-
-export type MetricTypeWithQueryRangeResponseDataResult =
-  | ServerMetricType.AVG_RESPONSE_TIME
-  | ModelMetricType.TRUSTY_AI_SPD
-  | ModelMetricType.TRUSTY_AI_DIR;
-
-export type ModelServingMetricsData = Record<
-  MetricTypeWithQueryRangeResultValue,
-  ContextResourceData<PrometheusQueryRangeResultValue>
-> &
-  Record<
-    MetricTypeWithQueryRangeResponseDataResult,
-    ContextResourceData<PrometheusQueryRangeResponseDataResult>
-  >;
-
 type ModelServingMetricsContextType = {
   data: Record<
     ModelMetricType | ServerMetricType,

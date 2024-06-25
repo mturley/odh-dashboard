@@ -26,6 +26,7 @@ const GlobalPipelineRunsTab: React.FC = () => {
       setSearchParams(searchParams);
     }
   }, [runType, searchParams, setSearchParams]);
+
   return (
     <Tabs
       activeKey={runType || PipelineRunType.ACTIVE}
