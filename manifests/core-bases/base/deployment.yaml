@@ -27,7 +27,7 @@ spec:
       serviceAccount: odh-dashboard
       containers:
         - name: odh-dashboard
-          image: $(odh-dashboard-image)
+          image: quay.io/opendatahub/odh-dashboard:pr-3021
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -148,13 +148,13 @@ spec:
           configMap:
             name: odh-trusted-ca-bundle
             items:
-            - key: ca-bundle.crt
-              path: odh-trusted-ca-bundle.crt
+              - key: ca-bundle.crt
+                path: odh-trusted-ca-bundle.crt
             optional: true
         - name: odh-ca-cert
           configMap:
             name: odh-trusted-ca-bundle
             items:
-            - key: odh-ca-bundle.crt
-              path: odh-ca-bundle.crt
+              - key: odh-ca-bundle.crt
+                path: odh-ca-bundle.crt
             optional: true
