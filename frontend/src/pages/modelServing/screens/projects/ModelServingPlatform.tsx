@@ -161,6 +161,7 @@ const ModelServingPlatform: React.FC = () => {
                 <Button
                   variant="link"
                   onClick={() =>
+                    // TODO also pass a param to open the deploy modal and prefill the project
                     navigate(modelVersionUrl(modelVersionId, registeredModelId, modelRegistryName))
                   }
                 >
@@ -213,7 +214,6 @@ const ModelServingPlatform: React.FC = () => {
     );
   };
 
-  // TODO Do we need a "Deploy model from model registry" link in the table view here?
   return (
     <>
       <DetailsSection

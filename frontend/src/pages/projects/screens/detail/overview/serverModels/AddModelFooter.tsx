@@ -86,9 +86,10 @@ const AddModelFooter: React.FC<AddModelFooterProps> = ({ selectedPlatform, isNIM
             <Button
               variant="link"
               isInline
-              onClick={() =>
-                navigate(modelVersionUrl(modelVersionId, registeredModelId, modelRegistryName))
-              }
+              onClick={() => {
+                // TODO also pass a param to open the deploy modal and prefill the project
+                navigate(modelVersionUrl(modelVersionId, registeredModelId, modelRegistryName));
+              }}
             >
               Deploy model from model registry
             </Button>
