@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
 import { DescriptionList, Flex, FlexItem, TextVariants, Title } from '@patternfly/react-core';
 import { ModelVersion } from '~/concepts/modelRegistry/types';
 import DashboardDescriptionListGroup from '~/components/DashboardDescriptionListGroup';
@@ -26,21 +25,15 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
   isArchiveVersion,
   refresh,
 }) => {
-  const [modelArtifact] = useModelArtifactsByVersionId(mv.id);
+  // TODO handle loading state / error for artifacts here?
+  const [modelArtifacts, , , refreshModelArtifacts] = useModelArtifactsByVersionId(mv.id);
+  const refreshAll = () => {
+    refresh();
+    refreshModelArtifacts();
+  };
+  const modelArtifact = modelArtifacts.items.length ? modelArtifacts.items[0] : null;
   const { apiState } = React.useContext(ModelRegistryContext);
-  const storageFields = uriToObjectStorageFields(modelArtifact.items[0]?.uri || '');
-
-  // Add state for both model format and version
-  const [modelFormat, setModelFormat] = useState(modelArtifact.items[0]?.modelFormatName || '');
-  const [modelFormatVersion, setModelFormatVersion] = useState(
-    modelArtifact.items[0]?.modelFormatVersion || '',
-  );
-
-  // Update both modelFormat and modelFormatVersion when modelArtifact changes
-  useEffect(() => {
-    setModelFormat(modelArtifact.items[0]?.modelFormatName || '');
-    setModelFormatVersion(modelArtifact.items[0]?.modelFormatVersion || '');
-  }, [modelArtifact]);
+  const storageFields = uriToObjectStorageFields(modelArtifact?.uri || '');
 
   return (
     <Flex
@@ -66,7 +59,7 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
                   },
                   mv.id,
                 )
-                .then(refresh)
+                .then(refreshAll)
             }
           />
           <EditableLabelsDescriptionListGroup
@@ -82,7 +75,7 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
                   },
                   mv.id,
                 )
-                .then(refresh)
+                .then(refreshAll)
             }
           />
           <ModelPropertiesDescriptionListGroup
@@ -91,7 +84,7 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
             saveEditedCustomProperties={(editedProperties) =>
               apiState.api
                 .patchModelVersion({}, { customProperties: editedProperties }, mv.id)
-                .then(refresh)
+                .then(refreshAll)
             }
           />
         </DescriptionList>
@@ -114,7 +107,7 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
             <>
               <DashboardDescriptionListGroup
                 title="Endpoint"
-                isEmpty={modelArtifact.size === 0 || !storageFields.endpoint}
+                isEmpty={modelArtifacts.size === 0 || !storageFields.endpoint}
                 contentWhenEmpty="No endpoint"
               >
                 <InlineTruncatedClipboardCopy
@@ -124,7 +117,7 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
               </DashboardDescriptionListGroup>
               <DashboardDescriptionListGroup
                 title="Region"
-                isEmpty={modelArtifact.size === 0 || !storageFields.region}
+                isEmpty={modelArtifacts.size === 0 || !storageFields.region}
                 contentWhenEmpty="No region"
               >
                 <InlineTruncatedClipboardCopy
@@ -134,7 +127,7 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
               </DashboardDescriptionListGroup>
               <DashboardDescriptionListGroup
                 title="Bucket"
-                isEmpty={modelArtifact.size === 0 || !storageFields.bucket}
+                isEmpty={modelArtifacts.size === 0 || !storageFields.bucket}
                 contentWhenEmpty="No bucket"
               >
                 <InlineTruncatedClipboardCopy
@@ -144,7 +137,7 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
               </DashboardDescriptionListGroup>
               <DashboardDescriptionListGroup
                 title="Path"
-                isEmpty={modelArtifact.size === 0 || !storageFields.path}
+                isEmpty={modelArtifacts.size === 0 || !storageFields.path}
                 contentWhenEmpty="No path"
               >
                 <InlineTruncatedClipboardCopy
@@ -158,12 +151,12 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
             <>
               <DashboardDescriptionListGroup
                 title="URI"
-                isEmpty={modelArtifact.size === 0 || !modelArtifact.items[0].uri}
+                isEmpty={modelArtifacts.size === 0 || !modelArtifact?.uri}
                 contentWhenEmpty="No URI"
               >
                 <InlineTruncatedClipboardCopy
                   testId="storage-uri"
-                  textToCopy={modelArtifact.items[0]?.uri || ''}
+                  textToCopy={modelArtifact?.uri || ''}
                 />
               </DashboardDescriptionListGroup>
             </>
@@ -176,17 +169,12 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
           <EditableInputDescriptionListGroup
             testid="source-model-format"
             isArchive={isArchiveVersion}
-            value={modelFormat}
+            value={modelArtifact?.modelFormatName || ''}
             saveEditedValue={(value) =>
               apiState.api
-                .patchModelArtifact(
-                  {},
-                  { modelFormatName: value },
-                  modelArtifact.items[0]?.id || '',
-                )
+                .patchModelArtifact({}, { modelFormatName: value }, modelArtifact?.id || '')
                 .then(() => {
-                  setModelFormat(value);
-                  refresh();
+                  refreshAll();
                 })
             }
             title="Model Format"
@@ -194,18 +182,13 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
           />
           <EditableInputDescriptionListGroup
             testid="source-model-version"
-            value={modelFormatVersion}
+            value={modelArtifact?.modelFormatVersion || ''}
             isArchive={isArchiveVersion}
             saveEditedValue={(newVersion) =>
               apiState.api
-                .patchModelArtifact(
-                  {},
-                  { modelFormatVersion: newVersion },
-                  modelArtifact.items[0]?.id || '',
-                )
+                .patchModelArtifact({}, { modelFormatVersion: newVersion }, modelArtifact?.id || '')
                 .then(() => {
-                  setModelFormatVersion(newVersion);
-                  refresh();
+                  refreshAll();
                 })
             }
             title="Version"
