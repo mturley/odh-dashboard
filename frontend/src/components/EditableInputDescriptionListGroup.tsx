@@ -39,7 +39,10 @@ const EditableInputDescriptionListGroup: React.FC<EditableInputDescriptionListGr
       isEditable={!isArchive}
       isEditing={isEditing}
       isSavingEdits={isSavingEdits}
-      data-testid={`${baseTestId}-group`}
+      groupTestId={`${baseTestId}-group`}
+      editButtonTestId={`${baseTestId}-edit`}
+      saveButtonTestId={`${baseTestId}-save`}
+      cancelButtonTestId={`${baseTestId}-cancel`}
       contentWhenEditing={
         <TextInput
           autoFocus

@@ -24,8 +24,8 @@ class ModelVersionDetails {
     return cy.findByTestId('model-version-description');
   }
 
-  findSourceModelFormat() {
-    return cy.findByTestId('source-model-format');
+  findSourceModelFormat(subComponent: 'group' | 'edit' | 'save' | 'cancel') {
+    return cy.findByTestId(`source-model-format-${subComponent}`);
   }
 
   findSourceModelVersion() {
