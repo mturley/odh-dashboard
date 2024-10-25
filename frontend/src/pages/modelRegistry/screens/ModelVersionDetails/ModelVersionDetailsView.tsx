@@ -51,7 +51,8 @@ const ModelVersionDetailsView: React.FC<ModelVersionDetailsViewProps> = ({
       <FlexItem flex={{ default: 'flex_1' }}>
         <DescriptionList isFillColumns>
           <EditableTextDescriptionListGroup
-            testid="model-version-description"
+            editableVariant="TextArea"
+            baseTestId="model-version-description"
             isArchive={isArchiveVersion}
             title="Description"
             contentWhenEmpty="No description"
