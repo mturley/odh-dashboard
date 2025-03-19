@@ -7,16 +7,19 @@ import { DataScienceClusterKindStatus } from '~/k8sTypes';
  */
 const fetchDscStatus = (): Promise<DataScienceClusterKindStatus | null> => {
   const url = '/api/dsc/status';
-  return axios
-    .get(url)
-    .then((response) => response.data)
-    .catch((e) => {
-      if (e.response.status === 404) {
-        // DSC is not available, assume v1 Operator
-        return null;
-      }
-      throw new Error(e.response.data.message);
-    });
+  return (
+    axios
+      .get(url)
+      // !!!! DO NOT MERGE - THIS IS A TEMPORARY HACK TO REPRODUCE A BUG !!!!
+      .then((response) => ({}))
+      .catch((e) => {
+        if (e.response.status === 404) {
+          // DSC is not available, assume v1 Operator
+          return null;
+        }
+        throw new Error(e.response.data.message);
+      })
+  );
 };
 
 const useFetchDscStatus = (): FetchState<DataScienceClusterKindStatus | null> =>
