@@ -9,7 +9,15 @@ const fetchDscStatus = (): Promise<DataScienceClusterKindStatus | null> => {
   const url = '/api/dsc/status';
   return axios
     .get(url)
-    .then((response) => response.data)
+    .then((response) => {
+      const dscStatus = response.data;
+      // !!!! DO NOT MERGE - THIS IS A TEMPORARY HACK TO REPRODUCE A BUG !!!!
+      if (dscStatus?.components?.modelregistry?.registriesNamespace) {
+        delete dscStatus.components.modelregistry.registriesNamespace;
+      }
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      return dscStatus;
+    })
     .catch((e) => {
       if (e.response.status === 404) {
         // DSC is not available, assume v1 Operator
