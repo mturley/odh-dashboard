@@ -124,47 +124,30 @@ The Model Catalog integrates with the Model Registry in several ways:
    - This allows tracing back to the original model in the catalog
    - Enables version tracking and updates
 
-### 4. Integration with Model Serving
+### 4. Integration with Other Features
 
-The Model Catalog provides direct deployment capabilities:
+The Model Registry integrates with several other features:
 
-1. **Deployment Flow**:
+- Model Serving: Models can be deployed for serving
+- Model Catalog: Models can be registered from the catalog (see [Model Catalog Documentation](model-catalog.md) for details)
+- Pipelines: Models can be registered from pipeline runs
 
-   - Models can be deployed directly from the catalog
-   - Reuses the Model Registry's deployment form
-   - Pre-fills model location information
-   - Skips connection selection for registry.redhat.io models
+When a model is registered from one of these sources, we track the source information using special properties on the ModelArtifact:
 
-2. **Authentication Handling**:
-   - Models from registry.redhat.io use built-in cluster credentials
-   - No additional connection configuration required
-   - Simplifies the deployment process for Red Hat models
+- `modelSourceKind`: Indicates the type of source (CATALOG or KFP for pipeline runs)
+- `modelSourceClass`: For catalog sources, identifies the source system
+- `modelSourceGroup`: For catalog sources, identifies the repository; for pipeline runs, identifies the project
+- `modelSourceName`: A human-readable name for the source
+- `modelSourceId`: For catalog sources, identifies the tag; for pipeline runs, identifies the run ID
 
-### 5. Notable Implementation Details
+This source tracking allows us to:
 
-1. **Source Management**:
+- Display links back to the original source in the UI
+- Show the registration history of a model
+- Maintain traceability between models and their origins
+- Support different registration workflows from various parts of the application
 
-   - The ConfigMap structure is complex and requires careful parsing
-   - Source validation is critical for maintaining catalog integrity
-   - Future API will simplify this complexity
-
-2. **Model URI Handling**:
-
-   - Different URI formats for different sources
-   - Special handling for registry.redhat.io URIs
-   - URI validation and transformation logic
-
-3. **Deployment Integration**:
-
-   - Reuses Model Registry deployment logic
-   - Custom handling for catalog-specific deployment flows
-   - Authentication abstraction for different sources
-
-4. **Future Considerations**:
-   - Migration to new Model Catalog API
-   - Enhanced filtering and sorting capabilities
-   - Improved source management
-   - Better integration with Model Registry and Model Serving
+For example, when a model is registered from a pipeline run, we can show a link back to that specific run, allowing users to trace the model's lineage back to its training process.
 
 ## Core Components
 
@@ -285,81 +268,6 @@ The location information is stored in the ModelArtifact's URI field and can be p
 ```typescript
 const storageFields = uriToModelLocation(modelArtifact?.uri || '');
 ```
-
-### 4. Integration with Other Features
-
-The Model Registry integrates with several other features:
-
-- Model Serving: Models can be deployed for serving
-- Model Catalog: Models can be registered from the catalog
-- Pipelines: Models can be registered from pipeline runs
-
-When a model is registered from one of these sources, we track the source information using special properties on the ModelArtifact:
-
-- `modelSourceKind`: Indicates the type of source (CATALOG or KFP for pipeline runs)
-- `modelSourceClass`: For catalog sources, identifies the source system
-- `modelSourceGroup`: For catalog sources, identifies the repository; for pipeline runs, identifies the project
-- `modelSourceName`: A human-readable name for the source
-- `modelSourceId`: For catalog sources, identifies the tag; for pipeline runs, identifies the run ID
-
-This source tracking allows us to:
-
-- Display links back to the original source in the UI
-- Show the registration history of a model
-- Maintain traceability between models and their origins
-- Support different registration workflows from various parts of the application
-
-For example, when a model is registered from a pipeline run, we can show a link back to that specific run, allowing users to trace the model's lineage back to its training process.
-
-### 5. Strange/Notable Patterns
-
-1. **Single Artifact Assumption**: The code assumes a 1:1 relationship between ModelVersion and ModelArtifact, always taking the first artifact from the list:
-
-```typescript
-const modelArtifact = modelArtifacts.items.length ? modelArtifacts.items[0] : null;
-```
-
-2. **Timestamp Management**: The system maintains timestamps for both the registered model and its versions, with a complex update mechanism:
-
-```typescript
-await bumpBothTimestamps(apiState.api, registeredModel, mv);
-```
-
-The timestamp management is necessary due to a limitation in the backend API. The `lastUpdateTimeSinceEpoch` property, which is a built-in field on both `RegisteredModel` and `ModelVersion` objects, cannot be updated directly without modifying other properties of the object. This is problematic because we need to update this timestamp in several scenarios:
-
-- When editing a model version
-- When modifying a model artifact
-- When deploying a model version
-- When performing any operation that should be reflected in the "last modified" time
-
-To work around this limitation, we use a custom property called `_lastModified` that we update along with the state:
-
-```typescript
-await api.patchRegisteredModel(
-  {},
-  {
-    state: ModelState.LIVE,
-    customProperties: {
-      ...registeredModel.customProperties,
-      _lastModified: {
-        metadataType: ModelRegistryMetadataType.STRING,
-        string_value: currentTime,
-      },
-    },
-  },
-  registeredModel.id,
-);
-```
-
-This workaround is tracked in a bug report (RHOAIENG-17614) with the Model Registry team. The timestamp management is particularly important for:
-
-- Sorting models and versions by last modified time
-- Showing accurate "last modified" information in the UI
-- Maintaining proper audit trails of model changes
-
-3. **URI Parsing**: The system includes custom URI parsing logic to handle different storage backends, which could be fragile if URI formats change.
-
-4. **State Synchronization**: The code includes complex state synchronization between registered models, versions, and artifacts, particularly around archiving operations.
 
 ## API Endpoints
 
