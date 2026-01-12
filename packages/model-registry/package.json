@@ -24,7 +24,7 @@
     "branch": "preview-pagination-fix",
     "src": "clients/ui",
     "target": "upstream",
-    "commit": "1ad6a1855b34e552067b6b44e98cf5ff7230bb2b"
+    "commit": "a8da6cd9b49c568771335e6f769accb06bb152c1"
   },
   "module-federation": {
     "name": "modelRegistry",
