@@ -413,4 +413,3 @@ func (app *App) Routes() http.Handler {
 
 	return combinedMux
 }
-

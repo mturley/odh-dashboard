@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
-	"strconv"
+	// "strconv" // TODO TEMPORARY: removed for testing, restore when reverting registrySecure change
 	"strings"
 
 	"github.com/google/uuid"
@@ -676,7 +676,7 @@ func buildK8sJob(jobName, jobID string, payload models.ModelTransferJob,
 		{Name: "destination-credentials", MountPath: "/opt/creds/destination", ReadOnly: true},
 		{Name: "model-metadata", MountPath: "/etc/model-metadata", ReadOnly: true},
 	}
-	registryPort, registrySecure := parseRegistryServerAddress(modelRegistryAddress)
+	registryPort, _ := parseRegistryServerAddress(modelRegistryAddress) // TODO TEMPORARY: ignoring registrySecure for testing
 	envVars := []corev1.EnvVar{
 		{Name: "MODEL_SYNC_SOURCE_TYPE", Value: string(payload.Source.Type)},
 		{Name: "MODEL_SYNC_DESTINATION_TYPE", Value: string(payload.Destination.Type)},
@@ -685,7 +685,7 @@ func buildK8sJob(jobName, jobID string, payload models.ModelTransferJob,
 		{Name: "MODEL_SYNC_DESTINATION_OCI_CREDENTIALS_PATH", Value: "/opt/creds/destination/.dockerconfigjson"},
 		{Name: "MODEL_SYNC_REGISTRY_SERVER_ADDRESS", Value: registryOriginOnly(modelRegistryAddress)},
 		{Name: "MODEL_SYNC_REGISTRY_PORT", Value: registryPort},
-		{Name: "MODEL_SYNC_REGISTRY_IS_SECURE", Value: strconv.FormatBool(registrySecure)},
+		{Name: "MODEL_SYNC_REGISTRY_IS_SECURE", Value: "false"}, // TODO TEMPORARY: hardcoded for testing, revert to strconv.FormatBool(registrySecure)
 		{Name: "MODEL_SYNC_METADATA_CONFIGMAP_PATH", Value: "/etc/model-metadata"},
 		{Name: "MODEL_SYNC_MODEL_UPLOAD_INTENT", Value: string(payload.UploadIntent)},
 	}
