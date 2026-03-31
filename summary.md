@@ -27,9 +27,19 @@ Deployments renders, Deployments tab highlighted.
 ![Deployments tab](03-models-deployments.png)
 
 ### `/ai-hub/mcp-servers` (redirects to `/ai-hub/mcp-servers/catalog`)
-Confirmed redirect. "MCP servers" page title, **no tab bar** (single tab behavior).
+Confirmed redirect. "MCP servers" page title with 2-tab bar: Catalog / Deployments.
 
 ![MCP servers redirect](04-mcp-servers-redirect.png)
+
+### `/ai-hub/mcp-servers/catalog` — Catalog tab active
+MCP Catalog renders with 2-tab bar.
+
+![MCP servers catalog](04-mcp-servers-catalog.png)
+
+### `/ai-hub/mcp-servers/deployments` — Deployments tab active
+MCP Deployments renders, Deployments tab highlighted. No redundant title (suppressed via `noTitle`).
+
+![MCP servers deployments](04b-mcp-servers-deployments.png)
 
 ---
 
@@ -43,6 +53,7 @@ All redirects confirmed working:
 | `/ai-hub/registry` | `/ai-hub/models/registry/test-registry` | ![](06-redirect-registry.png) |
 | `/ai-hub/deployments` | `/ai-hub/models/deployments` | ![](07-redirect-deployments.png) |
 | `/ai-hub/mcp-catalog` | `/ai-hub/mcp-servers/catalog` | ![](08-redirect-mcp-catalog.png) |
+| `/ai-hub/mcp-deployments` | `/ai-hub/mcp-servers/deployments` | ![](08b-redirect-mcp-deployments.png) |
 | `/modelServing` | `/ai-hub/models/deployments` | ![](09-redirect-modelServing.png) |
 
 ---
@@ -55,7 +66,7 @@ Redirects to last-visited tab (session storage). In this case it went to `/ai-hu
 ![Invalid tab models](10-invalid-tab-models.png)
 
 ### `/ai-hub/mcp-servers/nonexistent-tab`
-Redirects to `/ai-hub/mcp-servers/catalog` (default/only tab).
+Redirects to `/ai-hub/mcp-servers/catalog` (default tab).
 
 ![Invalid tab MCP](11-invalid-tab-mcp.png)
 
@@ -94,7 +105,7 @@ Deploy wizard renders with step navigation. No tab bar on this page.
 ![Deploy wizard](17-subpage-deploy-wizard.png)
 
 ### MCP Server Detail — `/ai-hub/mcp-servers/catalog/{id}`
-"MCP servers" title (no tab bar), breadcrumb "MCP Catalog > kubernetes-mcp-server".
+"MCP servers" title with tab bar (Catalog / Deployments), breadcrumb "MCP Catalog > kubernetes-mcp-server".
 
 ![MCP server detail](18-subpage-mcp-server-detail.png)
 
