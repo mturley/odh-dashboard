@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { ApplicationsPage } from 'mod-arch-shared';
 import { useNamespaceSelector, useModularArchContext } from 'mod-arch-core';
 import {
@@ -12,6 +13,7 @@ import { CubesIcon } from '@patternfly/react-icons';
 import NamespaceSelectorFieldWrapper from '~/odh/components/NamespaceSelectorFieldWrapper';
 import { McpDeployment } from '~/app/mcpDeploymentTypes';
 import McpDeployModal from '~/odh/components/McpDeployModal';
+import { mcpDeploymentsUrl } from '~/app/routes/mcpCatalog/mcpCatalog';
 import useMcpDeployments from './useMcpDeployments';
 import McpDeploymentsTable from './McpDeploymentsTable';
 import McpDeploymentsToolbar from './McpDeploymentsToolbar';
@@ -20,24 +22,33 @@ import DeleteMcpDeploymentModal from './DeleteMcpDeploymentModal';
 import { getDeploymentDisplayName } from './utils';
 
 const McpDeploymentsPage: React.FC = () => {
+  const { namespace: urlNamespace } = useParams<{ namespace: string }>();
+  const navigate = useNavigate();
   const [deployments, loaded, loadError, refresh] = useMcpDeployments();
   const [filterText, setFilterText] = React.useState('');
   const [deleteTarget, setDeleteTarget] = React.useState<McpDeployment | undefined>();
   const [editingDeployment, setEditingDeployment] = React.useState<McpDeployment>();
-  const { preferredNamespace, updatePreferredNamespace } = useNamespaceSelector();
+  const { updatePreferredNamespace } = useNamespaceSelector();
   const { config } = useModularArchContext();
 
   const isMandatoryNamespace = Boolean(config.mandatoryNamespace);
-  const selectedProject = preferredNamespace?.name || '';
+  const selectedProject = urlNamespace || '';
+
+  // Keep mod-arch-core preferred namespace in sync with URL
+  React.useEffect(() => {
+    if (urlNamespace) {
+      updatePreferredNamespace({ name: urlNamespace });
+    }
+  }, [urlNamespace, updatePreferredNamespace]);
 
   const handleProjectChange = React.useCallback(
     (projectName: string) => {
       if (!projectName || isMandatoryNamespace) {
         return;
       }
-      updatePreferredNamespace({ name: projectName });
+      navigate(mcpDeploymentsUrl(projectName));
     },
-    [isMandatoryNamespace, updatePreferredNamespace],
+    [isMandatoryNamespace, navigate],
   );
 
   const handleDeleteClick = React.useCallback((deployment: McpDeployment) => {
