@@ -1,8 +1,7 @@
 import React from 'react';
 import { z } from 'zod';
-import { Alert, Form, FormSection, Spinner } from '@patternfly/react-core';
+import { Form, FormSection, Spinner } from '@patternfly/react-core';
 import { useZodFormValidation } from '@odh-dashboard/internal/hooks/useZodFormValidation';
-import { SupportedArea, useIsAreaAvailable } from '@odh-dashboard/internal/concepts/areas';
 import { modelTypeSelectFieldSchema, ModelTypeSelectField } from '../fields/ModelTypeSelectField';
 import { UseModelDeploymentWizardState } from '../useDeploymentWizard';
 import { ModelLocationSelectField } from '../fields/ModelLocationSelectField';
@@ -12,6 +11,8 @@ import {
   createConnectionDataSchema,
   CreateConnectionInputFields,
 } from '../fields/CreateConnectionInputFields';
+import type { ExternalDataMap } from '../ExternalDataLoader';
+import { GenericFieldRenderer } from '../fields/GenericFieldRenderer';
 
 // Schema
 export const modelSourceStepSchema = z.object({
@@ -28,13 +29,18 @@ export type ModelSourceStepData = z.infer<typeof modelSourceStepSchema>;
 type ModelSourceStepProps = {
   wizardState: UseModelDeploymentWizardState;
   validation: ReturnType<typeof useZodFormValidation<ModelSourceStepData>>;
+  externalData?: ExternalDataMap;
 };
 
 export const ModelSourceStepContent: React.FC<ModelSourceStepProps> = ({
   wizardState,
   validation,
+  externalData,
 }) => {
-  const isNimWizardEnabled = useIsAreaAvailable(SupportedArea.NIM_WIZARD).status;
+  const modelSourceFields = React.useMemo(
+    () => wizardState.fields.filter((f) => f.step === 'modelSource'),
+    [wizardState.fields],
+  );
 
   if (!wizardState.loaded.modelSourceLoaded) {
     return <Spinner data-testid="spinner" />;
@@ -42,9 +48,6 @@ export const ModelSourceStepContent: React.FC<ModelSourceStepProps> = ({
 
   return (
     <Form>
-      {isNimWizardEnabled && (
-        <Alert variant="info" isInline title="(TODO replace me) NIM serving extension is enabled" />
-      )}
       <FormSection title="Model details">
         <p style={{ marginTop: '-8px' }}>Provide information about the model you want to deploy.</p>
         <ModelLocationSelectField
@@ -69,6 +72,14 @@ export const ModelSourceStepContent: React.FC<ModelSourceStepProps> = ({
           modelLocationData={wizardState.state.modelLocationData.data}
           setModelLocationData={wizardState.state.modelLocationData.setData}
         />
+        {modelSourceFields.map((field) => (
+          <GenericFieldRenderer
+            key={field.id}
+            fieldId={field.id}
+            wizardState={wizardState}
+            externalData={externalData}
+          />
+        ))}
         <ModelTypeSelectField
           modelType={wizardState.state.modelType.data}
           setModelType={wizardState.state.modelType.setData}
