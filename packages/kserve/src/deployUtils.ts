@@ -327,27 +327,18 @@ export const applyConnectionData = (
       delete result.metadata.annotations['opendatahub.io/connection-path'];
     }
   }
-  const isOci = isModelServingCompatible(
-    modelLocationData.connectionTypeObject ?? [],
-    ModelServingCompatibleTypes.OCI,
-  );
-
-  if (modelLocationData.additionalFields.modelUri && isOci) {
+  if (
+    modelLocationData.additionalFields.modelUri &&
+    isModelServingCompatible(
+      modelLocationData.connectionTypeObject ?? [],
+      ModelServingCompatibleTypes.OCI,
+    )
+  ) {
     result.spec.predictor.model = {
       ...result.spec.predictor.model,
       storageUri: modelLocationData.additionalFields.modelUri,
     };
   }
-
-  // Update imagePullSecrets to reference the connection secret for OCI connections,
-  // or clear stale imagePullSecrets when switching away from OCI
-  const connectionSecretName = secretName ?? createConnectionData.nameDesc?.name;
-  if (isOci && connectionSecretName) {
-    result.spec.predictor.imagePullSecrets = [{ name: connectionSecretName }];
-  } else {
-    delete result.spec.predictor.imagePullSecrets;
-  }
-
   return result;
 };
 
