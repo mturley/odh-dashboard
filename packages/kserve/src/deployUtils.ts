@@ -344,7 +344,7 @@ export const applyConnectionData = (
   const connectionSecretName = secretName ?? createConnectionData.nameDesc?.name;
   if (isOci && connectionSecretName) {
     result.spec.predictor.imagePullSecrets = [{ name: connectionSecretName }];
-  } else if (!isOci) {
+  } else {
     delete result.spec.predictor.imagePullSecrets;
   }
 
