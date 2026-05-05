@@ -127,11 +127,12 @@ export const handleConnectionCreation = async (
       ? async (): Promise<void> => {
           try {
             const existingSecret = await getSecret(project, oldSecretName);
+            // Only delete if it was a generated secret
             if (isGeneratedSecretName(existingSecret.metadata.name)) {
               await deleteSecret(project, existingSecret.metadata.name);
             }
           } catch {
-            // Old secret already gone or inaccessible — nothing to clean up
+            console.error('Old secret not found, skipping delete');
           }
         }
       : undefined;
