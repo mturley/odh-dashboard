@@ -1,6 +1,7 @@
 import {
   createSecret,
   getSecret,
+  deleteSecret,
   patchSecretWithOwnerReference,
   patchSecretWithProtocolAnnotation,
   hasProtocolAnnotation,
@@ -19,17 +20,22 @@ import { K8sNameDescriptionType } from '@odh-dashboard/internal/concepts/k8s/K8s
 import { CreateConnectionData } from '../components/deploymentWizard/fields/CreateConnectionInputFields';
 import { ModelLocationData, ModelLocationType } from '../components/deploymentWizard/types';
 
+export type ConnectionCreationResult = {
+  secret: SecretKind | undefined;
+  cleanup?: () => Promise<void>;
+};
+
 export const handleConnectionCreation = async (
   createConnectionData: CreateConnectionData,
   project: string,
   modelLocationData?: ModelLocationData,
   secretName?: string,
   dryRun?: boolean,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   selectedConnection?: Connection,
-): Promise<SecretKind | undefined> => {
+): Promise<ConnectionCreationResult> => {
+  const noResult: ConnectionCreationResult = { secret: undefined };
   if (!modelLocationData) {
-    return Promise.resolve(undefined);
+    return noResult;
   }
   const protocolType =
     (modelLocationData.connectionTypeObject
@@ -51,7 +57,7 @@ export const handleConnectionCreation = async (
           console.warn('Failed to get secret for protocol annotation:', err);
         });
     }
-    return Promise.resolve(undefined);
+    return noResult;
   }
 
   const connectionTypeName = modelLocationData.connectionTypeObject?.metadata.name ?? 'uri-v1';
@@ -110,19 +116,33 @@ export const handleConnectionCreation = async (
     delete annotatedConnection.metadata.annotations['openshift.io/description'];
   }
 
-  if (dryRun) {
-    const dryRunCreatedSecret = await createSecret(annotatedConnection, { dryRun: true });
+  // Build a cleanup function that deletes the old generated secret if it was
+  // replaced by a new one. The caller must run this AFTER the InferenceService
+  // has been updated to reference the new secret. Deleting the old secret before
+  // the IS update triggers a KServe mutating webhook bug that strips storageUri
+  // when the currently-referenced imagePullSecrets secret is missing.
+  const oldSecretName = selectedConnection?.metadata.name;
+  const cleanup =
+    oldSecretName && oldSecretName !== actualSecretName
+      ? async (): Promise<void> => {
+          try {
+            const existingSecret = await getSecret(project, oldSecretName);
+            if (isGeneratedSecretName(existingSecret.metadata.name)) {
+              await deleteSecret(project, existingSecret.metadata.name);
+            }
+          } catch {
+            // Old secret already gone or inaccessible — nothing to clean up
+          }
+        }
+      : undefined;
 
-    return dryRunCreatedSecret;
+  if (dryRun) {
+    return { secret: await createSecret(annotatedConnection, { dryRun: true }), cleanup };
   }
 
-  // Note: the old generated secret is NOT deleted here. The caller (deployModel)
-  // deletes it after the InferenceService has been updated to reference the new
-  // secret. Deleting it before the IS update triggers a KServe mutating webhook
-  // bug that strips storageUri when the currently-referenced secret is missing.
   const createdSecret = await createSecret(annotatedConnection);
   const finalSecret = await getSecret(project, createdSecret.metadata.name);
-  return finalSecret;
+  return { secret: finalSecret, cleanup };
 };
 
 export const handleSecretOwnerReferencePatch = async (
