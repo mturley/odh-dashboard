@@ -327,10 +327,16 @@ export const applyConnectionData = (
       delete result.metadata.annotations['opendatahub.io/connection-path'];
     }
   }
-  const isOci = isModelServingCompatible(
-    modelLocationData.connectionTypeObject ?? [],
-    ModelServingCompatibleTypes.OCI,
-  );
+  // Determine OCI status from connectionTypeObject when available, falling back to
+  // the modelUri prefix when connectionTypeObject hasn't been resolved yet (e.g.
+  // during edit before connection types finish loading).
+  const isOci =
+    isModelServingCompatible(
+      modelLocationData.connectionTypeObject ?? [],
+      ModelServingCompatibleTypes.OCI,
+    ) ||
+    (!modelLocationData.connectionTypeObject &&
+      !!modelLocationData.additionalFields.modelUri?.startsWith('oci://'));
 
   if (modelLocationData.additionalFields.modelUri && isOci) {
     result.spec.predictor.model = {
@@ -344,7 +350,7 @@ export const applyConnectionData = (
   const connectionSecretName = secretName ?? createConnectionData.nameDesc?.name;
   if (isOci && connectionSecretName) {
     result.spec.predictor.imagePullSecrets = [{ name: connectionSecretName }];
-  } else {
+  } else if (!isOci) {
     delete result.spec.predictor.imagePullSecrets;
   }
 
