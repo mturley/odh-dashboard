@@ -327,16 +327,10 @@ export const applyConnectionData = (
       delete result.metadata.annotations['opendatahub.io/connection-path'];
     }
   }
-  // Determine OCI status from connectionTypeObject when available, falling back to
-  // the modelUri prefix when connectionTypeObject hasn't been resolved yet (e.g.
-  // during edit before connection types finish loading).
-  const isOci =
-    isModelServingCompatible(
-      modelLocationData.connectionTypeObject ?? [],
-      ModelServingCompatibleTypes.OCI,
-    ) ||
-    (!modelLocationData.connectionTypeObject &&
-      !!modelLocationData.additionalFields.modelUri?.startsWith('oci://'));
+  const isOci = isModelServingCompatible(
+    modelLocationData.connectionTypeObject ?? [],
+    ModelServingCompatibleTypes.OCI,
+  );
 
   if (modelLocationData.additionalFields.modelUri && isOci) {
     result.spec.predictor.model = {

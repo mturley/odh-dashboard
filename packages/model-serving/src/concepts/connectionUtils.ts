@@ -1,5 +1,6 @@
 import {
   createSecret,
+  replaceSecret,
   getSecret,
   patchSecretWithOwnerReference,
   patchSecretWithProtocolAnnotation,
@@ -56,12 +57,18 @@ export const handleConnectionCreation = async (
 
   const connectionTypeName = modelLocationData.connectionTypeObject?.metadata.name ?? 'uri-v1';
   const formSecretName = createConnectionData.nameDesc?.k8sName.value;
+  const oldSecretName = selectedConnection?.metadata.name;
   const actualSecretName = (() => {
     if (createConnectionData.saveConnection && formSecretName) {
       return formSecretName;
     }
     const candidate = secretName ?? formSecretName;
-    if (!candidate || isGeneratedSecretName(candidate)) {
+    // Reuse an existing generated secret name to avoid changing the IS's
+    // imagePullSecrets reference, which triggers the KServe webhook to strip storageUri.
+    if (candidate && isGeneratedSecretName(candidate)) {
+      return candidate;
+    }
+    if (!candidate) {
       return getGeneratedSecretName();
     }
     return candidate;
@@ -110,19 +117,36 @@ export const handleConnectionCreation = async (
     delete annotatedConnection.metadata.annotations['openshift.io/description'];
   }
 
-  if (dryRun) {
-    const dryRunCreatedSecret = await createSecret(annotatedConnection, { dryRun: true });
+  const newSecretName = actualSecretName;
+  const isReusing = oldSecretName && oldSecretName === newSecretName;
 
-    return dryRunCreatedSecret;
+  if (isReusing) {
+    // Reusing the same secret name — replace it to avoid changing imagePullSecrets
+    // on the InferenceService, which triggers a KServe webhook that strips storageUri.
+    const existingSecret = await getSecret(project, oldSecretName);
+    const replacedSecret = await replaceSecret(
+      {
+        ...annotatedConnection,
+        metadata: {
+          ...annotatedConnection.metadata,
+          resourceVersion: existingSecret.metadata.resourceVersion,
+        },
+      },
+      dryRun ? { dryRun: true } : undefined,
+    );
+    if (dryRun) {
+      return replacedSecret;
+    }
+    return getSecret(project, replacedSecret.metadata.name);
   }
 
-  const oldSecretName = selectedConnection?.metadata.name;
-  const newSecretName = actualSecretName;
+  if (dryRun) {
+    return createSecret(annotatedConnection, { dryRun: true });
+  }
+
   if (oldSecretName && oldSecretName !== newSecretName) {
     try {
       const existingSecret = await getSecret(project, oldSecretName);
-
-      // Only delete if it was a generated secret
       if (isGeneratedSecretName(existingSecret.metadata.name)) {
         await deleteSecret(project, existingSecret.metadata.name);
       }
@@ -132,8 +156,7 @@ export const handleConnectionCreation = async (
   }
 
   const createdSecret = await createSecret(annotatedConnection);
-  const finalSecret = await getSecret(project, createdSecret.metadata.name);
-  return finalSecret;
+  return getSecret(project, createdSecret.metadata.name);
 };
 
 export const handleSecretOwnerReferencePatch = async (
