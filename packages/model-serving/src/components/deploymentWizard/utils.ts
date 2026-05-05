@@ -1,5 +1,10 @@
 import { MetadataAnnotation, type SecretKind } from '@odh-dashboard/internal/k8sTypes';
-import { getGeneratedSecretName } from '@odh-dashboard/internal/api/index';
+import {
+  getGeneratedSecretName,
+  isGeneratedSecretName,
+  deleteSecret,
+  getSecret,
+} from '@odh-dashboard/internal/api/index';
 import {
   getDisplayNameFromK8sResource,
   getResourceNameFromK8sResource,
@@ -186,6 +191,25 @@ export const deployModel = async (
       false,
     );
   }
+
+  // Clean up the old generated secret now that the IS references the new one.
+  // This must happen AFTER the IS update — deleting the old secret before the
+  // update triggers a KServe mutating webhook bug that strips storageUri when
+  // the currently-referenced imagePullSecrets secret is missing.
+  const oldConnectionSecretName = wizardState.modelLocationData.selectedConnection?.metadata.name;
+  if (
+    oldConnectionSecretName &&
+    createdSecretName !== oldConnectionSecretName &&
+    isGeneratedSecretName(oldConnectionSecretName)
+  ) {
+    try {
+      await getSecret(projectName, oldConnectionSecretName);
+      await deleteSecret(projectName, oldConnectionSecretName);
+    } catch {
+      // Old secret already gone or inaccessible — nothing to clean up
+    }
+  }
+
   if (runPostDeploy) {
     await runPostDeploy(deploymentResult.model, existingDeployment);
   }

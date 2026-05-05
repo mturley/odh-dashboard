@@ -1,11 +1,9 @@
 import {
   createSecret,
-  replaceSecret,
   getSecret,
   patchSecretWithOwnerReference,
   patchSecretWithProtocolAnnotation,
   hasProtocolAnnotation,
-  deleteSecret,
   isGeneratedSecretName,
   getGeneratedSecretName,
 } from '@odh-dashboard/internal/api/index';
@@ -27,6 +25,7 @@ export const handleConnectionCreation = async (
   modelLocationData?: ModelLocationData,
   secretName?: string,
   dryRun?: boolean,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   selectedConnection?: Connection,
 ): Promise<SecretKind | undefined> => {
   if (!modelLocationData) {
@@ -57,18 +56,12 @@ export const handleConnectionCreation = async (
 
   const connectionTypeName = modelLocationData.connectionTypeObject?.metadata.name ?? 'uri-v1';
   const formSecretName = createConnectionData.nameDesc?.k8sName.value;
-  const oldSecretName = selectedConnection?.metadata.name;
   const actualSecretName = (() => {
     if (createConnectionData.saveConnection && formSecretName) {
       return formSecretName;
     }
     const candidate = secretName ?? formSecretName;
-    // Reuse an existing generated secret name to avoid changing the IS's
-    // imagePullSecrets reference, which triggers the KServe webhook to strip storageUri.
-    if (candidate && isGeneratedSecretName(candidate)) {
-      return candidate;
-    }
-    if (!candidate) {
+    if (!candidate || isGeneratedSecretName(candidate)) {
       return getGeneratedSecretName();
     }
     return candidate;
@@ -117,46 +110,19 @@ export const handleConnectionCreation = async (
     delete annotatedConnection.metadata.annotations['openshift.io/description'];
   }
 
-  const newSecretName = actualSecretName;
-  const isReusing = oldSecretName && oldSecretName === newSecretName;
-
-  if (isReusing) {
-    // Reusing the same secret name — replace it to avoid changing imagePullSecrets
-    // on the InferenceService, which triggers a KServe webhook that strips storageUri.
-    const existingSecret = await getSecret(project, oldSecretName);
-    const replacedSecret = await replaceSecret(
-      {
-        ...annotatedConnection,
-        metadata: {
-          ...annotatedConnection.metadata,
-          resourceVersion: existingSecret.metadata.resourceVersion,
-        },
-      },
-      dryRun ? { dryRun: true } : undefined,
-    );
-    if (dryRun) {
-      return replacedSecret;
-    }
-    return getSecret(project, replacedSecret.metadata.name);
-  }
-
   if (dryRun) {
-    return createSecret(annotatedConnection, { dryRun: true });
+    const dryRunCreatedSecret = await createSecret(annotatedConnection, { dryRun: true });
+
+    return dryRunCreatedSecret;
   }
 
-  if (oldSecretName && oldSecretName !== newSecretName) {
-    try {
-      const existingSecret = await getSecret(project, oldSecretName);
-      if (isGeneratedSecretName(existingSecret.metadata.name)) {
-        await deleteSecret(project, existingSecret.metadata.name);
-      }
-    } catch {
-      console.error('Old secret not found, skipping delete');
-    }
-  }
-
+  // Note: the old generated secret is NOT deleted here. The caller (deployModel)
+  // deletes it after the InferenceService has been updated to reference the new
+  // secret. Deleting it before the IS update triggers a KServe mutating webhook
+  // bug that strips storageUri when the currently-referenced secret is missing.
   const createdSecret = await createSecret(annotatedConnection);
-  return getSecret(project, createdSecret.metadata.name);
+  const finalSecret = await getSecret(project, createdSecret.metadata.name);
+  return finalSecret;
 };
 
 export const handleSecretOwnerReferencePatch = async (
