@@ -122,6 +122,7 @@ export const handleConnectionCreation = async (
   // the IS update triggers a KServe mutating webhook bug that strips storageUri
   // when the currently-referenced imagePullSecrets secret is missing.
   // See https://redhat.atlassian.net/browse/RHOAIENG-61105
+  // TODO: Revert this workaround when the KServe bug is fixed (RHOAIENG-61106)
   const oldSecretName = selectedConnection?.metadata.name;
   const cleanup =
     oldSecretName && oldSecretName !== actualSecretName
