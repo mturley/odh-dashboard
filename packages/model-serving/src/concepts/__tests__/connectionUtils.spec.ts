@@ -50,12 +50,19 @@ describe('handleConnectionCreation', () => {
     jest.clearAllMocks();
     isGeneratedSecretNameMock.mockImplementation((name: string) => name.startsWith('secret-'));
     getGeneratedSecretNameMock.mockReturnValue('secret-new123');
-    assembleConnectionSecretMock.mockReturnValue(mockSecret('placeholder'));
+    assembleConnectionSecretMock.mockReturnValue(mockConnection('placeholder'));
     createSecretMock.mockImplementation(async (secret) =>
       mockSecret((secret as SecretKind).metadata.name),
     );
     getSecretMock.mockImplementation(async (_ns, name) => mockSecret(name));
-    deleteSecretMock.mockResolvedValue({ apiVersion: 'v1', kind: 'Status', status: 'Success' });
+    deleteSecretMock.mockResolvedValue({
+      apiVersion: 'v1',
+      kind: 'Status',
+      status: 'Success',
+      code: 200,
+      message: '',
+      reason: '',
+    });
   });
 
   it('should return a cleanup function when the old secret name differs from the new one', async () => {
