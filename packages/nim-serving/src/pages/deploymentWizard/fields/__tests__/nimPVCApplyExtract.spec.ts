@@ -1,11 +1,7 @@
 import type { NIMDeployment } from '../../../../api/nimservices/types';
 import { NIM_ID } from '../../../../../extensions';
-import {
-  NIMPVCStorageMode,
-  type NIMPVCFieldValue,
-  applyNIMPVCFieldData,
-  extractNIMPVCFieldData,
-} from '../nimPVCApplyExtract';
+import { type NIMPVCFieldValue, NIMPVCStorageMode } from '../NIMPVCField';
+import { applyNIMPVCFieldData, extractNIMPVCFieldData } from '../nimPVCApplyExtract';
 
 const makeDeployment = (storage?: NIMDeployment['model']['spec']['storage']): NIMDeployment => ({
   modelServingPlatformId: NIM_ID,
