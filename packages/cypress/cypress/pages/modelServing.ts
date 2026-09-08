@@ -1006,6 +1006,14 @@ class ModelServingWizard extends Wizard {
     return this.findStep('advanced-options-step');
   }
 
+  findReviewStep() {
+    return this.findStep('summary-step');
+  }
+
+  findReviewModelDetails() {
+    return cy.findByTestId('review-step-model-details');
+  }
+
   findModelTypeSelect() {
     return cy.findByTestId('model-type-select');
   }
