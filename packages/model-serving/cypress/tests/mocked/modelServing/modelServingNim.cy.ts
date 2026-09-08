@@ -191,7 +191,7 @@ describe('NIM Models Deployments', () => {
     // Step 4: Review
     modelServingWizard.findReviewStep().should('be.enabled');
     modelServingWizard
-      .findReviewModelDetails()
+      .findReviewStepModelDetailsSection()
       .should('contain.text', ModelTypeLabel.NIM)
       .and('contain.text', 'nvcr.io/nim/snowflake/arctic-embed-l:1.0.1')
       .and('not.contain.text', 'Model location');
