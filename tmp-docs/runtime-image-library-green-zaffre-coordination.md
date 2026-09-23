@@ -1,0 +1,67 @@
+# Runtime image library: remaining Green–Zaffre coordination points
+
+The main coordination record is maintained in the [Green/Zaffre Coordination for RHAISTRAT-1988 (Runtime library)](https://docs.google.com/document/d/14rHHAyLgZrTmFcauCS2wLasZL2-6fXkm34tZTNDJPL4/edit?tab=t.0#heading=h.1ws9hwmbjjdw) Google Doc.
+
+This document captures the remaining points that are important to cover with Green but are not yet explicit in that document.
+
+## 1. Runtime image with no supported deployment resource
+
+Confirm that a Runtime image may have neither supported resource and agree the resulting UI behavior.
+
+Proposed Zaffre behavior:
+
+- The Install page displays an explicit unavailable/empty state.
+- It provides a safe return link to the Runtime image detail page.
+- It does not render an empty destination choice or attempt resource creation.
+
+Green should also decide whether the Runtime image detail page suppresses or disables the Install action when no supported target is available.
+
+## 2. Deployment-resource cardinality
+
+Confirm the API guarantee that a Runtime image has at most one resource for each supported target:
+
+- one Serving runtime template at most;
+- one LLM accelerator configuration at most.
+
+This supports the planned keyed shape rather than an array:
+
+```ts
+deploymentResources: {
+  servingRuntimeTemplate?: /* agreed resource type */;
+  llmAcceleratorConfiguration?: /* agreed resource type */;
+}
+```
+
+## 3. Representative install-data fixtures
+
+Provide representative Runtime image/install-action props fixtures for all relevant states:
+
+1. Serving runtime template only.
+2. LLM accelerator configuration only.
+3. Both supported resources.
+4. Neither supported resource.
+5. Invalid or incomplete target-resource data.
+
+These fixtures will let Zaffre verify the existing-form prefill mappings and establish tests before implementation begins.
+
+## 4. Source definitions versus live Kubernetes resources
+
+Confirm whether deployment resources returned by the AI Hub API are clean source definitions or serialized live Kubernetes resources.
+
+If they include server-assigned metadata—such as `resourceVersion`, UID, managed fields, owner references, or controller-specific annotations—agree where it is removed before creation. The installation flow must treat library resources as sources, not recreate cluster-specific metadata.
+
+## 5. Normalize the action props at the Green boundary
+
+The Google Doc already leaves Green the choice of passing complete resources or form-ready data. The preferred boundary is for Green to map its canonical Runtime image/API response into a stable installer-facing props shape before it renders Zaffre’s `core.action` extension.
+
+This keeps Zaffre independent of Green’s BFF/API types and allows Green to evolve library-only API fields without breaking the installation flow.
+
+## 6. Defensive invalid-data handling
+
+In addition to the established router-state reload behavior, agree that malformed or incomplete action props must be handled explicitly:
+
+- no empty-value defaults that result in broken create calls;
+- no silently inferred unsupported target;
+- an actionable unavailable-data error state when validation fails.
+
+Green does not need to implement Zaffre’s error UI, but the extension-props contract should make clear that the passed resource data must satisfy the agreed target-form requirements.
