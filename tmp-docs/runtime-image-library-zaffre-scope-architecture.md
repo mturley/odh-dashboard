@@ -49,11 +49,12 @@ The feature eliminates the manual recreation of supported reusable deployment-re
 
 1. An administrator opens **Model deployment settings > Runtime image library**.
 2. The Runtime image detail page consumes `core.action` extensions in the agreed action group and renders Zaffre’s **Install** action.
-3. The action receives the agreed install data through `componentProps` and redirects directly to the Zaffre Install page, passing the data through the router-state pattern used by the model-catalog deployment flow.
+3. The action receives the agreed install data and a `cancelReturnRoute` through `componentProps`, then redirects directly to the Zaffre Install page through the router-state pattern used by the model-catalog deployment flow.
 4. Zaffre’s Install page presents a two-step full-page wizard:
    1. **Install destination**: choose a supported deployment resource type.
    2. **Configure template** or **Configure accelerator**: render the matching platform-owned, prefilled form body.
-5. The selected platform form directly creates the resource and redirects to the existing corresponding list tab:
+5. Before creation, Back returns to Install destination and Cancel leaves the Install flow through the action-supplied `cancelReturnRoute` to the Runtime image detail page.
+6. The selected platform form directly creates the resource and redirects to the existing corresponding list tab:
    - **Serving runtime templates**, or
    - **LLM accelerator configurations**.
 
@@ -84,6 +85,8 @@ Zaffre will initially define a **temporary placeholder** installer-facing type w
 type RuntimeImageActionData = {
   runtimeImageId: string;
   runtimeImageName: string;
+  /** Route used when the user cancels installation. */
+  cancelReturnRoute: string;
   deploymentResources: {
     servingRuntimeTemplate?: /* temporary placeholder */;
     llmAcceleratorConfiguration?: /* temporary placeholder */;
@@ -228,4 +231,4 @@ The established model-catalog deployment router-state pattern survives reload. I
 - Whether action props contain complete deployment resources or form-ready data.
 - Whether the contract uses the complete `LLMInferenceServiceConfigKind`, and consequently whether that type moves to model-serving shared types.
 - Exact install-target extension TypeScript API.
-- Return/cancel destination and the detail-page behavior for no-resource Runtime images.
+- Final action-props value for `cancelReturnRoute` and the detail-page behavior for no-resource Runtime images.

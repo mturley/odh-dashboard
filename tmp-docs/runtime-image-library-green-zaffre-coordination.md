@@ -55,7 +55,7 @@ If they include server-assigned metadata—such as `resourceVersion`, UID, manag
 
 Zaffre will proceed with a clearly marked temporary `RuntimeImageActionData` shape using optional keyed target properties. This is generic action data for Runtime image detail-page extensions; the Install action is one consumer. The target-resource values are placeholders, not a commitment to consume Green’s current API model.
 
-Green and Zaffre still need to agree whether action props provide complete K8s-shaped resources or smaller form-ready values, and the precise fields required to prefill each existing form. Green should map its canonical Runtime image/API response into that final installer-facing props shape before it renders Zaffre’s `core.action` extension.
+Green and Zaffre still need to agree whether action props provide complete K8s-shaped resources or smaller form-ready values, and the precise fields required to prefill each existing form. The action props must also provide a `cancelReturnRoute` so Zaffre can return a user who cancels installation to the Runtime image detail page. Green should map its canonical Runtime image/API response into that final installer-facing props shape before it renders Zaffre’s `core.action` extension.
 
 This keeps Zaffre independent of Green’s BFF/API types and allows Green to evolve library-only API fields without breaking the installation flow.
 

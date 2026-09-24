@@ -10,7 +10,7 @@ The exact Jira descriptions, acceptance criteria, estimates, and sequencing will
 
 - A Runtime image has **at most one** Serving runtime template and **at most one** LLM accelerator configuration.
 - It is not yet known whether every Runtime image supplies both targets. Until confirmed otherwise, Zaffre supports a Runtime image with either target, both targets, or neither target.
-- Zaffre begins with a clearly marked temporary `RuntimeImageActionData` placeholder, with optional keyed target values. This is generic data for Runtime image detail-page actions; the Install action consumes it. Green and Zaffre will replace the target values with the agreed action-props shape after their data-contract review.
+- Zaffre begins with a clearly marked temporary `RuntimeImageActionData` placeholder, including a `cancelReturnRoute` and optional keyed target values. This is generic data for Runtime image detail-page actions; the Install action consumes it. Green and Zaffre will replace the target values with the agreed action-props shape after their data-contract review.
 - Green owns the Runtime image library, its canonical API type/data source, and the final `core.action` group in which Zaffre’s Install action will be rendered.
 - Green has already merged the `runtimeCatalog` feature flag and `SupportedArea.RUNTIME_CATALOG`; all temporary Zaffre work is gated behind that area.
 - Platform forms create their resources directly and redirect to their existing list tabs after success.
@@ -26,10 +26,10 @@ Create a complete, observable model-serving foundation before Green’s Runtime 
 - define an explicitly temporary empty `RuntimeImageActionData` object type, then evolve it into a clearly temporary optional keyed-resource shape;
 - add a temporary `core.action` rendering location outside the Runtime image library, such as the Model deployment settings page header; clearly mark it for removal once Green renders the final Runtime image detail-page action group;
 - register the Zaffre Install action in that temporary location;
-- redirect from the temporary action to an independent top-level absolute Install route using router state;
+- redirect from the temporary action to an independent top-level absolute Install route using router state, including a temporary `cancelReturnRoute`;
 - render the full-page Install shell, title, temporary breadcrumb/return behavior, and two-step wizard structure;
 - define the `model-serving.runtime-image/install-target` extension point and shared destination identifiers;
-- render Step 1 destination options only for target resources present in the temporary action data, then route the selected destination to the corresponding target extension for Step 2;
+- render Step 1 destination options only for target resources present in the temporary action data, then route the selected destination to the corresponding target extension for Step 2; Step 2 provides Back to return to Step 1 and Cancel to leave the flow through the supplied `cancelReturnRoute`; 
 - render explicit unavailable/empty states for missing or malformed router/action data and for a Runtime image with no supported target;
 - gate every temporary action, route, and page registration behind `SupportedArea.RUNTIME_CATALOG`;
 - test the temporary action-to-route handoff, destination selection, and invalid/no-target states.
@@ -88,7 +88,7 @@ After Green completes its routing spike, replace the temporary independent top-l
 
 - implement the route-extension mechanism chosen by Green’s spike, rather than assuming that a common URL prefix is sufficient;
 - mount the Install page at the final library/detail route location;
-- replace temporary page chrome with the agreed breadcrumb, return/cancel behavior, and route parameters;
+- replace temporary page chrome with the agreed breadcrumb, route parameters, and cancel behavior that returns to the Runtime image detail page through the action-supplied `cancelReturnRoute`; 
 - remove the temporary route registration without changing the Install shell, destination selection, or platform target forms;
 - test that the final route mechanism renders the Install page at the expected library navigation location.
 
@@ -104,7 +104,7 @@ After Green completes its routing spike, replace the temporary independent top-l
 
 Replace temporary action scaffolding with the final Green-to-Zaffre action handoff:
 
-- map Green’s final `core.action` props into the final model-serving `RuntimeImageActionData` contract;
+- map Green’s final `core.action` props into the final model-serving `RuntimeImageActionData` contract, including a `cancelReturnRoute` to the Runtime image detail page;
 - replace temporary target-resource placeholder values with the agreed representation;
 - register the Zaffre Install action in Green’s final Runtime image detail-page action group;
 - remove the temporary Model deployment settings action-rendering location and its temporary action registration;
