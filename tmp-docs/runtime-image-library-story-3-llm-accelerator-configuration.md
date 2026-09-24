@@ -32,6 +32,7 @@ The target extension owns Step 2, including target-data validation, the form, it
 
 ## Additional info
 
+- UX mockup: [Runtime image Install wizard](https://rhoai-3-6-c2d6f6.pages.redhat.com/settings/model-resources/serving-runtime-templates/catalog/catalog-vllm-0-6-0/install)
 - The final Green action-data shape is not a dependency for this story. Story 5 replaces the placeholder adapter with the agreed representation.
 - This story does not decide whether the final cross-package handoff uses the complete `LLMInferenceServiceConfigKind` or a narrower form-ready representation.
 - Validation intentionally occurs when this target renders in Step 2, allowing LLMD Serving to reuse existing parsing, validation, normalization, and creation code rather than duplicating it in model-serving.

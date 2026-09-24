@@ -31,6 +31,7 @@ Retain the existing Install wizard shell, destination selection, and platform-sp
 
 ## Additional info
 
+- UX mockup: [Runtime image Install wizard](https://rhoai-3-6-c2d6f6.pages.redhat.com/settings/model-resources/serving-runtime-templates/catalog/catalog-vllm-0-6-0/install)
 - Do not estimate or schedule this story until Green’s routing-spike output makes the acceptance criteria implementable.
 - It does not integrate Green’s final `core.action` group or replace the placeholder action-data contract; that is handled separately.
 - The final action and route integrations are intentionally separate because Green’s route mechanism and action-data contract may become available at different times.

@@ -27,6 +27,7 @@ Stories 2 and 3 retain their existing form create events and add `source: 'insta
 
 ## Additional info
 
+- UX mockup: [Runtime image Install wizard](https://rhoai-3-6-c2d6f6.pages.redhat.com/settings/model-resources/serving-runtime-templates/catalog/catalog-vllm-0-6-0/install)
 - This story depends on the Install wizard interactions from Story 1 and should be completed after UX/PM confirms the desired event plan.
 - Follow the Segment Tracking — Developer Guide. Use form outcomes with `outcome`, `success`, and a short error value where applicable.
 - If UX/PM determines that automatic page views plus the existing form events with `source: 'install'` are sufficient, document that conclusion and limit implementation to any test or consistency updates needed to enforce it.

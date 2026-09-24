@@ -35,6 +35,7 @@ The final integration must preserve the Install wizard and platform target exten
 
 ## Additional info
 
+- UX mockup: [Runtime image Install wizard](https://rhoai-3-6-c2d6f6.pages.redhat.com/settings/model-resources/serving-runtime-templates/catalog/catalog-vllm-0-6-0/install)
 - Do not estimate or schedule this story until Green’s action contract makes the acceptance criteria implementable.
 - It does not change the final route-extension/mounting mechanism; route integration is tracked separately.
 - Runtime validation is intentionally layered: the action validates the generic envelope, while KServe and LLMD Serving validate their target payloads only when Step 2 renders.
