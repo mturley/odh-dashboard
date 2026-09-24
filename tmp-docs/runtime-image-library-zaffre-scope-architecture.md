@@ -59,7 +59,7 @@ The feature eliminates the manual recreation of supported reusable deployment-re
 
 ## Available install destinations
 
-A Runtime image may support either target or both. The intended contract is at most one resource for each target; this API cardinality must be explicitly confirmed with Green.
+A Runtime image has **at most one resource for each supported target**. It is not yet known whether every Runtime image will have both targets, so Zaffre must temporarily support a Runtime image with either target, both targets, or neither target.
 
 Step 1 must only offer destinations present in the Runtime image’s deployment resources:
 
@@ -74,20 +74,24 @@ The canonical full Runtime image type belongs to Green/model-registry. Zaffre sh
 
 Model-serving will export an installer-facing handoff type, analogous to the existing `DeployPrefillData` contract used by model-catalog deployment. Green’s action props will contain the agreed installer-facing data rather than requiring Zaffre to fetch or understand the full AI Hub API model.
 
-The desired keyed-resource model is:
+Zaffre will initially define a **temporary placeholder** installer-facing type with optional keyed resources:
 
 ```ts
+/**
+ * Temporary Zaffre-defined handoff shape. Replace the target resource values
+ * with Green's agreed action-props representation when that contract is set.
+ */
 type RuntimeImageInstallData = {
   runtimeImageId: string;
   runtimeImageName: string;
   deploymentResources: {
-    servingRuntimeTemplate?: /* agreed resource type */;
-    llmAcceleratorConfiguration?: /* agreed resource type */;
+    servingRuntimeTemplate?: /* temporary placeholder */;
+    llmAcceleratorConfiguration?: /* temporary placeholder */;
   };
 };
 ```
 
-The final concrete resource shapes are not settled. Green’s OpenAPI and data review will determine whether action props contain complete K8s-shaped resources or a smaller, form-ready representation.
+The optional properties encode the confirmed cardinality: zero or one resource for each target. They deliberately do not assert that every Runtime image supports both targets. The final concrete resource shapes are not settled. Green’s OpenAPI and data review will determine whether action props contain complete K8s-shaped resources or a smaller, form-ready representation.
 
 If the final contract requires the complete `LLMInferenceServiceConfigKind`, the teams will decide whether that currently LLMD-owned type should be promoted into model-serving’s shared public types. This decision is deferred until the API-to-install-data mapping is agreed.
 
@@ -207,8 +211,10 @@ The established model-catalog deployment router-state pattern survives reload. I
 - Zaffre owns the Install wizard.
 - No project selection occurs in this feature.
 - Deployment resources are not project-scoped.
-- A Runtime image can offer one or both supported deployment resources.
+- A Runtime image has at most one resource for each supported deployment target.
+- Until Green confirms otherwise, Zaffre assumes either target may be missing, including both targets being absent.
 - Use optional keyed deployment-resource properties, not an array.
+- Zaffre will begin with a clearly marked temporary `RuntimeImageInstallData` placeholder and revise its target-resource values when Green finalizes action props.
 - Step 1 derives available destinations from defined resource properties.
 - Model-serving owns the wizard shell and Step 1.
 - KServe and LLMD Serving own Step 2 form bodies, creation, and post-success redirects through install-target extensions.
@@ -219,7 +225,7 @@ The established model-catalog deployment router-state pattern survives reload. I
 - Final Runtime image library/detail/Install URL shape and identifier strategy.
 - Action `group` value for the Runtime image detail page.
 - Feature-flag and `SupportedArea` name, route gates, and RBAC behavior.
-- Exact Runtime image API-to-install-data mapping, including resource cardinality.
+- Exact Runtime image API-to-install-data mapping and target-resource representation; per-target cardinality is confirmed.
 - Whether action props contain complete deployment resources or form-ready data.
 - Whether the contract uses the complete `LLMInferenceServiceConfigKind`, and consequently whether that type moves to model-serving shared types.
 - Exact install-target extension TypeScript API.

@@ -6,7 +6,7 @@ This document captures the remaining points that are important to cover with Gre
 
 ## 1. Runtime image with no supported deployment resource
 
-Confirm that a Runtime image may have neither supported resource and agree the resulting UI behavior.
+Zaffre will temporarily support a Runtime image with neither supported resource while Green confirms whether that state can occur in production. Agree the resulting detail-page and Install-page behavior.
 
 Proposed Zaffre behavior:
 
@@ -16,21 +16,14 @@ Proposed Zaffre behavior:
 
 Green should also decide whether the Runtime image detail page suppresses or disables the Install action when no supported target is available.
 
-## 2. Deployment-resource cardinality
+## 2. Confirmed deployment-resource cardinality
 
-Confirm the API guarantee that a Runtime image has at most one resource for each supported target:
+Green has confirmed that a Runtime image has at most one resource for each supported target:
 
-- one Serving runtime template at most;
-- one LLM accelerator configuration at most.
+- zero or one Serving runtime template;
+- zero or one LLM accelerator configuration.
 
-This supports the planned keyed shape rather than an array:
-
-```ts
-deploymentResources: {
-  servingRuntimeTemplate?: /* agreed resource type */;
-  llmAcceleratorConfiguration?: /* agreed resource type */;
-}
-```
+Zaffre will use optional keyed properties rather than an array. Whether a Runtime image always supplies both targets remains unresolved, so Zaffre will implement for either target, both targets, or neither target.
 
 ## 3. Representative install-data fixtures
 
@@ -50,9 +43,11 @@ Confirm whether deployment resources returned by the AI Hub API are clean source
 
 If they include server-assigned metadata—such as `resourceVersion`, UID, managed fields, owner references, or controller-specific annotations—agree where it is removed before creation. The installation flow must treat library resources as sources, not recreate cluster-specific metadata.
 
-## 5. Normalize the action props at the Green boundary
+## 5. Finalize the temporary action-props placeholder
 
-The Google Doc already leaves Green the choice of passing complete resources or form-ready data. The preferred boundary is for Green to map its canonical Runtime image/API response into a stable installer-facing props shape before it renders Zaffre’s `core.action` extension.
+Zaffre will proceed with a clearly marked temporary `RuntimeImageInstallData` shape using optional keyed target properties. The target-resource values are placeholders, not a commitment to consume Green’s current API model.
+
+Green and Zaffre still need to agree whether action props provide complete K8s-shaped resources or smaller form-ready values, and the precise fields required to prefill each existing form. Green should map its canonical Runtime image/API response into that final installer-facing props shape before it renders Zaffre’s `core.action` extension.
 
 This keeps Zaffre independent of Green’s BFF/API types and allows Green to evolve library-only API fields without breaking the installation flow.
 
