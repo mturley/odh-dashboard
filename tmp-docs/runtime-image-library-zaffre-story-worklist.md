@@ -10,50 +10,37 @@ The exact Jira descriptions, acceptance criteria, estimates, and sequencing will
 
 - A Runtime image has **at most one** Serving runtime template and **at most one** LLM accelerator configuration.
 - It is not yet known whether every Runtime image supplies both targets. Until confirmed otherwise, Zaffre supports a Runtime image with either target, both targets, or neither target.
-- Zaffre begins with a clearly marked temporary `RuntimeImageInstallData` placeholder, with optional keyed target values. Green and Zaffre will replace those values with the agreed action-props shape after their data-contract review.
-- Green owns the Runtime image library, its canonical API type/data source, feature-area details, and the `core.action` group in which Zaffre’s Install action is rendered.
+- Zaffre begins with a clearly marked temporary `RuntimeImageActionData` placeholder, with optional keyed target values. This is generic data for Runtime image detail-page actions; the Install action consumes it. Green and Zaffre will replace the target values with the agreed action-props shape after their data-contract review.
+- Green owns the Runtime image library, its canonical API type/data source, and the final `core.action` group in which Zaffre’s Install action will be rendered.
+- Green has already merged the `runtimeCatalog` feature flag and `SupportedArea.RUNTIME_CATALOG`; all temporary Zaffre work is gated behind that area.
 - Platform forms create their resources directly and redirect to their existing list tabs after success.
 
 ## Proposed stories
 
-### 1. Establish Runtime image installation extension foundations
+### 1. Add a temporary Runtime image Install action and wizard foundation
 
 **Likely package:** `model-serving`
 
-Define the model-serving-owned integration foundation needed by the rest of Zaffre’s work:
+Create a complete, observable model-serving foundation before Green’s Runtime image library page and extension point exist:
 
-- temporary, explicitly documented `RuntimeImageInstallData` and action props types, exported similarly to `DeployPrefillData`;
-- `model-serving.runtime-image/install-target` extension-point type and target-selection responsibilities;
-- shared destination identifiers for Serving runtime template and LLM accelerator configuration;
-- type guards/validation boundary for missing, malformed, or unsupported install data;
-- unit coverage for extension/type validation behavior.
+- define an explicitly temporary empty `RuntimeImageActionData` object type, then evolve it into a clearly temporary optional keyed-resource shape;
+- add a temporary `core.action` rendering location outside the Runtime image library, such as the Model deployment settings page header; clearly mark it for removal once Green renders the final Runtime image detail-page action group;
+- register the Zaffre Install action in that temporary location;
+- redirect from the temporary action to an independent top-level absolute Install route using router state;
+- render the full-page Install shell, title, temporary breadcrumb/return behavior, and two-step wizard structure;
+- define the `model-serving.runtime-image/install-target` extension point and shared destination identifiers;
+- render Step 1 destination options only for target resources present in the temporary action data, then route the selected destination to the corresponding target extension for Step 2;
+- render explicit unavailable/empty states for missing or malformed router/action data and for a Runtime image with no supported target;
+- gate every temporary action, route, and page registration behind `SupportedArea.RUNTIME_CATALOG`;
+- test the temporary action-to-route handoff, destination selection, and invalid/no-target states.
 
-**Does not include:** choosing Green’s final action-props data shape, importing Green’s API/domain types, or implementing either target form.
+**Does not include:** target-form reuse or implementation, final action props, Green’s final action group, or Green’s final route-extension mechanism.
 
-**Green dependency:** none to start. The temporary contract is deliberately designed to be replaced once Green finalizes action props.
-
----
-
-### 2. Add the Runtime image Install action and wizard shell
-
-**Likely package:** `model-serving`
-
-Implement the Zaffre-owned Install action and the model-serving-owned full-page wizard shell:
-
-- register the existing `core.action` extension in Green’s agreed Runtime image action group;
-- redirect from the Runtime image detail page to the Install route while carrying temporary install data through router state;
-- add a temporary independent absolute Install route, structured so it can move to Green’s final library-prefixed URL later;
-- render the page shell, breadcrumb/return behavior, and two-step flow;
-- implement Step 1 destination options from the defined optional keyed resources;
-- render explicit unavailable/empty states for invalid router/action data and for a Runtime image with no supported target.
-
-**Does not include:** final library route hierarchy, final data mapping, or target-specific form implementation.
-
-**Green dependency:** the final `core.action` group, action props, feature flag/RBAC gates, and final route will require integration follow-up. The story can use temporary placeholders to begin the model-serving implementation.
+**Green dependency:** none. This story deliberately creates temporary, removable Zaffre-only scaffolding; its target-resource values remain placeholders until Green and Zaffre agree the final data contract.
 
 ---
 
-### 3. Reuse the Serving runtime template form as an install target
+### 2. Reuse the Serving runtime template form as an install target
 
 **Likely package:** `kserve`, contributing to the model-serving install-target extension point
 
@@ -73,7 +60,7 @@ Refactor the existing Serving runtime template Add/Edit/Duplicate implementation
 
 ---
 
-### 4. Reuse the LLM accelerator configuration form as an install target
+### 3. Reuse the LLM accelerator configuration form as an install target
 
 **Likely package:** `llmd-serving`, contributing to the model-serving install-target extension point
 
@@ -93,37 +80,57 @@ Refactor the existing LLM accelerator configuration Add/Edit/Duplicate implement
 
 ---
 
-### 5. Integrate the finalized Green action contract and route
+### 4. Mount the Install page through Green’s finalized route-extension mechanism
 
-**Likely packages:** `model-serving`, with Green-owned library changes landing separately
+**Likely package:** `model-serving`, coordinated with Green’s Runtime image library route work
 
-After Green finalizes its action props and library routes, replace the temporary integration assumptions:
+After Green completes its routing spike, replace the temporary independent top-level route with the agreed mechanism for extending or mounting beneath the Runtime image library routes:
 
-- map Green’s action props into the final model-serving install-data contract;
+- implement the route-extension mechanism chosen by Green’s spike, rather than assuming that a common URL prefix is sufficient;
+- mount the Install page at the final library/detail route location;
+- replace temporary page chrome with the agreed breadcrumb, return/cancel behavior, and route parameters;
+- remove the temporary route registration without changing the Install shell, destination selection, or platform target forms;
+- test that the final route mechanism renders the Install page at the expected library navigation location.
+
+**Does not include:** final action data/action-props mapping or replacing the temporary action rendering location.
+
+**Green dependency:** Green must complete and document the routing spike, including the route-extension mechanism and final mounting contract.
+
+---
+
+### 5. Integrate the finalized Green Runtime image action-data contract
+
+**Likely package:** `model-serving`, coordinated with Green’s Runtime image action work
+
+Replace temporary action scaffolding with the final Green-to-Zaffre action handoff:
+
+- map Green’s final `core.action` props into the final model-serving `RuntimeImageActionData` contract;
 - replace temporary target-resource placeholder values with the agreed representation;
-- register/migrate to the final library-prefixed Install URL and agreed breadcrumb/return behavior;
-- align feature-area, RBAC, and action-group gating;
-- validate the supported-target combinations with Green-provided representative fixtures;
-- add or update integration coverage for the Green-to-Zaffre handoff.
+- register the Zaffre Install action in Green’s final Runtime image detail-page action group;
+- remove the temporary Model deployment settings action-rendering location and its temporary action registration;
+- validate supported-target combinations using Green-provided representative fixtures;
+- add or update integration coverage for the Green-to-Zaffre action handoff and invalid data states.
 
-**Why this is separate:** it isolates known cross-team dependencies from the reusable Zaffre platform-form work. It should not block stories 1, 3, and 4 from progressing with local temporary fixtures.
+**Does not include:** changing the final route mechanism already integrated in story 5.
+
+**Green dependency:** finalized action group, action props/data contract, target-resource cardinality/provenance confirmation, and representative fixtures.
 
 ## Suggested dependency order
 
 ```text
-Story 1: extension foundations
-   ├─ Story 2: action + Install shell
-   ├─ Story 3: KServe install target
-   └─ Story 4: LLMD install target
+Story 1: temporary action + wizard foundation
+   ├─ Story 2: KServe install target
+   └─ Story 3: LLMD install target
 
-Stories 2–4 ──► Story 5: finalized Green integration
+Stories 1–3 ──► Story 4: final route-extension mechanism
+Stories 1–3 ──► Story 5: final action-data contract
 ```
 
-Stories 3 and 4 can run in parallel once Story 1 establishes the target-extension direction. Story 2 can also proceed in parallel after Story 1, using the temporary install-data shape.
+Stories 4 and 5 are independently sequenced by Green’s routing spike and action-data-contract work; either may complete first. Story 1 produces a visible, gated Zaffre-only vertical slice. Stories 2 and 3 can run in parallel after Story 1 establishes the target-extension direction.
 
 ## Questions to resolve before final Jira descriptions
 
-- Does this five-story split match desired story size, or should stories 1 and 2 be combined?
-- Should the final Green-integration work be one Zaffre follow-up story or handled by acceptance criteria/dependency notes on the first four stories?
-- What form of testing is expected for the temporary contract versus the cross-team final integration?
+- Does this five-story split match desired story size?
+- What route-extension mechanism does Green’s routing spike select, and what Zaffre API/registration does it require?
+- What form of testing is expected for the temporary contract, final route mounting, and final action-data handoff?
 - Which final user-facing copy should the unavailable/no-target state use?
