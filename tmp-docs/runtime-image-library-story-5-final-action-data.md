@@ -2,31 +2,39 @@
 
 ## Description of the enhancement
 
-Replace Zaffre’s temporary Runtime image action scaffolding with the final Green-owned Runtime image detail-page `core.action` integration.
+Replace Zaffre’s placeholder Runtime image action scaffolding with the final Green-owned Runtime image detail-page `core.action` integration.
 
-Once Green finalizes the action group, action props, target-resource representation, and representative fixtures, update model-serving’s generic `RuntimeImageActionData` contract and the Zaffre Install action to consume the agreed data. Register the action in Green’s final Runtime image detail-page action group and remove the temporary Model deployment settings action-rendering location.
+Once Green finalizes the action group, action props, target-resource representation, provenance expectations, permission behavior, and representative fixtures, update model-serving’s generic Runtime image action contract and the Zaffre Install action to consume the agreed data. Register the action in Green’s final Runtime image detail-page action group and remove the placeholder action from Model deployment settings General settings.
 
-The final integration must preserve the existing Install wizard and platform target extension boundaries while validating the agreed target-resource data before it is used for prefill or creation.
+The final integration must preserve the Install wizard and platform target extension boundaries while validating the agreed action-props envelope before navigation. Deep target-resource validation remains owned by each install-target extension in Step 2.
+
+## Blocked status
+
+**Blocked:** This story is not refinement/sprint ready until Green finalizes the Runtime image detail-page action group, action props, target-resource representation, `cancelReturnRoute`, visibility/RBAC behavior, provenance rules, and representative fixtures.
 
 ## Acceptance Criteria
 
-- Model-serving’s temporary `RuntimeImageActionData` target-resource placeholders are replaced with the Green–Zaffre agreed action-data representation.
-- The Zaffre Install action consumes Green’s finalized `core.action` props and maps them to the final `RuntimeImageActionData` contract without importing Green/model-registry API hooks or canonical domain types.
-- The final action data provides a `cancelReturnRoute` that returns a user who cancels installation to the Runtime image detail page.
+- `PlaceholderRuntimeImageActionData` and its placeholder target-data types are replaced by the Green–Zaffre agreed generic Runtime image action-data representation.
+- The Zaffre Install action consumes Green’s finalized `core.action` component props without importing Green/model-registry API hooks or canonical domain types.
+- The exported action component validates the final top-level props at runtime before accessing them or navigating.
+- Malformed top-level props produce a non-crashing disabled/unavailable action state.
+- The final action data includes a `cancelReturnRoute` to the Runtime image detail page.
 - The Install action is registered in Green’s final Runtime image detail-page action group.
-- The temporary Model deployment settings action-rendering location and its temporary action registration are removed.
-- The implementation correctly handles all agreed target combinations using Green-provided fixtures:
+- The placeholder General settings action location and placeholder action registration are removed.
+- The action and final Install route honor the agreed feature-area, administrator/RBAC, and target-platform visibility behavior.
+- Green-provided fixtures verify:
   - Serving runtime template only;
   - LLM accelerator configuration only;
   - both supported targets;
   - neither supported target;
-  - malformed or incomplete target data.
-- Missing, malformed, or unsupported action data produces an actionable unavailable state and never causes a broken create request.
-- The final integration honors the agreed feature-area and RBAC/action visibility behavior.
-- Tests cover final action rendering, action-to-route data handoff, target derivation, and invalid-data behavior using the agreed fixtures.
+  - malformed top-level action data;
+  - incomplete target payloads passed to the appropriate Step 2 validator.
+- Missing, malformed, or unsupported action data never causes a crash or broken create request.
+- Unit/component tests cover final action-prop validation, action rendering, action-to-route handoff, target derivation, and invalid-data behavior using agreed fixtures.
+- Mocked integration/browser coverage verifies the final Green-to-Zaffre action handoff where supported by the cross-package test harness.
 
 ## Additional info
 
-- This story is blocked on Green finalizing the Runtime image detail-page action group, action props/data contract, target-resource representation, provenance expectations, and representative fixtures.
+- Do not estimate or schedule this story until Green’s action contract makes the acceptance criteria implementable.
 - It does not change the final route-extension/mounting mechanism; route integration is tracked separately.
-- The action data remains generic for Runtime image detail-page actions. The Install action is one consumer of `RuntimeImageActionData`.
+- Runtime validation is intentionally layered: the action validates the generic envelope, while KServe and LLMD Serving validate their target payloads only when Step 2 renders.

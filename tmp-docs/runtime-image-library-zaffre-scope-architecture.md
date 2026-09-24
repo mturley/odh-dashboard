@@ -24,7 +24,7 @@ The feature eliminates the manual recreation of supported reusable deployment-re
 - The Runtime image library as a new tab on **Model deployment settings**.
 - The library list and Runtime image detail page.
 - AI Hub API/BFF integration and the canonical Runtime image domain/API type.
-- The existing `runtimeCatalog` feature flag and `SupportedArea.RUNTIME_CATALOG`, which gate the temporary Zaffre work as well as the Runtime image library.
+- The existing `runtimeCatalog` feature flag and `SupportedArea.RUNTIME_CATALOG`, which gate the placeholder Zaffre work as well as the Runtime image library.
 - Rendering the existing `core.action` extension point on Runtime image detail pages, filtered by the new, TBD action group.
 - Supplying the agreed action props to the Zaffre-owned Install action extension.
 
@@ -33,7 +33,7 @@ The feature eliminates the manual recreation of supported reusable deployment-re
 - The Install `core.action` extension registered in Green’s agreed action group.
 - Redirecting directly to the Install page when the user clicks **Install**; no project selection or other prompt is part of the action.
 - The full-page Install wizard route, page shell, breadcrumbs, router-state handling, destination selection, and Step 1 validation.
-- The generic `RuntimeImageActionData` handoff contract exported by model-serving, subject to Green–Zaffre agreement on its concrete fields; the Install action is one consumer.
+- The final generic Runtime image action-data contract exported by model-serving, subject to Green–Zaffre agreement on its concrete fields; the Install action is one consumer.
 - The `model-serving.runtime-image/install-target` extension point for platform-specific Step 2 implementations.
 - Reuse/refactor coordination for the existing creation forms.
 
@@ -75,26 +75,34 @@ The canonical full Runtime image type belongs to Green/model-registry. Zaffre sh
 
 Model-serving will export an installer-facing handoff type, analogous to the existing `DeployPrefillData` contract used by model-catalog deployment. Green’s action props will contain the agreed installer-facing data rather than requiring Zaffre to fetch or understand the full AI Hub API model.
 
-Zaffre will initially define a **temporary placeholder** installer-facing type with optional keyed resources:
+Zaffre will initially define a clearly marked, form-ready placeholder contract:
 
 ```ts
-/**
- * Temporary Zaffre-defined handoff shape. Replace the target resource values
- * with Green's agreed action-props representation when that contract is set.
- */
-type RuntimeImageActionData = {
+type PlaceholderServingRuntimeTemplateData = {
+  servingRuntimeYaml: string;
+  apiProtocol: ServingRuntimeAPIProtocol;
+  modelTypes: ServingRuntimeModelType[];
+};
+
+type PlaceholderLlmAcceleratorConfigurationData = {
+  configYaml: string;
+  displayName: string;
+  k8sName?: string;
+  version?: string;
+};
+
+type PlaceholderRuntimeImageActionData = {
   runtimeImageId: string;
   runtimeImageName: string;
-  /** Route used when the user cancels installation. */
   cancelReturnRoute: string;
   deploymentResources: {
-    servingRuntimeTemplate?: /* temporary placeholder */;
-    llmAcceleratorConfiguration?: /* temporary placeholder */;
+    servingRuntimeTemplate?: PlaceholderServingRuntimeTemplateData;
+    llmAcceleratorConfiguration?: PlaceholderLlmAcceleratorConfigurationData;
   };
 };
 ```
 
-The optional properties encode the confirmed cardinality: zero or one resource for each target. They deliberately do not assert that every Runtime image supports both targets. The final concrete resource shapes are not settled. Green’s OpenAPI and data review will determine whether action props contain complete K8s-shaped resources or a smaller, form-ready representation.
+The optional properties encode the confirmed cardinality: zero or one resource for each target. They deliberately do not assert that every Runtime image supports both targets. The placeholder provides enough concrete data for Zaffre’s platform stories to proceed. Green’s final action-data review will determine whether it is replaced by complete K8s-shaped resources or another form-ready representation.
 
 If the final contract requires the complete `LLMInferenceServiceConfigKind`, the teams will decide whether that currently LLMD-owned type should be promoted into model-serving’s shared public types. This decision is deferred until the API-to-install-data mapping is agreed.
 
@@ -144,7 +152,7 @@ Green and Zaffre must confirm whether library deployment resources are clean sou
 
 Green registers the Runtime image library tab via `app.tab-route/tab`. model-serving can independently register a full-page absolute `app.route`; it does not need literal nested JSX inside Green’s package. This follows the existing KServe and LLMD Serving pattern: their list content is tabbed, while Add/Edit/Duplicate forms are separate full-page routes.
 
-The final library/detail/Install URL hierarchy, identifier strategy, and—critically—the mechanism for mounting or extending Green’s library routes are unresolved. A Green-owned routing spike is needed because the final answer may require an extension mechanism rather than independent routes that merely share a URL prefix. This does not block Zaffre: Zaffre can initially mount an independent top-level page, then replace that temporary route registration with the mechanism selected by the spike. Flags, breadcrumbs, and return/cancel paths must be aligned as part of that work.
+The final library/detail/Install URL hierarchy, identifier strategy, and—critically—the mechanism for mounting or extending Green’s library routes are unresolved. A Green-owned routing spike is needed because the final answer may require an extension mechanism rather than independent routes that merely share a URL prefix. This does not block Zaffre: Zaffre can initially mount an independent top-level page, then replace that placeholder route registration with the mechanism selected by the spike. Flags, breadcrumbs, and return/cancel paths must be aligned as part of that work.
 
 ### Dependency direction
 
@@ -165,12 +173,15 @@ Model-serving owns the Install page shell and Step 1. KServe and LLMD Serving co
 
 The target extension requirements are:
 
-- identify its supported install destination;
+- identify its supported install destination and existing platform feature/access gates;
 - support model-serving’s Step 1 destination presentation;
 - receive the selected Runtime image deployment resource;
-- validate/map resource data into its existing form state;
+- validate/map resource data into its existing form state when Step 2 renders;
 - render a reusable target-specific form body;
+- own its Step 2 action bar: Install/Create, Back via a shell callback, and Cancel via `cancelReturnRoute`;
 - own resource creation, error/loading behavior, and redirect to its existing list page after success.
+
+Model-serving performs lightweight runtime validation of the generic `core.action` props and router-state envelope. It does not duplicate platform payload validation. A target present in action data but unavailable because its extension or permission gates are inactive must receive explicit unavailable/disabled UX.
 
 The exact TypeScript extension API is intentionally deferred to the implementation story. The responsibility boundary is established now.
 
@@ -198,12 +209,13 @@ This keeps KServe and LLMD Serving responsible for their resource APIs and avoid
 
 The Install page must show explicit, non-silent error/empty states for:
 
+- malformed generic `core.action` props before navigation;
 - missing or invalid router-state install data;
 - a Runtime image with no supported deployment resource;
 - selected target data that fails platform-owned validation;
 - create failures from the platform form.
 
-The established model-catalog deployment router-state pattern survives reload. Invalid-data handling is still required for malformed state, unsupported deep links, or unavailable/mismatched deployment resources.
+The established model-catalog deployment router-state pattern survives reload. Invalid-data handling is still required for malformed state, unsupported deep links, or unavailable/mismatched deployment resources. The placeholder and final Install routes require administrator/model-serving access consistent with Model deployment settings in addition to the Runtime Catalog area.
 
 ## Decisions made
 
@@ -217,16 +229,17 @@ The established model-catalog deployment router-state pattern survives reload. I
 - A Runtime image has at most one resource for each supported deployment target.
 - Until Green confirms otherwise, Zaffre assumes either target may be missing, including both targets being absent.
 - Use optional keyed deployment-resource properties, not an array.
-- Zaffre will begin with a clearly marked temporary `RuntimeImageActionData` placeholder and revise its target-resource values when Green finalizes action props.
+- Zaffre will begin with concrete, clearly marked `PlaceholderRuntimeImageActionData` and target-data types, then replace them when Green finalizes action props.
 - Step 1 derives available destinations from defined resource properties.
 - Model-serving owns the wizard shell and Step 1.
-- KServe and LLMD Serving own Step 2 form bodies, creation, and post-success redirects through install-target extensions.
+- KServe and LLMD Serving own Step 2 validation, form bodies, action bars, creation, and post-success redirects through install-target extensions.
+- Existing platform form analytics are retained with `source: 'install'`; a separate UX/PM-reviewed story owns any additional wizard-level events.
 - Model-serving exports a generic Runtime image action-data contract analogous to `DeployPrefillData`; model-registry imports it rather than the reverse.
 
 ## Open decisions
 
 - Final Runtime image library/detail/Install URL shape, identifier strategy, and route-extension/mounting mechanism from Green’s routing spike.
-- Action `group` value for the Runtime image detail page and final RBAC behavior; Zaffre uses a clearly temporary action location until Green provides the group.
+- Action `group` value for the Runtime image detail page and final RBAC behavior; Zaffre uses a clearly marked placeholder action in General settings until Green provides the group.
 - Exact Runtime image API-to-install-data mapping and target-resource representation; per-target cardinality is confirmed.
 - Whether action props contain complete deployment resources or form-ready data.
 - Whether the contract uses the complete `LLMInferenceServiceConfigKind`, and consequently whether that type moves to model-serving shared types.

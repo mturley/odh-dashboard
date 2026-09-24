@@ -4,13 +4,13 @@ The main coordination record is maintained in the [Green/Zaffre Coordination for
 
 This document captures the remaining points that are important to cover with Green but are not yet explicit in that document.
 
-Green has already merged the `runtimeCatalog` feature flag and `SupportedArea.RUNTIME_CATALOG`. Zaffre will gate its temporary action, route, and page work behind that area; only the final action-group and RBAC behavior remain to be coordinated.
+Green has already merged the `runtimeCatalog` feature flag and `SupportedArea.RUNTIME_CATALOG`. Zaffre will gate its placeholder action, route, and page work behind that area plus the administrator/model-serving access expected by Model deployment settings; final action-group and RBAC behavior remain to be coordinated.
 
 ## 1. Final route-extension mechanism
 
 Green’s routing spike must determine not only the Runtime image library/detail/Install URLs, but also how Zaffre’s Install page mounts into or extends the library route structure. Zaffre must not assume that separate `app.route` registrations with a common URL prefix are the final integration mechanism.
 
-Until that spike is complete, Zaffre will use a temporary independent top-level route. Once Green documents the final mounting/extension contract, Zaffre will replace only the temporary route/page chrome integration while retaining the Install shell and platform target forms.
+Until that spike is complete, Zaffre will use a placeholder independent top-level route. Once Green documents the final mounting/extension contract, Zaffre will replace only the placeholder route/page chrome integration while retaining the Install shell and platform target forms.
 
 ## 2. Runtime image with no supported deployment resource
 
@@ -51,9 +51,9 @@ Confirm whether deployment resources returned by the AI Hub API are clean source
 
 If they include server-assigned metadata—such as `resourceVersion`, UID, managed fields, owner references, or controller-specific annotations—agree where it is removed before creation. The installation flow must treat library resources as sources, not recreate cluster-specific metadata.
 
-## 6. Finalize the temporary action-props placeholder
+## 6. Finalize the placeholder action props
 
-Zaffre will proceed with a clearly marked temporary `RuntimeImageActionData` shape using optional keyed target properties. This is generic action data for Runtime image detail-page extensions; the Install action is one consumer. The target-resource values are placeholders, not a commitment to consume Green’s current API model.
+Zaffre will proceed with clearly marked, concrete `PlaceholderRuntimeImageActionData`, `PlaceholderServingRuntimeTemplateData`, and `PlaceholderLlmAcceleratorConfigurationData` types. These provide form-ready data for implementation without committing Zaffre to Green’s current API model.
 
 Green and Zaffre still need to agree whether action props provide complete K8s-shaped resources or smaller form-ready values, and the precise fields required to prefill each existing form. The action props must also provide a `cancelReturnRoute` so Zaffre can return a user who cancels installation to the Runtime image detail page. Green should map its canonical Runtime image/API response into that final installer-facing props shape before it renders Zaffre’s `core.action` extension.
 
@@ -63,8 +63,11 @@ This keeps Zaffre independent of Green’s BFF/API types and allows Green to evo
 
 In addition to the established router-state reload behavior, agree that malformed or incomplete action props must be handled explicitly:
 
+- lightweight envelope validation at the `core.action` and router-state boundaries;
+- target-specific payload validation by KServe or LLMD Serving only when Step 2 renders;
 - no empty-value defaults that result in broken create calls;
 - no silently inferred unsupported target;
+- explicit disabled/unavailable UX when a target exists but permissions or platform gates prevent installation;
 - an actionable unavailable-data error state when validation fails.
 
 Green does not need to implement Zaffre’s error UI, but the extension-props contract should make clear that the passed resource data must satisfy the agreed target-form requirements.
