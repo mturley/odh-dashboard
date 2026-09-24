@@ -1,4 +1,6 @@
-# Add UX-approved analytics for the Runtime image Install flow
+# Segment tracking events for the Runtime image Install flow
+
+**Jira:** [RHOAIENG-96643](https://redhat.atlassian.net/browse/RHOAIENG-96643)
 
 ## Description of the enhancement
 
@@ -6,7 +8,7 @@ Define and implement the additional Segment analytics needed to understand use o
 
 Consult UX/PM before implementation to determine which user interactions provide meaningful product insight. Candidate interactions include starting installation from a Runtime image, selecting or changing the install destination, returning from Configure to Install destination, cancelling the overall wizard, and encountering an unavailable/invalid state. Do not add events merely because an interaction exists; instrument only the events and non-sensitive properties agreed with UX/PM.
 
-Stories 2 and 3 retain their existing form create events and add `source: 'install'` for submit success, submit failure, and form cancellation. This story owns any additional cross-target wizard events and ensures the combined tracking design is consistent and non-duplicative.
+[RHOAIENG-96639](https://redhat.atlassian.net/browse/RHOAIENG-96639) and [RHOAIENG-96640](https://redhat.atlassian.net/browse/RHOAIENG-96640) retain their existing form create events and add `source: 'install'` for submit success, submit failure, and form cancellation. This story owns any additional cross-target wizard events and ensures the combined tracking design is consistent and non-duplicative.
 
 ## Acceptance Criteria
 
@@ -28,6 +30,6 @@ Stories 2 and 3 retain their existing form create events and add `source: 'insta
 ## Additional info
 
 - UX mockup: [Runtime image Install wizard](https://rhoai-3-6-c2d6f6.pages.redhat.com/settings/model-resources/serving-runtime-templates/catalog/catalog-vllm-0-6-0/install)
-- This story depends on the Install wizard interactions from Story 1 and should be completed after UX/PM confirms the desired event plan.
+- This ticket depends on the Install wizard interactions from [RHOAIENG-96638](https://redhat.atlassian.net/browse/RHOAIENG-96638) and should be completed after UX/PM confirms the desired event plan.
 - Follow the Segment Tracking — Developer Guide. Use form outcomes with `outcome`, `success`, and a short error value where applicable.
 - If UX/PM determines that automatic page views plus the existing form events with `source: 'install'` are sufficient, document that conclusion and limit implementation to any test or consistency updates needed to enforce it.

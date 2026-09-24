@@ -1,5 +1,7 @@
 # Install a Serving runtime template from a Runtime image
 
+**Jira:** [RHOAIENG-96639](https://redhat.atlassian.net/browse/RHOAIENG-96639)
+
 ## Description of the enhancement
 
 Allow an administrator to install a Serving runtime template deployment resource selected from a Runtime image through the Runtime image Install wizard.
@@ -35,7 +37,7 @@ Zaffre does not require Green to provide a Kubernetes `TemplateKind`: the existi
 ## Additional info
 
 - UX mockup: [Runtime image Install wizard](https://rhoai-3-6-c2d6f6.pages.redhat.com/settings/model-resources/serving-runtime-templates/catalog/catalog-vllm-0-6-0/install)
-- The final Green action-data shape is not a dependency for this story. Story 5 replaces the placeholder adapter with the agreed representation.
+- The final Green action-data shape is not a dependency for this ticket. [RHOAIENG-96642](https://redhat.atlassian.net/browse/RHOAIENG-96642) replaces the placeholder adapter with the agreed representation.
 - Validation intentionally occurs when this target renders in Step 2, allowing KServe to reuse existing validation and creation code rather than duplicating it in model-serving.
 - This story owns only the Serving runtime template target; it does not implement the Install page shell or LLM accelerator configuration behavior.
 - Any new tracking events beyond the retained form event plus `source: 'install'` are handled by the dedicated analytics story.

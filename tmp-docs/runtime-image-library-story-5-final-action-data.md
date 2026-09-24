@@ -1,5 +1,7 @@
 # Integrate the Runtime image Install action with Green’s finalized action-data contract
 
+**Jira:** [RHOAIENG-96642](https://redhat.atlassian.net/browse/RHOAIENG-96642)
+
 ## Description of the enhancement
 
 Replace Zaffre’s placeholder Runtime image action scaffolding with the final Green-owned Runtime image detail-page `core.action` integration.
