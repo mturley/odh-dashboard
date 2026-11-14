@@ -1,7 +1,8 @@
 import type { Extension } from '@openshift/dynamic-plugin-sdk';
-import { ROUTE_BASE } from './consts';
+import { DISALLOWED_FLAGS, NAMES, ROUTE_BASE } from './consts';
 import type { FxFieldExtension, FxRouteExtension } from './points';
 import shared from './shared';
+import { Area } from './values';
 
 const makeExt = (): Extension => ({ type: 'fx.extra', properties: {} });
 
@@ -12,6 +13,17 @@ const fieldExtension: FxFieldExtension = {
   },
 };
 
+const baseExtension = {
+  type: 'fx.spread',
+  properties: { id: 'base', label: 'Base' },
+  flags: { required: [Area.K_SERVE] },
+};
+
+const spreadExtension = {
+  ...baseExtension,
+  properties: { ...baseExtension.properties, label: 'Override' },
+};
+
 const extensions = [
   ...shared,
   ...(
@@ -20,6 +32,17 @@ const extensions = [
     type: 'app.route',
     properties: { path, component: () => import('./m') },
   })),
+  ...NAMES.map((name) => ({
+    type: 'fx.generated',
+    properties: { name },
+  })),
+  {
+    type: 'fx.flagged',
+    properties: { id: 'flagged' },
+    flags: { required: [Area.K_SERVE], disallowed: DISALLOWED_FLAGS },
+  },
+  spreadExtension,
+  { ...makeExt(), properties: {} },
   makeExt(),
   { type: 'fx.nowhere', properties: {} },
   fieldExtension,

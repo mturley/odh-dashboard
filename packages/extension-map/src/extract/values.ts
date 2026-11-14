@@ -24,6 +24,9 @@ const unresolved = (reason: string, node: ts.Node, state: State): Value => ({
 
 const collapse = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
+const isFunctionLike = (expr: ts.Expression): boolean =>
+  ts.isArrowFunction(expr) || ts.isFunctionExpression(expr);
+
 const deeper = (state: State): State => ({ ...state, depth: state.depth + 1 });
 
 /** The literal a type names, when it names exactly one. */
@@ -96,7 +99,7 @@ const thenExport = (callback: ts.Expression | undefined): string | null => {
 const importedModule = (
   call: ts.CallExpression,
   state: State,
-): { file: string; symbol?: ts.Symbol } | undefined => {
+): { file: string; external?: boolean; symbol?: ts.Symbol } | undefined => {
   const specifier = call.arguments.length > 0 ? call.arguments[0] : undefined;
   if (!specifier || !ts.isStringLiteralLike(specifier)) {
     return undefined;
@@ -107,10 +110,10 @@ const importedModule = (
   const symbol = awaited?.aliasSymbol ?? awaited?.getSymbol();
   const source = symbol?.declarations?.find(ts.isSourceFile);
   if (!source) {
-    return { file: specifier.text };
+    return { file: specifier.text, external: true };
   }
   const file = relFile(repoRoot, source.fileName);
-  return file.startsWith('..') ? { file: specifier.text } : { file, symbol };
+  return file.startsWith('..') ? { file: specifier.text, external: true } : { file, symbol };
 };
 
 /** The declaration of one of a module's exports, with aliases followed. */
@@ -163,6 +166,7 @@ const resolveCodeRefIn = (fn: ts.ArrowFunction, state: State): Value | undefined
     kind: 'codeRef',
     module: module.file,
     export: exportName,
+    ...(module.external ? { external: true } : {}),
     ...(target ? { target } : {}),
     ...(supplies ? { supplies } : {}),
   };
@@ -181,8 +185,12 @@ const enumMemberValue = (symbol: ts.Symbol, state: State): Value | undefined => 
     : undefined;
 };
 
-/** The literal a named reference carries: from its type, else from its `const` initializer. */
-const referencedConstant = (
+/**
+ * The value a named reference carries: a literal from its type, else what its `const`
+ * initializer resolves to, when that is data (a literal, an array or an object). A reference to
+ * a function is left to `referencedFunction`, which keeps the name it was declared under.
+ */
+const referencedValue = (
   expr: ts.Identifier | ts.PropertyAccessExpression,
   symbol: ts.Symbol | undefined,
   state: State,
@@ -204,21 +212,67 @@ const referencedConstant = (
     ...deeper(state),
     seen: new Set([...state.seen, key]),
   });
-  return value.kind === 'literal' && value.value !== null
-    ? { kind: 'constant', name, value: value.value }
+  if (value.kind === 'literal' && value.value !== null) {
+    return { kind: 'constant', name, value: value.value };
+  }
+  return value.kind === 'array' || value.kind === 'object' ? value : undefined;
+};
+
+/** The function a reference names: a function declaration, or a `const` holding a function. */
+const referencedFunction = (
+  expr: ts.Identifier | ts.PropertyAccessExpression,
+  symbol: ts.Symbol | undefined,
+  state: State,
+): Value | undefined => {
+  const decl = symbol?.declarations?.find(
+    (candidate) =>
+      ts.isFunctionDeclaration(candidate) ||
+      (ts.isVariableDeclaration(candidate) &&
+        candidate.initializer !== undefined &&
+        isFunctionLike(unwrapExpression(candidate.initializer))),
+  );
+  return decl
+    ? { kind: 'function', name: collapse(expr.getText()), loc: locOf(decl, state.ctx) }
     : undefined;
+};
+
+/**
+ * True when a reference names the parameter of the callback of a `.map()` call: the element the
+ * generated value was built from, which the record carries as `mappedValues`.
+ */
+const isMapParameter = (symbol: ts.Symbol | undefined): boolean => {
+  const decl = symbol?.declarations?.find(ts.isParameter);
+  const fn = decl?.parent;
+  if (!fn || (!ts.isArrowFunction(fn) && !ts.isFunctionExpression(fn))) {
+    return false;
+  }
+  const call = fn.parent;
+  return (
+    ts.isCallExpression(call) &&
+    ts.isPropertyAccessExpression(call.expression) &&
+    call.expression.name.text === 'map' &&
+    call.arguments.includes(fn)
+  );
 };
 
 const resolveReference = (
   expr: ts.Identifier | ts.PropertyAccessExpression,
   state: State,
 ): Value => {
-  const raw = state.ctx.checker.getSymbolAtLocation(expr);
+  // The symbol at a shorthand property's name is the property, not what it reads.
+  const shorthand = ts.isShorthandPropertyAssignment(expr.parent) ? expr.parent : undefined;
+  const raw = shorthand
+    ? state.ctx.checker.getShorthandAssignmentValueSymbol(shorthand)
+    : state.ctx.checker.getSymbolAtLocation(expr);
   const symbol = raw ? resolveAlias(state.ctx.checker, raw) : undefined;
+  if (isMapParameter(symbol)) {
+    return { kind: 'mapped' };
+  }
   const member = symbol ? enumMemberValue(symbol, state) : undefined;
   return (
     member ??
-    referencedConstant(expr, symbol, state) ??
+    referencedValue(expr, symbol, state) ??
+    referencedFunction(expr, symbol, state) ??
     unresolved(`'${collapse(expr.getText())}' does not resolve to a literal`, expr, state)
   );
 };
@@ -252,10 +306,70 @@ const resolveArray = (expr: ts.ArrayLiteralExpression, state: State): Value => (
   ),
 });
 
+/** The position key of a node, so the same declaration is not followed twice in one chain. */
+const nodeKey = (node: ts.Node): string => {
+  const file = node.getSourceFile();
+  return `${file.fileName}:${node.getStart(file)}`;
+};
+
+/**
+ * The object literal a spread reads: an object literal, a name holding one, or a property of
+ * one, followed through imports and `satisfies` / `as`. `undefined` when it is anything else.
+ * A property access is followed structurally, because the symbol at a property of a
+ * contextually typed object literal is the declared property of its *type*, not the literal.
+ */
+const spreadObject = (
+  expr: ts.Expression,
+  state: State,
+  depth = 0,
+): ts.ObjectLiteralExpression | undefined => {
+  if (depth > MAX_DEPTH) {
+    return undefined;
+  }
+  const node = unwrapExpression(expr);
+  if (ts.isObjectLiteralExpression(node)) {
+    return node;
+  }
+  if (ts.isPropertyAccessExpression(node)) {
+    const owner = spreadObject(node.expression, state, depth + 1);
+    const member = owner?.properties.find(
+      (property): property is ts.PropertyAssignment =>
+        ts.isPropertyAssignment(property) &&
+        (ts.isIdentifier(property.name) || ts.isStringLiteralLike(property.name)) &&
+        property.name.text === node.name.text,
+    );
+    return member ? spreadObject(member.initializer, state, depth + 1) : undefined;
+  }
+  if (!ts.isIdentifier(node)) {
+    return undefined;
+  }
+  const raw = state.ctx.checker.getSymbolAtLocation(node);
+  const symbol = raw ? resolveAlias(state.ctx.checker, raw) : undefined;
+  const decl = symbol?.declarations?.find(ts.isVariableDeclaration);
+  return decl?.initializer ? spreadObject(decl.initializer, state, depth + 1) : undefined;
+};
+
 const resolveObject = (expr: ts.ObjectLiteralExpression, state: State): Value => {
   const props: Record<string, Value> = {};
   for (const property of expr.properties) {
-    if (ts.isShorthandPropertyAssignment(property)) {
+    if (ts.isSpreadAssignment(property)) {
+      // Spread members merge in source order, so a later key wins. A spread the walk cannot
+      // read makes the whole object unresolved: a partial object would be a guess.
+      const object = spreadObject(property.expression, state);
+      const key = object ? nodeKey(object) : undefined;
+      const spread =
+        object && key !== undefined && !state.seen.has(key)
+          ? resolveObject(object, { ...deeper(state), seen: new Set([...state.seen, key]) })
+          : undefined;
+      if (spread?.kind !== 'object') {
+        return unresolved(
+          `spread of '${collapse(property.expression.getText())}' is not an object literal`,
+          property,
+          state,
+        );
+      }
+      Object.assign(props, spread.props);
+    } else if (ts.isShorthandPropertyAssignment(property)) {
       props[property.name.text] = resolveIn(property.name, deeper(state));
     } else if (
       ts.isPropertyAssignment(property) &&
@@ -307,10 +421,14 @@ const resolveIn = (expr: ts.Expression, state: State): Value => {
     return resolveObject(node, state);
   }
   if (ts.isArrowFunction(node)) {
-    return (
-      resolveCodeRefIn(node, state) ??
-      unresolved('function that is not a code reference', node, state)
-    );
+    return resolveCodeRefIn(node, state) ?? { kind: 'function', loc: locOf(node, state.ctx) };
+  }
+  if (ts.isFunctionExpression(node)) {
+    return {
+      kind: 'function',
+      ...(node.name ? { name: node.name.text } : {}),
+      loc: locOf(node, state.ctx),
+    };
   }
   if (ts.isIdentifier(node) || ts.isPropertyAccessExpression(node)) {
     return resolveReference(node, state);

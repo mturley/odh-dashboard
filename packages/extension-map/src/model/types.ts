@@ -77,9 +77,15 @@ export type Value =
       kind: 'codeRef';
       module: string;
       export: string | null;
+      /** The import did not resolve to a file in this repo; `module` is the raw specifier. */
+      external?: boolean;
       target?: Loc;
       supplies?: Record<string, Value | SymbolRef>;
     }
+  /** Code rather than data: an inline function, or a reference to one. */
+  | { kind: 'function'; name?: string; loc: Loc }
+  /** The element the enclosing `.map()` produced it from; the values are in `mappedValues`. */
+  | { kind: 'mapped' }
   | { kind: 'array'; items: Value[] }
   | { kind: 'object'; props: Record<string, Value> }
   | { kind: 'unresolved'; reason: string; loc: Loc };

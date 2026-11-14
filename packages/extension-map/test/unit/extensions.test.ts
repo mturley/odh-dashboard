@@ -41,6 +41,42 @@ describe('extensions', () => {
     expect(m.extensions.map((e) => e.type)).not.toContain('fx.extra');
   });
 
+  it('reports a value built from the mapped element as mapped, with no diagnostic', () => {
+    expect(ext('app.route').properties.path).toEqual({ kind: 'mapped' });
+    expect(m.diagnostics.filter((d) => d.message.includes("'path'"))).toEqual([]);
+  });
+
+  it('records a flag list it can read, and reports one it cannot', () => {
+    expect(ext('fx.flagged').flags.required).toEqual([
+      { kind: 'enumMember', enumName: 'Area', member: 'K_SERVE', value: 'kserve' },
+    ]);
+    expect(ext('fx.flagged').flags.disallowed).toHaveLength(1);
+    expect(ext('fx.flagged').flags.disallowed[0].kind).toBe('unresolved');
+    expect(
+      m.diagnostics.filter(
+        (d) => d.code === 'unresolved-value' && d.message.includes('flags.disallowed[0]'),
+      ),
+    ).toHaveLength(1);
+  });
+
+  it('reports a mapped array it cannot count', () => {
+    expect(ext('fx.generated').multiplicity).toBe('unknown');
+    expect(ext('fx.generated').mappedValues).toBeUndefined();
+    expect(diagCodes(m)).toContain('multiplicity-unknown');
+  });
+
+  it('merges a spread extension, with the element as its own declaration', () => {
+    const spread = ext('fx.spread');
+    expect(spread.loc).toMatchObject({ file: 'packages/p/src/extensions.ts', line: 22 });
+    expect(spread.properties).toEqual({
+      id: { kind: 'literal', value: 'base' },
+      label: { kind: 'literal', value: 'Override' },
+    });
+    expect(spread.flags.required).toEqual([
+      { kind: 'enumMember', enumName: 'Area', member: 'K_SERVE', value: 'kserve' },
+    ]);
+  });
+
   it('reads supplies from a CodeRef target object', () => {
     expect(ext('fx.field').properties.field).toMatchObject({
       kind: 'codeRef',

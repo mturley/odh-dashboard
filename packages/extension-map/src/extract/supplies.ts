@@ -46,7 +46,8 @@ const supplyOf = (
 ): Value | SymbolRef => {
   const unwrapped = unwrapExpression(expr);
   const value = resolve(unwrapped);
-  if (value.kind !== 'unresolved') {
+  // A function is code, not something a supplied property can carry as data: name it instead.
+  if (value.kind !== 'unresolved' && value.kind !== 'function') {
     return value;
   }
   if (ts.isIdentifier(unwrapped)) {

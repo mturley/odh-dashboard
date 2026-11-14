@@ -46,6 +46,43 @@ describe('extensions on the real repo', () => {
     expect(diags('extension-unknown-point')).toEqual([]);
   });
 
+  it('reads every array element of every entry', () => {
+    expect(diags('unresolved-element')).toEqual([]);
+    expect(diags('multiplicity-unknown')).toEqual([]);
+  });
+
+  it('merges the nim-serving form-data extension declared by spreading kserve', () => {
+    const found = extsOf('@odh-dashboard/nim-serving').filter(
+      (e) =>
+        e.type === 'model-serving.deployment/form-data' &&
+        e.loc.file === 'packages/nim-serving/extensions/nim-kserve.ts',
+    );
+    expect(found).toHaveLength(1);
+    const [extension] = found;
+    expect(extension.loc.line).toBe(113);
+    // Overridden by the spreading element.
+    expect(extension.properties.priority).toEqual({ kind: 'literal', value: 50 });
+    expect(extension.properties.isActive).toMatchObject({
+      kind: 'codeRef',
+      module: 'packages/nim-serving/src/nimKServe/extractFormData.ts',
+      export: 'isNIMKServeDeployment',
+    });
+    expect(extension.flags.required).toEqual([
+      {
+        kind: 'enumMember',
+        enumName: 'SupportedArea',
+        member: 'NIM_WIZARD',
+        value: 'nim-wizard',
+      },
+    ]);
+    // Inherited from the kserve object the element spreads.
+    expect(extension.properties.platform).toEqual({
+      kind: 'constant',
+      name: 'KSERVE_ID',
+      value: 'kserve',
+    });
+  });
+
   it('attaches model-serving contributions to model-registry points', () => {
     const types = typesOf('@odh-dashboard/model-serving', 'model-registry.');
     expect(types.length).toBeGreaterThan(0);

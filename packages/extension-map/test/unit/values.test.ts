@@ -47,4 +47,40 @@ describe('values', () => {
   it('never guesses computed values', () => {
     expect(v('computed').kind).toBe('unresolved');
   });
+
+  it('marks an import that resolves to no repo file as external', () => {
+    expect(v('refMissing')).toEqual({
+      kind: 'codeRef',
+      module: './nowhere',
+      export: 'default',
+      external: true,
+    });
+    expect(v('ref1')).not.toHaveProperty('external');
+  });
+
+  it('reads a function as code, inline or by name', () => {
+    expect(v('inlineFn')).toMatchObject({ kind: 'function' });
+    expect(v('fnRef')).toMatchObject({
+      kind: 'function',
+      name: 'compute',
+      loc: { file: 'packages/p/src/values.ts', line: 9 },
+    });
+  });
+
+  it('merges an object spread in source order', () => {
+    expect(v('spreadObj')).toEqual({
+      kind: 'object',
+      props: {
+        label: { kind: 'literal', value: 'Base' },
+        count: { kind: 'literal', value: 2 },
+      },
+    });
+  });
+
+  it('leaves an object unresolved when a spread cannot be read', () => {
+    expect(v('spreadBad')).toMatchObject({
+      kind: 'unresolved',
+      reason: expect.stringContaining('compute()'),
+    });
+  });
 });

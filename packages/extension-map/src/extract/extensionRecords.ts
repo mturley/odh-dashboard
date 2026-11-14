@@ -43,28 +43,18 @@ const callbackObject = (
   return ts.isObjectLiteralExpression(returned) ? returned : undefined;
 };
 
-const namedProperty = (
-  object: ts.ObjectLiteralExpression,
-  name: string,
-): ts.Expression | undefined => {
-  const found = object.properties.find(
-    (property): property is ts.PropertyAssignment =>
-      ts.isPropertyAssignment(property) &&
-      (ts.isIdentifier(property.name) || ts.isStringLiteralLike(property.name)) &&
-      property.name.text === name,
-  );
-  return found?.initializer;
-};
+/** One member of a resolved object, where index access alone would not admit a missing key. */
+const propAt = (props: Readonly<Record<string, Value>>, name: string): Value | undefined =>
+  Object.hasOwn(props, name) ? props[name] : undefined;
 
-/** The extension point id an object literal's `type` property names, when it resolves to one. */
-const typeIdOf = (object: ts.ObjectLiteralExpression, ctx: ProgramCtx): string | undefined => {
-  const expr = namedProperty(object, 'type');
-  if (!expr) {
-    return undefined;
-  }
-  const value = resolveValue(expr, ctx);
+/**
+ * The extension point id a resolved `type` names. A constant or enum member counts: its value is
+ * proven, not guessed. The property may have arrived through an object spread.
+ */
+const typeIdOf = (props: Record<string, Value>): string | undefined => {
+  const value = propAt(props, 'type');
   const id =
-    value.kind === 'literal' || value.kind === 'constant' || value.kind === 'enumMember'
+    value?.kind === 'literal' || value?.kind === 'constant' || value?.kind === 'enumMember'
       ? value.value
       : undefined;
   return typeof id === 'string' ? id : undefined;
@@ -128,30 +118,24 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
     pkgForFile(file, ctx.ws) ?? pkgForFile(relFile(ctx.repoRoot, ctx.dir), ctx.ws) ?? entry.pkg;
 
   /**
-   * The values of an array literal. An array written some other way is kept as the one value it
-   * resolved to, so that a flag list the walk cannot read is reported instead of looking empty.
+   * One flag list. A list written as something other than an array literal is kept as the one
+   * value it resolved to, so that a list the walk cannot read is reported instead of looking empty.
    */
-  const valuesOfArray = (expr: ts.Expression | undefined, ctx: ProgramCtx): Value[] => {
-    if (!expr) {
+  const flagList = (value: Value | undefined): Value[] => {
+    if (value === undefined) {
       return [];
     }
-    const node = unwrapExpression(expr);
-    return ts.isArrayLiteralExpression(node)
-      ? node.elements.map((element) => resolveValue(element, ctx))
-      : [resolveValue(node, ctx)];
+    return value.kind === 'array' ? value.items : [value];
   };
 
-  const propertiesOf = (
-    object: ts.ObjectLiteralExpression,
-    ctx: ProgramCtx,
-  ): Record<string, Value> => {
-    const expr = namedProperty(object, 'properties');
-    if (!expr) {
+  /** The `properties` of an extension, as a map of resolved values. */
+  const propertiesOf = (props: Record<string, Value>): Record<string, Value> => {
+    const value = propAt(props, 'properties');
+    if (value === undefined) {
       return {};
     }
-    const value = resolveValue(expr, ctx);
-    // A `properties` that is not an object literal is kept under its own name, so that the
-    // reason it could not be read is reported like any other unresolved value.
+    // A `properties` that is not an object is kept under its own name, so that the reason it
+    // could not be read is reported like any other unresolved value.
     return value.kind === 'object' ? value.props : { properties: value };
   };
 
@@ -181,6 +165,7 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
   const record = (
     object: ts.ObjectLiteralExpression,
     type: string,
+    props: Record<string, Value>,
     ctx: ProgramCtx,
     entry: Entry,
     generated: Generated | undefined,
@@ -192,10 +177,8 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
       return;
     }
     const loc = locOf(object, ctx);
-    const flagsExpr = namedProperty(object, 'flags');
-    const flagsObject = flagsExpr ? unwrapExpression(flagsExpr) : undefined;
-    const flagsLiteral =
-      flagsObject && ts.isObjectLiteralExpression(flagsObject) ? flagsObject : undefined;
+    const flags = propAt(props, 'flags');
+    const flagsProps = flags?.kind === 'object' ? flags.props : {};
     const next: ExtensionRecord = {
       key,
       type,
@@ -204,16 +187,10 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
       entries: [],
       apps: [],
       flags: {
-        required: valuesOfArray(
-          flagsLiteral ? namedProperty(flagsLiteral, 'required') : undefined,
-          ctx,
-        ),
-        disallowed: valuesOfArray(
-          flagsLiteral ? namedProperty(flagsLiteral, 'disallowed') : undefined,
-          ctx,
-        ),
+        required: flagList(propAt(flagsProps, 'required')),
+        disallowed: flagList(propAt(flagsProps, 'disallowed')),
       },
-      properties: propertiesOf(object, ctx),
+      properties: propertiesOf(props),
       ...(generated
         ? {
             multiplicity: generated.multiplicity,
@@ -229,16 +206,23 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
     next.flags.disallowed.forEach((value, index) =>
       reportOpaque(`flags.disallowed[${index}]`, value, next),
     );
+    if (flags !== undefined && flags.kind !== 'object') {
+      reportOpaque('flags', flags, next);
+    }
   };
 
-  const unresolvedElement = (expr: ts.Expression, ctx: ProgramCtx, entry: Entry): void => {
+  const unresolvedElement = (
+    expr: ts.Expression,
+    ctx: ProgramCtx,
+    entry: Entry,
+    why?: string,
+  ): void => {
     const loc = locOf(expr, ctx);
+    const node = unwrapExpression(expr);
     report(
       makeDiagnostic(
         'unresolved-element',
-        `Cannot read '${ts.SyntaxKind[unwrapExpression(expr).kind]}' as an extension in ${
-          entry.id
-        }.`,
+        `Cannot read '${ts.SyntaxKind[node.kind]}' as an extension${why ? `: ${why}` : ''}.`,
         loc,
         pkgOf(loc.file, ctx, entry),
       ),
@@ -254,12 +238,17 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
   ): void => {
     const node = unwrapExpression(expr);
     if (ts.isObjectLiteralExpression(node)) {
-      const type = typeIdOf(node, ctx);
-      if (type === undefined) {
-        unresolvedElement(node, ctx, entry);
+      const value = resolveValue(node, ctx);
+      if (value.kind !== 'object') {
+        unresolvedElement(node, ctx, entry, value.kind === 'unresolved' ? value.reason : undefined);
         return;
       }
-      record(node, type, ctx, entry, generated);
+      const type = typeIdOf(value.props);
+      if (type === undefined) {
+        unresolvedElement(node, ctx, entry, "no 'type' that resolves to a string");
+        return;
+      }
+      record(node, type, value.props, ctx, entry, generated);
       return;
     }
     const followed = followedInitializer(node, ctx);

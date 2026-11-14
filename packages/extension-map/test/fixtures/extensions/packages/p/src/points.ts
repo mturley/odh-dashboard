@@ -13,3 +13,12 @@ export type FxSharedExtension = Extension<'fx.shared', { id: string }>;
 
 /** Carries a field definition by code reference. */
 export type FxFieldExtension = Extension<'fx.field', { field: CodeRef<FxFieldType> }>;
+
+/** Gated by flags written in two different ways. */
+export type FxFlaggedExtension = Extension<'fx.flagged', { id: string }>;
+
+/** Built by a `.map()` over an array the walk cannot count. */
+export type FxGeneratedExtension = Extension<'fx.generated', { name: string }>;
+
+/** Declared by spreading a base extension and overriding part of it. */
+export type FxSpreadExtension = Extension<'fx.spread', { id: string; label: string }>;

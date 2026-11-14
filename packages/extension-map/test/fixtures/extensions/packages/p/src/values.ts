@@ -24,4 +24,16 @@ export const ref3 = () => import('./m').then((m) => ({ default: m.Modal }));
 
 export const ref4 = () => import('./m').then((m) => (d: D) => m.f(d));
 
+export const refMissing = () => import('./nowhere');
+
 export const computed = compute();
+
+export const inlineFn = () => 1;
+
+export const fnRef = compute;
+
+const base = { label: 'Base', count: 1 };
+
+export const spreadObj = { ...base, count: 2 };
+
+export const spreadBad = { ...compute(), count: 2 };
