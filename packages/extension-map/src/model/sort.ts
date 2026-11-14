@@ -11,6 +11,8 @@ import type {
   Loc,
   Override,
   Pkg,
+  QuerySite,
+  UseSite,
 } from './types';
 
 export const emptyModel = (): ExtensionMapModel => ({
@@ -36,8 +38,10 @@ const byKey =
   (a, b) =>
     byString(key(a), key(b));
 
-const byLoc = (a: { loc: Loc }, b: { loc: Loc }): number =>
-  byString(a.loc.file, b.loc.file) || a.loc.line - b.loc.line;
+const byLocValue = (a: Loc, b: Loc): number =>
+  byString(a.file, b.file) || a.line - b.line || (a.endLine ?? a.line) - (b.endLine ?? b.line);
+
+const byLoc = (a: { loc: Loc }, b: { loc: Loc }): number => byLocValue(a.loc, b.loc);
 
 /** Diagnostics may carry no location; those sort first. */
 const byOptionalLoc = (a: { loc?: Loc }, b: { loc?: Loc }): number => {
@@ -46,10 +50,18 @@ const byOptionalLoc = (a: { loc?: Loc }, b: { loc?: Loc }): number => {
   return byString(aFile, bFile) || (a.loc?.line ?? 0) - (b.loc?.line ?? 0);
 };
 
+const byAppInclusion = (a: { app: string; via: string }, b: { app: string; via: string }): number =>
+  byString(a.app, b.app) || byString(a.via, b.via);
+
+const sortPkg = (pkg: Pkg): Pkg => ({
+  ...pkg,
+  upstreamDirs: pkg.upstreamDirs.toSorted(byString),
+});
+
 const sortPoint = (point: ExtensionPoint): ExtensionPoint => ({
   ...point,
   guards: point.guards.toSorted(byString),
-  // properties stay in the point type's declared order
+  // typeParams and properties stay in declaration order
 });
 
 const sortGuard = (guard: Guard): Guard => ({
@@ -60,37 +72,80 @@ const sortGuard = (guard: Guard): Guard => ({
 const sortExtension = (extension: ExtensionRecord): ExtensionRecord => ({
   ...extension,
   entries: extension.entries.toSorted(byString),
+  apps: extension.apps.toSorted(byAppInclusion),
+  // flags and mappedValues stay in source order
 });
+
+const sortOverride = (override: Override): Override => ({
+  ...override,
+  targets: override.targets.toSorted(byString),
+  ignoredKeys: override.ignoredKeys?.toSorted(byString),
+});
+
+/** Overrides have no id/key/loc; sort by identity, then by (sorted) targets. */
+const byOverride = (a: Override, b: Override): number =>
+  byString(a.app, b.app) ||
+  byString(a.by, b.by) ||
+  byString(a.kind, b.kind) ||
+  byString(a.targets.join('\0'), b.targets.join('\0'));
 
 const sortConsumer = (consumer: Consumer): Consumer => ({
   ...consumer,
-  renderedIn: consumer.renderedIn.toSorted(byLoc),
+  renderedIn: consumer.renderedIn.toSorted(
+    (a, b) => byLoc(a, b) || byString(a.symbol, b.symbol) || byString(a.how, b.how),
+  ),
 });
+
+const sortQuerySite = (querySite: QuerySite): QuerySite => ({
+  ...querySite,
+  pointIds: querySite.pointIds.toSorted(byString),
+});
+
+const byQuerySite = (a: QuerySite, b: QuerySite): number =>
+  byLoc(a, b) || byString(a.consumer, b.consumer) || byString(a.hook, b.hook);
+
+const sortUseSite = (useSite: UseSite): UseSite => ({
+  ...useSite,
+  oneOf: useSite.oneOf?.toSorted(byString),
+});
+
+const byUseSite = (a: UseSite, b: UseSite): number =>
+  byLoc(a, b) ||
+  byString(a.consumer, b.consumer) ||
+  byString(a.pointId, b.pointId) ||
+  byString(a.path, b.path);
 
 const sortCarriedType = (carried: CarriedType): CarriedType => ({
   ...carried,
   pointIds: carried.pointIds.toSorted(byString),
+  builtOutsideExtensions: carried.builtOutsideExtensions.toSorted(byLocValue),
 });
 
 /**
  * Returns a model with every array sorted by its stable key (`id` / `key` /
- * `name` / `loc.file` + `loc.line`), so output is deterministic. Exceptions:
- * `App.entries` and `ExtensionPoint.properties` keep their order-significant
- * order.
+ * `name` / `app` / `loc.file` + `loc.line`), with secondary keys breaking ties,
+ * so output never depends on discovery order. Exceptions that keep their
+ * order-significant order: `App.entries` (catalog), `ExtensionPoint.typeParams`
+ * and `properties` (declaration), `Doc` arrays and source `Value` arrays
+ * (`flags`, `mappedValues`, array/object values).
  */
 export const sortModel = (m: ExtensionMapModel): ExtensionMapModel => ({
   version: m.version,
-  packages: m.packages.toSorted(byKey((p: Pkg) => p.name)),
+  packages: m.packages.toSorted(byKey((p: Pkg) => p.name)).map(sortPkg),
   entries: m.entries.toSorted(byKey((e: Entry) => e.id)),
   apps: m.apps.toSorted(byKey((a: App) => a.id)), // App.entries stays in catalog order
   points: m.points.toSorted(byKey((p: ExtensionPoint) => p.id)).map(sortPoint),
-  guards: m.guards.toSorted(byKey((g: Guard) => g.name)).map(sortGuard),
+  guards: m.guards
+    .toSorted((a: Guard, b: Guard) => byString(a.name, b.name) || byLoc(a, b))
+    .map(sortGuard),
   extensions: m.extensions.toSorted(byKey((e: ExtensionRecord) => e.key)).map(sortExtension),
-  overrides: m.overrides.toSorted(byKey((o: Override) => `${o.app}\0${o.by}\0${o.kind}`)),
+  overrides: m.overrides.map(sortOverride).toSorted(byOverride),
   consumers: m.consumers.toSorted(byKey((c: Consumer) => c.id)).map(sortConsumer),
-  querySites: m.querySites.toSorted(byLoc),
-  useSites: m.useSites.toSorted(byLoc),
-  carriedTypes: m.carriedTypes.toSorted(byKey((c: CarriedType) => c.name)).map(sortCarriedType),
+  querySites: m.querySites.map(sortQuerySite).toSorted(byQuerySite),
+  useSites: m.useSites.map(sortUseSite).toSorted(byUseSite),
+  carriedTypes: m.carriedTypes
+    .toSorted((a: CarriedType, b: CarriedType) => byString(a.name, b.name) || byLoc(a, b))
+    .map(sortCarriedType),
   diagnostics: m.diagnostics.toSorted(
     (a: Diagnostic, b: Diagnostic) =>
       byOptionalLoc(a, b) || byString(a.code, b.code) || byString(a.message, b.message),
