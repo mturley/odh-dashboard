@@ -1,0 +1,38 @@
+[
+  {
+    "name": "@fx/s",
+    "dir": "packages/s",
+    "packageJson": { "name": "@fx/s", "exports": { "./extensions": "./extensions.ts" } }
+  },
+  {
+    "name": "@fx/f",
+    "dir": "packages/f",
+    "packageJson": {
+      "name": "@fx/f",
+      "module-federation": {
+        "name": "f",
+        "remoteEntry": "/remoteEntry.js",
+        "service": { "name": "odh-dashboard", "port": 8043 }
+      }
+    }
+  },
+  {
+    "name": "@fx/k",
+    "dir": "packages/k",
+    "packageJson": {
+      "name": "@fx/k",
+      "module-federation": { "name": "k", "local": { "host": "localhost", "port": 1 } }
+    }
+  },
+  {
+    "name": "@fx/d",
+    "dir": "packages/d",
+    "packageJson": {
+      "name": "@fx/d",
+      "exports": {
+        "./extensions/static": "./extensions/static.ts",
+        "./extensions/*": "./nope/*.ts"
+      }
+    }
+  }
+]

@@ -19,3 +19,10 @@ export const readWorkspace = (name: string): WorkspacePackage[] => {
 
 export const analyzeFixture = (name: string, opts?: Partial<AnalyzeOptions>): ExtensionMapModel =>
   analyzeRepo({ repoRoot: fixtureDir(name), workspace: readWorkspace(name), ...opts });
+
+/** Sorted entry ids of a model. */
+export const entryIds = (m: ExtensionMapModel): string[] => m.entries.map((e) => e.id).toSorted();
+
+/** `[code, pkg]` pairs of a model's diagnostics. */
+export const codes = (m: ExtensionMapModel): [string, string | undefined][] =>
+  m.diagnostics.map((d) => [d.code, d.pkg]);
