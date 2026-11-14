@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/extension-map",
+  "description": "Static analysis that generates documentation mapping the ODH Dashboard extension system.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "test-unit": "jest --silent",
+    "test-unit-coverage": "jest --silent --coverage",
+    "test:repo": "NODE_OPTIONS=--max-old-space-size=6144 jest --config jest.repo.config.ts",
+    "generate": "node --max-old-space-size=6144 --import tsx src/cli.ts generate",
+    "check": "node --max-old-space-size=6144 --import tsx src/cli.ts check"
+  },
+  "dependencies": {
+    "typescript": "^5.9.3",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "workspace:*",
+    "@odh-dashboard/jest-config": "workspace:*",
+    "@odh-dashboard/tsconfig": "workspace:*",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.23.12"
+  }
+}
