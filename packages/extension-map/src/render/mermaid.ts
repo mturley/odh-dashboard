@@ -59,8 +59,6 @@ export type Flowchart = {
   edge: (a: string, b: string, style: EdgeStyle, label?: string) => void;
   /** Declares everything `fn` adds inside a subgraph. */
   subgraph: (id: string, label: string, fn: () => void) => void;
-  /** True when nothing has been declared yet. */
-  isEmpty: () => boolean;
   /** The fenced `mermaid` block. */
   toString: () => string;
 };
@@ -102,7 +100,6 @@ export const flowchart = (dir: 'LR' | 'TB'): Flowchart => {
       depth -= 1;
       push('end');
     },
-    isEmpty: () => lines.length === 0,
     toString: () =>
       [
         '```mermaid',

@@ -16,7 +16,7 @@ export const githubAnchor = (heading: string): string =>
     .replace(/ /g, '-');
 
 /** Text that is safe inside one line of Markdown: newlines become `<br>`. */
-export const escapeInline = (s: string): string => s.replace(/\r?\n/g, '<br>');
+const escapeInline = (s: string): string => s.replace(/\r?\n/g, '<br>');
 
 /** Text that is safe inside a table cell: table-breaking pipes are escaped too. */
 export const escapeCell = (s: string): string => escapeInline(s).replace(/\|/g, '\\|');
