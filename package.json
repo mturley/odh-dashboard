@@ -60,6 +60,8 @@
     "test:validate-ports": "node --test scripts/__tests__/validate-module-ports.test.js",
     "validate:flags": "node scripts/validate-dashboard-flags.js",
     "test:validate-flags": "node --test scripts/__tests__/validate-dashboard-flags.test.js",
+    "docs:extension-map": "pnpm --filter @odh-dashboard/extension-map generate",
+    "docs:extension-map:check": "pnpm --filter @odh-dashboard/extension-map check",
     "lint": "pnpm run lint:adr && turbo run lint --filter=!automl-ui --filter=!autorag-ui --filter=!core-bff-ui --filter=!eval-hub-ui --filter=!gen-ai --filter=!maas-ui --filter=!mlflow-ui",
     "lint:adr": "./hack/lint-adr-status && ./hack/lint-adr-numbers && ./hack/lint-adr-frontmatter",
     "lint:fix": "turbo run lint:fix --filter=!automl-ui --filter=!autorag-ui --filter=!core-bff-ui --filter=!eval-hub-ui --filter=!gen-ai --filter=!maas-ui --filter=!mlflow-ui",

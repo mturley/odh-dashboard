@@ -91,6 +91,14 @@ filters:
     labels:
       - 'area/model-serving'
 
+  'packages/extension-map/.*':
+    approvers:
+      - model-serving-metrics-approvers
+    reviewers:
+      - model-serving-metrics-reviewers
+    labels:
+      - 'area/model-serving'
+
   # Tooling & Plugins
   '(frontend/src/plugins/|packages/(plugin-core|jest-config|eslint-config|plugin-template|tsconfig))/.*':
     approvers:
