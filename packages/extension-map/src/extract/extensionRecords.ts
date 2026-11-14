@@ -1,9 +1,15 @@
 import ts from 'typescript';
-import { arrowBodyExpression, resolveValue } from './values';
+import { arrayLiteralFor, arrowBodyExpression, resolveValue } from './values';
 import { pkgForFile, relFile } from '../discovery/workspace';
 import { makeDiagnostic } from '../model/diagnostics';
 import type { Diagnostic, Entry, ExtensionRecord, Value } from '../model/types';
-import { declKey, locOf, resolveAlias, unwrapExpression } from '../programs/identity';
+import {
+  constInitializer,
+  declKey,
+  locOf,
+  resolveAlias,
+  unwrapExpression,
+} from '../programs/identity';
 import type { Collector, ProgramCtx } from '../programs/stream';
 
 export type ExtensionsResult = {
@@ -60,7 +66,10 @@ const typeIdOf = (props: Record<string, Value>): string | undefined => {
   return typeof id === 'string' ? id : undefined;
 };
 
-/** The initializer a reference names, so an element or array written once can be reached by name. */
+/**
+ * The initializer a reference names, so an element or array written once can be reached by name.
+ * Only a `const` that is not mutated in place is followed, so a reported value is the real one.
+ */
 const followedInitializer = (
   expr: ts.Expression,
   ctx: ProgramCtx,
@@ -70,8 +79,8 @@ const followedInitializer = (
   }
   const raw = ctx.checker.getSymbolAtLocation(expr);
   const symbol = raw ? resolveAlias(ctx.checker, raw) : undefined;
-  const decl = symbol?.declarations?.find(ts.isVariableDeclaration);
-  return decl?.initializer ? { node: decl.initializer, key: declKey(decl, ctx) } : undefined;
+  const followed = constInitializer(symbol, ctx.checker);
+  return followed ? { node: followed.initializer, key: declKey(followed.decl, ctx) } : undefined;
 };
 
 /** The default export of a module, through `export default`, a name, or a re-export. */
@@ -271,22 +280,13 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
       unresolvedElement(expr, ctx, entry);
       return;
     }
-    let source = unwrapExpression(call.source);
-    let guard = seen;
-    while (!ts.isArrayLiteralExpression(source)) {
-      const followed = followedInitializer(source, ctx);
-      if (!followed || guard.has(followed.key)) {
-        break;
-      }
-      guard = new Set([...guard, followed.key]);
-      source = unwrapExpression(followed.node);
-    }
-    if (!ts.isArrayLiteralExpression(source)) {
+    const source = arrayLiteralFor(call.source, ctx);
+    if (!source) {
       const loc = locOf(call.source, ctx);
       report(
         makeDiagnostic(
           'multiplicity-unknown',
-          `Cannot count the elements the mapped array of ${entry.id} produces.`,
+          'Cannot count the elements this mapped array produces.',
           loc,
           pkgOf(loc.file, ctx, entry),
         ),

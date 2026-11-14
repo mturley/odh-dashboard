@@ -2,7 +2,7 @@ import ts from 'typescript';
 import { readSupplies } from './supplies';
 import { relFile } from '../discovery/workspace';
 import type { Loc, Value } from '../model/types';
-import { locOf, resolveAlias, unwrapExpression } from '../programs/identity';
+import { constInitializer, locOf, resolveAlias, unwrapExpression } from '../programs/identity';
 import type { ProgramCtx } from '../programs/stream';
 
 /** How deep a value may nest before resolution stops; deeper than any real extension property. */
@@ -113,7 +113,9 @@ const importedModule = (
     return { file: specifier.text, external: true };
   }
   const file = relFile(repoRoot, source.fileName);
-  return file.startsWith('..') ? { file: specifier.text, external: true } : { file, symbol };
+  const outside =
+    file.startsWith('..') || file.startsWith('node_modules/') || file.includes('/node_modules/');
+  return outside ? { file: specifier.text, external: true } : { file, symbol };
 };
 
 /** The declaration of one of a module's exports, with aliases followed. */
@@ -200,15 +202,15 @@ const referencedValue = (
   if (direct !== undefined) {
     return { kind: 'constant', name, value: direct };
   }
-  const decl = symbol?.declarations?.find(ts.isVariableDeclaration);
-  if (!decl?.initializer) {
+  const followed = constInitializer(symbol, state.ctx.checker);
+  if (!followed) {
     return undefined;
   }
-  const key = `${decl.getSourceFile().fileName}:${decl.getStart(decl.getSourceFile())}`;
+  const key = nodeKey(followed.decl);
   if (state.seen.has(key)) {
     return undefined;
   }
-  const value = resolveIn(decl.initializer, {
+  const value = resolveIn(followed.initializer, {
     ...deeper(state),
     seen: new Set([...state.seen, key]),
   });
@@ -224,23 +226,45 @@ const referencedFunction = (
   symbol: ts.Symbol | undefined,
   state: State,
 ): Value | undefined => {
-  const decl = symbol?.declarations?.find(
-    (candidate) =>
-      ts.isFunctionDeclaration(candidate) ||
-      (ts.isVariableDeclaration(candidate) &&
-        candidate.initializer !== undefined &&
-        isFunctionLike(unwrapExpression(candidate.initializer))),
-  );
+  const followed = constInitializer(symbol, state.ctx.checker);
+  const holdsFunction =
+    followed !== undefined && isFunctionLike(unwrapExpression(followed.initializer));
+  const decl = holdsFunction ? followed.decl : symbol?.declarations?.find(ts.isFunctionDeclaration);
   return decl
     ? { kind: 'function', name: collapse(expr.getText()), loc: locOf(decl, state.ctx) }
     : undefined;
 };
 
 /**
- * True when a reference names the parameter of the callback of a `.map()` call: the element the
- * generated value was built from, which the record carries as `mappedValues`.
+ * The array literal an expression stands for: written inline, or held by a `const` that can be
+ * trusted (see `constInitializer`). `undefined` when the elements cannot be counted.
  */
-const isMapParameter = (symbol: ts.Symbol | undefined): boolean => {
+export const arrayLiteralFor = (
+  expr: ts.Expression,
+  ctx: ProgramCtx,
+  depth = 0,
+): ts.ArrayLiteralExpression | undefined => {
+  if (depth > MAX_DEPTH) {
+    return undefined;
+  }
+  const node = unwrapExpression(expr);
+  if (ts.isArrayLiteralExpression(node)) {
+    return node;
+  }
+  if (!ts.isIdentifier(node)) {
+    return undefined;
+  }
+  const raw = ctx.checker.getSymbolAtLocation(node);
+  const followed = constInitializer(raw ? resolveAlias(ctx.checker, raw) : undefined, ctx.checker);
+  return followed ? arrayLiteralFor(followed.initializer, ctx, depth + 1) : undefined;
+};
+
+/**
+ * True when a reference names the parameter of the callback of a `.map()` call whose source array
+ * the walk can read: the element the generated value was built from, which the record carries as
+ * `mappedValues`. A `.map()` over something else leaves the value unresolved, as it must.
+ */
+const isMapParameter = (symbol: ts.Symbol | undefined, state: State): boolean => {
   const decl = symbol?.declarations?.find(ts.isParameter);
   const fn = decl?.parent;
   if (!fn || (!ts.isArrowFunction(fn) && !ts.isFunctionExpression(fn))) {
@@ -251,7 +275,8 @@ const isMapParameter = (symbol: ts.Symbol | undefined): boolean => {
     ts.isCallExpression(call) &&
     ts.isPropertyAccessExpression(call.expression) &&
     call.expression.name.text === 'map' &&
-    call.arguments.includes(fn)
+    call.arguments.includes(fn) &&
+    arrayLiteralFor(call.expression.expression, state.ctx) !== undefined
   );
 };
 
@@ -265,7 +290,7 @@ const resolveReference = (
     ? state.ctx.checker.getShorthandAssignmentValueSymbol(shorthand)
     : state.ctx.checker.getSymbolAtLocation(expr);
   const symbol = raw ? resolveAlias(state.ctx.checker, raw) : undefined;
-  if (isMapParameter(symbol)) {
+  if (isMapParameter(symbol, state)) {
     return { kind: 'mapped' };
   }
   const member = symbol ? enumMemberValue(symbol, state) : undefined;
@@ -345,8 +370,8 @@ const spreadObject = (
   }
   const raw = state.ctx.checker.getSymbolAtLocation(node);
   const symbol = raw ? resolveAlias(state.ctx.checker, raw) : undefined;
-  const decl = symbol?.declarations?.find(ts.isVariableDeclaration);
-  return decl?.initializer ? spreadObject(decl.initializer, state, depth + 1) : undefined;
+  const followed = constInitializer(symbol, state.ctx.checker);
+  return followed ? spreadObject(followed.initializer, state, depth + 1) : undefined;
 };
 
 const resolveObject = (expr: ts.ObjectLiteralExpression, state: State): Value => {

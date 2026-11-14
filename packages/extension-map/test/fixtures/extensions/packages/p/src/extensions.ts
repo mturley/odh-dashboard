@@ -24,8 +24,12 @@ const spreadExtension = {
   properties: { ...baseExtension.properties, label: 'Override' },
 };
 
+let looseExtensions = [{ type: 'fx.loose', properties: { id: 'loose' } }];
+looseExtensions = [];
+
 const extensions = [
   ...shared,
+  ...looseExtensions,
   ...(
     [`${ROUTE_BASE}/a`, `${ROUTE_BASE}/b`, `${ROUTE_BASE}/c`] as const
   ).map((path): FxRouteExtension => ({

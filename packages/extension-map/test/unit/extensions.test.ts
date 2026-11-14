@@ -77,6 +77,15 @@ describe('extensions', () => {
     ]);
   });
 
+  it('refuses an extensions array held by a let binding', () => {
+    expect(m.extensions.map((e) => e.type)).not.toContain('fx.loose');
+    expect(
+      m.diagnostics.filter(
+        (d) => d.code === 'unresolved-element' && d.loc?.file === 'packages/p/src/extensions.ts',
+      ).length,
+    ).toBeGreaterThanOrEqual(1);
+  });
+
   it('reads supplies from a CodeRef target object', () => {
     expect(ext('fx.field').properties.field).toMatchObject({
       kind: 'codeRef',

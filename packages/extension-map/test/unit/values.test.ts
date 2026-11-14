@@ -67,6 +67,43 @@ describe('values', () => {
     });
   });
 
+  it('reads a function declaration a reference names', () => {
+    expect(v('helperRef')).toMatchObject({
+      kind: 'function',
+      name: 'helper',
+      loc: { file: 'packages/p/src/values.ts', line: 41 },
+    });
+  });
+
+  it('never follows a let or var binding', () => {
+    expect(v('letLiteral')).toMatchObject({ kind: 'unresolved' });
+    expect(v('letArray')).toMatchObject({ kind: 'unresolved' });
+    expect(v('letObject')).toMatchObject({ kind: 'unresolved' });
+  });
+
+  it('never follows a const its own file mutates in place', () => {
+    expect(v('mutatedArray')).toMatchObject({ kind: 'unresolved' });
+    expect(v('mutatedObject')).toMatchObject({ kind: 'unresolved' });
+  });
+
+  it('follows an unmutated const, and an as-const one whatever its file does', () => {
+    expect(v('plainArrayRef')).toEqual({
+      kind: 'array',
+      items: [{ kind: 'literal', value: 'a' }],
+    });
+    expect(v('plainObjectRef')).toEqual({
+      kind: 'object',
+      props: { label: { kind: 'literal', value: 'a' } },
+    });
+    expect(v('asConstArray')).toEqual({
+      kind: 'array',
+      items: [
+        { kind: 'literal', value: 'a' },
+        { kind: 'literal', value: 'b' },
+      ],
+    });
+  });
+
   it('merges an object spread in source order', () => {
     expect(v('spreadObj')).toEqual({
       kind: 'object',

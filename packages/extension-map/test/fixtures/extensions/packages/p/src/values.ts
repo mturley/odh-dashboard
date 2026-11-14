@@ -37,3 +37,39 @@ const base = { label: 'Base', count: 1 };
 export const spreadObj = { ...base, count: 2 };
 
 export const spreadBad = { ...compute(), count: 2 };
+
+export function helper(): number {
+  return 1;
+}
+
+export const helperRef = helper;
+
+let reassignedLiteral = 'first';
+reassignedLiteral = 'second';
+export const letLiteral = reassignedLiteral;
+
+let reassignedArray = [Area.K_SERVE];
+reassignedArray = [];
+export const letArray = reassignedArray;
+
+let reassignedObject = { label: 'first' };
+reassignedObject = { label: 'second' };
+export const letObject = reassignedObject;
+
+const pushedArray = ['a'];
+pushedArray.push('b');
+export const mutatedArray = pushedArray;
+
+const patchedObject = { label: 'a' };
+patchedObject.label = 'b';
+export const mutatedObject = patchedObject;
+
+const frozenArray = ['a', 'b'] as const;
+frozenArray.push('c');
+export const asConstArray = frozenArray;
+
+const plainArray = ['a'];
+export const plainArrayRef = plainArray;
+
+const plainObject = { label: 'a' };
+export const plainObjectRef = plainObject;

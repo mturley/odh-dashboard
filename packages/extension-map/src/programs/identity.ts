@@ -45,6 +45,159 @@ export const unwrapExpression = (expr: ts.Expression): ts.Expression => {
   }
 };
 
+/** Array methods that change the array they are called on. */
+const MUTATING_METHODS: ReadonlySet<string> = new Set([
+  'push',
+  'unshift',
+  'pop',
+  'shift',
+  'splice',
+  'sort',
+  'reverse',
+  'fill',
+  'copyWithin',
+]);
+
+/** `Object` helpers that change their first argument. */
+const OBJECT_MUTATORS: ReadonlySet<string> = new Set([
+  'assign',
+  'defineProperty',
+  'defineProperties',
+  'setPrototypeOf',
+]);
+
+const isAssignment = (kind: ts.SyntaxKind): boolean =>
+  kind >= ts.SyntaxKind.FirstAssignment && kind <= ts.SyntaxKind.LastAssignment;
+
+/** The expression a property or element access chain reads from, however deep the chain. */
+const accessRoot = (expr: ts.Expression): ts.Expression | undefined => {
+  let current = unwrapExpression(expr);
+  if (!ts.isPropertyAccessExpression(current) && !ts.isElementAccessExpression(current)) {
+    return undefined;
+  }
+  while (ts.isPropertyAccessExpression(current) || ts.isElementAccessExpression(current)) {
+    current = unwrapExpression(current.expression);
+  }
+  return current;
+};
+
+/**
+ * True when the declaring file changes the thing a binding holds after declaring it: an array
+ * method that mutates, an assignment or `delete` through the binding, or an `Object` helper that
+ * writes into it. Mutation from another file is not detected, which is an accepted limit: a value
+ * the tool cannot see changed would be reported as declared.
+ */
+const isMutatedInFile = (symbol: ts.Symbol, checker: ts.TypeChecker): boolean => {
+  const file = symbol.declarations?.[0]?.getSourceFile();
+  if (!file) {
+    return false;
+  }
+  const isBinding = (expr: ts.Expression | undefined): boolean => {
+    if (!expr) {
+      return false;
+    }
+    const node = unwrapExpression(expr);
+    if (!ts.isIdentifier(node)) {
+      return false;
+    }
+    const found = checker.getSymbolAtLocation(node);
+    return found !== undefined && resolveAlias(checker, found) === symbol;
+  };
+  let mutated = false;
+  const walk = (node: ts.Node): void => {
+    if (mutated) {
+      return;
+    }
+    if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression)) {
+      const callee = node.expression;
+      const method = callee.name.text;
+      if (MUTATING_METHODS.has(method) && isBinding(callee.expression)) {
+        mutated = true;
+        return;
+      }
+      const owner = unwrapExpression(callee.expression);
+      if (
+        OBJECT_MUTATORS.has(method) &&
+        ts.isIdentifier(owner) &&
+        owner.text === 'Object' &&
+        isBinding(node.arguments[0])
+      ) {
+        mutated = true;
+        return;
+      }
+    }
+    if (
+      ts.isBinaryExpression(node) &&
+      isAssignment(node.operatorToken.kind) &&
+      isBinding(accessRoot(node.left))
+    ) {
+      mutated = true;
+      return;
+    }
+    if (ts.isDeleteExpression(node) && isBinding(accessRoot(node.expression))) {
+      mutated = true;
+      return;
+    }
+    if (
+      (ts.isPrefixUnaryExpression(node) || ts.isPostfixUnaryExpression(node)) &&
+      (node.operator === ts.SyntaxKind.PlusPlusToken ||
+        node.operator === ts.SyntaxKind.MinusMinusToken) &&
+      isBinding(accessRoot(node.operand))
+    ) {
+      mutated = true;
+      return;
+    }
+    node.forEachChild(walk);
+  };
+  walk(file);
+  return mutated;
+};
+
+/** True when an initializer is written `as const`. */
+const isAsConst = (expr: ts.Expression): boolean =>
+  ts.isAsExpression(expr) &&
+  ts.isTypeReferenceNode(expr.type) &&
+  ts.isIdentifier(expr.type.typeName) &&
+  expr.type.typeName.text === 'const';
+
+/** True when the type of a binding says its contents cannot change. */
+const isReadonlyType = (symbol: ts.Symbol, checker: ts.TypeChecker): boolean =>
+  checker.typeToString(checker.getTypeOfSymbol(symbol)).startsWith('readonly ');
+
+/**
+ * The initializer of the `const` a symbol declares, when the value it holds can be trusted to be
+ * the one written there: `let` and `var` are never followed (they can be reassigned), and a
+ * `const` holding an array or object literal is not followed when its own file mutates it in
+ * place. An `as const` initializer, or a readonly type, skips the mutation scan.
+ */
+export const constInitializer = (
+  symbol: ts.Symbol | undefined,
+  checker: ts.TypeChecker,
+): { decl: ts.VariableDeclaration; initializer: ts.Expression } | undefined => {
+  const decl = symbol?.declarations?.find(
+    (candidate): candidate is ts.VariableDeclaration =>
+      ts.isVariableDeclaration(candidate) &&
+      ts.isVariableDeclarationList(candidate.parent) &&
+      (candidate.parent.flags & ts.NodeFlags.Const) !== 0,
+  );
+  const { initializer } = decl ?? {};
+  if (!decl || !initializer || !symbol) {
+    return undefined;
+  }
+  const unwrapped = unwrapExpression(initializer);
+  const holdsMembers =
+    ts.isArrayLiteralExpression(unwrapped) || ts.isObjectLiteralExpression(unwrapped);
+  if (
+    holdsMembers &&
+    !isAsConst(initializer) &&
+    !isReadonlyType(symbol, checker) &&
+    isMutatedInFile(symbol, checker)
+  ) {
+    return undefined;
+  }
+  return { decl, initializer };
+};
+
 /** Follows import/export aliases to the symbol that actually declares the thing. */
 export const resolveAlias = (checker: ts.TypeChecker, symbol: ts.Symbol): ts.Symbol => {
   let current = symbol;
