@@ -13,8 +13,8 @@
     "test-unit": "jest --silent",
     "test-unit-coverage": "jest --silent --coverage",
     "test:repo": "NODE_OPTIONS=--max-old-space-size=6144 jest --config jest.repo.config.ts",
-    "generate": "node --max-old-space-size=6144 --import tsx src/cli.ts generate",
-    "check": "node --max-old-space-size=6144 --import tsx src/cli.ts check"
+    "generate": "node --max-old-space-size=6144 --expose-gc --import tsx src/cli.ts generate",
+    "check": "node --max-old-space-size=6144 --expose-gc --import tsx src/cli.ts check"
   },
   "dependencies": {
     "typescript": "^5.9.3",
