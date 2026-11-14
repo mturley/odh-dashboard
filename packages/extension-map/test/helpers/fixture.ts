@@ -26,3 +26,9 @@ export const entryIds = (m: ExtensionMapModel): string[] => m.entries.map((e) =>
 /** `[code, pkg]` pairs of a model's diagnostics. */
 export const codes = (m: ExtensionMapModel): [string, string | undefined][] =>
   m.diagnostics.map((d) => [d.code, d.pkg]);
+
+/** Diagnostic codes of a model, in model order. */
+export const diagCodes = (m: ExtensionMapModel): string[] => m.diagnostics.map((d) => d.code);
+
+/** Sorted point ids of a model. */
+export const pointIds = (m: ExtensionMapModel): string[] => m.points.map((p) => p.id);

@@ -5,6 +5,7 @@ import type {
   DiagnosticCode,
   Entry,
   ExtensionMapModel,
+  ExtensionPoint,
   Pkg,
 } from '../../src/model/types';
 
@@ -43,3 +44,24 @@ export const staticEntryPkgs = (): string[] =>
   getRepoModel()
     .entries.filter((e) => e.path === 'static')
     .map((e) => e.pkg);
+
+/** Every diagnostic with a code. */
+export const diags = (code: DiagnosticCode): Diagnostic[] =>
+  getRepoModel().diagnostics.filter((d) => d.code === code);
+
+export const points = (): ExtensionPoint[] => getRepoModel().points;
+
+export const point = (id: string): ExtensionPoint => {
+  const found = points().find((p) => p.id === id);
+  if (!found) {
+    throw new Error(`No extension point ${id} in the repo model`);
+  }
+  return found;
+};
+
+/** Sorted ids of the points whose id starts with `prefix`. */
+export const pointIdsStartingWith = (prefix: string): string[] =>
+  points()
+    .map((p) => p.id)
+    .filter((id) => id.startsWith(prefix))
+    .toSorted();
