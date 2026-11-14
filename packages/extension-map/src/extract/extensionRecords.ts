@@ -127,15 +127,18 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
   const pkgOf = (file: string, ctx: ProgramCtx, entry: Entry): string =>
     pkgForFile(file, ctx.ws) ?? pkgForFile(relFile(ctx.repoRoot, ctx.dir), ctx.ws) ?? entry.pkg;
 
+  /**
+   * The values of an array literal. An array written some other way is kept as the one value it
+   * resolved to, so that a flag list the walk cannot read is reported instead of looking empty.
+   */
   const valuesOfArray = (expr: ts.Expression | undefined, ctx: ProgramCtx): Value[] => {
     if (!expr) {
       return [];
     }
     const node = unwrapExpression(expr);
-    if (!ts.isArrayLiteralExpression(node)) {
-      return [];
-    }
-    return node.elements.map((element) => resolveValue(element, ctx));
+    return ts.isArrayLiteralExpression(node)
+      ? node.elements.map((element) => resolveValue(element, ctx))
+      : [resolveValue(node, ctx)];
   };
 
   const propertiesOf = (
