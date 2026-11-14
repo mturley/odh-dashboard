@@ -1,0 +1,11 @@
+[
+  {
+    "name": "@fx/points",
+    "dir": "packages/p",
+    "packageJson": {
+      "name": "@fx/points",
+      "private": true,
+      "version": "0.0.0"
+    }
+  }
+]

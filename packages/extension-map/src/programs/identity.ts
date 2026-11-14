@@ -35,7 +35,7 @@ export const resolveAlias = (checker: ts.TypeChecker, sym: ts.Symbol): ts.Symbol
   return current;
 };
 
-const isStringLiteralType = (t: ts.Type): t is ts.StringLiteralType =>
+export const isStringLiteralType = (t: ts.Type): t is ts.StringLiteralType =>
   (t.flags & ts.TypeFlags.StringLiteral) !== 0;
 
 /**

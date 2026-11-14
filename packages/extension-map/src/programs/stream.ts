@@ -10,6 +10,7 @@ import {
   keptWorkspacePackages,
   toRelPosix,
 } from '../discovery/workspace';
+import { isDirectory } from '../discovery/hostFederation';
 import { makeDiagnostic } from '../model/diagnostics';
 import type { Diagnostic, WorkspacePackage } from '../model/types';
 
@@ -177,7 +178,12 @@ export const runPass = (
   const claimed = new Set<string>();
   const found = new Set<string>();
   for (const pkg of keptWorkspacePackages(ws)) {
-    findTsconfigs(path.resolve(repoRoot, pkg.dir), found);
+    // Workspace entries are data; one without an on-disk directory (e.g. a
+    // data-only fixture package) simply contributes no programs.
+    const pkgDir = path.resolve(repoRoot, pkg.dir);
+    if (isDirectory(pkgDir)) {
+      findTsconfigs(pkgDir, found);
+    }
   }
   const tsconfigs = [...found].toSorted(byDepthThenPath);
   for (const tsconfig of tsconfigs) {

@@ -67,6 +67,11 @@ export type ExtensionPoint = {
     typeText: string;
     codeRef?: { inner: string };
     doc?: string;
+    /**
+     * Internal (Task 11): repo-relative declaration keys of the `codeRef`
+     * inner type, recorded as plain data for carried-type extraction.
+     */
+    innerDeclKeys?: string[];
   }[];
 };
 

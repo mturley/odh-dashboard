@@ -49,7 +49,10 @@ describe('extension-map CLI', () => {
     } finally {
       fs.rmSync(outDir, { recursive: true, force: true });
     }
-  }, 120_000);
+    // Pass A streams and type-checks every owned file of the real repo, which
+    // can exceed an ordinary unit-test timeout; the analysis itself is not
+    // run concurrently with anything else.
+  }, 600_000);
 
   it('generate writes no output when analysis fails', () => {
     const outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ext-map-cli-'));
