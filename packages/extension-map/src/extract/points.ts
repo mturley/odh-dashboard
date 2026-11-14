@@ -3,7 +3,8 @@ import { isEmptyDoc, readDoc } from './jsdoc';
 import { pkgForFile, relFile, toPosix } from '../discovery/workspace';
 import { makeDiagnostic } from '../model/diagnostics';
 import type { Diagnostic, ExtensionPoint, Guard } from '../model/types';
-import { declKey, locOf, predicateTargetIds, resolveAlias } from '../programs/identity';
+import { declKey, locOf, predicateInfo, resolveAlias } from '../programs/identity';
+import type { PredicateInfo } from '../programs/identity';
 import type { Collector, ProgramCtx } from '../programs/stream';
 
 export type PointsResult = {
@@ -82,15 +83,40 @@ const isCodeRef = (ref: TypeRef, checker: ts.TypeChecker, depth: number): boolea
   );
 };
 
-/** The type argument a code reference carries, written at the use site or defaulted by the alias. */
-const innerTypeNode = (ref: TypeRef, checker: ts.TypeChecker): ts.TypeNode | undefined => {
-  const explicit = ref.typeArguments?.[0];
-  if (explicit) {
-    return explicit;
+/** Narrows to a type with type arguments, without asserting. */
+const isTypeReference = (type: ts.Type): type is ts.TypeReference =>
+  (type.flags & ts.TypeFlags.Object) !== 0 && 'target' in type;
+
+/**
+ * The type a code reference really carries: the result of calling it. Read from the
+ * property's own type, so an alias of `CodeRef` reports what the alias wraps
+ * (`ComponentCodeRef<P>` carries `{ default: ComponentType<P> }`, not `P`).
+ */
+const carriedType = (propType: ts.Type, checker: ts.TypeChecker): ts.Type | undefined => {
+  for (const signature of propType.getCallSignatures()) {
+    const returned = signature.getReturnType();
+    // `Promise<T>`'s own type argument, not its awaited type: awaiting a type parameter yields
+    // `Awaited<T>`, which names no declaration.
+    const promised =
+      isTypeReference(returned) && returned.getSymbol()?.name === 'Promise'
+        ? checker.getTypeArguments(returned)
+        : [];
+    if (promised.length === 1) {
+      return promised[0];
+    }
+    const awaited = checker.getAwaitedType(returned);
+    if (awaited && awaited !== returned) {
+      return awaited;
+    }
   }
-  const alias = symbolOf(ref.name, checker)?.declarations?.find(ts.isTypeAliasDeclaration);
-  return alias?.typeParameters?.[0]?.default;
+  return undefined;
 };
+
+/** A type parameter stands for its default, or its constraint, when looking for a declaration. */
+const concreteType = (type: ts.Type, checker: ts.TypeChecker): ts.Type =>
+  type.isTypeParameter()
+    ? checker.getDefaultFromTypeParameter(type) ?? checker.getBaseConstraintOfType(type) ?? type
+    : type;
 
 const isNamedTypeDecl = (decl: ts.Declaration): boolean =>
   ts.isTypeAliasDeclaration(decl) ||
@@ -111,6 +137,7 @@ const namedDeclKey = (type: ts.Type, ctx: ProgramCtx): string | undefined => {
 };
 
 const codeRefOf = (
+  symbol: ts.Symbol,
   typeNode: ts.TypeNode | undefined,
   ctx: ProgramCtx,
 ): ExtensionPoint['properties'][number]['codeRef'] => {
@@ -121,13 +148,12 @@ const codeRefOf = (
   if (!isCodeRef(ref, ctx.checker, 0)) {
     return undefined;
   }
-  const inner = innerTypeNode(ref, ctx.checker);
-  if (!inner) {
+  const carried = carriedType(ctx.checker.getTypeOfSymbol(symbol), ctx.checker);
+  if (!carried) {
     return { inner: collapse(typeNode.getText()) };
   }
-  const innerType = ctx.checker.getTypeFromTypeNode(inner);
-  const key = namedDeclKey(innerType, ctx);
-  return { inner: ctx.checker.typeToString(innerType), ...(key ? { innerKey: key } : {}) };
+  const key = namedDeclKey(concreteType(carried, ctx.checker), ctx);
+  return { inner: ctx.checker.typeToString(carried), ...(key ? { innerKey: key } : {}) };
 };
 
 /** The declared properties of a point, read from the `Extension` reference's second type argument. */
@@ -148,7 +174,7 @@ const propertiesOf = (
       if (doc) {
         diagnostics.push(...doc.diagnostics);
       }
-      const codeRef = codeRefOf(declaredType, ctx);
+      const codeRef = codeRefOf(symbol, declaredType, ctx);
       const summary = doc?.doc.summary;
       return {
         name: symbol.name,
@@ -195,24 +221,36 @@ const comparedLiteral = (node: ts.Node): string | undefined => {
 const firstStringArgument = (call: ts.CallExpression): string | undefined =>
   call.arguments.find(ts.isStringLiteralLike)?.text;
 
-/** The ids the first call signature of `type` returns a predicate for, one level in. */
-const returnedPredicateIds = (type: ts.Type, checker: ts.TypeChecker): string[] | undefined =>
+/** A guard this pass found, kept until `finish()` can tell an extension guard from a look-alike. */
+type GuardCandidate = {
+  guard: Guard;
+  pkg: string;
+  /** The string literal the guard compares `.type` against, when it compares against one. */
+  literal?: string;
+  /** The guard narrows from the SDK's generic extension type. */
+  paramGeneric: boolean;
+  /** The point ids the narrowed parameter itself names, when it names literals. */
+  paramIds?: string[];
+};
+
+/** The predicate the first call signature of `type` returns, one level in. */
+const returnedPredicate = (type: ts.Type, checker: ts.TypeChecker): PredicateInfo | undefined =>
   type
     .getCallSignatures()
-    .map((signature) => predicateTargetIds(signature.getReturnType(), checker))
-    .find((ids) => ids !== undefined);
+    .map((signature) => predicateInfo(signature.getReturnType(), checker))
+    .find((info) => info !== undefined);
 
 const guardOf = (
   name: ts.Identifier,
   decl: ts.Node,
   initializer: ts.Expression | undefined,
   ctx: ProgramCtx,
-): { guard: Guard; literal?: string } | undefined => {
+): Omit<GuardCandidate, 'pkg'> | undefined => {
   const type = ctx.checker.getTypeAtLocation(name);
-  const direct = predicateTargetIds(type, ctx.checker);
-  const returned = direct ? undefined : returnedPredicateIds(type, ctx.checker);
-  const pointIds = direct ?? returned;
-  if (!pointIds) {
+  const direct = predicateInfo(type, ctx.checker);
+  const returned = direct ? undefined : returnedPredicate(type, ctx.checker);
+  const info = direct ?? returned;
+  if (!info) {
     return undefined;
   }
   const factoryCall = initializer && ts.isCallExpression(initializer) ? initializer : undefined;
@@ -221,8 +259,9 @@ const guardOf = (
     ? firstStringArgument(factoryCall)
     : comparedLiteral(initializer ?? decl);
   return {
-    // A union that repeats a `type` literal yields it once per member; a guard names each id once.
-    guard: { name: name.text, loc: locOf(decl, ctx), style, pointIds: [...new Set(pointIds)] },
+    guard: { name: name.text, loc: locOf(decl, ctx), style, pointIds: info.targetIds },
+    paramGeneric: info.paramGeneric,
+    ...(info.paramIds ? { paramIds: info.paramIds } : {}),
     ...(literal === undefined ? {} : { literal }),
   };
 };
@@ -234,9 +273,7 @@ const guardOf = (
  */
 export const pointsCollector = (): Collector<PointsResult> => {
   const points: ExtensionPoint[] = [];
-  const guards: Guard[] = [];
-  /** The declaring package of each guard; `Guard` itself does not carry one. */
-  const guardPkgs = new Map<Guard, string>();
+  const candidates: GuardCandidate[] = [];
   const diagnostics: Diagnostic[] = [];
 
   const addPoint = (node: PointDecl, pkg: string, ctx: ProgramCtx): void => {
@@ -288,22 +325,8 @@ export const pointsCollector = (): Collector<PointsResult> => {
     ctx: ProgramCtx,
   ): void => {
     const found = guardOf(name, decl, initializer, ctx);
-    if (!found) {
-      return;
-    }
-    guards.push(found.guard);
-    guardPkgs.set(found.guard, pkg);
-    if (found.literal !== undefined && !found.guard.pointIds.includes(found.literal)) {
-      diagnostics.push(
-        makeDiagnostic(
-          'guard-literal-mismatch',
-          `Guard '${name.text}' compares against '${
-            found.literal
-          }' but narrows to ${found.guard.pointIds.map((id) => `'${id}'`).join(', ')}.`,
-          found.guard.loc,
-          pkg,
-        ),
-      );
+    if (found) {
+      candidates.push({ ...found, pkg });
     }
   };
 
@@ -339,6 +362,13 @@ export const pointsCollector = (): Collector<PointsResult> => {
 
     finish: () => {
       const known = new Set(points.map((point) => point.id));
+      // A predicate over some other union that happens to carry `type` and `properties` is not an
+      // extension guard; one narrowing within a union of known points is.
+      const accepted = candidates.filter(
+        (candidate) =>
+          candidate.paramGeneric || (candidate.paramIds?.every((id) => known.has(id)) ?? false),
+      );
+      const guards = accepted.map((candidate) => candidate.guard);
       const namesById = new Map<string, Set<string>>();
       guards.forEach((guard) =>
         guard.pointIds.forEach((id) => {
@@ -379,7 +409,19 @@ export const pointsCollector = (): Collector<PointsResult> => {
           );
         }
       });
-      guards.forEach((guard) => {
+      accepted.forEach(({ guard, pkg, literal }) => {
+        if (literal !== undefined && !guard.pointIds.includes(literal)) {
+          joined.push(
+            makeDiagnostic(
+              'guard-literal-mismatch',
+              `Guard '${guard.name}' compares against '${literal}' but narrows to ${guard.pointIds
+                .map((id) => `'${id}'`)
+                .join(', ')}.`,
+              guard.loc,
+              pkg,
+            ),
+          );
+        }
         if (!guard.pointIds.some((id) => known.has(id))) {
           joined.push(
             makeDiagnostic(
@@ -388,7 +430,7 @@ export const pointsCollector = (): Collector<PointsResult> => {
                 .map((id) => `'${id}'`)
                 .join(', ')}, which no extension point declares.`,
               guard.loc,
-              guardPkgs.get(guard),
+              pkg,
             ),
           );
         }

@@ -35,7 +35,7 @@ describe('extension points', () => {
     expect(point('fx.a')).toMatchObject({
       pkg: '@fx/p',
       typeParams: ['T'],
-      loc: { file: 'packages/p/src/ext.ts', line: 12 },
+      loc: { file: 'packages/p/src/ext.ts', line: 17 },
     });
     expect(point('fx.b').typeParams).toEqual([]);
   });
@@ -90,10 +90,22 @@ describe('extension points', () => {
     expect(prop('fx.a', 'label').codeRef).toBeUndefined();
   });
 
+  it('resolves an alias of CodeRef to the type the code reference really carries', () => {
+    expect(prop('fx.a', 'widget').codeRef).toEqual({
+      inner: '{ default: (props: FxProps) => string; }',
+    });
+  });
+
+  it('does not treat a predicate over a non-extension union as a guard', () => {
+    expect(m.guards.map((g) => g.name)).not.toContain('isFxDataField');
+    expect(m.diagnostics.filter((d) => d.message.includes('isFxDataField'))).toEqual([]);
+  });
+
   it('records property names, optionality and declared type text', () => {
     expect(point('fx.a').properties.map((p) => [p.name, p.optional, p.typeText])).toEqual([
       ['field', false, 'CodeRef<FxField>'],
       ['inline', false, 'CodeRef<{ x: number }>'],
+      ['widget', false, 'ComponentCodeRef<FxProps>'],
       ['label', true, 'string'],
       ['data', false, 'T'],
     ]);
@@ -104,7 +116,7 @@ describe('extension points', () => {
     const expected = ['point-no-guard', 'point-no-jsdoc', 'jsdoc-param-on-type', 'guard-no-point'];
     expect(diagCodes(m)).toEqual(expect.arrayContaining(expected));
     expect(m.diagnostics.filter((d) => d.code === 'point-no-guard')).toEqual([
-      expect.objectContaining({ pkg: '@fx/p', loc: { file: 'packages/p/src/ext.ts', line: 36 } }),
+      expect.objectContaining({ pkg: '@fx/p', loc: { file: 'packages/p/src/ext.ts', line: 43 } }),
     ]);
   });
 

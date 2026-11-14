@@ -1,4 +1,13 @@
-import { diags, point, pointIdsStartingWith, points } from './model';
+import { diags, getRepoModel, point, pointIdsStartingWith, points } from './model';
+import type { ExtensionPoint } from '../../src/model/types';
+
+const prop = (id: string, name: string): ExtensionPoint['properties'][number] => {
+  const found = point(id).properties.find((p) => p.name === name);
+  if (!found) {
+    throw new Error(`No property ${name} on point ${id}`);
+  }
+  return found;
+};
 
 describe('extension points on the real repo', () => {
   it('finds model-serving.deployment/transform with its guard', () => {
@@ -40,8 +49,25 @@ describe('extension points on the real repo', () => {
     expect(diags('point-duplicate-id')).toEqual([]);
   });
 
-  it('records a ComponentCodeRef property of a point', () => {
-    const p = point('app.route');
-    expect(p.properties.find((prop) => prop.name === 'component')?.codeRef).toBeDefined();
+  it('carries the inner type of a CodeRef property to its declaration', () => {
+    expect(prop('model-serving.deployment/wizard-field', 'field').codeRef).toEqual({
+      inner: 'WizardFieldType',
+      innerKey: expect.stringMatching(
+        /^packages\/model-serving\/src\/shared\/types\/form-data\.ts:\d+$/,
+      ),
+    });
+  });
+
+  it('resolves a ComponentCodeRef to the component it carries, with no carried-type key', () => {
+    const { codeRef } = prop('app.route', 'component');
+    expect(codeRef?.inner).toContain('ComponentType');
+    expect(codeRef?.innerKey).toBeUndefined();
+  });
+
+  it('declares no extension guard in packages/k8s-core and no guard without a point', () => {
+    expect(
+      getRepoModel().guards.filter((g) => g.loc.file.startsWith('packages/k8s-core/')),
+    ).toEqual([]);
+    expect(diags('guard-no-point')).toEqual([]);
   });
 });

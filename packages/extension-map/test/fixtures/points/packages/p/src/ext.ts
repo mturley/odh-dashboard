@@ -2,6 +2,11 @@ import type { CodeRef, Extension } from '@openshift/dynamic-plugin-sdk';
 
 export type FxField = { id: string; run: () => void };
 
+export type FxProps = { label: string };
+
+/** A repo alias of `CodeRef`, like plugin-core's `ComponentCodeRef`. */
+export type ComponentCodeRef<Props = FxProps> = CodeRef<{ default: (props: Props) => string }>;
+
 /**
  * The alias form of a fixture point.
  *
@@ -16,6 +21,8 @@ export type FxA<T = unknown> = Extension<
     field: CodeRef<FxField>;
     /** A code reference to an inline type. */
     inline: CodeRef<{ x: number }>;
+    /** A code reference declared through an alias of `CodeRef`. */
+    widget: ComponentCodeRef<FxProps>;
     label?: string;
     data: T;
   }
