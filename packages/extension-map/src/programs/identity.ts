@@ -24,6 +24,27 @@ export const locOf = (node: ts.Node, ctx: ProgramCtx): Loc => {
   };
 };
 
+/**
+ * Everything `satisfies`, `as`, `as const`, a type assertion, a non-null assertion and
+ * parentheses wrap, down to the expression that carries the value.
+ */
+export const unwrapExpression = (expr: ts.Expression): ts.Expression => {
+  let current = expr;
+  for (;;) {
+    if (
+      ts.isParenthesizedExpression(current) ||
+      ts.isAsExpression(current) ||
+      ts.isSatisfiesExpression(current) ||
+      ts.isTypeAssertionExpression(current) ||
+      ts.isNonNullExpression(current)
+    ) {
+      current = current.expression;
+    } else {
+      return current;
+    }
+  }
+};
+
 /** Follows import/export aliases to the symbol that actually declares the thing. */
 export const resolveAlias = (checker: ts.TypeChecker, symbol: ts.Symbol): ts.Symbol => {
   let current = symbol;

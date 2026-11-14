@@ -1,0 +1,13 @@
+[
+  {
+    "name": "@fx/p",
+    "dir": "packages/p",
+    "packageJson": {
+      "name": "@fx/p",
+      "exports": {
+        "./extensions": "./src/extensions.ts",
+        "./extensions/alt": "./src/alt.ts"
+      }
+    }
+  }
+]

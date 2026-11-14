@@ -118,6 +118,7 @@ const visitProgram = (
   claimed: Set<string>,
   diagnostics: Diagnostic[],
   sourceCache: SourceFileCache | undefined,
+  extraRoots: readonly string[],
 ): void => {
   const loc = { file: relFile(repoRoot, configPath), line: 1 };
   const parsed = parseConfig(configPath, (message) => {
@@ -126,15 +127,26 @@ const visitProgram = (
   if (!parsed) {
     return;
   }
+  const dir = path.dirname(configPath);
+  const prefix = `${toPosix(dir)}/`;
+  // A file a caller insists on (an entry module) that this tsconfig excludes would otherwise
+  // belong to no program at all, and so would never be analyzed: some packages exclude their
+  // federated entry module from type-checking. Adding it as a root keeps it in the deepest
+  // program under its directory, which is the program that then claims it.
+  const roots = new Set(parsed.fileNames.map(toPosix));
+  for (const extra of extraRoots) {
+    const absolute = toPosix(path.join(repoRoot, extra));
+    if (absolute.startsWith(prefix) && !roots.has(absolute) && fs.existsSync(absolute)) {
+      roots.add(absolute);
+    }
+  }
   const options: ts.CompilerOptions = { ...parsed.options, noEmit: true };
   const program = ts.createProgram({
-    rootNames: parsed.fileNames,
+    rootNames: [...roots],
     options,
     host: sourceCache ? cachingHost(options, sourceCache) : createHost(options),
     projectReferences: parsed.projectReferences,
   });
-  const dir = path.dirname(configPath);
-  const prefix = `${toPosix(dir)}/`;
   const claimedFiles: ts.SourceFile[] = [];
   for (const file of program.getSourceFiles()) {
     const rel = relFile(repoRoot, file.fileName);
@@ -165,13 +177,14 @@ const visitProgram = (
 /**
  * Streams one program per in-scope tsconfig, deepest directory first, so that every source file
  * is analyzed exactly once by the deepest program that includes it. Only one program is alive at
- * a time. Returns the diagnostics the collectors appended.
+ * a time. `extraRoots` names repo-relative files that must be in a program even when their own
+ * tsconfig excludes them. Returns the diagnostics the collectors appended.
  */
 export const runPass = (
   repoRoot: string,
   ws: WorkspacePackage[],
   collectors: Collector<unknown>[],
-  opts: { sourceCache?: SourceFileCache },
+  opts: { sourceCache?: SourceFileCache; extraRoots?: readonly string[] },
 ): Diagnostic[] => {
   const diagnostics: Diagnostic[] = [];
   const claimed = new Set<string>();
@@ -184,6 +197,7 @@ export const runPass = (
       claimed,
       diagnostics,
       opts.sourceCache,
+      opts.extraRoots ?? [],
     );
     releaseProgram();
   }

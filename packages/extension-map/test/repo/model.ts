@@ -6,7 +6,9 @@ import type {
   Entry,
   ExtensionMapModel,
   ExtensionPoint,
+  ExtensionRecord,
   Pkg,
+  Value,
 } from '../../src/model/types';
 
 export const repoModelCachePath = (): string =>
@@ -65,3 +67,51 @@ export const pointIdsStartingWith = (prefix: string): string[] =>
     .map((p) => p.id)
     .filter((id) => id.startsWith(prefix))
     .toSorted();
+
+export const extensions = (): ExtensionRecord[] => getRepoModel().extensions;
+
+/** Extensions attributed to a display package. */
+export const extsOf = (pkgName: string): ExtensionRecord[] =>
+  extensions().filter((e) => e.pkg === pkgName);
+
+/** Sorted, unique extension types a package contributes, limited to those starting with `prefix`. */
+export const typesOf = (pkgName: string, prefix: string): string[] =>
+  [
+    ...new Set(
+      extsOf(pkgName)
+        .map((e) => e.type)
+        .filter((type) => type.startsWith(prefix)),
+    ),
+  ].toSorted();
+
+/** Sorted, unique display packages contributing an extension of a type. */
+export const contributors = (type: string): string[] =>
+  [
+    ...new Set(
+      extensions()
+        .filter((e) => e.type === type)
+        .map((e) => e.pkg),
+    ),
+  ].toSorted();
+
+/** The readable name of a flag value: `Enum.MEMBER`, a constant name, or a literal. */
+const flagName = (value: Value): string => {
+  switch (value.kind) {
+    case 'enumMember':
+      return `${value.enumName}.${value.member}`;
+    case 'constant':
+      return value.name;
+    case 'literal':
+      return String(value.value);
+    default:
+      return value.kind;
+  }
+};
+
+/** Sorted, unique readable names of every flag a package's extensions require or disallow. */
+export const flagNames = (pkgName: string): string[] =>
+  [
+    ...new Set(
+      extsOf(pkgName).flatMap((e) => [...e.flags.required, ...e.flags.disallowed].map(flagName)),
+    ),
+  ].toSorted();

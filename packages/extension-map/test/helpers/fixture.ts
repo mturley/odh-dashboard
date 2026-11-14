@@ -1,8 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import ts from 'typescript';
 import { analyzeRepo } from '../../src/analyze';
 import type { AnalyzeOptions } from '../../src/analyze';
-import type { ExtensionMapModel, WorkspacePackage } from '../../src/model/types';
+import { relFile } from '../../src/discovery/workspace';
+import { resolveValue } from '../../src/extract/values';
+import type { ExtensionMapModel, Value, WorkspacePackage } from '../../src/model/types';
+import { runPass } from '../../src/programs/stream';
+import type { ProgramCtx } from '../../src/programs/stream';
 
 export const fixtureDir = (name: string): string => path.join(__dirname, '..', 'fixtures', name);
 
@@ -32,3 +37,29 @@ export const diagCodes = (m: ExtensionMapModel): string[] => m.diagnostics.map((
 
 /** Sorted point ids of a model. */
 export const pointIds = (m: ExtensionMapModel): string[] => m.points.map((p) => p.id);
+
+/**
+ * Resolves the initializer of every top-level variable of one fixture file, in the program that
+ * owns it. Lets value tests name a variable instead of building a program by hand.
+ */
+export const valuesOf = (name: string, file: string): Map<string, Value> => {
+  const repoRoot = fixtureDir(name);
+  const resolved = new Map<string, Value>();
+  const collector = {
+    visit: (ctx: ProgramCtx): void => {
+      const source = ctx.ownedFiles.find((f) => relFile(repoRoot, f.fileName) === file);
+      source?.forEachChild((node) => {
+        if (ts.isVariableStatement(node)) {
+          node.declarationList.declarations.forEach((decl) => {
+            if (ts.isIdentifier(decl.name) && decl.initializer) {
+              resolved.set(decl.name.text, resolveValue(decl.initializer, ctx));
+            }
+          });
+        }
+      });
+    },
+    finish: (): undefined => undefined,
+  };
+  runPass(repoRoot, readWorkspace(name), [collector], {});
+  return resolved;
+};
