@@ -191,7 +191,8 @@ export type DiagnosticCode =
   | 'point-no-contributors'
   | 'point-no-consumers'
   | 'carried-built-outside'
-  | 'extension-data-invalid';
+  | 'extension-data-invalid'
+  | 'tsconfig-error';
 
 export type Diagnostic = {
   code: DiagnosticCode;

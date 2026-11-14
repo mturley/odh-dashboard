@@ -1,0 +1,13 @@
+[
+  { "name": "@fx/root", "dir": ".", "packageJson": { "name": "@fx/root", "version": "0.0.0" } },
+  {
+    "name": "@fx/a",
+    "dir": "packages/a",
+    "packageJson": { "name": "@fx/a", "version": "1.0.0" }
+  },
+  {
+    "name": "@fx/a-ui",
+    "dir": "packages/a/frontend",
+    "packageJson": { "name": "@fx/a-ui", "version": "1.0.0" }
+  }
+]

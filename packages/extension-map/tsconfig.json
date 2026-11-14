@@ -3,6 +3,5 @@
   "compilerOptions": {
     "lib": ["es2021", "ES2023.Array"]
   },
-  "include": ["src", "test", "jest.config.ts", "jest.repo.config.ts"],
-  "exclude": ["test/fixtures"]
+  "include": ["src", "test", "jest.config.ts", "jest.repo.config.ts"]
 }

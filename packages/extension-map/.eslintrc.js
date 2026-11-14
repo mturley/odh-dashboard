@@ -1,5 +1,1 @@
-module.exports = require('@odh-dashboard/eslint-config')
-  .extend({
-    ignorePatterns: ['test/fixtures/**'],
-  })
-  .recommendedTypescript(__dirname);
+module.exports = require('@odh-dashboard/eslint-config').recommendedTypescript(__dirname);
