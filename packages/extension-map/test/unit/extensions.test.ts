@@ -1,7 +1,7 @@
 import { analyzeFixture, diagCodes } from '../helpers/fixture';
 import type { ExtensionMapModel, ExtensionRecord } from '../../src/model/types';
 
-const m: ExtensionMapModel = analyzeFixture('extensions');
+const m: ExtensionMapModel = analyzeFixture('records');
 
 const ext = (type: string): ExtensionRecord => {
   const found = m.extensions.filter((e) => e.type === type);
@@ -67,7 +67,7 @@ describe('extensions', () => {
 
   it('merges a spread extension, with the element as its own declaration', () => {
     const spread = ext('fx.spread');
-    expect(spread.loc).toMatchObject({ file: 'packages/p/src/extensions.ts', line: 22 });
+    expect(spread.loc).toMatchObject({ file: 'packages/p/src/entry.ts', line: 22 });
     expect(spread.properties).toEqual({
       id: { kind: 'literal', value: 'base' },
       label: { kind: 'literal', value: 'Override' },
@@ -81,7 +81,7 @@ describe('extensions', () => {
     expect(m.extensions.map((e) => e.type)).not.toContain('fx.loose');
     expect(
       m.diagnostics.filter(
-        (d) => d.code === 'unresolved-element' && d.loc?.file === 'packages/p/src/extensions.ts',
+        (d) => d.code === 'unresolved-element' && d.loc?.file === 'packages/p/src/entry.ts',
       ).length,
     ).toBeGreaterThanOrEqual(1);
   });

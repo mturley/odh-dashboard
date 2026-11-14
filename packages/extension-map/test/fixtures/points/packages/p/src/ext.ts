@@ -33,7 +33,10 @@ export const isFxA = (e: Extension): e is FxA => e.type === 'fx.a';
 /** Narrows to `FxA` but compares against the wrong literal. */
 export const isFxAMistyped = (e: Extension): e is FxA => e.type === 'fx.oops';
 
-export const makeFxAGuard = () => (e: Extension): e is FxA => e.type === 'fx.a';
+export const makeFxAGuard =
+  () =>
+  (e: Extension): e is FxA =>
+    e.type === 'fx.a';
 
 export interface FxB extends Extension<'fx.b', { name: string }> {}
 

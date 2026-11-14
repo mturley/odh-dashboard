@@ -30,12 +30,12 @@ looseExtensions = [];
 const extensions = [
   ...shared,
   ...looseExtensions,
-  ...(
-    [`${ROUTE_BASE}/a`, `${ROUTE_BASE}/b`, `${ROUTE_BASE}/c`] as const
-  ).map((path): FxRouteExtension => ({
-    type: 'app.route',
-    properties: { path, component: () => import('./m') },
-  })),
+  ...([`${ROUTE_BASE}/a`, `${ROUTE_BASE}/b`, `${ROUTE_BASE}/c`] as const).map(
+    (path): FxRouteExtension => ({
+      type: 'app.route',
+      properties: { path, component: () => import('./m') },
+    }),
+  ),
   ...NAMES.map((name) => ({
     type: 'fx.generated',
     properties: { name },

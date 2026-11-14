@@ -1,0 +1,24 @@
+// Lint-only project for the test fixtures.
+//
+// ESLint's type-aware rules need every linted file to belong to a TypeScript project, but the
+// fixtures' own tsconfigs are analyzer input: one is deliberately broken, one deliberately
+// excludes a file, and some fixture packages have none at all. This project covers every fixture
+// file instead. Nothing reads it but ESLint.
+//
+// It is deliberately not named `tsconfig.json`, and it sits above every fixture root, so the
+// analyzer under test can never mistake it for a fixture package's tsconfig.
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022", "dom"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": { "@mf/*": ["./mftypes/frontend/@mf-types/@mf/*"] }
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}

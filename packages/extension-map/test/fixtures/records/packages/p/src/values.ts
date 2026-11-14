@@ -16,19 +16,20 @@ export const areaFlag = Area.K_SERVE;
 
 export const platformId = KS_ID;
 
-export const ref1 = () => import('./m');
+export const ref1 = (): Promise<typeof import('./m')> => import('./m');
 
-export const ref2 = () => import('./m').then((m) => m.useThing);
+export const ref2 = (): Promise<() => number> => import('./m').then((m) => m.useThing);
 
-export const ref3 = () => import('./m').then((m) => ({ default: m.Modal }));
+export const ref3 = (): Promise<{ default: () => string }> =>
+  import('./m').then((m) => ({ default: m.Modal }));
 
-export const ref4 = () => import('./m').then((m) => (d: D) => m.f(d));
+export const ref4 = (): Promise<(d: D) => string> => import('./m').then((m) => (d: D) => m.f(d));
 
-export const refMissing = () => import('./nowhere');
+export const refMissing = (): Promise<unknown> => import('./nowhere');
 
 export const computed = compute();
 
-export const inlineFn = () => 1;
+export const inlineFn = (): number => 1;
 
 export const fnRef = compute;
 

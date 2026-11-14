@@ -17,5 +17,4 @@ type FxSectionField = { type: 'section'; properties: { label: string } };
 type FxAnyField = FxDataField | FxSectionField;
 
 /** Narrows a union that carries `type` and `properties` but has nothing to do with extensions. */
-export const isFxDataField = (field: FxAnyField): field is FxDataField =>
-  field.type !== 'section';
+export const isFxDataField = (field: FxAnyField): field is FxDataField => field.type !== 'section';

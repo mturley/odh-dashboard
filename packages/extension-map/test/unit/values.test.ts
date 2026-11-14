@@ -1,7 +1,7 @@
 import { valuesOf } from '../helpers/fixture';
 import type { Value } from '../../src/model/types';
 
-const values = valuesOf('extensions', 'packages/p/src/values.ts');
+const values = valuesOf('records', 'packages/p/src/values.ts');
 
 const v = (name: string): Value => {
   const found = values.get(name);
@@ -71,7 +71,7 @@ describe('values', () => {
     expect(v('helperRef')).toMatchObject({
       kind: 'function',
       name: 'helper',
-      loc: { file: 'packages/p/src/values.ts', line: 41 },
+      loc: { file: 'packages/p/src/values.ts', line: 42 },
     });
   });
 

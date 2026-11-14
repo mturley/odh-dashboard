@@ -116,7 +116,7 @@ describe('extension points', () => {
     const expected = ['point-no-guard', 'point-no-jsdoc', 'jsdoc-param-on-type', 'guard-no-point'];
     expect(diagCodes(m)).toEqual(expect.arrayContaining(expected));
     expect(m.diagnostics.filter((d) => d.code === 'point-no-guard')).toEqual([
-      expect.objectContaining({ pkg: '@fx/p', loc: { file: 'packages/p/src/ext.ts', line: 43 } }),
+      expect.objectContaining({ pkg: '@fx/p', loc: { file: 'packages/p/src/ext.ts', line: 46 } }),
     ]);
   });
 

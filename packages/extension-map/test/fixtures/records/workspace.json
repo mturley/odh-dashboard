@@ -5,7 +5,7 @@
     "packageJson": {
       "name": "@fx/p",
       "exports": {
-        "./extensions": "./src/extensions.ts",
+        "./extensions": "./src/entry.ts",
         "./extensions/alt": "./src/alt.ts"
       }
     }
