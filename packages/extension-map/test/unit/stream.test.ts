@@ -12,7 +12,10 @@ import { fixtureDir, readWorkspace } from '../helpers/fixture';
 const repoRoot = fixtureDir('ownership');
 const ws = readWorkspace('ownership');
 
-const rel = (file: string): string => path.relative(repoRoot, file).split(path.sep).join('/');
+const relTo = (root: string, file: string): string =>
+  path.relative(root, file).split(path.sep).join('/');
+
+const rel = (file: string): string => relTo(repoRoot, file);
 
 const run = <R>(collector: Collector<R>, opts: { sourceCache?: SourceFileCache } = {}): R => {
   runPass(repoRoot, ws, [collector], opts);
@@ -81,6 +84,42 @@ describe('runPass ownership', () => {
 
   it('gives identical results with and without the source cache', () => {
     expect(run(recorder(), { sourceCache: createSourceFileCache() })).toEqual(run(recorder(), {}));
+  });
+});
+
+describe('tsconfig errors', () => {
+  const errorRoot = fixtureDir('tsconfig-error');
+  const errorWs = readWorkspace('tsconfig-error');
+  const errorRel = (file: string): string =>
+    path.relative(errorRoot, file).split(path.sep).join('/');
+
+  const seen = recorder();
+  const diagnostics = runPass(errorRoot, errorWs, [seen], {});
+  const owned = Object.fromEntries(
+    Object.entries(seen.finish()).map(([config, files]) => [
+      errorRel(path.join(repoRoot, config)),
+      files.map((f) => errorRel(path.join(repoRoot, f))),
+    ]),
+  );
+
+  it('reports a tsconfig it cannot parse', () => {
+    expect(diagnostics).toEqual([
+      expect.objectContaining({
+        code: 'tsconfig-error',
+        severity: 'warning',
+        loc: { file: 'packages/b/broken/tsconfig.json', line: 1 },
+        pkg: '@fx/b',
+      }),
+    ]);
+    expect(diagnostics[0].message).toContain('does-not-exist.json');
+  });
+
+  it('still visits the other programs', () => {
+    expect(owned['packages/b/tsconfig.json']).toEqual(['packages/b/src/ok.ts']);
+  });
+
+  it('does not report a tsconfig that simply matches no files', () => {
+    expect(owned['packages/b/empty/tsconfig.json']).toEqual([]);
   });
 });
 

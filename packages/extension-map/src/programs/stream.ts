@@ -3,7 +3,8 @@ import path from 'path';
 import ts from 'typescript';
 import { cachingHost, createHost } from './sourceCache';
 import type { SourceFileCache } from './sourceCache';
-import { isExcludedPath, relFile, toPosix } from '../discovery/workspace';
+import { isExcludedPath, pkgForFile, relFile, toPosix } from '../discovery/workspace';
+import { makeDiagnostic } from '../model/diagnostics';
 import type { Diagnostic, WorkspacePackage } from '../model/types';
 
 /** One program, with the files it alone is responsible for analyzing. */
@@ -61,15 +62,39 @@ export const findTsconfigs = (repoRoot: string, ws: WorkspacePackage[]): string[
   return [...found].toSorted((a, b) => depth(b) - depth(a) || a.localeCompare(b));
 };
 
-const parseConfig = (configPath: string): ts.ParsedCommandLine | undefined =>
-  ts.getParsedCommandLineOfConfigFile(
+/** "No inputs were found in config file": an empty program is not an analysis failure. */
+const NO_INPUTS_FOUND = 18003;
+
+const messageOf = (diagnostic: ts.Diagnostic): string =>
+  ts.flattenDiagnosticMessageText(diagnostic.messageText, ' ');
+
+/**
+ * Parses a tsconfig, reporting every error it carries. A tsconfig that cannot be parsed, or whose
+ * `extends` chain is broken, would otherwise drop a whole package from the map without a trace.
+ */
+const parseConfig = (
+  configPath: string,
+  report: (message: string) => void,
+): ts.ParsedCommandLine | undefined => {
+  const messages: string[] = [];
+  const parsed = ts.getParsedCommandLineOfConfigFile(
     configPath,
     {},
     {
       ...ts.sys,
-      onUnRecoverableConfigFileDiagnostic: () => undefined,
+      onUnRecoverableConfigFileDiagnostic: (diagnostic) => messages.push(messageOf(diagnostic)),
     },
   );
+  if (parsed) {
+    parsed.errors
+      .filter((error) => error.code !== NO_INPUTS_FOUND)
+      .forEach((error) => messages.push(messageOf(error)));
+  } else if (messages.length === 0) {
+    messages.push('The TypeScript configuration file could not be read.');
+  }
+  messages.forEach(report);
+  return parsed;
+};
 
 /**
  * Collects the released program before the next one is built. Without this V8 defers collection
@@ -94,7 +119,10 @@ const visitProgram = (
   diagnostics: Diagnostic[],
   sourceCache: SourceFileCache | undefined,
 ): void => {
-  const parsed = parseConfig(configPath);
+  const loc = { file: relFile(repoRoot, configPath), line: 1 };
+  const parsed = parseConfig(configPath, (message) => {
+    diagnostics.push(makeDiagnostic('tsconfig-error', message, loc, pkgForFile(loc.file, ws)));
+  });
   if (!parsed) {
     return;
   }
