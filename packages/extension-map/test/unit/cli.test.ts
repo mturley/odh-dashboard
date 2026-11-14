@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { analyzeFixture } from '../helpers/fixture';
 import { emptyModel } from '../../src/model/sort';
+import type { ExtensionMapModel } from '../../src/model/types';
 
 const pkgDir = path.resolve(__dirname, '..', '..');
 const tsxLoader = require.resolve('tsx');
@@ -40,7 +41,11 @@ describe('extension-map CLI', () => {
       expect(r.status).toBe(0);
       expect(r.stdout).toContain('documentation rendering is not implemented yet');
       expect(r.stderr).toContain('extension-map:');
-      expect(JSON.parse(fs.readFileSync(outFile, 'utf8'))).toEqual(emptyModel());
+      // The child analyzed the real repo: the model exists and carries the
+      // discovered entries (the empty stub model is gone since discovery).
+      const model: ExtensionMapModel = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+      expect(model.version).toBe(1);
+      expect(model.entries.length).toBeGreaterThan(0);
     } finally {
       fs.rmSync(outDir, { recursive: true, force: true });
     }

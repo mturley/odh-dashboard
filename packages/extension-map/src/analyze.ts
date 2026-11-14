@@ -1,5 +1,7 @@
 import type { ExtensionMapModel, WorkspacePackage } from './model/types';
 import { emptyModel, sortModel } from './model/sort';
+import { discoverEntries } from './discovery/entries';
+import { keptWorkspacePackages, loadWorkspace } from './discovery/workspace';
 
 export type AnalyzeOptions = {
   repoRoot: string;
@@ -16,9 +18,11 @@ export type AnalyzeOptions = {
 /**
  * Analyzes the repo into an `ExtensionMapModel`.
  *
- * Stub for now: returns the empty model until the collection passes land.
+ * Discovery passes land incrementally; the collection passes (programs,
+ * entries' extensions) are still to come.
  */
 export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
-  void opts;
-  return sortModel(emptyModel());
+  const ws = keptWorkspacePackages(opts.workspace ?? loadWorkspace(opts.repoRoot));
+  const { entries, packages, diagnostics } = discoverEntries(ws, opts.repoRoot);
+  return sortModel({ ...emptyModel(), entries, packages, diagnostics });
 };
