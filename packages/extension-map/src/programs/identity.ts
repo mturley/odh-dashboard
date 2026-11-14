@@ -1,13 +1,25 @@
 import ts from 'typescript';
+import { mapMfTypesDecl, reportStaleMfTypes } from './mfTypes';
 import type { ProgramCtx } from './stream';
 import { relFile } from '../discovery/workspace';
 import type { Loc } from '../model/types';
 
 /**
  * The cross-program identity of a declaration that carries no ID literal of its own:
- * `<repo-relative file>:<start position>`.
+ * `<repo-relative file>:<start position>`. A declaration reached through a committed `@mf-types`
+ * copy gets the key of the source declaration it was generated from, so that a reference through
+ * a copy and a reference to the source join. A copy that no longer matches its source keeps its
+ * own key and is reported as `stale-mf-types`; callers that write keys into the model should
+ * treat such a reference as unresolved instead.
  */
 export const declKey = (node: ts.Node, ctx: ProgramCtx): string => {
+  const mapped = mapMfTypesDecl(node, ctx);
+  if (mapped) {
+    if (!('stale' in mapped)) {
+      return mapped.key;
+    }
+    reportStaleMfTypes(mapped.stale, node, ctx);
+  }
   const file = node.getSourceFile();
   return `${relFile(ctx.repoRoot, file.fileName)}:${node.getStart(file)}`;
 };
@@ -22,6 +34,15 @@ export const locOf = (node: ts.Node, ctx: ProgramCtx): Loc => {
     line,
     ...(endLine > line ? { endLine } : {}),
   };
+};
+
+/**
+ * Where a declaration is shown: the source declaration for one reached through a committed
+ * `@mf-types` copy, so a generated copy is never linked to, and `locOf` for everything else.
+ */
+export const declLoc = (node: ts.Node, ctx: ProgramCtx): Loc => {
+  const mapped = mapMfTypesDecl(node, ctx);
+  return mapped && !('stale' in mapped) ? mapped.loc : locOf(node, ctx);
 };
 
 /**

@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import type { SymbolRef, Value } from '../model/types';
-import { locOf, resolveAlias, unwrapExpression } from '../programs/identity';
+import { declLoc, locOf, resolveAlias, unwrapExpression } from '../programs/identity';
 import type { ProgramCtx } from '../programs/stream';
 
 /** Resolves one expression to a `Value`, with the recursion state of the call that needs it. */
@@ -31,7 +31,7 @@ const isFunctionLike = (expr: ts.Expression): boolean =>
 const refLoc = (expr: ts.Expression, ctx: ProgramCtx): SymbolRef['loc'] => {
   const symbol = ts.isIdentifier(expr) ? ctx.checker.getSymbolAtLocation(expr) : undefined;
   const decl = symbol ? resolveAlias(ctx.checker, symbol).declarations?.[0] : undefined;
-  return locOf(decl ?? expr, ctx);
+  return decl ? declLoc(decl, ctx) : locOf(expr, ctx);
 };
 
 /**

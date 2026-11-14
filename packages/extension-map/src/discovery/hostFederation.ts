@@ -82,17 +82,35 @@ const resolveExposeFile = (
 };
 
 /**
+ * The `moduleFederation.js` a package's remote is built from: `<pkg>/frontend/config/` when it has
+ * one, otherwise the first (sorted) `<pkg>/upstream/**\/frontend/config/`.
+ */
+const federationConfigPath = (pkgDir: string, repoRoot: string): string | undefined => {
+  const absPkg = path.resolve(repoRoot, pkgDir);
+  const own = path.join(absPkg, 'frontend', 'config', CONFIG_FILE);
+  return isFile(own) ? own : findUpstreamConfigs(path.join(absPkg, 'upstream'), 0).at(0);
+};
+
+/**
+ * The repo-relative frontend root of a package's federated remote: the directory that holds the
+ * `config/moduleFederation.js` building it. The paths a remote exposes, and the paths its
+ * generated `@mf-types` copies mirror, are relative to this directory.
+ */
+export const federationFrontendRoot = (pkgDir: string, repoRoot: string): string | undefined => {
+  const configPath = federationConfigPath(pkgDir, repoRoot);
+  return configPath
+    ? toPosix(path.relative(repoRoot, path.dirname(path.dirname(configPath))))
+    : undefined;
+};
+
+/**
  * Reads the `./extensions` expose of a package's `moduleFederation.js` statically (the file is
  * parsed, never executed). Looks at `<pkg>/frontend/config/` first, then the first (sorted)
  * `<pkg>/upstream/**\/frontend/config/`. Returns `undefined` when there is no config file or it
  * has no `./extensions` expose, `{ unresolved }` when the expose cannot be read as a literal.
  */
 export const readFederationExpose = (pkgDir: string, repoRoot: string): FederationExpose => {
-  const absPkg = path.resolve(repoRoot, pkgDir);
-  const own = path.join(absPkg, 'frontend', 'config', CONFIG_FILE);
-  const configPath = isFile(own)
-    ? own
-    : findUpstreamConfigs(path.join(absPkg, 'upstream'), 0).at(0);
+  const configPath = federationConfigPath(pkgDir, repoRoot);
   if (!configPath) {
     return undefined;
   }

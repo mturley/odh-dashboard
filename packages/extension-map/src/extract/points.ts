@@ -3,7 +3,8 @@ import { isEmptyDoc, readDoc } from './jsdoc';
 import { pkgForFile, relFile, toPosix } from '../discovery/workspace';
 import { makeDiagnostic } from '../model/diagnostics';
 import type { Diagnostic, ExtensionPoint, Guard } from '../model/types';
-import { declKey, locOf, predicateInfo, resolveAlias } from '../programs/identity';
+import { declKey, declLoc, predicateInfo, resolveAlias } from '../programs/identity';
+import { mapMfTypesDecl, reportStaleMfTypes } from '../programs/mfTypes';
 import type { PredicateInfo } from '../programs/identity';
 import type { Collector, ProgramCtx } from '../programs/stream';
 
@@ -124,11 +125,26 @@ const isNamedTypeDecl = (decl: ts.Declaration): boolean =>
   ts.isClassDeclaration(decl) ||
   ts.isEnumDeclaration(decl);
 
-/** The cross-program key of a type's own declaration, when it has a named one in repo source. */
+/**
+ * The cross-program key of a type's own declaration, when it has a named one in repo source. A
+ * type declared only in a committed `@mf-types` copy is keyed to the source declaration the copy
+ * was generated from; a copy that no longer matches its source is left unresolved and reported.
+ */
 const namedDeclKey = (type: ts.Type, ctx: ProgramCtx): string | undefined => {
   const symbol = type.aliasSymbol ?? type.getSymbol();
   const decl = symbol?.declarations?.find(isNamedTypeDecl);
-  if (!decl || decl.getSourceFile().isDeclarationFile) {
+  if (!decl) {
+    return undefined;
+  }
+  const mapped = mapMfTypesDecl(decl, ctx);
+  if (mapped) {
+    if ('stale' in mapped) {
+      reportStaleMfTypes(mapped.stale, decl, ctx);
+      return undefined;
+    }
+    return mapped.key;
+  }
+  if (decl.getSourceFile().isDeclarationFile) {
     return undefined;
   }
   return relFile(ctx.repoRoot, decl.getSourceFile().fileName).startsWith('..')
@@ -259,7 +275,7 @@ const guardOf = (
     ? firstStringArgument(factoryCall)
     : comparedLiteral(initializer ?? decl);
   return {
-    guard: { name: name.text, loc: locOf(decl, ctx), style, pointIds: info.targetIds },
+    guard: { name: name.text, loc: declLoc(decl, ctx), style, pointIds: info.targetIds },
     paramGeneric: info.paramGeneric,
     ...(info.paramIds ? { paramIds: info.paramIds } : {}),
     ...(literal === undefined ? {} : { literal }),
@@ -286,7 +302,7 @@ export const pointsCollector = (): Collector<PointsResult> => {
       if (!idType?.isStringLiteral()) {
         continue;
       }
-      const loc = locOf(node, ctx);
+      const loc = declLoc(node, ctx);
       const { doc, diagnostics: docDiagnostics } = readDoc(node, ctx);
       const { properties, diagnostics: propDiagnostics } = propertiesOf(
         ref.typeArguments?.[1],

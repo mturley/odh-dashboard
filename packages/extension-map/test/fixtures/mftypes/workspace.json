@@ -1,0 +1,12 @@
+[
+  {
+    "name": "@fx/rem",
+    "dir": "packages/rem",
+    "packageJson": {
+      "name": "@fx/rem",
+      "module-federation": { "name": "rem", "remoteEntry": "/remoteEntry.js" }
+    }
+  },
+  { "name": "@fx/c", "dir": "packages/c", "packageJson": { "name": "@fx/c" } },
+  { "name": "@fx/c2", "dir": "packages/c2", "packageJson": { "name": "@fx/c2" } }
+]

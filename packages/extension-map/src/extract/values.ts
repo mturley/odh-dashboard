@@ -2,7 +2,13 @@ import ts from 'typescript';
 import { readSupplies } from './supplies';
 import { relFile } from '../discovery/workspace';
 import type { Loc, Value } from '../model/types';
-import { constInitializer, locOf, resolveAlias, unwrapExpression } from '../programs/identity';
+import {
+  constInitializer,
+  declLoc,
+  locOf,
+  resolveAlias,
+  unwrapExpression,
+} from '../programs/identity';
 import type { ProgramCtx } from '../programs/stream';
 
 /** How deep a value may nest before resolution stops; deeper than any real extension property. */
@@ -156,7 +162,7 @@ const resolveCodeRefIn = (fn: ts.ArrowFunction, state: State): Value | undefined
     module.symbol && exportName !== null
       ? exportedDeclaration(module.symbol, exportName, state)
       : undefined;
-  const target: Loc | undefined = decl ? locOf(decl, state.ctx) : undefined;
+  const target: Loc | undefined = decl ? declLoc(decl, state.ctx) : undefined;
   const key = target ? `${target.file}:${target.line}` : undefined;
   const supplies =
     decl && key !== undefined && !state.seen.has(key)
@@ -231,7 +237,7 @@ const referencedFunction = (
     followed !== undefined && isFunctionLike(unwrapExpression(followed.initializer));
   const decl = holdsFunction ? followed.decl : symbol?.declarations?.find(ts.isFunctionDeclaration);
   return decl
-    ? { kind: 'function', name: collapse(expr.getText()), loc: locOf(decl, state.ctx) }
+    ? { kind: 'function', name: collapse(expr.getText()), loc: declLoc(decl, state.ctx) }
     : undefined;
 };
 
