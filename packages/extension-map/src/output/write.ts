@@ -5,11 +5,14 @@ import { HEADER } from '../render/markdown';
 import type { GeneratedFile } from '../render/packagePage';
 
 /** Directories never walked when looking for previously generated files. */
-const SKIPPED_DIRS: ReadonlySet<string> = new Set(['node_modules', '.git']);
+const SKIPPED_DIRS: ReadonlySet<string> = new Set(['node_modules', '.git', 'upstream']);
 
-/** Repo-relative paths the tool is allowed to own. */
+/** Repo-relative paths the tool is allowed to own. Never anything inside an `upstream/` tree. */
 const isGeneratedPath = (relPath: string): boolean => {
   const segments = relPath.split('/');
+  if (segments.includes('upstream')) {
+    return false;
+  }
   const base = segments[segments.length - 1];
   if (relPath.startsWith('docs/extension-map/')) {
     return true;

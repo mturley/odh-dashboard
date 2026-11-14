@@ -10,7 +10,9 @@ const repoRoot = findRepoRoot();
 const files = renderAll(getRepoModel());
 
 const LINK = /\[([^\]\n]*)\]\(([^)\s]*)\)/g;
-const HEADING = /^#{1,6} (.+)$/gm;
+// Levels 1-4 only: nothing links to the level-5 heading of a single contribution, and two
+// contributions to different points may legitimately carry the same name on one page.
+const HEADING = /^#{1,4} (.+)$/gm;
 
 /** The page without its fenced blocks: Mermaid is checked separately, links live in prose. */
 const prose = (content: string): string =>
@@ -54,6 +56,10 @@ const fileLines = (relPath: string): string[] => {
  */
 const expectationOf = (text: string): { symbol: string } | 'brace' | 'none' => {
   if (/\s/.test(text) || text.includes('/')) {
+    return 'none';
+  }
+  if (/^[^\s/]+:\d+$/.test(text)) {
+    // A `<file>:<line>` reference points at an expression, not at a declaration that names it.
     return 'none';
   }
   const tail = text.includes('#') ? text.slice(text.lastIndexOf('#') + 1) : text;

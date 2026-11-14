@@ -1,10 +1,10 @@
-import { pathLink } from '../links';
+import { sourceLink } from '../links';
 import { joinBlocks, oneLine, table } from '../markdown';
 import type { Diagnostic, ExtensionMapModel, Pkg } from '../../model/types';
 
-/** The relative path of a diagnostic's file, as its own visible link text. */
+/** Where a diagnostic was raised, as `<file>:<line>`. */
 const sourceCell = (diagnostic: Diagnostic, docPath: string): string =>
-  diagnostic.loc ? pathLink(docPath, diagnostic.loc) : '—';
+  diagnostic.loc ? sourceLink(docPath, diagnostic.loc) : '—';
 
 /** The `## Diagnostics` section: what the analysis could not prove about this package. */
 export const renderDiagnostics = (

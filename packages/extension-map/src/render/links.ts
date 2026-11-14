@@ -26,11 +26,11 @@ export const relLink = (fromDoc: string, loc: Loc, text: string): string =>
   `[${text}](${relPath(fromDoc, loc.file)}${lineAnchor(loc)})`;
 
 /**
- * A link whose visible text is the relative path itself: for a line that declares no symbol,
- * such as the expression a value could not be resolved from.
+ * A link whose visible text is `<file>:<line>`: for a line that declares no symbol, such as the
+ * expression a value could not be resolved from, or the subject of a diagnostic.
  */
-export const pathLink = (fromDoc: string, loc: Loc): string =>
-  relLink(fromDoc, loc, path.posix.relative(path.posix.dirname(fromDoc), loc.file));
+export const sourceLink = (fromDoc: string, loc: Loc): string =>
+  relLink(fromDoc, loc, `${path.posix.basename(loc.file)}:${loc.line}`);
 
 /** A relative link to a whole file or directory, with no line anchor. */
 export const fileLink = (fromDoc: string, file: string, text: string): string =>

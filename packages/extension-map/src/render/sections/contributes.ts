@@ -1,24 +1,24 @@
 import path from 'path';
-import {
-  contributesHeading,
-  fileLink,
-  pathLink,
-  pkgDisplayName,
-  pointLink,
-  relLink,
-} from '../links';
+import { contributesHeading, fileLink, pointLink, relLink, sourceLink } from '../links';
 import { defList, githubAnchor, joinBlocks, oneLine, table } from '../markdown';
 import { flowchart, mermaidId } from '../mermaid';
 import type { EdgeStyle } from '../mermaid';
+import {
+  codeRefCell,
+  codeRefName,
+  flagCell,
+  notResolvedOf,
+  propertyOf,
+  suppliedCell,
+  valueCell,
+} from '../values';
+import type { CellCtx } from '../values';
 import type {
   Entry,
   ExtensionMapModel,
   ExtensionPoint,
   ExtensionRecord,
-  Loc,
   Pkg,
-  SymbolRef,
-  Value,
 } from '../../model/types';
 
 /** Extensions of one point from one package collapse into a single node at this count. */
@@ -27,137 +27,54 @@ const COLLAPSE_AT = 5;
 /** Above this many columns a contribution is rendered as a definition list (spec §5.10). */
 const MAX_COLUMNS = 7;
 
-/** Properties that tend to name a contribution, most identifying first. */
-const IDENTITY_KEYS = ['id', 'title', 'name', 'path', 'label', 'key'];
-
 const REQUIRES = 'Requires';
 const DISALLOWS = 'Disallows';
 const CODEREF = 'CodeRef target';
 const SOURCE = 'Source';
 
-type CellCtx = {
-  docPath: string;
-  /** The record whose property is being rendered: `mapped` values live on it. */
-  record: ExtensionRecord;
-  /** What to call an anonymous function: the property it is assigned to. */
-  label: string;
+/** How an extension reaches an app, in words, per entry kind. */
+const PATH_WORDS: Record<Entry['path'], string> = {
+  static: 'bundled',
+  federated: 'federated',
+  'distribution-static': 'bundled by a distribution',
+  'distribution-local': 'local to a distribution',
 };
 
-type NotResolved = { property: string; reason: string; loc: Loc };
+/** How many extensions one record stands for, as far as the analysis could count them. */
+const countOf = (record: ExtensionRecord): number =>
+  typeof record.multiplicity === 'number' ? record.multiplicity : 1;
 
-/** One property of a record, or `undefined` when it does not set that property. */
-const propertyOf = (record: ExtensionRecord, key: string): Value | undefined =>
-  Object.hasOwn(record.properties, key) ? record.properties[key] : undefined;
+const hasUnknownCount = (records: ExtensionRecord[]): boolean =>
+  records.some((record) => record.multiplicity === 'unknown');
 
-const literalText = (value: string | number | boolean | null): string =>
-  typeof value === 'string' ? `'${value}'` : String(value);
+const groupCount = (records: ExtensionRecord[]): number =>
+  records.reduce((total, record) => total + countOf(record), 0);
 
-const readableName = (value: Value): string | undefined => {
-  if (value.kind === 'enumMember') {
-    return `${value.enumName}.${value.member}`;
+/** `×7`, or `×7+` when one of the records stands for an uncounted number of extensions. */
+const countLabel = (records: ExtensionRecord[]): string =>
+  `×${groupCount(records)}${hasUnknownCount(records) ? '+' : ''}`;
+
+/** The mark on a row that stands for more than one extension. */
+const rowMark = (record: ExtensionRecord): string | undefined => {
+  if (record.multiplicity === 'unknown') {
+    return '×?';
   }
-  return value.kind === 'constant' ? value.name : undefined;
+  return countOf(record) > 1 ? `×${countOf(record)}` : undefined;
 };
 
-/** One-line text for a value nested inside another value: no links, no code fences. */
-const valueText = (value: Value): string => {
-  switch (value.kind) {
-    case 'literal':
-      return literalText(value.value);
-    case 'enumMember':
-    case 'constant':
-      return `${readableName(value) ?? ''} (${literalText(value.value)})`;
-    case 'array':
-      return `[${value.items.map(valueText).join(', ')}]`;
-    case 'object':
-      return `{ ${Object.entries(value.props)
-        .map(([key, prop]) => `${key}: ${valueText(prop)}`)
-        .join(', ')} }`;
-    case 'codeRef':
-      return `${value.module}#${value.export ?? '?'}`;
-    case 'function':
-      return value.name ?? 'function';
-    case 'mapped':
-      return 'one per mapped element';
-    default:
-      return 'not resolved';
+/** The last segment of a point ID, used to name a contribution that names itself nowhere. */
+const pointTail = (type: string): string => {
+  const slash = type.lastIndexOf('/');
+  if (slash !== -1) {
+    return type.slice(slash + 1);
   }
+  const dot = type.lastIndexOf('.');
+  return dot === -1 ? type : type.slice(dot + 1);
 };
 
-const moduleBasename = (module: string): string =>
-  path.posix.basename(module).replace(/\.[^.]+$/, '');
-
-/** The CodeRef target cell: a link when the target is known in this repo, plain text otherwise. */
-const codeRefCell = (value: Extract<Value, { kind: 'codeRef' }>, docPath: string): string => {
-  const exported = value.export ?? '?';
-  if (value.external) {
-    return `\`${value.module}#${exported}\` (external)`;
-  }
-  const label = `${moduleBasename(value.module)}#${exported}`;
-  if (value.export === null || !value.target) {
-    return `\`${label}\``;
-  }
-  return relLink(docPath, value.target, label);
-};
-
-/** A value as one table cell: code-formatted, with links to code the value points at. */
-const valueCell = (value: Value, ctx: CellCtx): string => {
-  switch (value.kind) {
-    case 'literal':
-      return `\`${literalText(value.value)}\``;
-    case 'enumMember':
-    case 'constant':
-      return `\`${readableName(value) ?? ''}\` (\`${literalText(value.value)}\`)`;
-    case 'array':
-      return value.items.length === 0
-        ? '(empty)'
-        : value.items.map((item) => valueCell(item, ctx)).join(', ');
-    case 'object':
-      return `\`${valueText(value)}\``;
-    case 'function':
-      return `\`function\` (${relLink(ctx.docPath, value.loc, value.name ?? ctx.label)})`;
-    case 'mapped':
-      return (ctx.record.mappedValues ?? []).length === 0
-        ? 'one per mapped element'
-        : (ctx.record.mappedValues ?? []).map((item) => valueCell(item, ctx)).join(' · ');
-    case 'codeRef':
-      return codeRefCell(value, ctx.docPath);
-    default:
-      return relLink(ctx.docPath, value.loc, 'not resolved');
-  }
-};
-
-/** A feature flag: its readable name, with the value when the two differ. */
-const flagCell = (values: Value[], ctx: CellCtx): string => {
-  if (values.length === 0) {
-    return '—';
-  }
-  return values
-    .map((value) => {
-      // A flag written as a bare string literal is already its own readable name.
-      if (value.kind === 'literal') {
-        return `\`${value.value === null ? 'null' : String(value.value)}\``;
-      }
-      if (value.kind !== 'enumMember' && value.kind !== 'constant') {
-        return valueCell(value, ctx);
-      }
-      const name = readableName(value) ?? '';
-      const same = typeof value.value === 'string' && name.endsWith(value.value);
-      return same ? `\`${name}\`` : `\`${name}\` (\`${literalText(value.value)}\`)`;
-    })
-    .join(', ');
-};
-
-/** The name of the thing a code reference points at, when it has one. */
-const codeRefName = (value: Extract<Value, { kind: 'codeRef' }>): string =>
-  value.export === null || value.export === 'default' ? moduleBasename(value.module) : value.export;
-
-/**
- * What to call one contribution: the first identifying literal it sets, else what its first code
- * reference points at, else its line.
- */
-const identityOf = (record: ExtensionRecord): string => {
-  for (const key of IDENTITY_KEYS) {
+/** The name a contribution gives itself, if it gives itself one. */
+const selfName = (record: ExtensionRecord): string | undefined => {
+  for (const key of ['id', 'title', 'name']) {
     const value = propertyOf(record, key);
     if (value?.kind === 'literal' || value?.kind === 'constant' || value?.kind === 'enumMember') {
       return String(value.value);
@@ -165,90 +82,41 @@ const identityOf = (record: ExtensionRecord): string => {
   }
   for (const key of Object.keys(record.properties).toSorted()) {
     const value = propertyOf(record, key);
-    if (value?.kind === 'codeRef') {
+    if (value?.kind === 'codeRef' && value.export !== null) {
       return codeRefName(value);
     }
   }
-  return `line ${record.loc.line}`;
+  return undefined;
+};
+
+/**
+ * What to call each contribution to one point: its own name where it has one, else the point's
+ * last segment and its position among this package's contributions to that point. Names repeated
+ * within the group are numbered so that each label identifies exactly one contribution.
+ */
+const identityLabels = (type: string, records: ExtensionRecord[]): Map<string, string> => {
+  const bases = records.map(
+    (record, index) => selfName(record) ?? `${pointTail(type)} #${index + 1}`,
+  );
+  const counts = new Map<string, number>();
+  bases.forEach((base) => counts.set(base, (counts.get(base) ?? 0) + 1));
+  const seen = new Map<string, number>();
+  return new Map(
+    records.map((record, index) => {
+      const base = bases[index];
+      if ((counts.get(base) ?? 0) < 2) {
+        return [record.key, base];
+      }
+      const position = (seen.get(base) ?? 0) + 1;
+      seen.set(base, position);
+      return [record.key, `${base} #${position}`];
+    }),
+  );
 };
 
 const shorten = (s: string, max = 44): string => (s.length > max ? `${s.slice(0, max - 1)}…` : s);
 
-const collectNotResolved = (
-  value: Value,
-  property: string,
-  record: ExtensionRecord,
-  out: NotResolved[],
-): void => {
-  switch (value.kind) {
-    case 'unresolved':
-      out.push({ property, reason: value.reason, loc: value.loc });
-      break;
-    case 'codeRef':
-      if (value.export === null) {
-        out.push({
-          property,
-          reason: 'the code reference resolves to no export',
-          loc: value.target ?? record.loc,
-        });
-      }
-      Object.entries(value.supplies ?? {}).forEach(([key, supplied]) => {
-        if (supplied.kind !== 'symbol') {
-          collectNotResolved(supplied, `${property} → ${key}`, record, out);
-        }
-      });
-      break;
-    case 'array':
-      value.items.forEach((item, index) =>
-        collectNotResolved(item, `${property}[${index}]`, record, out),
-      );
-      break;
-    case 'object':
-      Object.entries(value.props).forEach(([key, prop]) =>
-        collectNotResolved(prop, `${property}.${key}`, record, out),
-      );
-      break;
-    default:
-      break;
-  }
-};
-
-const notResolvedOf = (record: ExtensionRecord): NotResolved[] => {
-  const out: NotResolved[] = [];
-  Object.entries(record.properties).forEach(([key, value]) =>
-    collectNotResolved(value, key, record, out),
-  );
-  record.flags.required.forEach((value, index) =>
-    collectNotResolved(value, `flags.required[${index}]`, record, out),
-  );
-  record.flags.disallowed.forEach((value, index) =>
-    collectNotResolved(value, `flags.disallowed[${index}]`, record, out),
-  );
-  (record.mappedValues ?? []).forEach((value, index) =>
-    collectNotResolved(value, `mapped[${index}]`, record, out),
-  );
-  return out;
-};
-
-/** Every value except a code reference belongs in a property column; those get their own. */
-const isDataValue = (value: Value): boolean => value.kind !== 'codeRef';
-
-/** The property columns of one point's table: declared order first, then anything extra. */
-const dataColumns = (records: ExtensionRecord[], point: ExtensionPoint | undefined): string[] => {
-  const used = new Set<string>();
-  records.forEach((record) =>
-    Object.entries(record.properties).forEach(([key, value]) => {
-      if (isDataValue(value)) {
-        used.add(key);
-      }
-    }),
-  );
-  const declared = (point?.properties ?? []).map((property) => property.name);
-  const ordered = declared.filter((name) => used.has(name));
-  const extra = [...used].filter((name) => !declared.includes(name)).toSorted();
-  return [...ordered, ...extra];
-};
-
+/** The properties some contribution to this point sets as a code reference. */
 const codeRefColumns = (records: ExtensionRecord[]): string[] => {
   const keys = new Set<string>();
   records.forEach((record) =>
@@ -261,19 +129,52 @@ const codeRefColumns = (records: ExtensionRecord[]): string[] => {
   return [...keys].toSorted();
 };
 
+/**
+ * The property columns of one point's table: declared order first, then anything extra. A property
+ * any contribution sets as a code reference is left out — it lives in the CodeRef target column
+ * for every row, so that `—` always means "this contribution does not set the property".
+ */
+const dataColumns = (
+  records: ExtensionRecord[],
+  point: ExtensionPoint | undefined,
+  refKeys: string[],
+): string[] => {
+  const used = new Set<string>();
+  records.forEach((record) =>
+    Object.keys(record.properties).forEach((key) => {
+      if (!refKeys.includes(key)) {
+        used.add(key);
+      }
+    }),
+  );
+  const declared = (point?.properties ?? []).map((property) => property.name);
+  const ordered = declared.filter((name) => used.has(name));
+  const extra = [...used].filter((name) => !declared.includes(name)).toSorted();
+  return [...ordered, ...extra];
+};
+
+/** Every code-reference property of one contribution, named when the column holds more than one. */
 const codeRefTargetCell = (record: ExtensionRecord, keys: string[], docPath: string): string => {
   const parts = keys.flatMap((key) => {
     const value = propertyOf(record, key);
-    if (value?.kind !== 'codeRef') {
+    if (value === undefined) {
       return [];
     }
-    const cell = codeRefCell(value, docPath);
-    return [keys.length === 1 ? cell : `\`${key}\`: ${cell}`];
+    const cell =
+      value.kind === 'codeRef'
+        ? codeRefCell(value, docPath)
+        : valueCell(value, { docPath, record, label: key });
+    return [keys.length === 1 && value.kind === 'codeRef' ? cell : `\`${key}\`: ${cell}`];
   });
   return parts.length === 0 ? '—' : parts.join('<br>');
 };
 
-const suppliesRows = (records: ExtensionRecord[], keys: string[], docPath: string): string[][] =>
+const suppliesRows = (
+  records: ExtensionRecord[],
+  keys: string[],
+  docPath: string,
+  labels: Map<string, string>,
+): string[][] =>
   records.flatMap((record) =>
     keys.flatMap((key) => {
       const value = propertyOf(record, key);
@@ -283,25 +184,25 @@ const suppliesRows = (records: ExtensionRecord[], keys: string[], docPath: strin
       const ctx: CellCtx = { docPath, record, label: key };
       return Object.entries(value.supplies)
         .toSorted(([a], [b]) => (a < b ? -1 : 1))
-        .map(([name, supplied]: [string, Value | SymbolRef]) => [
-          identityOf(record),
+        .map(([name, supplied]) => [
+          labels.get(record.key) ?? '',
           keys.length === 1 ? name : `${key} → ${name}`,
-          supplied.kind === 'symbol'
-            ? relLink(docPath, supplied.loc, supplied.name)
-            : valueCell(supplied, ctx),
+          suppliedCell(supplied, ctx),
         ]);
     }),
   );
 
 /** One point's contributions: a table (or definition lists), supplies and what is unresolved. */
 const renderPointTable = (
+  type: string,
   records: ExtensionRecord[],
   point: ExtensionPoint | undefined,
   model: ExtensionMapModel,
   docPath: string,
 ): string => {
-  const dataKeys = dataColumns(records, point);
+  const labels = identityLabels(type, records);
   const refKeys = codeRefColumns(records);
+  const dataKeys = dataColumns(records, point, refKeys);
   const hasRequires = records.some((record) => record.flags.required.length > 0);
   const hasDisallows = records.some((record) => record.flags.disallowed.length > 0);
   const headers = [
@@ -315,12 +216,7 @@ const renderPointTable = (
   const cellsOf = (record: ExtensionRecord): [string, string][] => {
     const entries: [string, string][] = dataKeys.map((key) => {
       const value = propertyOf(record, key);
-      return [
-        key,
-        value === undefined || !isDataValue(value)
-          ? '—'
-          : valueCell(value, { docPath, record, label: key }),
-      ];
+      return [key, value === undefined ? '—' : valueCell(value, { docPath, record, label: key })];
     });
     const ctx: CellCtx = { docPath, record, label: 'flags' };
     if (hasRequires) {
@@ -336,23 +232,34 @@ const renderPointTable = (
     return entries;
   };
 
+  /** The row of one contribution, with its `×N` mark where it stands for several extensions. */
+  const rowOf = (record: ExtensionRecord): string[] => {
+    const cells = cellsOf(record).map(([, cell]) => cell);
+    const mark = rowMark(record);
+    return mark === undefined ? cells : [`\`${mark}\` ${cells[0]}`, ...cells.slice(1)];
+  };
+
   const body =
     headers.length > MAX_COLUMNS
       ? records
-          .map((record) => defList([['Contribution', identityOf(record)], ...cellsOf(record)]))
+          .map((record) => {
+            const mark = rowMark(record);
+            const items: [string, string][] = cellsOf(record);
+            if (mark !== undefined) {
+              items.unshift(['Stands for', `${mark} extensions`]);
+            }
+            return joinBlocks([`##### ${labels.get(record.key) ?? ''}`, defList(items)]);
+          })
           .join('\n\n')
-      : table(
-          headers,
-          records.map((record) => cellsOf(record).map(([, cell]) => cell)),
-        );
+      : table(headers, records.map(rowOf));
 
-  const supplies = suppliesRows(records, refKeys, docPath);
+  const supplies = suppliesRows(records, refKeys, docPath, labels);
   const unresolved = records.flatMap((record) =>
     notResolvedOf(record).map((item) => [
-      identityOf(record),
+      labels.get(record.key) ?? '',
       item.property,
       item.reason,
-      pathLink(docPath, item.loc),
+      sourceLink(docPath, item.loc),
     ]),
   );
   return joinBlocks([
@@ -405,54 +312,72 @@ const renderNamespaceDiagram = (
   const chart = flowchart('LR');
   const rows: string[][] = [];
   const pkgNode = mermaidId(pkg.name);
+  const pkgLabel = `${pkg.name.replace(/^@odh-dashboard\//, '')} (${pkg.kind})`;
   const drawn = [...byType.entries()].filter(([type]) =>
     model.points.some((point) => point.id === type),
   );
   if (drawn.length === 0) {
     return undefined;
   }
-  chart.node(pkgNode, pkgDisplayName(pkg), 'box', 'pkg');
-  rows.push([pkgDisplayName(pkg), 'this package', fileLink(docPath, pkg.dir, pkg.dir)]);
+  chart.node(pkgNode, pkgLabel, 'box', 'pkg');
+  rows.push([pkgLabel, 'this package', fileLink(docPath, pkg.dir, pkg.dir)]);
 
-  // One edge per loading path the extension actually travels: an extension exported both
-  // statically and through a remote reaches the host both ways.
-  const stylesOf = (record: ExtensionRecord): EdgeStyle[] => {
-    const styles = new Set<EdgeStyle>(
-      record.entries.map((id) =>
-        entriesById.get(id)?.path === 'federated' ? 'federated' : 'solid',
-      ),
-    );
-    return styles.size === 0 ? ['solid'] : [...styles].toSorted();
+  const pathsOf = (record: ExtensionRecord): Entry['path'][] => [
+    ...new Set(
+      record.entries.flatMap((id) => {
+        const entry = entriesById.get(id);
+        return entry ? [entry.path] : [];
+      }),
+    ),
+  ];
+
+  /** Dashed only when every entry that carries the extension is a federated one. */
+  const styleOf = (record: ExtensionRecord): EdgeStyle => {
+    const paths = pathsOf(record);
+    return paths.length > 0 && paths.every((entryPath) => entryPath === 'federated')
+      ? 'federated'
+      : 'solid';
+  };
+
+  const loadingWords = (record: ExtensionRecord): string => {
+    const words = pathsOf(record)
+      .map((entryPath) => PATH_WORDS[entryPath])
+      .toSorted();
+    return words.length === 0 ? '' : ` — ${words.join(' and ')}`;
   };
 
   const pointNodes: [string, string, string][] = [];
   drawn.forEach(([type, records]) => {
     const pointNode = mermaidId(type);
     const pointLabel = type.startsWith(`${ns}.`) ? type.slice(ns.length + 1) : type;
+    const labels = identityLabels(type, records);
     pointNodes.push([pointNode, pointLabel, type]);
-    if (records.length >= COLLAPSE_AT) {
+    if (groupCount(records) >= COLLAPSE_AT) {
       const collapsed = mermaidId(`${type}#collapsed`);
-      chart.node(collapsed, `×${records.length}`, 'rounded', 'collapsed');
+      chart.node(collapsed, countLabel(records), 'rounded', 'collapsed');
       rows.push([
-        `×${records.length}`,
-        `${records.length} extensions of ${type}`,
+        countLabel(records),
+        `${hasUnknownCount(records) ? 'at least ' : ''}${groupCount(
+          records,
+        )} extensions of ${type}`,
         `[see the table below](#${githubAnchor(contributesHeading(type))})`,
       ]);
-      [...new Set(records.flatMap(stylesOf))].toSorted().forEach((style) => {
-        chart.edge(pkgNode, collapsed, style);
-      });
+      chart.edge(
+        pkgNode,
+        collapsed,
+        records.every((record) => styleOf(record) === 'federated') ? 'federated' : 'solid',
+      );
     } else {
       records.forEach((record) => {
         const node = mermaidId(record.key);
-        chart.node(node, shorten(identityOf(record)), 'box');
+        const label = shorten(labels.get(record.key) ?? '');
+        chart.node(node, label, 'box');
         rows.push([
-          shorten(identityOf(record)),
-          `extension of ${type}`,
+          label,
+          `extension of ${type}${loadingWords(record)}`,
           relLink(docPath, record.loc, path.posix.basename(record.loc.file)),
         ]);
-        stylesOf(record).forEach((style) => {
-          chart.edge(pkgNode, node, style);
-        });
+        chart.edge(pkgNode, node, styleOf(record));
       });
     }
   });
@@ -465,7 +390,7 @@ const renderNamespaceDiagram = (
   });
   drawn.forEach(([type, records]) => {
     const pointNode = mermaidId(type);
-    if (records.length >= COLLAPSE_AT) {
+    if (groupCount(records) >= COLLAPSE_AT) {
       chart.edge(mermaidId(`${type}#collapsed`), pointNode, 'solid');
     } else {
       records.forEach((record) => {
@@ -512,6 +437,7 @@ export const renderContributes = (
           joinBlocks([
             `#### ${contributesHeading(type)}`,
             renderPointTable(
+              type,
               typeRecords,
               model.points.find((point) => point.id === type),
               model,

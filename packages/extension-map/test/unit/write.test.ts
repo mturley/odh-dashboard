@@ -36,6 +36,13 @@ describe('writeGenerated', () => {
     expect(fs.readFileSync(path.join(tmp, 'packages/x/docs/extensions.md'), 'utf8')).toBe('# mine');
   });
 
+  it('never deletes a generated-looking file inside upstream', () => {
+    write('packages/x/upstream/docs/extensions.md', page('vendored, not ours'));
+    writeGenerated(tmp, [{ path: 'packages/x/docs/extensions.md', content: page('ours') }]);
+    expect(fs.existsSync(path.join(tmp, 'packages/x/upstream/docs/extensions.md'))).toBe(true);
+    expect(findGeneratedFiles(tmp)).toEqual(['packages/x/docs/extensions.md']);
+  });
+
   it('writes new files and overwrites its own', () => {
     write('packages/x/docs/extensions.md', page('old'));
     const changed = writeGenerated(tmp, [

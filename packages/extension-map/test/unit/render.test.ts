@@ -219,6 +219,14 @@ describe('mermaid flowchart', () => {
 });
 
 describe('renderPackagePage', () => {
+  it('labels the package node with its kind, so an extension cannot share its label', () => {
+    const model = fixtureModel();
+    model.extensions = [record('contributor')];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('["contributor (package)"]:::pkg');
+    expect(content).toContain('| contributor (package) | this package |');
+  });
+
   it('follows every diagram with a node link table', () => {
     expect(
       diagramsWithoutNodeTable(renderPackagePage(fixtureModel(), contributor).content),
@@ -262,9 +270,18 @@ describe('renderPackagePage', () => {
     expect(content).toContain("`SupportedArea.A` (`'a'`)");
     expect(content).toContain('`ADMIN_USER`');
     expect(content).toContain('[Thing#Thing](../src/Thing.tsx#L7)');
+    // A property any contribution sets as a code reference never becomes a data column too,
+    // so an em dash always means "this contribution does not set the property".
+    expect(content).not.toContain('| id | component |');
+    expect(content).toContain(
+      '| `component`: [not resolved](../extensions.ts#L22) | [extensions.ts](../extensions.ts#L10) |',
+    );
     expect(content).toContain("| one | title | `'Thing'` |");
     expect(content).toContain('[not resolved](../extensions.ts#L22)');
     expect(content).toContain('**Not resolved**');
+    expect(content).toContain(
+      '| two | component | CallExpression is not a resolvable value | [extensions.ts:22](../extensions.ts#L22) |',
+    );
     expect(content).toContain('## Diagnostics');
     expect(content).toContain('| `unresolved-value` | warning |');
   });
@@ -293,6 +310,116 @@ describe('renderPackagePage', () => {
     expect(page.content).not.toContain('## Diagnostics');
     expect(page.content).not.toContain('## Legend');
     expect(renderPackagePage(fixtureModel(), contributor).content).toContain('## Legend');
+  });
+
+  it('counts the extensions a mapped record stands for in the collapse label', () => {
+    const model = fixtureModel();
+    model.extensions = [
+      record('a'),
+      record('b'),
+      record('c'),
+      record('d'),
+      record('e', {
+        multiplicity: 3,
+        mappedValues: [
+          { kind: 'literal', value: '/one' },
+          { kind: 'literal', value: '/two' },
+          { kind: 'literal', value: '/three' },
+        ],
+      }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('("×7"):::collapsed');
+    expect(content).toContain('| ×7 | 7 extensions of demo.thing/slot |');
+    expect(content).toContain("| `×3` `'e'` |");
+  });
+
+  it('marks an uncounted record with a plus and says "at least"', () => {
+    const model = fixtureModel();
+    model.extensions = [
+      record('a'),
+      record('b'),
+      record('c'),
+      record('d'),
+      record('e', { multiplicity: 'unknown' }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('("×5+"):::collapsed');
+    expect(content).toContain('| ×5+ | at least 5 extensions of demo.thing/slot |');
+  });
+
+  it('gives each contribution its own heading in the definition-list path', () => {
+    const model = fixtureModel();
+    const wide = (id: string): ExtensionRecord =>
+      record(id, {
+        flags: { required: [{ kind: 'literal', value: 'AREA' }], disallowed: [] },
+        properties: {
+          id: { kind: 'literal', value: id },
+          a: { kind: 'literal', value: 1 },
+          b: { kind: 'literal', value: 2 },
+          c: { kind: 'literal', value: 3 },
+          d: { kind: 'literal', value: 4 },
+          e: { kind: 'literal', value: 5 },
+          f: { kind: 'literal', value: 6 },
+        },
+      });
+    model.extensions = [wide('first'), wide('second')];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('##### first');
+    expect(content).toContain('##### second');
+    expect(content.match(/^##### /gm)).toHaveLength(2);
+  });
+
+  it('draws exactly one edge per extension, dashed only when every entry is federated', () => {
+    const model = fixtureModel();
+    model.entries = [
+      model.entries[0],
+      {
+        id: '@odh-dashboard/contributor#mf:./extensions',
+        pkg: contributor.name,
+        file: 'packages/contributor/frontend/src/odh/extensions.ts',
+        path: 'federated',
+        key: 'mf:./extensions',
+      },
+    ];
+    model.extensions = [
+      record('both', {
+        entries: [
+          '@odh-dashboard/contributor#./extensions',
+          '@odh-dashboard/contributor#mf:./extensions',
+        ],
+      }),
+      record('remote-only', { entries: ['@odh-dashboard/contributor#mf:./extensions'] }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    const pkgNode = mermaidId(contributor.name);
+    const edges = content
+      .split('\n')
+      .filter((line) => line.trim().startsWith(`${pkgNode} `))
+      .map((line) => line.trim());
+    expect(edges).toHaveLength(2);
+    expect(edges[0]).toContain(
+      `${pkgNode} --> ${mermaidId('packages/contributor/extensions.ts:both')}`,
+    );
+    expect(edges[1]).toContain(
+      `${pkgNode} -. "federated" .-> ${mermaidId(
+        'packages/contributor/extensions.ts:remote-only',
+      )}`,
+    );
+    expect(content).toContain('| both | extension of demo.thing/slot — bundled and federated |');
+    expect(content).toContain('| remote-only | extension of demo.thing/slot — federated |');
+  });
+
+  it('names a contribution that names itself nowhere after the point and its position', () => {
+    const model = fixtureModel();
+    model.extensions = [
+      record('x', { properties: { step: { kind: 'literal', value: 'first' } } }),
+      record('y', { properties: { step: { kind: 'literal', value: 'second' } } }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('["slot #1"]');
+    expect(content).toContain('["slot #2"]');
+    expect(content).not.toMatch(/\["line \d+"\]/);
   });
 
   it('renders a page only for packages that define or contribute', () => {
