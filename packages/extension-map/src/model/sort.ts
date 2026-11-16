@@ -50,7 +50,9 @@ export const sortModel = (m: ExtensionMapModel): ExtensionMapModel => ({
   extensions: m.extensions.toSorted(byField((e) => e.key)),
   overrides: m.overrides.toSorted(byField((o) => `${o.app}\0${o.by}`)),
   consumers: m.consumers.toSorted(byField((c) => c.id)),
-  querySites: m.querySites.toSorted(byLoc((q) => q.consumer)),
+  querySites: m.querySites.toSorted(
+    byLoc((q) => `${q.consumer}\0${q.hook}\0${q.pointIds.join(',')}`),
+  ),
   useSites: m.useSites.toSorted(byLoc<UseSite>((u) => `${u.consumer}\0${u.pointId}\0${u.path}`)),
   carriedTypes: m.carriedTypes.toSorted(byField((c) => c.name)),
   diagnostics: m.diagnostics.toSorted(byDiagnostic),

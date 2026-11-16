@@ -414,9 +414,12 @@ export type Consumer = {
   id: string;
   /** Name of the display package whose source contains it. */
   pkg: string;
-  /** The nearest enclosing named function, component, hook or variable. */
+  /**
+   * The nearest enclosing named function declaration, variable-declared function, method
+   * (`Class.method` inside a class) or class; `<module>` for code at the top level of a file.
+   */
   symbol: string;
-  /** Where that symbol is declared. */
+  /** Where that symbol is declared; line 1 of the file for `<module>`. */
   loc: Loc;
   /** Where the symbol is used, one hop up; sorted by location. */
   renderedIn: {
@@ -435,13 +438,17 @@ export type QuerySite = {
   consumer: string;
   /** The point IDs the guard selects; sorted. */
   pointIds: string[];
-  /** The query hook called (e.g. `useExtensions`, `useResolvedExtensions`). */
+  /**
+   * The query hook that runs the query (e.g. `useExtensions`, `useResolvedExtensions`): the one
+   * called, or the one a wrapper reaches. A wrapper that passes the guard into two hooks gives one
+   * site per hook at the same location.
+   */
   hook: string;
   /** The wrapper the guard was passed to, when the query goes through one. Omitted otherwise. */
   wrapper?: string;
   /** True when the hook resolves code references (`useResolvedExtensions`). */
   resolved: boolean;
-  /** Where the call is written. */
+  /** Where the call (or the JSX element, for a component wrapper) is written. */
   loc: Loc;
   /** How the site was established. */
   provenance: Provenance;
@@ -453,7 +460,7 @@ export type UseSite = {
   consumer: string;
   /** The point ID the used value belongs to. */
   pointId: string;
-  /** The dotted property path used, e.g. `properties.field`. */
+  /** The dotted property path used, e.g. `properties.field`; `type` for a `filter` use. */
   path: string;
   /**
    * `lazy-render` (passed as `component` to `LazyCodeRefComponent`), `jsx-render` (rendered as
@@ -558,7 +565,10 @@ export type ExtensionMapModel = {
   overrides: Override[];
   /** Consumers; sorted by `id`. Empty until consumers are analyzed. */
   consumers: Consumer[];
-  /** Query sites; sorted by `loc`, then `consumer`. Empty until consumers are analyzed. */
+  /**
+   * Query sites; sorted by `loc`, then `consumer`, `hook`, `pointIds`. Empty until consumers are
+   * analyzed.
+   */
   querySites: QuerySite[];
   /**
    * Use sites; sorted by `loc`, then `consumer`, `pointId`, `path`. Empty until consumers are

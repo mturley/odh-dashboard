@@ -1,0 +1,306 @@
+import ts from 'typescript';
+import { QUERY_HOOKS, declaredName, guardPointIds } from './hooks';
+import { calleeOf, namedDeclaration, paramRefOf } from './wrappers';
+import type { Wrapper } from './wrappers';
+import { pkgForFile, relFile } from '../discovery/workspace';
+import { makeDiagnostic } from '../model/diagnostics';
+import type { Consumer, Diagnostic, Loc, QuerySite, UseSite } from '../model/types';
+import { declKey, declLoc, locOf } from '../programs/identity';
+import type { Collector, ProgramCtx } from '../programs/stream';
+
+export type SitesInput = {
+  /** Every declared extension point ID. */
+  pointIds: Set<string>;
+  /** Repo-relative files that declare an extension point or a guard. */
+  pointFiles: Set<string>;
+  /** The wrappers `resolveWrappers` found, by declaration key. */
+  wrappers: Map<string, Wrapper[]>;
+  /** Carried type declaration keys and the points that carry them (filled by a later task). */
+  carried: Map<string, string[]>;
+};
+
+export type SitesResult = {
+  consumers: Consumer[];
+  querySites: QuerySite[];
+  useSites: UseSite[];
+  /** Declaration key → where it is rendered or called (one hop up). */
+  refs: Map<string, { symbol: string; loc: Loc; how: 'jsx' | 'call' }[]>;
+  diagnostics: Diagnostic[];
+};
+
+/** Array methods that take a predicate and select elements by it. */
+const FILTER_METHODS: ReadonlySet<string> = new Set([
+  'filter',
+  'find',
+  'some',
+  'every',
+  'findIndex',
+]);
+
+/** The symbol name used for code at the top level of a module. */
+const MODULE_SYMBOL = '<module>';
+
+/** A short, single-line rendering of a callee for a message. */
+const calleeText = (site: ts.CallExpression | ts.JsxOpeningLikeElement): string => {
+  const text = (ts.isCallExpression(site) ? site.expression : site.tagName)
+    .getText()
+    .replace(/\s+/g, ' ');
+  return text.length > 80 ? `${text.slice(0, 77)}...` : text;
+};
+
+/** True when a call is an array method that selects elements with a predicate. */
+const isArrayFilter = (site: ts.CallExpression, checker: ts.TypeChecker): boolean => {
+  const callee = site.expression;
+  if (!ts.isPropertyAccessExpression(callee) || !FILTER_METHODS.has(callee.name.text)) {
+    return false;
+  }
+  const receiver = checker.getNonNullableType(checker.getTypeAtLocation(callee.expression));
+  return checker.isArrayType(receiver) || checker.isTupleType(receiver);
+};
+
+/**
+ * The consumer a node belongs to: the nearest enclosing named function declaration,
+ * variable-declared arrow or function expression, method (`Class.method` in a class) or class.
+ * Code at the top level of a module belongs to `<module>`.
+ */
+const enclosingSymbol = (
+  node: ts.Node,
+  checker: ts.TypeChecker,
+): { symbol: string; decl?: ts.Node } => {
+  for (let current = node.parent; !ts.isSourceFile(current); current = current.parent) {
+    const named =
+      ts.isClassDeclaration(current) && current.name ? current : namedDeclaration(current, checker);
+    const name = named ? declaredName(named) : undefined;
+    if (!named || name === undefined) {
+      continue;
+    }
+    const owner = named.parent;
+    const inClass =
+      (ts.isMethodDeclaration(named) || ts.isPropertyDeclaration(named)) &&
+      ts.isClassLike(owner) &&
+      owner.name;
+    return { symbol: inClass ? `${owner.name.text}.${name}` : name, decl: named };
+  }
+  return { symbol: MODULE_SYMBOL };
+};
+
+/** True when a string literal is written in a type, not in code that runs. */
+const inTypePosition = (node: ts.Node): boolean =>
+  ts.findAncestor(node.parent, (ancestor) =>
+    ts.isSourceFile(ancestor) || ts.isStatement(ancestor)
+      ? 'quit'
+      : ts.isTypeNode(ancestor) && !ts.isExpressionWithTypeArguments(ancestor),
+  ) !== undefined;
+
+/** The name of a property in an object literal, when it is written as a plain name or string. */
+const propertyName = (prop: ts.ObjectLiteralElementLike): string | undefined =>
+  prop.name && (ts.isIdentifier(prop.name) || ts.isStringLiteral(prop.name))
+    ? prop.name.text
+    : undefined;
+
+/**
+ * True when a node sits inside an extension object literal: one with a `properties` property and
+ * a `type` whose value the checker proves is a known point ID.
+ */
+const inExtensionLiteral = (
+  node: ts.Node,
+  checker: ts.TypeChecker,
+  known: ReadonlySet<string>,
+): boolean =>
+  ts.findAncestor(node.parent, (ancestor) => {
+    if (!ts.isObjectLiteralExpression(ancestor)) {
+      return false;
+    }
+    const names = ancestor.properties.map(propertyName);
+    const type = ancestor.properties.find(
+      (prop): prop is ts.PropertyAssignment =>
+        ts.isPropertyAssignment(prop) && propertyName(prop) === 'type',
+    );
+    if (!type || !names.includes('properties')) {
+      return false;
+    }
+    const idType = checker.getTypeAtLocation(type.initializer);
+    return idType.isStringLiteral() && known.has(idType.value);
+  }) !== undefined;
+
+/**
+ * Pass B: where code queries extensions. Every call argument and JSX attribute whose type is a
+ * guard (see `guardPointIds`) is classified by the callee that receives it: a query hook or a
+ * wrapper makes a query site, an array method a filter use, and anything else is reported as
+ * `guard-unknown-callee`. A guard a wrapper receives and forwards is not a site of its own, and
+ * a call that returns the guard it was given (`React.useCallback`) passes it on to be classified
+ * where its result goes. String literals naming a known point outside the point's own files and
+ * outside extension declarations are reported as `point-id-literal`.
+ */
+export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
+  const { pointIds: known, pointFiles, wrappers } = input;
+  const consumers = new Map<string, Consumer>();
+  const querySites: QuerySite[] = [];
+  const useSites: UseSite[] = [];
+  const diagnostics: Diagnostic[] = [];
+
+  const visitFile = (file: ts.SourceFile, ctx: ProgramCtx): void => {
+    const { checker } = ctx;
+    const rel = relFile(ctx.repoRoot, file.fileName);
+    const pkg = pkgForFile(rel, ctx.ws) ?? pkgForFile(relFile(ctx.repoRoot, ctx.dir), ctx.ws);
+    const isPointFile = pointFiles.has(rel);
+
+    const consumerOf = (node: ts.Node): string => {
+      const { symbol, decl } = enclosingSymbol(node, checker);
+      const id = `${rel}#${symbol}`;
+      if (!consumers.has(id) && pkg !== undefined) {
+        consumers.set(id, {
+          id,
+          pkg,
+          symbol,
+          loc: decl ? declLoc(decl, ctx) : { file: rel, line: 1 },
+          renderedIn: [],
+        });
+      }
+      return id;
+    };
+
+    const classify = (
+      expr: ts.Expression,
+      site: ts.CallExpression | ts.JsxOpeningLikeElement,
+      param: number | string,
+    ): void => {
+      const ids = guardPointIds(expr, ctx, known);
+      // A call that hands the guard back (`React.useCallback(guard, deps)`) is not where it is
+      // consumed: its result is classified where it is passed.
+      if (!ids || (ts.isCallExpression(site) && guardPointIds(site, ctx, known))) {
+        return;
+      }
+      const unknown = ids.filter((id) => !known.has(id));
+      const pointIds = ids.filter((id) => known.has(id));
+      if (unknown.length > 0) {
+        diagnostics.push(
+          makeDiagnostic(
+            'query-unknown-point',
+            `A guard selects ${unknown
+              .map((id) => `'${id}'`)
+              .join(', ')}, which no extension point declares.`,
+            locOf(expr, ctx),
+            pkg,
+          ),
+        );
+      }
+      if (pointIds.length === 0) {
+        return;
+      }
+      // A wrapper's own guard parameter, passed on: the query site is the wrapper's caller.
+      const ref = paramRefOf(expr, checker);
+      const owner = ref ? namedDeclaration(ref.fn, checker) : undefined;
+      if (
+        ref &&
+        owner &&
+        (wrappers.get(declKey(owner, ctx)) ?? []).some((w) => w.param === ref.param)
+      ) {
+        return;
+      }
+      const target = calleeOf(site, ctx);
+      const loc = locOf(site, ctx);
+      if (target && typeof target.callee !== 'string' && param === 0) {
+        const { hook } = target.callee;
+        querySites.push({
+          consumer: consumerOf(site),
+          pointIds,
+          hook,
+          resolved: QUERY_HOOKS.some((entry) => entry.name === hook && entry.resolved),
+          loc,
+          provenance: 'type-resolved',
+        });
+        return;
+      }
+      const viaWrapper =
+        target && typeof target.callee === 'string'
+          ? (wrappers.get(target.callee) ?? []).filter((w) => w.param === param)
+          : [];
+      if (viaWrapper.length > 0) {
+        viaWrapper.forEach((wrapper) =>
+          querySites.push({
+            consumer: consumerOf(site),
+            pointIds,
+            hook: wrapper.hook,
+            wrapper: wrapper.name,
+            resolved: wrapper.resolved,
+            loc,
+            provenance: 'type-resolved',
+          }),
+        );
+        return;
+      }
+      if (ts.isCallExpression(site) && isArrayFilter(site, checker)) {
+        pointIds.forEach((pointId) =>
+          useSites.push({
+            consumer: consumerOf(site),
+            pointId,
+            path: 'type',
+            kind: 'filter',
+            direct: true,
+            ...(pointIds.length > 1 ? { oneOf: pointIds } : {}),
+            loc,
+            provenance: 'type-resolved',
+          }),
+        );
+        return;
+      }
+      diagnostics.push(
+        makeDiagnostic(
+          'guard-unknown-callee',
+          `A guard for ${pointIds.map((id) => `'${id}'`).join(', ')} is passed to '${calleeText(
+            site,
+          )}', which is not a query hook, a known wrapper or an array method.`,
+          locOf(expr, ctx),
+          pkg,
+        ),
+      );
+    };
+
+    const checkLiteral = (node: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral): void => {
+      if (
+        isPointFile ||
+        !known.has(node.text) ||
+        inTypePosition(node) ||
+        inExtensionLiteral(node, checker, known)
+      ) {
+        return;
+      }
+      diagnostics.push(
+        makeDiagnostic(
+          'point-id-literal',
+          `The string '${node.text}' names an extension point outside its declaration and outside an extension.`,
+          locOf(node, ctx),
+          pkg,
+        ),
+      );
+    };
+
+    const walk = (node: ts.Node): void => {
+      if (ts.isCallExpression(node)) {
+        node.arguments.forEach((arg, index) => classify(arg, node, index));
+      } else if (ts.isJsxAttribute(node) && ts.isIdentifier(node.name)) {
+        const value = node.initializer;
+        if (value && ts.isJsxExpression(value) && value.expression) {
+          classify(value.expression, node.parent.parent, node.name.text);
+        }
+      } else if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
+        checkLiteral(node);
+      }
+      node.forEachChild(walk);
+    };
+    walk(file);
+  };
+
+  return {
+    visit: (ctx) => ctx.ownedFiles.forEach((file) => visitFile(file, ctx)),
+    finish: () => ({
+      consumers: [...consumers.values()],
+      querySites,
+      useSites,
+      // The one-hop reference index is built with use sites, in a later task.
+      refs: new Map(),
+      diagnostics,
+    }),
+  };
+};

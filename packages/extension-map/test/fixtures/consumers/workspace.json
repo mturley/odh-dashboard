@@ -1,0 +1,5 @@
+[
+  { "name": "@fx/a", "dir": "packages/a", "packageJson": { "name": "@fx/a" } },
+  { "name": "@fx/b", "dir": "packages/b", "packageJson": { "name": "@fx/b" } },
+  { "name": "@fx/plugin-core", "dir": "packages/plugin-core", "packageJson": { "name": "@fx/plugin-core" } }
+]

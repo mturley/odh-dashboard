@@ -1,5 +1,7 @@
 import { catalogOf, composeApps, loadRemoteCollector } from './composition/apps';
 import { applyOverrides } from './composition/overrides';
+import { sitesCollector } from './consumers/sites';
+import { forwardingCollector, resolveWrappers } from './consumers/wrappers';
 import { discoverEntries } from './discovery/entries';
 import { loadWorkspace } from './discovery/workspace';
 import { extensionsCollector } from './extract/extensionRecords';
@@ -26,12 +28,37 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
   const points = pointsCollector();
   const extensions = extensionsCollector(entries);
   const remoteLoads = loadRemoteCollector();
-  const passA = runPass(opts.repoRoot, workspace, [points, extensions, remoteLoads], {
+  const forwarding = forwardingCollector();
+  const passOpts = {
     sourceCache: sourceCache ? createSourceFileCache() : undefined,
     extraRoots: entries.map((entry) => entry.file),
-  });
+  };
+  const passA = runPass(
+    opts.repoRoot,
+    workspace,
+    [points, extensions, remoteLoads, forwarding],
+    passOpts,
+  );
   const found = points.finish();
   const contributed = extensions.finish();
+  const pointIds = new Set(found.points.map((point) => point.id));
+
+  // Pass B: uses. Query sites need every point and every wrapper, which only pass A can supply.
+  const sites = sitesCollector({
+    pointIds,
+    pointFiles: new Set([
+      ...found.points.map((point) => point.loc.file),
+      ...found.guards.map((guard) => guard.loc.file),
+    ]),
+    wrappers: resolveWrappers(forwarding.finish()),
+    carried: new Map(),
+  });
+  const passB = runPass(opts.repoRoot, workspace, [sites], passOpts);
+  const used = sites.finish();
+  // Both passes build the same programs, so a tsconfig error or a stale @mf-types copy is found
+  // twice: keep pass B's own findings only.
+  const seenInPassA = new Set(passA.map((diagnostic) => JSON.stringify(diagnostic)));
+  const passBOnly = passB.filter((diagnostic) => !seenInPassA.has(JSON.stringify(diagnostic)));
 
   // App composition: which apps include each extension, and what their overrides do.
   const composed = composeApps(
@@ -46,7 +73,6 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
   );
 
   // An extension whose type matches no declared point is the safety net on both collectors.
-  const pointIds = new Set(found.points.map((point) => point.id));
   const unknownPoints: Diagnostic[] = contributed.extensions
     .filter((extension) => !pointIds.has(extension.type))
     .map((extension) =>
@@ -67,6 +93,9 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
     apps: composed.apps,
     extensions: composed.extensions,
     overrides: resolved.flatMap((result) => result.overrides),
+    consumers: used.consumers,
+    querySites: used.querySites,
+    useSites: used.useSites,
     diagnostics: [
       ...diagnostics,
       ...passA,
@@ -75,6 +104,8 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
       ...unknownPoints,
       ...composed.diagnostics,
       ...resolved.flatMap((result) => result.diagnostics),
+      ...passBOnly,
+      ...used.diagnostics,
     ],
   });
 };

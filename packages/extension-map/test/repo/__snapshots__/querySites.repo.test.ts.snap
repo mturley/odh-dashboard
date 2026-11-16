@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`query sites on the real repo lists every guard that reaches an unknown callee 1`] = `[]`;
