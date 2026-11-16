@@ -190,7 +190,11 @@ const guardScanRoot = (
 const isTypePropertyAccess = (expression: ts.Expression): boolean =>
   ts.isPropertyAccessExpression(expression) && expression.name.text === 'type';
 
-/** String-literal values compared against `.type` anywhere in `root`. */
+/**
+ * String-literal values positively equated with `.type` anywhere in `root`.
+ * Only `===` counts: an exclusion (`!==`) cannot prove that a literal
+ * disagrees with the predicate, so it is never cross-checked.
+ */
 const comparisonLiterals = (root: ts.Node | undefined, ctx: ProgramCtx): string[] => {
   const found: string[] = [];
   if (root === undefined) {
@@ -199,8 +203,7 @@ const comparisonLiterals = (root: ts.Node | undefined, ctx: ProgramCtx): string[
   const walk = (node: ts.Node): void => {
     if (
       ts.isBinaryExpression(node) &&
-      (node.operatorToken.kind === ts.SyntaxKind.EqualsEqualsEqualsToken ||
-        node.operatorToken.kind === ts.SyntaxKind.ExclamationEqualsEqualsToken)
+      node.operatorToken.kind === ts.SyntaxKind.EqualsEqualsEqualsToken
     ) {
       const candidate = isTypePropertyAccess(node.left)
         ? node.right

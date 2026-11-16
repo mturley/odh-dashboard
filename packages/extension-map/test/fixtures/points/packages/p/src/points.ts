@@ -77,6 +77,14 @@ export type ZExt = {
 
 export const isFz = (e: Extension): e is ZExt => e.type === 'fx.z';
 
+/** A field-kind marker excluded by negative comparison, as connection-type guards do. */
+export enum FxFieldKind {
+  Section = 'fx.section',
+}
+
+/** Excluding a kind cannot prove a literal disagrees with the predicate. */
+export const isFzNotSection = (e: Extension): e is ZExt => e.type !== FxFieldKind.Section;
+
 /** A function returning a predicate function is a parameterized guard. */
 export const guardForZ =
   (id: string): ExtensionPredicate<ZExt> =>

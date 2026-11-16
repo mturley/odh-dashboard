@@ -69,6 +69,18 @@ describe('points collector', () => {
     expect(mismatches.map((d) => d.message).join('\n')).toContain('fx.wrong');
   });
 
+  it('does not report a mismatch for an exclusion comparison', () => {
+    const guard = m.guards.find((g) => g.name === 'isFzNotSection');
+    expect(guard).toMatchObject({ style: 'inline', pointIds: ['fx.z'] });
+    const messages = diags('guard-literal-mismatch')
+      .map((d) => d.message)
+      .join('\n');
+    // `!==` cannot prove the literal disagrees; the valid positive constant
+    // guard (isFxD) must not be flagged either.
+    expect(messages).not.toContain('isFzNotSection');
+    expect(messages).not.toContain('isFxD');
+  });
+
   it('reports gaps', () => {
     const expected = ['point-no-guard', 'point-no-jsdoc', 'jsdoc-param-on-type', 'guard-no-point'];
     expect(codes(m)).toEqual(expect.arrayContaining(expected));

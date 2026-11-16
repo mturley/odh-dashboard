@@ -56,4 +56,13 @@ describe('extension points in the repo', () => {
     expect(points().filter((p) => p.loc.file.includes('@mf-types'))).toEqual([]);
     expect(diags('point-duplicate-id')).toEqual([]);
   });
+
+  it('does not report a literal mismatch for the connection-type exclusion guard', () => {
+    // packages/k8s-core/src/connectionTypeUtils.ts excludes a field kind with
+    // `field.type !== ConnectionTypeFieldType.Section`; an exclusion cannot
+    // prove a literal disagrees with the predicate.
+    const guard = getRepoModel().guards.find((g) => g.name === 'isConnectionTypeDataField');
+    expect(guard).toBeDefined();
+    expect(diags('guard-literal-mismatch')).toEqual([]);
+  });
 });
