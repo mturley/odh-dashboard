@@ -1,4 +1,5 @@
 import type { FxWrappedExtension } from './points';
+import { mutatedObject } from './values';
 
 type Schema = { parse: (input: unknown) => string };
 
@@ -18,5 +19,6 @@ export const wrappedExtension = {
     schema: wrappedSchema,
     route: computedPath,
     label: makeLabel({ text: 'Wrapped' }),
+    alias: mutatedObject,
   },
 } satisfies FxWrappedExtension;

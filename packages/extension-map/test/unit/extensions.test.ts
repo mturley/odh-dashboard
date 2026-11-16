@@ -109,12 +109,13 @@ describe('extensions', () => {
     expect(ext('fx.wrapped').properties.schema).toEqual({
       kind: 'reference',
       name: 'wrappedSchema',
-      loc: { file: 'packages/p/src/wrapped.ts', line: 10 },
+      loc: { file: 'packages/p/src/wrapped.ts', line: 11 },
     });
     const wrapped = m.diagnostics.filter(
       (d) => d.code === 'unresolved-value' && d.message.includes("'fx.wrapped'"),
     );
     expect(wrapped.map((d) => d.message).toSorted()).toEqual([
+      expect.stringContaining("'alias'"),
       expect.stringContaining("'label'"),
       expect.stringContaining("'route'"),
     ]);
@@ -123,5 +124,9 @@ describe('extensions', () => {
   it('keeps a computed route and an inline call unresolved', () => {
     expect(ext('fx.wrapped').properties.route).toMatchObject({ kind: 'unresolved' });
     expect(ext('fx.wrapped').properties.label).toMatchObject({ kind: 'unresolved' });
+  });
+
+  it('keeps an alias of a mutated object literal unresolved, with a diagnostic', () => {
+    expect(ext('fx.wrapped').properties.alias).toMatchObject({ kind: 'unresolved' });
   });
 });

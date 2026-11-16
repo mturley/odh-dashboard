@@ -43,7 +43,7 @@ export const valueText = (value: Value): string => {
     case 'function':
       return value.name ?? 'function';
     case 'reference':
-      return value.name;
+      return `${value.name} (code)`;
     case 'mapped':
       return 'one per mapped element';
     default:

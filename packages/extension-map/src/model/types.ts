@@ -237,7 +237,8 @@ export type Value =
   | {
       /**
        * Code rather than data: an inline function, a function declaration or `const` holding a
-       * function that a reference names, or a `const` the checker proves callable.
+       * function that a reference names, or a `const` whose type (ignoring `null` / `undefined`)
+       * has a call signature and is not a union.
        */
       kind: 'function';
       /** The reference or function-expression name. Omitted for an anonymous inline function. */
@@ -247,10 +248,14 @@ export type Value =
     }
   | {
       /**
-       * A reference to a `const` that is code-like rather than data: its value cannot be read as
-       * data and its type is not data-like (an object such as a schema, a class instance, a
-       * `Map`). Never a function (that is `function`) and never a call written inline (that is
-       * `unresolved`).
+       * A reference to a `const` whose value is code, not data. Produced only on positive proof:
+       * the value cannot be read as data, the chain of `const` aliases it names does not end at an
+       * object or array literal, and its type (ignoring `null` / `undefined`; for a union, every
+       * other member) has a construct signature, has a property or method whose type has a call
+       * signature (a schema object's `parse`), or is a class instance. A value whose type is
+       * data, or proves nothing (`any`, `unknown`, an unconstrained type parameter, a mixed
+       * union), stays `unresolved`. Never a function the checker proves callable (that is
+       * `function`) and never a call written inline (that is `unresolved`).
        */
       kind: 'reference';
       /** The reference as written at the use, e.g. `timeoutFieldSchema`. */
@@ -300,9 +305,10 @@ export type ExtensionRecord = {
   /** Where the object literal is written. */
   loc: Loc;
   /**
-   * The name of the `const` whose initializer is the object literal (through `as`, `satisfies`
-   * and parentheses), e.g. `routeExtension`. Omitted when the literal is written inline
-   * in an array or returned from a `.map()` callback.
+   * The name of the `const` whose initializer is the object literal (through `as`, `satisfies`,
+   * angle-bracket type assertions, non-null assertions `!` and parentheses), e.g.
+   * `routeExtension`. Omitted when the literal is written inline in an array or returned from a
+   * `.map()` callback.
    */
   binding?: string;
   /** `Entry.id` of every entry that reaches it; sorted. */

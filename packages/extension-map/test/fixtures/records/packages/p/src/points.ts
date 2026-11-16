@@ -26,5 +26,10 @@ export type FxSpreadExtension = Extension<'fx.spread', { id: string; label: stri
 /** Bound to a name through `satisfies`, with a code-like constant, a computed path and a call. */
 export type FxWrappedExtension = Extension<
   'fx.wrapped',
-  { schema: { parse: (input: unknown) => string }; route: string; label: string }
+  {
+    schema: { parse: (input: unknown) => string };
+    route: string;
+    label: string;
+    alias: { label: string };
+  }
 >;

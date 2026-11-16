@@ -96,3 +96,40 @@ export const wrappedFnRef = wrappedCompute;
 
 const opaque: unknown = makeSchema();
 export const opaqueRef = opaque;
+
+const aliasOfMutated = mutatedObject;
+export const twoHopRef = aliasOfMutated;
+
+const makeRecord = (): Record<string, string> => ({ a: 'b' });
+const recordValue = makeRecord();
+export const recordRef = recordValue;
+
+const makeIds = (): { id: string }[] => [{ id: 'a' }];
+const idsValue = makeIds();
+export const idsRef = idsValue;
+
+type BrandedId = string & { brand: 'id' };
+declare const makeBrandedId: () => BrandedId;
+const brandedValue = makeBrandedId();
+export const brandedRef = brandedValue;
+
+class Store {
+  read(): string {
+    return 'stored';
+  }
+}
+const storeValue = new Store();
+export const storeRef = storeValue;
+
+const makeEither = (): Schema | (() => Schema) => makeSchema();
+const eitherValue = makeEither();
+export const eitherRef = eitherValue;
+
+const makeMaybe = (): Record<string, string> | undefined => undefined;
+const maybeValue = makeMaybe();
+export const maybeRef = maybeValue;
+
+export function generic<T>(value: T): T {
+  const held = value;
+  return held;
+}

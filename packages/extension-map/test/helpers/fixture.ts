@@ -63,3 +63,28 @@ export const valuesOf = (name: string, file: string): Map<string, Value> => {
   runPass(repoRoot, readWorkspace(name), [collector], {});
   return resolved;
 };
+
+/**
+ * Resolves the expression each top-level function declaration of one fixture file returns, by
+ * function name: a way to resolve a reference that only exists inside a function body.
+ */
+export const returnedValuesOf = (name: string, file: string): Map<string, Value> => {
+  const repoRoot = fixtureDir(name);
+  const resolved = new Map<string, Value>();
+  const collector = {
+    visit: (ctx: ProgramCtx): void => {
+      const source = ctx.ownedFiles.find((f) => relFile(repoRoot, f.fileName) === file);
+      source?.forEachChild((node) => {
+        if (ts.isFunctionDeclaration(node) && node.name && node.body) {
+          const returned = node.body.statements.find(ts.isReturnStatement)?.expression;
+          if (returned) {
+            resolved.set(node.name.text, resolveValue(returned, ctx));
+          }
+        }
+      });
+    },
+    finish: (): undefined => undefined,
+  };
+  runPass(repoRoot, readWorkspace(name), [collector], {});
+  return resolved;
+};

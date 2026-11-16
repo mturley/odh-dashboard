@@ -1,4 +1,4 @@
-import { valuesOf } from '../helpers/fixture';
+import { returnedValuesOf, valuesOf } from '../helpers/fixture';
 import type { Value } from '../../src/model/types';
 
 const values = valuesOf('records', 'packages/p/src/values.ts');
@@ -150,5 +150,39 @@ describe('values', () => {
 
   it('keeps a constant whose type proves nothing unresolved', () => {
     expect(v('opaqueRef')).toMatchObject({ kind: 'unresolved' });
+  });
+
+  it('never names an alias chain that ends at an object literal as a reference', () => {
+    expect(v('mutatedObject')).toMatchObject({ kind: 'unresolved' });
+    expect(v('twoHopRef')).toMatchObject({ kind: 'unresolved' });
+  });
+
+  it('keeps plain data built by a call unresolved, whatever its shape', () => {
+    expect(v('recordRef')).toMatchObject({ kind: 'unresolved' });
+    expect(v('idsRef')).toMatchObject({ kind: 'unresolved' });
+    expect(v('brandedRef')).toMatchObject({ kind: 'unresolved' });
+    expect(v('maybeRef')).toMatchObject({ kind: 'unresolved' });
+  });
+
+  it('keeps a value typed by an unconstrained type parameter unresolved', () => {
+    expect(returnedValuesOf('records', 'packages/p/src/values.ts').get('generic')).toMatchObject({
+      kind: 'unresolved',
+    });
+  });
+
+  it('names a class instance as a reference', () => {
+    expect(v('storeRef')).toEqual({
+      kind: 'reference',
+      name: 'storeValue',
+      loc: { file: 'packages/p/src/values.ts', line: 121 },
+    });
+  });
+
+  it('names a value that is code in every union member as a reference', () => {
+    expect(v('eitherRef')).toEqual({
+      kind: 'reference',
+      name: 'eitherValue',
+      loc: { file: 'packages/p/src/values.ts', line: 125 },
+    });
   });
 });

@@ -255,67 +255,141 @@ const DATA_FLAGS =
 /** Types that prove nothing about what a value holds. */
 const OPAQUE_FLAGS = ts.TypeFlags.Any | ts.TypeFlags.Unknown | ts.TypeFlags.Never;
 
+/** What a type proves about a value. See `shapeOfType`. */
+type Shape = 'data' | 'code' | 'opaque';
+
+const isNullish = (type: ts.Type): boolean =>
+  (type.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined | ts.TypeFlags.Void)) !== 0;
+
+const isCallable = (type: ts.Type): boolean =>
+  type.getCallSignatures().length > 0 || type.getConstructSignatures().length > 0;
+
+/** True when the type is an instance of a class declared in source (not an interface). */
+const isClassInstance = (type: ts.Type): boolean =>
+  (type.getSymbol()?.declarations ?? []).some(
+    (decl) => ts.isClassDeclaration(decl) || ts.isClassExpression(decl),
+  );
+
+/** `data` when every shape is data, `code` when any is code, else `opaque`. */
+const combined = (shapes: Shape[]): Shape => {
+  if (shapes.includes('code')) {
+    return 'code';
+  }
+  return shapes.every((shape) => shape === 'data') ? 'data' : 'opaque';
+};
+
 /**
- * What a type says a value is: `data` (see `DATA_FLAGS`, unions of those, and arrays or tuples of
- * those), `callable` (it has a call signature), `opaque` (`any`, `unknown`, `never`, or a union
- * with such a member), or `code` (anything else: an object such as a schema, a class instance, a
- * `Map`).
+ * What a type proves a value is. `code` needs positive proof: the type has a call or construct
+ * signature, a property or method whose type has one (a schema object's `parse`), or is a class
+ * instance; a union is code when every member that is not `null` / `undefined` is. `data` is a
+ * primitive, a literal, an enum, a union or intersection of data (an intersection with a primitive
+ * member, i.e. a branded primitive, is data), an array or tuple of data, or an object type whose
+ * every property and index signature is data. Anything else proves nothing and is `opaque`:
+ * `any`, `unknown`, `never`, an unconstrained type parameter, a union mixing kinds.
  */
 const shapeOfType = (
   type: ts.Type,
   checker: ts.TypeChecker,
+  seen: ReadonlySet<ts.Type> = new Set(),
   depth = 0,
-): 'data' | 'callable' | 'opaque' | 'code' => {
+): Shape => {
   if ((type.flags & OPAQUE_FLAGS) !== 0 || depth > MAX_DEPTH) {
     return 'opaque';
   }
   if ((type.flags & DATA_FLAGS) !== 0) {
     return 'data';
   }
+  if (seen.has(type)) {
+    // A type that contains itself: what it is depends on the rest of it.
+    return 'data';
+  }
+  const inner = new Set([...seen, type]);
+  const shapeOf = (member: ts.Type): Shape => shapeOfType(member, checker, inner, depth + 1);
+  if ((type.flags & ts.TypeFlags.TypeParameter) !== 0) {
+    const constraint = checker.getBaseConstraintOfType(type);
+    return constraint && constraint !== type ? shapeOf(constraint) : 'opaque';
+  }
   if (type.isUnion()) {
-    const shapes = type.types.map((member) => shapeOfType(member, checker, depth + 1));
+    const shapes = type.types.filter((member) => !isNullish(member)).map(shapeOf);
     if (shapes.every((shape) => shape === 'data')) {
       return 'data';
     }
-    return shapes.includes('opaque') ? 'opaque' : 'code';
+    return shapes.every((shape) => shape === 'code') ? 'code' : 'opaque';
+  }
+  if (type.isIntersection()) {
+    return type.types.some((member) => (member.flags & DATA_FLAGS) !== 0)
+      ? 'data'
+      : combined(type.types.map(shapeOf));
+  }
+  if (isCallable(type) || isClassInstance(type)) {
+    return 'code';
   }
   if (checker.isArrayType(type) || checker.isTupleType(type)) {
     const element = checker.getIndexTypeOfType(type, ts.IndexKind.Number);
-    const shape = element ? shapeOfType(element, checker, depth + 1) : 'opaque';
-    return shape === 'data' || shape === 'opaque' ? shape : 'code';
+    return element ? shapeOf(element) : 'opaque';
   }
-  return type.getCallSignatures().length > 0 ? 'callable' : 'code';
+  const properties = checker.getPropertiesOfType(type).map((property) => {
+    const propertyType = checker.getTypeOfSymbol(property);
+    return isCallable(propertyType.getNonNullableType()) ? 'code' : shapeOf(propertyType);
+  });
+  const indexes = checker.getIndexInfosOfType(type).map((info) => shapeOf(info.type));
+  return combined([...properties, ...indexes]);
 };
 
 /**
- * A reference to a `const` the walk cannot read as data, named rather than left unresolved when
- * its type proves it is code: a function value built by a call is a `function`, and any other
- * value whose type is not data (a schema object, a class instance, a `Map`) is a `reference`. A
- * `const` written as an object or array literal holds data in place, and one whose type is data
- * or proves nothing stays unresolved: those are gaps, not code.
+ * The expression at the end of a chain of `const` aliases (`const a = b; const b = …`), with
+ * wrappers set aside. `undefined` for a chain that loops.
+ */
+const aliasedInitializer = (
+  decl: ts.VariableDeclaration,
+  checker: ts.TypeChecker,
+): ts.Expression | undefined => {
+  const seen = new Set<ts.VariableDeclaration>();
+  let current: ts.VariableDeclaration | undefined = decl;
+  let expr: ts.Expression | undefined;
+  while (current?.initializer) {
+    if (seen.has(current)) {
+      return undefined;
+    }
+    seen.add(current);
+    expr = unwrapExpression(current.initializer);
+    if (!ts.isIdentifier(expr) && !ts.isPropertyAccessExpression(expr)) {
+      return expr;
+    }
+    const raw = checker.getSymbolAtLocation(expr);
+    current = constDeclaration(raw ? resolveAlias(checker, raw) : undefined);
+  }
+  return expr;
+};
+
+/**
+ * A reference to a `const` the walk cannot read as data, named rather than left unresolved only
+ * when its type proves it is code (see `shapeOfType`): a value the checker proves callable is a
+ * `function`, and any other code-like value (a schema object, a class instance) is a `reference`.
+ * A chain of `const` aliases that ends at an object or array literal holds data written in place,
+ * and a value whose type is data or proves nothing stays unresolved: those are gaps, not code.
  */
 const referencedCode = (
   expr: ts.Identifier | ts.PropertyAccessExpression,
   symbol: ts.Symbol | undefined,
   state: State,
 ): Value | undefined => {
+  const { checker } = state.ctx;
   const decl = constDeclaration(symbol);
-  const initializer = decl?.initializer ? unwrapExpression(decl.initializer) : undefined;
-  if (
-    !decl ||
-    !initializer ||
-    ts.isObjectLiteralExpression(initializer) ||
-    ts.isArrayLiteralExpression(initializer)
-  ) {
+  const end = decl ? aliasedInitializer(decl, checker) : undefined;
+  if (!decl || !end || ts.isObjectLiteralExpression(end) || ts.isArrayLiteralExpression(end)) {
     return undefined;
   }
-  const shape = shapeOfType(state.ctx.checker.getTypeAtLocation(expr), state.ctx.checker);
+  const type = checker.getTypeAtLocation(expr);
+  if (shapeOfType(type, checker) !== 'code') {
+    return undefined;
+  }
   const name = collapse(expr.getText());
   const loc = declLoc(decl, state.ctx);
-  if (shape === 'callable') {
-    return { kind: 'function', name, loc };
-  }
-  return shape === 'code' ? { kind: 'reference', name, loc } : undefined;
+  const solid = type.getNonNullableType();
+  return !solid.isUnion() && solid.getCallSignatures().length > 0
+    ? { kind: 'function', name, loc }
+    : { kind: 'reference', name, loc };
 };
 
 /**

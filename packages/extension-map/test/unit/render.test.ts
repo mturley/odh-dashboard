@@ -541,4 +541,27 @@ describe('renderPackagePage', () => {
     expect(content).toContain('[timeoutFieldSchema](../src/schema.ts#L5) (code)');
     expect(content).not.toContain('**Not resolved**');
   });
+
+  it('marks a reference nested in an object value as code', () => {
+    const model = fixtureModel();
+    model.extensions = [
+      record('a', {
+        properties: {
+          id: { kind: 'literal', value: 'a' },
+          reducers: {
+            kind: 'object',
+            props: {
+              validationSchema: {
+                kind: 'reference',
+                name: 'timeoutFieldSchema',
+                loc: { file: 'packages/contributor/src/schema.ts', line: 5 },
+              },
+            },
+          },
+        },
+      }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('`{ validationSchema: timeoutFieldSchema (code) }`');
+  });
 });
