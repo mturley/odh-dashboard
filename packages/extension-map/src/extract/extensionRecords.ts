@@ -176,6 +176,7 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
         `Cannot resolve '${name}' of extension '${record.type}': ${why}.`,
         where,
         record.pkg,
+        record.type,
       ),
     );
   };

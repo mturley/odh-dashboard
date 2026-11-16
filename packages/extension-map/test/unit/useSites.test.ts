@@ -21,10 +21,10 @@ const usesInFile = (basename: string): UseSite[] =>
 const renderedIn = (symbol: string): string[] =>
   m.consumers.find((c) => c.symbol === symbol)?.renderedIn.map((r) => r.symbol) ?? [];
 
-const pointDiags = (code: string): string[] =>
+const pointDiags = (code: string): (string | undefined)[] =>
   m.diagnostics
     .filter((d) => d.code === code)
-    .map((d) => d.message)
+    .map((d) => d.pointId)
     .toSorted();
 
 describe('use sites', () => {
@@ -50,7 +50,7 @@ describe('use sites', () => {
     ]);
   });
 
-  it('ignores LazyCodeRefComponent and HookNotify inputs that are not extensions', () => {
+  it('ignores LazyCodeRefComponent and HookNotify fed by properties of objects that are not extensions', () => {
     expect(usesInFile('RemoteLoader.tsx')).toEqual([]);
   });
 
@@ -108,9 +108,7 @@ describe('use sites', () => {
 describe('point usage diagnostics', () => {
   it('reports points nothing contributes to or nothing consumes', () => {
     // fx.a has contributions and consumers; fx.b has consumers only.
-    expect(pointDiags('point-no-contributors')).toEqual([
-      "No package in this repository contributes an extension of 'fx.b'.",
-    ]);
+    expect(pointDiags('point-no-contributors')).toEqual(['fx.b']);
     expect(pointDiags('point-no-consumers')).toEqual([]);
     expect(pointDiags('point-unused')).toEqual([]);
   });

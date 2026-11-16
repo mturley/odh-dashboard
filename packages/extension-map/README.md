@@ -26,7 +26,7 @@ The reference for every type and field is [`src/model/types.ts`](src/model/types
 | `carriedTypes` | Types extension points carry inside `CodeRef` properties. |
 | `diagnostics` | Everything the analysis could not prove, and problems it found, each with a location. |
 
-`apps`, `overrides`, `consumers`, `querySites`, `useSites` and `carriedTypes` are part of the interface but stay empty until the analyses that fill them are built.
+`carriedTypes` is part of the interface but stays empty until the analysis that fills it is built; every other array is filled.
 
 **How records join.** Extension points are identified by their point ID (the string literal of `Extension`'s first type argument): `ExtensionRecord.type`, `Guard.pointIds`, `QuerySite.pointIds` and `UseSite.pointId` all hold point IDs. Declarations that carry no such literal are identified by a declaration key, `<repo-relative file>:<start offset>` (`ExtensionRecord.key`, `ExtensionPoint.properties[].codeRef.innerKey`); a key is stable only while the source before the declaration is unchanged. Entries are joined by `Entry.id` (`<pkg>#<key>`), packages by name, consumers by `Consumer.id` (`<file>#<symbol>`). Paths are repo-relative POSIX paths, lines are 1-based, and no path or key points into the generated `frontend/@mf-types` copies.
 

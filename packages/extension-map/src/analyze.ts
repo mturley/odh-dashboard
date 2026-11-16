@@ -76,6 +76,7 @@ const pointUsage = (
           `Nothing in this repository contributes an extension of '${point.id}' or queries or uses it.`,
           point.loc,
           point.pkg,
+          point.id,
         ),
       ];
     }
@@ -86,6 +87,7 @@ const pointUsage = (
           `No package in this repository contributes an extension of '${point.id}'.`,
           point.loc,
           point.pkg,
+          point.id,
         ),
       ];
     }
@@ -97,6 +99,7 @@ const pointUsage = (
             `No code in this repository queries or uses extensions of '${point.id}'.`,
             point.loc,
             point.pkg,
+            point.id,
           ),
         ];
   });

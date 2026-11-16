@@ -273,6 +273,7 @@ describe('renderPackagePage', () => {
         message: `Nothing in this repository contributes an extension of '${POINT_ID}' or queries or uses it.`,
         loc: { file: 'packages/definer/src/points.ts', line: 4 },
         pkg: definer.name,
+        pointId: POINT_ID,
       },
     ];
     const { content } = renderPackagePage(model, definer);
@@ -713,12 +714,12 @@ describe('consumer side', () => {
     expect(flow).toContain(`${mermaidId(`pkg:${contributor.name}`)} --> ${mermaidId(POINT_ID)}`);
     expect(flow).toContain(
       `${mermaidId(POINT_ID)} -- "useExtensions, lazy-render" --> ${mermaidId(
-        `consumer:${SLOT_ID}`,
+        `symbol:${SLOT_ID}`,
       )}`,
     );
     expect(flow).toContain(
-      `${mermaidId(`consumer:${SLOT_ID}`)} -. "rendered in" .-> ${mermaidId(
-        'renderer:packages/user/src/Page.tsx#Page',
+      `${mermaidId(`symbol:${SLOT_ID}`)} -. "rendered in" .-> ${mermaidId(
+        'symbol:packages/user/src/Page.tsx#Page',
       )}`,
     );
     expect(flow).not.toContain('click ');
@@ -727,7 +728,7 @@ describe('consumer side', () => {
       '| Slot | consumer in @odh-dashboard/user — useExtensions, lazy-render | [Slot](../../user/src/Slot.tsx#L5-L20) |',
     );
     expect(content).toContain(
-      '| Page | renders Slot (one hop up) | Page ([Page.tsx:12](../../user/src/Page.tsx#L12)) |',
+      '| Page | renders Slot (one hop up) | renders Slot at [Page.tsx:12](../../user/src/Page.tsx#L12) |',
     );
     expect(content).toContain('## Legend');
   });
@@ -741,6 +742,7 @@ describe('consumer side', () => {
         message: `The string '${POINT_ID}' names an extension point outside its declaration and outside an extension.`,
         loc: { file: 'packages/user/src/odd.ts', line: 3 },
         pkg: user.name,
+        pointId: POINT_ID,
       },
       ...model.diagnostics,
     ];
@@ -780,5 +782,102 @@ describe('consumer side', () => {
     const { content } = renderPackagePage(model, definer);
     expect(content).toContain('Like [the slot](#demothingslot) and `Missing`.');
     expect(content).toContain('**Related:** [SlotExtension](#demothingslot), `Missing`');
+  });
+
+  /** The consumer model plus a second consumer, `useThing`, of the same point. */
+  const twoConsumers = (renderedIn: ExtensionMapModel['consumers'][number]['renderedIn']) => {
+    const model = consumerModel();
+    const HOOK_ID = 'packages/user/src/useThing.ts#useThing';
+    model.consumers = [
+      ...model.consumers.map((c) => ({ ...c, renderedIn: [] })),
+      {
+        id: HOOK_ID,
+        pkg: user.name,
+        symbol: 'useThing',
+        loc: { file: 'packages/user/src/useThing.ts', line: 3 },
+        renderedIn,
+      },
+    ];
+    model.useSites = [
+      ...model.useSites,
+      {
+        consumer: HOOK_ID,
+        pointId: POINT_ID,
+        path: 'properties.id',
+        kind: 'read',
+        direct: true,
+        oneOf: [POINT_ID, 'demo.other'],
+        loc: { file: 'packages/user/src/useThing.ts', line: 5 },
+        provenance: 'type-resolved',
+      },
+    ];
+    return model;
+  };
+  const mermaidOf = (content: string): string =>
+    content.slice(
+      content.indexOf('```mermaid'),
+      content.indexOf('```', content.indexOf('```mermaid') + 3),
+    );
+
+  it('draws a symbol that is both a consumer and a renderer as one node', () => {
+    const model = twoConsumers([
+      { symbol: 'Slot', loc: { file: 'packages/user/src/Slot.tsx', line: 9 }, how: 'call' },
+    ]);
+    const { content } = renderPackagePage(model, definer);
+    const flow = mermaidOf(content);
+    expect(
+      flow.split('\n').filter((line) => line.includes('["Slot"]') || line.includes('("Slot")')),
+    ).toHaveLength(1);
+    expect(flow).toContain(
+      `${mermaidId('symbol:packages/user/src/useThing.ts#useThing')} -. "called in" .-> ${mermaidId(
+        `symbol:${SLOT_ID}`,
+      )}`,
+    );
+    expect(content).toContain(
+      '| Slot | consumer in @odh-dashboard/user — useExtensions, lazy-render; calls useThing (one hop up) | [Slot](../../user/src/Slot.tsx#L5-L20)<br>calls useThing at [Slot.tsx:9](../../user/src/Slot.tsx#L9) |',
+    );
+  });
+
+  it('draws one edge for two references from the same renderer, and links both', () => {
+    const model = consumerModel();
+    model.consumers = model.consumers.map((c) => ({
+      ...c,
+      renderedIn: [
+        { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 12 }, how: 'jsx' },
+        { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 18 }, how: 'jsx' },
+      ],
+    }));
+    const { content } = renderPackagePage(model, definer);
+    expect(
+      mermaidOf(content)
+        .split('\n')
+        .filter((line) => line.includes('rendered in')),
+    ).toHaveLength(1);
+    expect(content).toContain(
+      '| Page | renders Slot (one hop up) | renders Slot at [Page.tsx:12](../../user/src/Page.tsx#L12)<br>renders Slot at [Page.tsx:18](../../user/src/Page.tsx#L18) |',
+    );
+  });
+
+  it('gives a renderer of two consumers one row naming both, and marks one-of uses', () => {
+    const model = twoConsumers([
+      { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 20 }, how: 'call' },
+    ]);
+    model.consumers = model.consumers.map((c) =>
+      c.id === SLOT_ID
+        ? {
+            ...c,
+            renderedIn: [
+              { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 12 }, how: 'jsx' },
+            ],
+          }
+        : c,
+    );
+    const { content } = renderPackagePage(model, definer);
+    expect(content).toContain(
+      '| Page | renders Slot (one hop up); calls useThing (one hop up) | renders Slot at [Page.tsx:12](../../user/src/Page.tsx#L12)<br>calls useThing at [Page.tsx:20](../../user/src/Page.tsx#L20) |',
+    );
+    expect(content).toContain(
+      '| useThing | consumer in @odh-dashboard/user — read (one of: demo.thing/slot, demo.other) |',
+    );
   });
 });

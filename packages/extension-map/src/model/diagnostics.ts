@@ -12,10 +12,12 @@ export const makeDiagnostic = (
   message: string,
   loc?: Loc,
   pkg?: string,
+  pointId?: string,
 ): Diagnostic => ({
   code,
   severity: INFO_CODES.has(code) ? 'info' : 'warning',
   message,
   ...(loc ? { loc } : {}),
   ...(pkg ? { pkg } : {}),
+  ...(pointId ? { pointId } : {}),
 });

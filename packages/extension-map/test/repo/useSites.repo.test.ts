@@ -18,7 +18,7 @@ const renderedIn = (consumer: string): string[] =>
 
 /** The point diagnostic with this code about this point. */
 const diag = (code: DiagnosticCode, pointId: string): Diagnostic | undefined =>
-  getRepoModel().diagnostics.find((d) => d.code === code && d.message.includes(`'${pointId}'`));
+  getRepoModel().diagnostics.find((d) => d.code === code && d.pointId === pointId);
 
 describe('use sites on the real repo', () => {
   it('renders the deployments banner through LazyCodeRefComponent', () => {

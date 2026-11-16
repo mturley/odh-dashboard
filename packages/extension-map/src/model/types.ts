@@ -544,6 +544,12 @@ export type Diagnostic = {
   loc?: Loc;
   /** Name of the display package it concerns. Omitted when it concerns none. */
   pkg?: string;
+  /**
+   * The extension point ID it is about, when it is about one: a point's own findings, an
+   * unresolved value of an extension (its `type`), an override's finding (the override's own
+   * `type`), and a guard or point-ID literal naming one known point. Omitted otherwise.
+   */
+  pointId?: string;
 };
 
 /**

@@ -21,7 +21,8 @@ const byDiagnostic = (a: Diagnostic, b: Diagnostic): number =>
   cmp(a.loc?.file ?? '', b.loc?.file ?? '') ||
   cmp(a.loc?.line ?? 0, b.loc?.line ?? 0) ||
   cmp(a.code, b.code) ||
-  cmp(a.message, b.message);
+  cmp(a.message, b.message) ||
+  cmp(a.pointId ?? '', b.pointId ?? '');
 
 export const emptyModel = (): ExtensionMapModel => ({
   version: 1,

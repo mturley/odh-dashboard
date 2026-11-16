@@ -316,6 +316,7 @@ export const pointsCollector = (): Collector<PointsResult> => {
             `Extension point '${idType.value}' (${node.name.text}) has no JSDoc.`,
             loc,
             pkg,
+            idType.value,
           ),
         );
       }
@@ -408,6 +409,7 @@ export const pointsCollector = (): Collector<PointsResult> => {
               `Extension point '${point.id}' has no type guard.`,
               point.loc,
               point.pkg,
+              point.id,
             ),
           );
         }
@@ -421,6 +423,7 @@ export const pointsCollector = (): Collector<PointsResult> => {
               `Extension point id '${id}' is declared ${declared.length} times: ${where}.`,
               declared[0].loc,
               declared[0].pkg,
+              id,
             ),
           );
         }
@@ -435,6 +438,7 @@ export const pointsCollector = (): Collector<PointsResult> => {
                 .join(', ')}.`,
               guard.loc,
               pkg,
+              guard.pointIds.length === 1 ? guard.pointIds[0] : undefined,
             ),
           );
         }

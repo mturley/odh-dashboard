@@ -224,7 +224,9 @@ export const applyOverrides = (
 ): { overrides: Override[]; diagnostics: Diagnostic[] } => {
   const diagnostics: Diagnostic[] = [];
   const report = (code: Diagnostic['code'], record: ExtensionRecord, message: string): void => {
-    diagnostics.push(makeDiagnostic(code, `In ${app.id}: ${message}`, record.loc, record.pkg));
+    diagnostics.push(
+      makeDiagnostic(code, `In ${app.id}: ${message}`, record.loc, record.pkg, record.type),
+    );
   };
   const overrides: Override[] = [];
   const base = (

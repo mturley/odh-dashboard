@@ -112,7 +112,7 @@ describe('extensions', () => {
       loc: { file: 'packages/p/src/wrapped.ts', line: 11 },
     });
     const wrapped = m.diagnostics.filter(
-      (d) => d.code === 'unresolved-value' && d.message.includes("'fx.wrapped'"),
+      (d) => d.code === 'unresolved-value' && d.pointId === 'fx.wrapped',
     );
     expect(wrapped.map((d) => d.message).toSorted()).toEqual([
       expect.stringContaining("'alias'"),

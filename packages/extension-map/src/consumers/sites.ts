@@ -390,14 +390,18 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
         );
         return;
       }
-      diagnostics.push(
-        makeDiagnostic(
-          'guard-unknown-callee',
-          `A guard for ${pointIds.map((id) => `'${id}'`).join(', ')} is passed to '${calleeText(
-            site,
-          )}', which is not a query hook, a known wrapper or an array method.`,
-          locOf(expr, ctx),
-          pkg,
+      // One finding per point the guard selects, so each point's page lists it.
+      pointIds.forEach((pointId) =>
+        diagnostics.push(
+          makeDiagnostic(
+            'guard-unknown-callee',
+            `A guard for ${pointIds.map((id) => `'${id}'`).join(', ')} is passed to '${calleeText(
+              site,
+            )}', which is not a query hook, a known wrapper or an array method.`,
+            locOf(expr, ctx),
+            pkg,
+            pointId,
+          ),
         ),
       );
     };
@@ -451,6 +455,7 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
           `The string '${node.text}' names an extension point outside its declaration and outside an extension.`,
           locOf(node, ctx),
           pkg,
+          node.text,
         ),
       );
     };

@@ -1,4 +1,4 @@
-import { consumerLink, consumersOf, refText } from './consumes';
+import { consumerLink, consumersOf } from './consumes';
 import {
   consumesLink,
   contributesLink,
@@ -12,6 +12,7 @@ import { githubAnchor, joinBlocks, oneLine, table } from '../markdown';
 import { flowchart, mermaidId } from '../mermaid';
 import type { EdgeStyle } from '../mermaid';
 import type {
+  Consumer,
   Diagnostic,
   DiagnosticCode,
   ExtensionMapModel,
@@ -118,8 +119,8 @@ const POINT_NOT_RESOLVED: ReadonlySet<DiagnosticCode> = new Set<DiagnosticCode>(
 
 /**
  * What the analysis could not prove about one point: `guard-unknown-callee` and
- * `point-id-literal` findings that name it, and `unresolved-*` findings that name it or sit
- * inside one of its extensions.
+ * `point-id-literal` findings about it, and `unresolved-*` findings about it or, when they are
+ * about no point, located inside one of its extensions.
  */
 const notResolvedFor = (point: ExtensionPoint, model: ExtensionMapModel): Diagnostic[] => {
   const records = model.extensions.filter((record) => record.type === point.id);
@@ -132,11 +133,11 @@ const notResolvedFor = (point: ExtensionPoint, model: ExtensionMapModel): Diagno
         diagnostic.loc.line <= (record.loc.endLine ?? record.loc.line),
     );
   return model.diagnostics.filter((diagnostic) => {
-    const names = diagnostic.message.includes(`'${point.id}'`);
+    const about = diagnostic.pointId === point.id;
     if (diagnostic.code.startsWith('unresolved-')) {
-      return names || inRecord(diagnostic);
+      return about || (diagnostic.pointId === undefined && inRecord(diagnostic));
     }
-    return POINT_NOT_RESOLVED.has(diagnostic.code) && names;
+    return POINT_NOT_RESOLVED.has(diagnostic.code) && about;
   });
 };
 
@@ -204,43 +205,94 @@ const renderFlow = (
     chart.edge(mermaidId(`pkg:${name}`), pointNode, style);
   });
 
-  const renderers = new Map<string, string>();
-  consumers.forEach(({ consumer, querySites, uses }) => {
-    const node = mermaidId(`consumer:${consumer.id}`);
-    const kinds = [
-      ...new Set([
-        ...querySites.map((site) => site.wrapper ?? site.hook),
-        ...KIND_ORDER.filter((kind) => uses.some((use) => use.kind === kind)),
-      ]),
-    ];
-    chart.node(node, shorten(consumer.symbol), 'box');
-    chart.edge(pointNode, node, 'solid', shorten(kinds.join(', '), 60));
-    rows.push([
-      shorten(consumer.symbol),
-      `consumer in ${consumer.pkg} — ${kinds.join(', ')}`,
-      consumerLink(consumer, docPath),
-    ]);
-  });
-  consumers.forEach(({ consumer }) => {
+  /**
+   * One node per symbol (`<file>#<symbol>`, the consumer id scheme), so a consumer that also
+   * renders or calls another consumer of this point is drawn once. Every edge is still one hop.
+   */
+  type SymbolNode = {
+    symbol: string;
+    consumer?: (typeof consumers)[number];
+    refs: { target: string; ref: Consumer['renderedIn'][number] }[];
+  };
+  const nodes = new Map<string, SymbolNode>();
+  consumers.forEach((entry) =>
+    nodes.set(entry.consumer.id, { symbol: entry.consumer.symbol, consumer: entry, refs: [] }),
+  );
+  consumers.forEach(({ consumer }) =>
     consumer.renderedIn.forEach((ref) => {
       const key = `${ref.loc.file}#${ref.symbol}`;
-      const node = mermaidId(`renderer:${key}`);
-      if (!renderers.has(key)) {
-        renderers.set(key, node);
-        chart.node(node, shorten(ref.symbol), 'rounded');
-        rows.push([
-          shorten(ref.symbol),
-          `${ref.how === 'call' ? 'calls' : 'renders'} ${consumer.symbol} (one hop up)`,
-          refText(ref, docPath),
-        ]);
+      const found = nodes.get(key) ?? { symbol: ref.symbol, refs: [] };
+      found.refs.push({ target: consumer.symbol, ref });
+      nodes.set(key, found);
+    }),
+  );
+  const nodeId = (key: string): string => mermaidId(`symbol:${key}`);
+
+  /** What a consumer does with the point: its query hook or wrapper, then its use kinds. */
+  const kindsOf = ({ querySites, uses }: (typeof consumers)[number]): string[] => [
+    ...new Set([
+      ...querySites.map((site) => site.wrapper ?? site.hook),
+      ...KIND_ORDER.filter((kind) => uses.some((use) => use.kind === kind)),
+    ]),
+  ];
+
+  consumers.forEach((entry) => {
+    const key = entry.consumer.id;
+    chart.node(nodeId(key), shorten(entry.consumer.symbol), 'box');
+    chart.edge(pointNode, nodeId(key), 'solid', shorten(kindsOf(entry).join(', '), 60));
+  });
+  nodes.forEach((node, key) => {
+    if (!node.consumer) {
+      chart.node(nodeId(key), shorten(node.symbol), 'rounded');
+    }
+  });
+  // One edge per (consumer, renderer, how); the node table keeps every reference line.
+  const drawn = new Set<string>();
+  consumers.forEach(({ consumer }) =>
+    consumer.renderedIn.forEach((ref) => {
+      const to = nodeId(`${ref.loc.file}#${ref.symbol}`);
+      const edgeKey = `${consumer.id}\0${to}\0${ref.how}`;
+      if (drawn.has(edgeKey)) {
+        return;
       }
+      drawn.add(edgeKey);
       chart.edge(
-        mermaidId(`consumer:${consumer.id}`),
-        node,
+        nodeId(consumer.id),
+        to,
         'renderedIn',
         ref.how === 'call' ? 'called in' : 'rendered in',
       );
-    });
+    }),
+  );
+
+  nodes.forEach((node) => {
+    const what: string[] = [];
+    const links: string[] = [];
+    if (node.consumer) {
+      const { consumer, uses } = node.consumer;
+      const oneOf = [...new Set(uses.flatMap((use) => (use.oneOf ? [use.oneOf.join(', ')] : [])))];
+      what.push(
+        `consumer in ${consumer.pkg} — ${kindsOf(node.consumer).join(', ')}${oneOf
+          .map((ids) => ` (one of: ${ids})`)
+          .join('')}`,
+      );
+      links.push(consumerLink(consumer, docPath));
+    }
+    const targets = (how: 'jsx' | 'call'): string[] => [
+      ...new Set(node.refs.filter(({ ref }) => ref.how === how).map(({ target }) => target)),
+    ];
+    if (targets('jsx').length > 0) {
+      what.push(`renders ${targets('jsx').join(', ')} (one hop up)`);
+    }
+    if (targets('call').length > 0) {
+      what.push(`calls ${targets('call').join(', ')} (one hop up)`);
+    }
+    node.refs.forEach(({ target, ref }) =>
+      links.push(
+        `${ref.how === 'call' ? 'calls' : 'renders'} ${target} at ${sourceLink(docPath, ref.loc)}`,
+      ),
+    );
+    rows.push([shorten(node.symbol), what.join('; '), links.join('<br>')]);
   });
 
   return joinBlocks([chart.toString(), table(['Node', 'What', 'Link'], rows)]);
@@ -273,7 +325,7 @@ const renderNotResolved = (
 const usageMarker = (point: ExtensionPoint, model: ExtensionMapModel): string | undefined => {
   const has = (code: DiagnosticCode): boolean =>
     model.diagnostics.some(
-      (diagnostic) => diagnostic.code === code && diagnostic.message.includes(`'${point.id}'`),
+      (diagnostic) => diagnostic.code === code && diagnostic.pointId === point.id,
     );
   if (has('point-unused')) {
     return '> **Unused.** No package in this repository contributes an extension of this point, and no code queries or uses it.';
