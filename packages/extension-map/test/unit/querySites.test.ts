@@ -70,10 +70,31 @@ describe('query sites', () => {
   });
 
   it('reports point ids written outside point files and extension literals', () => {
-    expect(diagsOf('point-id-literal')).toEqual([
-      'packages/a/src/inline.ts:9',
-      'packages/a/src/register.ts:12',
-    ]);
+    expect(diagsOf('point-id-literal')).toEqual(['packages/a/src/typeChecks.ts:20']);
+  });
+
+  it('records an inline type check on an extension, and explains its literal', () => {
+    expect(use('isItA', 'fx.a')).toMatchObject({
+      kind: 'type-check',
+      path: 'type',
+      direct: true,
+      provenance: 'type-resolved',
+      loc: { file: 'packages/a/src/register.ts', line: 12 },
+    });
+    expect(use('useInline', 'fx.a')?.kind).toBe('type-check');
+  });
+
+  it('records type checks against a const, an enum member and a switch case', () => {
+    expect(use('isConstA', 'fx.a')?.kind).toBe('type-check');
+    expect(use('isEnumB', 'fx.b')?.kind).toBe('type-check');
+    expect(use('describeExtension', 'fx.b')).toMatchObject({
+      kind: 'type-check',
+      loc: { file: 'packages/a/src/typeChecks.ts', line: 10 },
+    });
+  });
+
+  it('records no type check on a value that is not an extension', () => {
+    expect(m.useSites.filter((u) => symbolOf(u.consumer) === 'isShapeA')).toEqual([]);
   });
 
   it('reports a guard that selects no known point, and records no site for it', () => {
@@ -89,6 +110,10 @@ describe('query sites', () => {
       'packages/a/src/inline.ts#useInline',
       'packages/a/src/parameterized.ts#useParameterized',
       'packages/a/src/pick.ts#pickA',
+      'packages/a/src/register.ts#isItA',
+      'packages/a/src/typeChecks.ts#describeExtension',
+      'packages/a/src/typeChecks.ts#isConstA',
+      'packages/a/src/typeChecks.ts#isEnumB',
       'packages/a/src/viaWrapper.ts#useViaWrapper',
       'packages/b/src/viaOuter.ts#useViaOuter',
     ]);

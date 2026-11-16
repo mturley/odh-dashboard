@@ -32,13 +32,13 @@ describe('query sites on the real repo', () => {
     expect(sitesOf('model-serving.deployment/transform')).toEqual([]);
   });
 
-  // The known answer this test encodes does not hold for the code as it is: the plugin store
-  // selects `app.suppress` by comparing `ext.type` with `SUPPRESS_EXTENSION_TYPE`
-  // (packages/plugin-core/src/core/extensionResolution.ts:107,129), never through the
-  // `isSuppressExtension` guard, which nothing references. Reported for a ruling; see the Task 9
-  // report.
-  it.skip('sees the plugin store filtering app.suppress', () => {
-    expect(usesOf('app.suppress').map((u) => u.kind)).toContain('filter');
+  it('sees the plugin store type-checking app.suppress and app.patch', () => {
+    const resolution = 'packages/plugin-core/src/core/extensionResolution.ts';
+    for (const pointId of ['app.suppress', 'app.patch']) {
+      expect(
+        usesOf(pointId).filter((u) => u.kind === 'type-check' && u.loc.file === resolution),
+      ).not.toEqual([]);
+    }
   });
 
   it('lists every guard that reaches an unknown callee', () => {

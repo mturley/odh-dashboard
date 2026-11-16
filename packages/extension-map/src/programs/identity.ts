@@ -287,7 +287,7 @@ export const extensionTypeIds = (type: ts.Type, checker: ts.TypeChecker): string
 };
 
 /** True when a type is extension-shaped with an open `type`, i.e. the SDK's `Extension` itself. */
-const isExtensionGeneric = (type: ts.Type, checker: ts.TypeChecker): boolean => {
+export const isExtensionGeneric = (type: ts.Type, checker: ts.TypeChecker): boolean => {
   const typeProperty = type.getProperty('type');
   if (!typeProperty || !type.getProperty('properties')) {
     return false;

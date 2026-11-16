@@ -5,7 +5,16 @@ import type { Wrapper } from './wrappers';
 import { pkgForFile, relFile } from '../discovery/workspace';
 import { makeDiagnostic } from '../model/diagnostics';
 import type { Consumer, Diagnostic, Loc, QuerySite, UseSite } from '../model/types';
-import { declKey, declLoc, locOf } from '../programs/identity';
+import {
+  constInitializer,
+  declKey,
+  declLoc,
+  extensionTypeIds,
+  isExtensionGeneric,
+  locOf,
+  resolveAlias,
+  unwrapExpression,
+} from '../programs/identity';
 import type { Collector, ProgramCtx } from '../programs/stream';
 
 export type SitesInput = {
@@ -39,6 +48,67 @@ const FILTER_METHODS: ReadonlySet<string> = new Set([
 
 /** The symbol name used for code at the top level of a module. */
 const MODULE_SYMBOL = '<module>';
+
+/** Equality operators a `type` comparison may use. */
+const EQUALITY_OPERATORS: ReadonlySet<ts.SyntaxKind> = new Set([
+  ts.SyntaxKind.EqualsEqualsEqualsToken,
+  ts.SyntaxKind.ExclamationEqualsEqualsToken,
+  ts.SyntaxKind.EqualsEqualsToken,
+  ts.SyntaxKind.ExclamationEqualsToken,
+]);
+
+/**
+ * True when an expression reads `.type` from an extension: a receiver that is the SDK's generic
+ * `Extension` (an open `type`), or one whose `type` names known points. A type parameter stands
+ * for its constraint.
+ */
+const isExtensionTypeRead = (
+  expr: ts.Expression,
+  checker: ts.TypeChecker,
+  known: ReadonlySet<string>,
+): boolean => {
+  const node = unwrapExpression(expr);
+  if (!ts.isPropertyAccessExpression(node) || node.name.text !== 'type') {
+    return false;
+  }
+  let receiver = checker.getNonNullableType(checker.getTypeAtLocation(node.expression));
+  if (receiver.isTypeParameter()) {
+    receiver = checker.getBaseConstraintOfType(receiver) ?? receiver;
+  }
+  return (
+    isExtensionGeneric(receiver, checker) ||
+    (extensionTypeIds(receiver, checker)?.some((id) => known.has(id)) ?? false)
+  );
+};
+
+/**
+ * The string an expression is proven to hold, and the literal that writes it when that literal is
+ * the expression itself: a string literal, a `const` whose initializer resolves (followed as
+ * `constInitializer` allows), or an enum member with a string value.
+ */
+const provenString = (
+  expr: ts.Expression,
+  checker: ts.TypeChecker,
+  depth = 0,
+): { value: string; literal?: ts.Node } | undefined => {
+  const node = unwrapExpression(expr);
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
+    return { value: node.text, literal: node };
+  }
+  if (depth > 4 || (!ts.isIdentifier(node) && !ts.isPropertyAccessExpression(node))) {
+    return undefined;
+  }
+  const symbol = checker.getSymbolAtLocation(ts.isIdentifier(node) ? node : node.name);
+  const target = symbol ? resolveAlias(checker, symbol) : undefined;
+  const member = target?.declarations?.find(ts.isEnumMember);
+  if (member) {
+    const value = checker.getConstantValue(member);
+    return typeof value === 'string' ? { value } : undefined;
+  }
+  const followed = constInitializer(target, checker);
+  const value = followed ? provenString(followed.initializer, checker, depth + 1) : undefined;
+  return value ? { value: value.value } : undefined;
+};
 
 /** A short, single-line rendering of a callee for a message. */
 const calleeText = (site: ts.CallExpression | ts.JsxOpeningLikeElement): string => {
@@ -168,6 +238,8 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
       const ids = guardPointIds(expr, ctx, known);
       // A call that hands the guard back (`React.useCallback(guard, deps)`) is not where it is
       // consumed: its result is classified where it is passed.
+      // Documented limit: any call returning a guard swallows its guard arguments, so a combinator
+      // returning a different guard hides its input, and a result never passed on is dropped.
       if (!ids || (ts.isCallExpression(site) && guardPointIds(site, ctx, known))) {
         return;
       }
@@ -257,9 +329,43 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
       );
     };
 
+    /** Literals a `type-check` use already accounts for; they are not `point-id-literal`s. */
+    const explained = new Set<ts.Node>();
+
+    /**
+     * A comparison of an extension's `type` with a constant that names a known point. Guard
+     * bodies in point files are the point's own definition, not a use.
+     */
+    const checkTypeComparison = (
+      site: ts.Node,
+      read: ts.Expression,
+      other: ts.Expression,
+    ): void => {
+      if (isPointFile || !isExtensionTypeRead(read, checker, known)) {
+        return;
+      }
+      const proven = provenString(other, checker);
+      if (!proven || !known.has(proven.value)) {
+        return;
+      }
+      if (proven.literal) {
+        explained.add(proven.literal);
+      }
+      useSites.push({
+        consumer: consumerOf(site),
+        pointId: proven.value,
+        path: 'type',
+        kind: 'type-check',
+        direct: true,
+        loc: locOf(site, ctx),
+        provenance: 'type-resolved',
+      });
+    };
+
     const checkLiteral = (node: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral): void => {
       if (
         isPointFile ||
+        explained.has(node) ||
         !known.has(node.text) ||
         inTypePosition(node) ||
         inExtensionLiteral(node, checker, known)
@@ -276,6 +382,8 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
       );
     };
 
+    // Documented limit: only direct call arguments and JSX attributes are seen; a guard nested
+    // in an object-literal argument (`foo({ predicate: isX })`) is neither classified nor reported.
     const walk = (node: ts.Node): void => {
       if (ts.isCallExpression(node)) {
         node.arguments.forEach((arg, index) => classify(arg, node, index));
@@ -284,6 +392,11 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
         if (value && ts.isJsxExpression(value) && value.expression) {
           classify(value.expression, node.parent.parent, node.name.text);
         }
+      } else if (ts.isBinaryExpression(node) && EQUALITY_OPERATORS.has(node.operatorToken.kind)) {
+        checkTypeComparison(node, node.left, node.right);
+        checkTypeComparison(node, node.right, node.left);
+      } else if (ts.isCaseClause(node)) {
+        checkTypeComparison(node, node.parent.parent.expression, node.expression);
       } else if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
         checkLiteral(node);
       }

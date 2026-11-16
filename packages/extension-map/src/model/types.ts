@@ -460,14 +460,18 @@ export type UseSite = {
   consumer: string;
   /** The point ID the used value belongs to. */
   pointId: string;
-  /** The dotted property path used, e.g. `properties.field`; `type` for a `filter` use. */
+  /**
+   * The dotted property path used, e.g. `properties.field`; `type` for a `filter` or
+   * `type-check` use.
+   */
   path: string;
   /**
    * `lazy-render` (passed as `component` to `LazyCodeRefComponent`), `jsx-render` (rendered as
-   * JSX), `hook-run` (run as a hook), `call` (invoked), `read` (anything else), or `filter` (a
-   * guard passed to an array method).
+   * JSX), `hook-run` (run as a hook), `call` (invoked), `read` (anything else), `filter` (a
+   * guard passed to an array method), or `type-check` (an extension's `type` compared, or
+   * switched on, against a constant naming the point).
    */
-  kind: 'lazy-render' | 'jsx-render' | 'hook-run' | 'call' | 'read' | 'filter';
+  kind: 'lazy-render' | 'jsx-render' | 'hook-run' | 'call' | 'read' | 'filter' | 'type-check';
   /** True for a use of the extension itself, false for a derived use of a carried type. */
   direct: boolean;
   /** `CarriedType.name` of the carried type, for a derived use. Omitted for a direct use. */

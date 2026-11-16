@@ -61,6 +61,8 @@ const outerParent = (node: ts.Node): ts.Node => {
  * `const` (or class field) an arrow or function expression is assigned to, or the `const` a
  * call wrapping the function is assigned to when that call returns something callable
  * (`React.memo(() => …)`, `React.forwardRef(…)`). `undefined` for an anonymous callback.
+ * Documented limit: a function held in an object-literal property or bound by destructuring is
+ * never a wrapper.
  */
 export const namedDeclaration = (
   fn: ts.Node,
@@ -125,6 +127,9 @@ const paramOfDeclaration = (decl: ts.Node): ParamRef | undefined => {
 };
 
 /**
+ * Documented limit: props forwarded by spread (`<Loader {...props} />`) are not edges, so such a
+ * component is not a wrapper and its callers' guards are reported as `guard-unknown-callee`.
+ *
  * The function parameter an expression passes along unchanged: a parameter by name, a prop
  * destructured from the first parameter, or `props.x` read from the first parameter.
  */

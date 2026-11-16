@@ -19,6 +19,8 @@ const POINTS = [
   'model-serving.deployment/wizard-field',
   'app.route',
   'app.masthead/toolbar-item',
+  // Queried only through the `useResolvedDeploymentExtension` wrapper.
+  'model-serving.platform/delete-deployment',
 ];
 
 const TSCONFIGS = [
@@ -169,9 +171,14 @@ const oracleSites = (configRel: string, wrapperNames: Set<string>): string[] => 
 
 describe('findReferences oracle', () => {
   const model = getRepoModel();
+  const compared = model.querySites.filter((q) => q.pointIds.some((id) => POINTS.includes(id)));
   const wrapperNames = new Set(
     model.querySites.flatMap((q) => (q.wrapper === undefined ? [] : [q.wrapper])),
   );
+
+  it('compares at least one site that goes through a wrapper', () => {
+    expect(compared.filter((q) => q.wrapper !== undefined)).not.toEqual([]);
+  });
 
   it.each(TSCONFIGS)('agrees with the walk in %s', (configRel) => {
     const dir = path.posix.dirname(configRel);
