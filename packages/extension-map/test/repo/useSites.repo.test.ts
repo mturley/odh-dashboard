@@ -46,12 +46,17 @@ describe('use sites on the real repo', () => {
     expect(diag('point-unused', 'model-serving.deployment/transform')).toBeDefined();
   });
 
-  // Known answer disputed (see task-10-report.md): two consumers query this point, at
-  // GlobalDeploymentsTable.tsx:70 and ProjectDeploymentsTable.tsx:15 (through
-  // useResolvedPlatformExtension), and call `properties.columns()`. It has no contributors, so it
-  // is reported as `point-no-contributors`, not `point-unused`. Awaiting a ruling.
-  it.skip('marks deployments-table unused', () => {
-    expect(diag('point-unused', 'model-serving.deployments-table')).toBeDefined();
+  it('reports deployments-table as having no contributors, not as unused', () => {
+    const id = 'model-serving.deployments-table';
+    expect(diag('point-no-contributors', id)).toBeDefined();
+    expect(diag('point-unused', id)).toBeUndefined();
+    const sites = getRepoModel().querySites.filter((q) => q.pointIds.includes(id));
+    expect(sites.map((q) => q.consumer.slice(q.consumer.indexOf('#') + 1))).toEqual(
+      expect.arrayContaining(['GlobalDeploymentsTable', 'ProjectDeploymentsTable']),
+    );
+    expect(sites.find((q) => q.consumer.endsWith('#ProjectDeploymentsTable'))?.wrapper).toBe(
+      'useResolvedPlatformExtension',
+    );
   });
 
   it('does not mark app.suppress or app.patch unused: the plugin store type-checks them', () => {

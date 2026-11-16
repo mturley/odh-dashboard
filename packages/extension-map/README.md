@@ -33,3 +33,7 @@ The reference for every type and field is [`src/model/types.ts`](src/model/types
 **Values are proven, never guessed.** A property value is a literal, a named constant or enum member, a code reference, a function or code-like constant named by reference, or an array or object of those. Anything else is `unresolved`, with the reason and a location, and is also reported as a diagnostic.
 
 **Stability policy.** The model states facts about the code, not decisions about how to show them. Arrays are sorted by stable keys (catalog order is kept where it matters), so the same code always produces the same JSON. Fields may be added without notice; any breaking change to the model's shape (a field removed, renamed or given a new meaning) bumps `ExtensionMapModel.version`, currently `1`.
+
+## Coverage and limits
+
+- Uses inside generic helpers (code whose extension is typed by a type parameter, such as plugin-core's `ExtensibleActions`) are not attributed to any point; the caller's query site is.
