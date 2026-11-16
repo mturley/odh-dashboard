@@ -37,3 +37,7 @@ spawning, the runner checks `process.availableMemory()` and picks a mode:
 The budget check is a heuristic, not a guarantee: it protects against V8 heap
 out-of-memory errors, not against an OS-level kill, and it cannot reserve
 memory against concurrent consumers.
+
+## Static entry forwarding limits
+
+Excluded entry modules are associated only through a statically proven default-re-export chain to a discovered entry whose extensions were checker-proven in its owning TypeScript program. Excluded entries that construct arrays or use unsupported forwarding remain unresolved; they are not added as program roots. Supporting broader discovered-entry roots would require explicit ownership, compiler-option, and performance/memory validation.

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "@fx/extensions",
+    "dir": "packages/p",
+    "packageJson": {
+      "name": "@fx/extensions",
+      "private": true,
+      "version": "0.0.0",
+      "exports": {
+        "./extensions": "./src/entry.ts",
+        "./extensions/alias": "./src/extensions-alias.ts",
+        "./extensions/unsupported": "./src/unsupported-entry.ts"
+      }
+    }
+  }
+]

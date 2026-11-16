@@ -3,9 +3,11 @@ import { emptyModel, sortModel } from './model/sort';
 import { discoverEntries } from './discovery/entries';
 import { keptWorkspacePackages, loadWorkspace } from './discovery/workspace';
 import { pointsCollector } from './extract/points';
+import { extensionsCollector } from './extract/extensionCollector';
 import { runPass } from './programs/stream';
 import { createSourceFileCache } from './programs/sourceCache';
 import { cacheModeFor } from './runtime/memory';
+import { makeDiagnostic } from './model/diagnostics';
 
 export type AnalyzeOptions = {
   repoRoot: string;
@@ -39,14 +41,14 @@ export const analysisSourceCache = (
  * Analyzes the repo into an `ExtensionMapModel`.
  *
  * Pass A streams one program per tsconfig and extracts extension points,
- * guards and point JSDoc. Pass B (uses) and the entry extension walk are
- * still to come.
+ * guards, point JSDoc and entry extensions.
  */
 export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
   const ws = keptWorkspacePackages(opts.workspace ?? loadWorkspace(opts.repoRoot));
   const { entries, packages, diagnostics } = discoverEntries(ws, opts.repoRoot);
 
   const points = pointsCollector();
+  const extensions = extensionsCollector(entries);
   const availableMemory = opts.availableMemory ?? readAvailableMemory;
   const sourceCache = analysisSourceCache(opts.sourceCache, availableMemory)
     ? createSourceFileCache()
@@ -54,10 +56,25 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
   const passDiagnostics = runPass(
     opts.repoRoot,
     ws,
-    [points],
+    [points, extensions],
     sourceCache === undefined ? {} : { sourceCache },
   );
-  const { points: extractedPoints, guards, diagnostics: collectorDiagnostics } = points.finish();
+  const { points: extractedPoints, guards, diagnostics: pointDiagnostics } = points.finish();
+  const { extensions: extractedExtensions, diagnostics: extensionDiagnostics } =
+    extensions.finish();
+  const knownPointIds = new Set(extractedPoints.map((point) => point.id));
+  const unknownPointDiagnostics = extractedExtensions.flatMap((extension) =>
+    knownPointIds.has(extension.type)
+      ? []
+      : [
+          makeDiagnostic(
+            'extension-unknown-point',
+            `extension '${extension.type}' does not match a declared extension point`,
+            extension.loc,
+            extension.pkg,
+          ),
+        ],
+  );
 
   return sortModel({
     ...emptyModel(),
@@ -65,6 +82,13 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
     packages,
     points: extractedPoints,
     guards,
-    diagnostics: [...diagnostics, ...passDiagnostics, ...collectorDiagnostics],
+    extensions: extractedExtensions,
+    diagnostics: [
+      ...diagnostics,
+      ...passDiagnostics,
+      ...pointDiagnostics,
+      ...extensionDiagnostics,
+      ...unknownPointDiagnostics,
+    ],
   });
 };
