@@ -1,0 +1,24 @@
+[
+  {
+    "name": "@fx/consumer",
+    "dir": "packages/consumer",
+    "packageJson": {
+      "name": "@fx/consumer",
+      "private": true,
+      "version": "0.0.0"
+    }
+  },
+  {
+    "name": "@fx/rem",
+    "dir": "packages/rem",
+    "packageJson": {
+      "name": "@fx/rem",
+      "private": true,
+      "version": "0.0.0",
+      "module-federation": {
+        "name": "rem",
+        "remoteEntry": "/remoteEntry.js"
+      }
+    }
+  }
+]

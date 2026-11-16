@@ -1,7 +1,13 @@
 {
   "extends": "@odh-dashboard/tsconfig/tsconfig.node.json",
   "compilerOptions": {
-    "lib": ["es2021", "ES2023.Array"]
+    "lib": ["es2021", "ES2023.Array"],
+    "paths": {
+      "@mf/*": [
+        "./test/fixtures/mftypes/frontend/@mf-types/@mf/*",
+        "../../frontend/@mf-types/@mf/*"
+      ]
+    }
   },
   "include": ["src", "test", "jest.config.ts", "jest.repo.config.ts"]
 }

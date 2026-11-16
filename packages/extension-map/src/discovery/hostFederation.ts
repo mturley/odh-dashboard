@@ -13,7 +13,7 @@ import type { WorkspacePackage } from '../model/types';
  */
 
 /** Result of reading a package's federation expose statically. */
-export type FederationExpose = { file: string } | { unresolved: string };
+export type FederationExpose = { file: string; frontendDir: string } | { unresolved: string };
 
 /** A workspace package that declares a `module-federation` config. */
 export type HostFederatedMember = {
@@ -162,11 +162,12 @@ export const readFederationExpose = (
   if ('unresolved' in parsed) {
     return parsed;
   }
+  // The frontend root: the directory that holds the `config/` directory.
   const frontendDir = path.posix.dirname(path.posix.dirname(configFile));
   for (const suffix of ['.ts', '.tsx', '/index.ts']) {
     const file = path.posix.normalize(path.posix.join(frontendDir, parsed.value + suffix));
     if (fs.existsSync(path.join(repoRoot, file))) {
-      return { file };
+      return { file, frontendDir };
     }
   }
   return {

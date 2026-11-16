@@ -1,15 +1,26 @@
 import ts from 'typescript';
 import type { ProgramCtx } from './stream';
+import { mapMfTypesDecl, reportStaleMfTypes } from './mfTypes';
 import type { Loc } from '../model/types';
 import { toRelPosix } from '../discovery/workspace';
 
 /**
  * Cross-program declaration identity: `<repo-relative file>:<start position>`.
  * Positions are byte offsets, stable across programs that parse the same
- * file, so declarations join without holding any AST state.
+ * file, so declarations join without holding any AST state. A declaration
+ * reached through an `@mf-types` copy uses its source declaration's key; a
+ * stale copy keeps its own key and reports `stale-mf-types` (§5.3).
  */
-export const declKey = (node: ts.Node, ctx: ProgramCtx): string =>
-  `${toRelPosix(ctx.repoRoot, node.getSourceFile().fileName)}:${node.getStart()}`;
+export const declKey = (node: ts.Node, ctx: ProgramCtx): string => {
+  const mapped = mapMfTypesDecl(node, ctx);
+  if (mapped) {
+    if ('key' in mapped) {
+      return mapped.key;
+    }
+    reportStaleMfTypes(mapped.stale, node, ctx);
+  }
+  return `${toRelPosix(ctx.repoRoot, node.getSourceFile().fileName)}:${node.getStart()}`;
+};
 
 /** 1-based source location of a node, from its start line to its end line. */
 export const locOf = (node: ts.Node, ctx: ProgramCtx): Loc => {
