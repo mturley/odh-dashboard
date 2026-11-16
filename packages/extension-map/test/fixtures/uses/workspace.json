@@ -1,0 +1,8 @@
+[
+  {
+    "name": "@fx/a",
+    "dir": "packages/a",
+    "packageJson": { "name": "@fx/a", "exports": { "./extensions": "./src/contrib.ts" } }
+  },
+  { "name": "@fx/plugin-core", "dir": "packages/plugin-core", "packageJson": { "name": "@fx/plugin-core" } }
+]

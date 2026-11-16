@@ -263,10 +263,21 @@ describe('renderPackagePage', () => {
     expect(page.content).not.toContain('## Contributes');
   });
 
-  it('marks a point nothing contributes as unused', () => {
+  it('marks a point the analysis reported unused, and draws no flow for it', () => {
     const model = fixtureModel();
     model.extensions = [];
-    expect(renderPackagePage(model, definer).content).toContain('> **Unused.**');
+    model.diagnostics = [
+      {
+        code: 'point-unused',
+        severity: 'info',
+        message: `Nothing in this repository contributes an extension of '${POINT_ID}' or queries or uses it.`,
+        loc: { file: 'packages/definer/src/points.ts', line: 4 },
+        pkg: definer.name,
+      },
+    ];
+    const { content } = renderPackagePage(model, definer);
+    expect(content).toContain('> **Unused.**');
+    expect(content).not.toContain('```mermaid');
   });
 
   it('renders values, flags, CodeRef targets, supplies and what is not resolved', () => {
@@ -311,7 +322,9 @@ describe('renderPackagePage', () => {
   });
 
   it('omits empty sections and the legend when there is no diagram', () => {
-    const page = renderPackagePage(fixtureModel(), definer);
+    const model = fixtureModel();
+    model.extensions = [];
+    const page = renderPackagePage(model, definer);
     expect(page.content).not.toContain('## Loading paths');
     expect(page.content).not.toContain('## Diagnostics');
     expect(page.content).not.toContain('## Legend');
@@ -638,5 +651,134 @@ describe('renderPackagePage', () => {
     expect(content).toContain(
       "| b | portal | patched if in use: `group` = `'g'` (ignored: `href`) | [extensions.ts:9](../../../distributions/portal/src/extensions.ts#L9) |",
     );
+  });
+});
+
+describe('consumer side', () => {
+  const user: Pkg = {
+    name: '@odh-dashboard/user',
+    dir: 'packages/user',
+    kind: 'package',
+    upstreamDirs: [],
+  };
+  const SLOT_ID = 'packages/user/src/Slot.tsx#Slot';
+
+  const consumerModel = (): ExtensionMapModel => {
+    const model = fixtureModel();
+    model.packages = [contributor, definer, user];
+    model.consumers = [
+      {
+        id: SLOT_ID,
+        pkg: user.name,
+        symbol: 'Slot',
+        loc: { file: 'packages/user/src/Slot.tsx', line: 5, endLine: 20 },
+        renderedIn: [
+          { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 12 }, how: 'jsx' },
+        ],
+      },
+    ];
+    model.querySites = [
+      {
+        consumer: SLOT_ID,
+        pointIds: [POINT_ID],
+        hook: 'useExtensions',
+        resolved: false,
+        loc: { file: 'packages/user/src/Slot.tsx', line: 6 },
+        provenance: 'type-resolved',
+      },
+    ];
+    model.useSites = [
+      {
+        consumer: SLOT_ID,
+        pointId: POINT_ID,
+        path: 'properties.component',
+        kind: 'lazy-render',
+        direct: true,
+        loc: { file: 'packages/user/src/Slot.tsx', line: 14 },
+        provenance: 'type-resolved',
+      },
+    ];
+    return model;
+  };
+
+  it('links the consuming packages from the definition, presence only', () => {
+    expect(renderPackagePage(consumerModel(), definer).content).toContain(
+      '**Consumed in:** [user](../../user/docs/extensions.md#consumes-demothingslot)',
+    );
+  });
+
+  it('draws contributors, the point, consumers and where they are rendered, with a node table', () => {
+    const { content } = renderPackagePage(consumerModel(), definer);
+    const flow = content.slice(content.indexOf('```mermaid'));
+    expect(flow).toContain(`${mermaidId(`pkg:${contributor.name}`)} --> ${mermaidId(POINT_ID)}`);
+    expect(flow).toContain(
+      `${mermaidId(POINT_ID)} -- "useExtensions, lazy-render" --> ${mermaidId(
+        `consumer:${SLOT_ID}`,
+      )}`,
+    );
+    expect(flow).toContain(
+      `${mermaidId(`consumer:${SLOT_ID}`)} -. "rendered in" .-> ${mermaidId(
+        'renderer:packages/user/src/Page.tsx#Page',
+      )}`,
+    );
+    expect(flow).not.toContain('click ');
+    expect(diagramsWithoutNodeTable(content)).toEqual([]);
+    expect(content).toContain(
+      '| Slot | consumer in @odh-dashboard/user — useExtensions, lazy-render | [Slot](../../user/src/Slot.tsx#L5-L20) |',
+    );
+    expect(content).toContain(
+      '| Page | renders Slot (one hop up) | Page ([Page.tsx:12](../../user/src/Page.tsx#L12)) |',
+    );
+    expect(content).toContain('## Legend');
+  });
+
+  it('lists what the analysis could not resolve about a point next to its diagram', () => {
+    const model = consumerModel();
+    model.diagnostics = [
+      {
+        code: 'point-id-literal',
+        severity: 'warning',
+        message: `The string '${POINT_ID}' names an extension point outside its declaration and outside an extension.`,
+        loc: { file: 'packages/user/src/odd.ts', line: 3 },
+        pkg: user.name,
+      },
+      ...model.diagnostics,
+    ];
+    // The unresolved value sits inside the second extension's declaration.
+    model.extensions = model.extensions.map((ext) => ({
+      ...ext,
+      loc: { ...ext.loc, endLine: 25 },
+    }));
+    const { content } = renderPackagePage(model, definer);
+    expect(content).toContain('| `point-id-literal` |');
+    expect(content).toContain('| `unresolved-value` | Cannot resolve the component');
+  });
+
+  it('renders the Consumes section of the consuming package', () => {
+    const page = renderPackagePage(consumerModel(), user);
+    expect(page.content).toContain('### Consumes demo.thing/slot');
+    expect(page.content).toContain(
+      '| [Slot](../src/Slot.tsx#L5-L20) | [useExtensions](../src/Slot.tsx#L6) | `properties.component` — lazy-render, direct ([Slot.tsx:14](../src/Slot.tsx#L14)) | Page ([Page.tsx:12](../src/Page.tsx#L12)) |',
+    );
+    expect(renderAll(consumerModel()).map((file) => file.path)).toContain(
+      'packages/user/docs/extensions.md',
+    );
+  });
+
+  it('links {@link X} to the point whose type is X, and keeps other names as code', () => {
+    const model = consumerModel();
+    model.points = [
+      ...model.points.map((point) => ({
+        ...point,
+        doc: {
+          ...point.doc,
+          summary: 'Like {@link SlotExtension | the slot} and {@link Missing}.',
+          links: ['SlotExtension', 'Missing'],
+        },
+      })),
+    ];
+    const { content } = renderPackagePage(model, definer);
+    expect(content).toContain('Like [the slot](#demothingslot) and `Missing`.');
+    expect(content).toContain('**Related:** [SlotExtension](#demothingslot), `Missing`');
   });
 });

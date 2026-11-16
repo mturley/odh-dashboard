@@ -2,10 +2,14 @@ import { renderPackagePage } from './packagePage';
 import type { GeneratedFile } from './packagePage';
 import type { ExtensionMapModel, Pkg } from '../model/types';
 
-/** A package gets a page when it defines an extension point or contributes an extension. */
+/**
+ * A package gets a page when it defines an extension point, contributes an extension, or has code
+ * that queries or uses one (every consumer has at least one query or use site).
+ */
 const hasPage = (model: ExtensionMapModel, pkg: Pkg): boolean =>
   model.points.some((point) => point.pkg === pkg.name) ||
-  model.extensions.some((record) => record.pkg === pkg.name);
+  model.extensions.some((record) => record.pkg === pkg.name) ||
+  model.consumers.some((consumer) => consumer.pkg === pkg.name);
 
 /** Every generated file, sorted by path. */
 export const renderAll = (model: ExtensionMapModel): GeneratedFile[] => {

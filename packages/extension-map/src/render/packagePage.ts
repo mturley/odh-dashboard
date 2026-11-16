@@ -3,7 +3,8 @@ import { docPathFor, fileLink, pkgDisplayName } from './links';
 import { HEADER, joinBlocks, oneLine } from './markdown';
 import { LEGEND_MD } from './mermaid';
 import { renderContributes } from './sections/contributes';
-import { renderDefines } from './sections/defines';
+import { renderConsumes } from './sections/consumes';
+import { definesHasDiagram, renderDefines } from './sections/defines';
 import { renderDiagnostics } from './sections/diagnostics';
 import type { Entry, ExtensionMapModel, Pkg } from '../model/types';
 
@@ -59,8 +60,9 @@ export const renderPackagePage = (model: ExtensionMapModel, pkg: Pkg): Generated
     renderLoadingPaths(model, pkg, docPath),
     renderDefines(model, pkg),
     contributes?.markdown,
+    renderConsumes(model, pkg, docPath),
     renderDiagnostics(model, pkg, docPath),
-    contributes?.hasDiagram ? LEGEND_MD : undefined,
+    contributes?.hasDiagram || definesHasDiagram(model, pkg) ? LEGEND_MD : undefined,
   ]);
   return { path: docPath, content: `${content}\n` };
 };

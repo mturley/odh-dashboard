@@ -1,10 +1,11 @@
 import ts from 'typescript';
+import { classifyUse, outermostWrapper } from './classify';
 import { QUERY_HOOKS, declaredName, guardPointIds } from './hooks';
-import { calleeOf, namedDeclaration, paramRefOf } from './wrappers';
+import { calleeDeclaration, calleeOf, namedDeclaration, paramRefOf } from './wrappers';
 import type { Wrapper } from './wrappers';
 import { pkgForFile, relFile } from '../discovery/workspace';
 import { makeDiagnostic } from '../model/diagnostics';
-import type { Consumer, Diagnostic, Loc, QuerySite, UseSite } from '../model/types';
+import type { Consumer, Diagnostic, QuerySite, UseSite } from '../model/types';
 import {
   constInitializer,
   declKey,
@@ -33,7 +34,9 @@ export type SitesResult = {
   querySites: QuerySite[];
   useSites: UseSite[];
   /** Declaration key → where it is rendered or called (one hop up). */
-  refs: Map<string, { symbol: string; loc: Loc; how: 'jsx' | 'call' }[]>;
+  refs: Map<string, Consumer['renderedIn']>;
+  /** `Consumer.id` → the declaration key of the consumer's symbol (none for `<module>`). */
+  consumerKeys: Map<string, string>;
   diagnostics: Diagnostic[];
 };
 
@@ -170,7 +173,8 @@ const propertyName = (prop: ts.ObjectLiteralElementLike): string | undefined =>
 
 /**
  * True when a node sits inside an extension object literal: one with a `properties` property and
- * a `type` whose value the checker proves is a known point ID.
+ * a `type` whose value the checker proves is a known point ID, or, when `type` is not written
+ * (it comes from a spread), whose own type names a known point.
  */
 const inExtensionLiteral = (
   node: ts.Node,
@@ -186,12 +190,76 @@ const inExtensionLiteral = (
       (prop): prop is ts.PropertyAssignment =>
         ts.isPropertyAssignment(prop) && propertyName(prop) === 'type',
     );
-    if (!type || !names.includes('properties')) {
+    if (!names.includes('properties')) {
       return false;
+    }
+    if (!type) {
+      // `{ ...base, properties: { … } }`: the `type` comes from the spread, so read it off the
+      // literal's own type.
+      const ids = extensionTypeIds(checker.getTypeAtLocation(ancestor), checker);
+      return ids?.some((id) => known.has(id)) ?? false;
     }
     const idType = checker.getTypeAtLocation(type.initializer);
     return idType.isStringLiteral() && known.has(idType.value);
   }) !== undefined;
+
+/** Declarations a reference index entry may point at: what a consumer symbol can be. */
+const isReferenceable = (decl: ts.Node): boolean =>
+  ts.isFunctionDeclaration(decl) ||
+  ts.isVariableDeclaration(decl) ||
+  ts.isMethodDeclaration(decl) ||
+  ts.isPropertyDeclaration(decl) ||
+  ts.isClassDeclaration(decl);
+
+/** True when a declaration sits in this repository's own sources, not in an installed package. */
+const isRepoSource = (decl: ts.Node, repoRoot: string): boolean => {
+  const { fileName } = decl.getSourceFile();
+  return !fileName.includes('/node_modules/') && !relFile(repoRoot, fileName).startsWith('..');
+};
+
+/** True when every declaration of a member comes from TypeScript's default library. */
+const isLibraryMember = (name: ts.Node, ctx: ProgramCtx): boolean => {
+  const decls = ctx.checker.getSymbolAtLocation(name)?.declarations ?? [];
+  return (
+    decls.length > 0 &&
+    decls.every((decl) => ctx.program.isSourceFileDefaultLibrary(decl.getSourceFile()))
+  );
+};
+
+/**
+ * The property chain read from an extension's `properties`, from that access outwards: each
+ * further property (or string-keyed element) read from the previous one, stopping before a member
+ * of TypeScript's default library (`.length`, `.map`), which belongs to the value's type and not
+ * to the extension.
+ */
+const propertyChain = (
+  start: ts.PropertyAccessExpression,
+  ctx: ProgramCtx,
+): { outer: ts.Expression; path: string[] } => {
+  let outer: ts.Expression = start;
+  const path = ['properties'];
+  for (;;) {
+    const wrapped = outermostWrapper(outer);
+    const next = wrapped.parent;
+    if (ts.isPropertyAccessExpression(next) && next.expression === wrapped) {
+      if (isLibraryMember(next.name, ctx)) {
+        break;
+      }
+      path.push(next.name.text);
+      outer = next;
+    } else if (
+      ts.isElementAccessExpression(next) &&
+      next.expression === wrapped &&
+      ts.isStringLiteralLike(next.argumentExpression)
+    ) {
+      path.push(next.argumentExpression.text);
+      outer = next;
+    } else {
+      return { outer, path };
+    }
+  }
+  return { outer, path };
+};
 
 /**
  * Pass B: where code queries extensions. Every call argument and JSX attribute whose type is a
@@ -208,6 +276,8 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
   const querySites: QuerySite[] = [];
   const useSites: UseSite[] = [];
   const diagnostics: Diagnostic[] = [];
+  const refs = new Map<string, Consumer['renderedIn']>();
+  const consumerKeys = new Map<string, string>();
 
   const visitFile = (file: ts.SourceFile, ctx: ProgramCtx): void => {
     const { checker } = ctx;
@@ -219,6 +289,9 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
       const { symbol, decl } = enclosingSymbol(node, checker);
       const id = `${rel}#${symbol}`;
       if (!consumers.has(id) && pkg !== undefined) {
+        if (decl) {
+          consumerKeys.set(id, declKey(decl, ctx));
+        }
         consumers.set(id, {
           id,
           pkg,
@@ -382,11 +455,87 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
       );
     };
 
+    /**
+     * Uses of an extension's properties: a `.properties` read on a value whose type names known
+     * points, followed outwards as far as the chain goes. A chain ending in an object
+     * destructuring gives one use per destructured name. Reads inside extension declarations are
+     * not uses, and a receiver whose `type` is not literal (a generic helper) names no point.
+     */
+    const checkPropertyUse = (node: ts.PropertyAccessExpression): void => {
+      if (ts.isJsxClosingElement(outermostWrapper(node).parent)) {
+        return;
+      }
+      const receiver = checker.getNonNullableType(checker.getTypeAtLocation(node.expression));
+      const pointIds = (extensionTypeIds(receiver, checker) ?? []).filter((id) => known.has(id));
+      if (pointIds.length === 0 || inExtensionLiteral(node, checker, known)) {
+        return;
+      }
+      const { outer, path } = propertyChain(node, ctx);
+      const consumer = consumerOf(outer);
+      const record = (segments: string[], kind: UseSite['kind'], at: ts.Node): void =>
+        pointIds.forEach((pointId) =>
+          useSites.push({
+            consumer,
+            pointId,
+            path: segments.join('.'),
+            kind,
+            direct: true,
+            ...(pointIds.length > 1 ? { oneOf: pointIds } : {}),
+            loc: locOf(at, ctx),
+            provenance: 'type-resolved',
+          }),
+        );
+      const holder = outermostWrapper(outer).parent;
+      if (
+        ts.isVariableDeclaration(holder) &&
+        ts.isObjectBindingPattern(holder.name) &&
+        holder.initializer !== undefined &&
+        outermostWrapper(holder.initializer) === outermostWrapper(outer)
+      ) {
+        holder.name.elements.forEach((element) => {
+          const key = element.propertyName ?? element.name;
+          if (element.dotDotDotToken || !ts.isIdentifier(key)) {
+            record(path, 'read', element);
+            return;
+          }
+          if (!ts.isIdentifier(element.name)) {
+            // A nested pattern (`{ field: { a, b } }`) reads the field; deeper names are not followed.
+            record([...path, key.text], 'read', element);
+            return;
+          }
+          record([...path, key.text], classifyUse(outer, ctx, element.name), element);
+        });
+        return;
+      }
+      record(path, classifyUse(outer, ctx), outer);
+    };
+
+    /** One-hop reference index: a JSX tag or call that invokes a declaration in the repo. */
+    const recordReference = (node: ts.CallExpression | ts.JsxOpeningLikeElement): void => {
+      const decl = calleeDeclaration(node, checker);
+      if (!decl || !isReferenceable(decl) || !isRepoSource(decl, ctx.repoRoot)) {
+        return;
+      }
+      const key = declKey(decl, ctx);
+      const found = refs.get(key) ?? [];
+      found.push({
+        symbol: enclosingSymbol(node, checker).symbol,
+        loc: locOf(node, ctx),
+        how: ts.isCallExpression(node) ? 'call' : 'jsx',
+      });
+      refs.set(key, found);
+    };
+
     // Documented limit: only direct call arguments and JSX attributes are seen; a guard nested
     // in an object-literal argument (`foo({ predicate: isX })`) is neither classified nor reported.
     const walk = (node: ts.Node): void => {
       if (ts.isCallExpression(node)) {
+        recordReference(node);
         node.arguments.forEach((arg, index) => classify(arg, node, index));
+      } else if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+        recordReference(node);
+      } else if (ts.isPropertyAccessExpression(node) && node.name.text === 'properties') {
+        checkPropertyUse(node);
       } else if (ts.isJsxAttribute(node) && ts.isIdentifier(node.name)) {
         const value = node.initializer;
         if (value && ts.isJsxExpression(value) && value.expression) {
@@ -411,8 +560,8 @@ export const sitesCollector = (input: SitesInput): Collector<SitesResult> => {
       consumers: [...consumers.values()],
       querySites,
       useSites,
-      // The one-hop reference index is built with use sites, in a later task.
-      refs: new Map(),
+      refs,
+      consumerKeys,
       diagnostics,
     }),
   };

@@ -8,7 +8,16 @@ import { extensionsCollector } from './extract/extensionRecords';
 import { pointsCollector } from './extract/points';
 import { makeDiagnostic } from './model/diagnostics';
 import { emptyModel, sortModel } from './model/sort';
-import type { Diagnostic, ExtensionMapModel, WorkspacePackage } from './model/types';
+import type {
+  Consumer,
+  Diagnostic,
+  ExtensionMapModel,
+  ExtensionPoint,
+  ExtensionRecord,
+  QuerySite,
+  UseSite,
+  WorkspacePackage,
+} from './model/types';
 import { createSourceFileCache } from './programs/sourceCache';
 import { runPass } from './programs/stream';
 
@@ -17,6 +26,80 @@ export type AnalyzeOptions = {
   workspace?: WorkspacePackage[];
   /** Share parsed SourceFiles between programs. Defaults to true. */
   sourceCache?: boolean;
+};
+
+/** Where each consumer symbol is rendered or called, one hop up, from the reference index. */
+const withRenderedIn = (
+  consumers: Consumer[],
+  refs: Map<string, Consumer['renderedIn']>,
+  consumerKeys: Map<string, string>,
+): Consumer[] =>
+  consumers.map((consumer) => {
+    const key = consumerKeys.get(consumer.id);
+    const found = key === undefined ? [] : refs.get(key) ?? [];
+    const unique = new Map(
+      found.map((ref) => [`${ref.loc.file}\0${ref.loc.line}\0${ref.symbol}\0${ref.how}`, ref]),
+    );
+    return {
+      ...consumer,
+      renderedIn: [...unique.values()].toSorted(
+        (a, b) =>
+          a.loc.file.localeCompare(b.loc.file) ||
+          a.loc.line - b.loc.line ||
+          a.symbol.localeCompare(b.symbol),
+      ),
+    };
+  });
+
+/**
+ * Points nothing uses: `point-unused` when nothing contributes to a point and nothing queries or
+ * uses it, else `point-no-contributors` or `point-no-consumers` for the side that is missing.
+ */
+const pointUsage = (
+  points: ExtensionPoint[],
+  extensions: ExtensionRecord[],
+  querySites: QuerySite[],
+  useSites: UseSite[],
+): Diagnostic[] => {
+  const contributed = new Set(extensions.map((record) => record.type));
+  const consumed = new Set([
+    ...querySites.flatMap((site) => site.pointIds),
+    ...useSites.map((site) => site.pointId),
+  ]);
+  return points.flatMap((point) => {
+    const hasContributors = contributed.has(point.id);
+    const hasConsumers = consumed.has(point.id);
+    if (!hasContributors && !hasConsumers) {
+      return [
+        makeDiagnostic(
+          'point-unused',
+          `Nothing in this repository contributes an extension of '${point.id}' or queries or uses it.`,
+          point.loc,
+          point.pkg,
+        ),
+      ];
+    }
+    if (!hasContributors) {
+      return [
+        makeDiagnostic(
+          'point-no-contributors',
+          `No package in this repository contributes an extension of '${point.id}'.`,
+          point.loc,
+          point.pkg,
+        ),
+      ];
+    }
+    return hasConsumers
+      ? []
+      : [
+          makeDiagnostic(
+            'point-no-consumers',
+            `No code in this repository queries or uses extensions of '${point.id}'.`,
+            point.loc,
+            point.pkg,
+          ),
+        ];
+  });
 };
 
 export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
@@ -93,7 +176,7 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
     apps: composed.apps,
     extensions: composed.extensions,
     overrides: resolved.flatMap((result) => result.overrides),
-    consumers: used.consumers,
+    consumers: withRenderedIn(used.consumers, used.refs, used.consumerKeys),
     querySites: used.querySites,
     useSites: used.useSites,
     diagnostics: [
@@ -106,6 +189,7 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
       ...resolved.flatMap((result) => result.diagnostics),
       ...passBOnly,
       ...used.diagnostics,
+      ...pointUsage(found.points, contributed.extensions, used.querySites, used.useSites),
     ],
   });
 };

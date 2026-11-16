@@ -71,3 +71,14 @@ export const contributesLink = (
   text: string,
 ): string =>
   linkToDoc(fromDoc, docPathFor(contributor), githubAnchor(contributesHeading(pointId)), text);
+
+/** The heading a package page uses for its consumers of one point. */
+export const consumesHeading = (pointId: string): string => `Consumes ${pointId}`;
+
+/** A link to where a package documents how it consumes one point. */
+export const consumesLink = (
+  fromDoc: string,
+  pointId: string,
+  consumer: Pkg,
+  text: string,
+): string => linkToDoc(fromDoc, docPathFor(consumer), githubAnchor(consumesHeading(pointId)), text);

@@ -108,6 +108,8 @@ describe('query sites', () => {
       'packages/a/src/direct.ts#useDirect',
       'packages/a/src/direct.ts#useDirectResolved',
       'packages/a/src/inline.ts#useInline',
+      // Reads `e.properties.label` once `isA` has narrowed `e`: a use site.
+      'packages/a/src/parameterized.ts#predicate',
       'packages/a/src/parameterized.ts#useParameterized',
       'packages/a/src/pick.ts#pickA',
       'packages/a/src/register.ts#isItA',
