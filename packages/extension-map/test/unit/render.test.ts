@@ -564,4 +564,79 @@ describe('renderPackagePage', () => {
     const { content } = renderPackagePage(model, contributor);
     expect(content).toContain('`{ validationSchema: timeoutFieldSchema (code) }`');
   });
+
+  it('names the apps that include each contribution, with conditional ones marked', () => {
+    const model = fixtureModel();
+    model.apps = [{ id: 'host', entries: [], featureFlags: {} }];
+    model.extensions = [
+      record('a', {
+        apps: [
+          { app: 'host', via: '@odh-dashboard/contributor#./extensions' },
+          { app: 'rhaii', via: '@odh-dashboard/contributor#mf:./extensions', conditional: true },
+        ],
+      }),
+      record('b'),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('| id | Included in | Source |');
+    expect(content).toContain("| `'a'` | host, rhaii (conditional) |");
+    expect(content).toContain("| `'b'` | — |");
+  });
+
+  it('shows no Included in column when the model has no apps', () => {
+    expect(renderPackagePage(fixtureModel(), contributor).content).not.toContain('Included in');
+  });
+
+  it('notes each override under the contribution it targets, linking the override', () => {
+    const model = fixtureModel();
+    const target = record('a');
+    const patchTarget = record('b');
+    model.apps = [{ id: 'portal', entries: [], featureFlags: {} }];
+    model.extensions = [
+      target,
+      patchTarget,
+      {
+        ...record('s'),
+        key: 'distributions/portal/src/extensions.ts:1',
+        type: 'app.suppress',
+        loc: { file: 'distributions/portal/src/extensions.ts', line: 4 },
+      },
+      {
+        ...record('p'),
+        key: 'distributions/portal/src/extensions.ts:2',
+        type: 'app.patch',
+        loc: { file: 'distributions/portal/src/extensions.ts', line: 9 },
+      },
+    ];
+    model.overrides = [
+      {
+        kind: 'suppress',
+        app: 'portal',
+        by: 'distributions/portal/src/extensions.ts:1',
+        targetType: { kind: 'literal', value: POINT_ID },
+        targetId: { kind: 'literal', value: 'a' },
+        targets: [target.key],
+        effect: 'removed',
+      },
+      {
+        kind: 'patch',
+        app: 'portal',
+        by: 'distributions/portal/src/extensions.ts:2',
+        targetType: { kind: 'literal', value: POINT_ID },
+        targetId: { kind: 'literal', value: 'b' },
+        targets: [patchTarget.key],
+        effect: 'applied',
+        patch: { group: { kind: 'literal', value: 'g' }, href: { kind: 'literal', value: '/h' } },
+        ignoredKeys: ['href'],
+      },
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('**Suppressed / patched in**');
+    expect(content).toContain(
+      '| a | portal | suppressed | [extensions.ts:4](../../../distributions/portal/src/extensions.ts#L4) |',
+    );
+    expect(content).toContain(
+      "| b | portal | patched if in use: `group` = `'g'` (ignored: `href`) | [extensions.ts:9](../../../distributions/portal/src/extensions.ts#L9) |",
+    );
+  });
 });

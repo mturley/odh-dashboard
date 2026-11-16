@@ -1,0 +1,33 @@
+[
+  {
+    "name": "@fx/a",
+    "dir": "packages/a",
+    "packageJson": { "name": "@fx/a", "exports": { "./extensions": "./src/entry.ts" } }
+  },
+  {
+    "name": "@fx/b",
+    "dir": "packages/b",
+    "packageJson": {
+      "name": "@fx/b",
+      "exports": { "./extensions": "./src/entry.ts", "./extensions/static": "./src/static.ts" }
+    }
+  },
+  {
+    "name": "@fx/rem",
+    "dir": "packages/rem",
+    "packageJson": {
+      "name": "@fx/rem",
+      "module-federation": { "name": "rem", "remoteEntry": "/remoteEntry.js" }
+    }
+  },
+  {
+    "name": "@fx/dist",
+    "dir": "distributions/dist",
+    "packageJson": { "name": "@fx/dist" }
+  },
+  {
+    "name": "@fx/dist2",
+    "dir": "distributions/dist2",
+    "packageJson": { "name": "@fx/dist2" }
+  }
+]

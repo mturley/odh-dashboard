@@ -72,10 +72,15 @@ export type Entry = {
    * How the entry is loaded: `static` (`package.json` export `./extensions`, bundled into the
    * host), `federated` (the `./extensions` expose of a Module Federation remote),
    * `distribution-static` (`package.json` export `./extensions/<name>`, bundled by a
-   * distribution) or `distribution-local` (a distribution's own entry).
+   * distribution) or `distribution-local` (a `packages.local[]` item of a distribution's
+   * `distribution.yaml`).
    */
   path: 'static' | 'federated' | 'distribution-static' | 'distribution-local';
-  /** The export or expose key: `./extensions`, `./extensions/<name>`, or `mf:./extensions`. */
+  /**
+   * The export or expose key: `./extensions`, `./extensions/<name>`, `mf:./extensions`, or
+   * `local:<extensionsPath>` for a distribution-local entry (the path as written in
+   * `distribution.yaml`, resolved from the distribution's `src/` directory).
+   */
   key: string;
 };
 
@@ -354,20 +359,36 @@ export type Override = {
   kind: 'suppress' | 'patch' | 'redefine';
   /** `App.id` of the app whose catalog it applies in. */
   app: string;
-  /** `ExtensionRecord.key` of the extension performing the override. */
+  /**
+   * `ExtensionRecord.key` of the extension performing the override: the `app.suppress` or
+   * `app.patch`, or for a redefine the redefining registration.
+   */
   by: string;
-  /** The `targetType` it names. */
+  /**
+   * The `targetType` it names, or `unresolved` when it names none. For a redefine, the
+   * redefining registration's `type`, as a literal.
+   */
   targetType: Value;
-  /** The `targetId` it names (matched against `properties.id`). */
+  /**
+   * The `targetId` it names (matched against `properties.id`), or `unresolved` when it names
+   * none. For a redefine, the redefining registration's `properties.id`.
+   */
   targetId: Value;
-  /** `ExtensionRecord.key` of each extension it affects; sorted. */
+  /**
+   * `ExtensionRecord.key` of each extension it concerns; sorted. For a suppress, the
+   * registrations it removes; for an applied patch, the registrations it changes if they are in
+   * use; for a patch that is `noop-suppressed`, the suppressed registrations it names; for a
+   * redefine, the registrations the redefining one replaces. Otherwise empty.
+   */
   targets: string[];
   /**
-   * `removed` (a suppress removed targets), `applied` (a patch applies if the target is in use),
-   * `noop-missing` (no target), `noop-suppressed` (the target was suppressed), or `unresolved`
-   * (the target could not be proven).
+   * `removed` (a suppress removed its targets), `applied` (a patch applies if a target is in use;
+   * a redefine is registered in place of its targets), `noop-missing` (no registration has the
+   * key), `noop-suppressed` (every registration with the key was suppressed), `superseded` (a
+   * later patch of the same key replaces this whole patch), or `unresolved` (the key, or whether
+   * a registration has it, cannot be proven).
    */
-  effect: 'removed' | 'applied' | 'noop-missing' | 'noop-suppressed' | 'unresolved';
+  effect: 'removed' | 'applied' | 'noop-missing' | 'noop-suppressed' | 'superseded' | 'unresolved';
   /** The patched properties and values. Present only for `patch`. */
   patch?: Record<string, Value>;
   /** Patch keys the plugin store ignores. Omitted when there are none. */
@@ -466,6 +487,7 @@ export type DiagnosticCode =
   | 'unresolved-value'
   | 'unresolved-expose'
   | 'unresolved-loadremote'
+  | 'unresolved-distribution'
   | 'multiplicity-unknown'
   | 'federation-not-loaded'
   | 'stale-mf-types'

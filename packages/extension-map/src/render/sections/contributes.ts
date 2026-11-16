@@ -1,4 +1,5 @@
 import path from 'path';
+import { INCLUDED_IN, hasApps, includedInCell, overrideNotes } from '../appNotes';
 import { contributesHeading, fileLink, pointLink, relLink, sourceLink } from '../links';
 import { defList, githubAnchor, joinBlocks, oneLine, table } from '../markdown';
 import { flowchart, mermaidId } from '../mermaid';
@@ -216,6 +217,7 @@ const renderPointTable = (
     ...(hasRequires ? [REQUIRES] : []),
     ...(hasDisallows ? [DISALLOWS] : []),
     ...(refKeys.length > 0 ? [CODEREF] : []),
+    ...(hasApps(model) ? [INCLUDED_IN] : []),
     SOURCE,
   ];
 
@@ -233,6 +235,9 @@ const renderPointTable = (
     }
     if (refKeys.length > 0) {
       entries.push([CODEREF, codeRefTargetCell(record, refKeys, docPath)]);
+    }
+    if (hasApps(model)) {
+      entries.push([INCLUDED_IN, includedInCell(record)]);
     }
     entries.push([SOURCE, relLink(docPath, record.loc, path.posix.basename(record.loc.file))]);
     return entries;
@@ -273,6 +278,7 @@ const renderPointTable = (
       ? '> This extension type matches no extension point declared in this repository.'
       : `Defined in ${pointLink(docPath, point, model)}.`,
     body,
+    hasApps(model) ? overrideNotes(records, model, docPath, labels) : undefined,
     supplies.length === 0
       ? undefined
       : joinBlocks([

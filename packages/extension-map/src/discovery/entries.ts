@@ -1,5 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import {
+  DISTRIBUTION_FILE,
+  localEntryKey,
+  readDistributionConfig,
+  resolveLocalEntry,
+} from './distribution';
 import { hostFederatedMembers, readFederationExpose } from './hostFederation';
 import { CORE_PACKAGE, pkgForFile, toPosix } from './workspace';
 import { makeDiagnostic } from '../model/diagnostics';
@@ -36,10 +42,47 @@ const toPkg = (pkg: WorkspacePackage, repoRoot: string): Pkg => {
   };
 };
 
+/** The `packages.local[]` entries of a distribution, and what in its config cannot be read. */
+const addDistributionEntries = (
+  pkg: WorkspacePackage,
+  display: string,
+  repoRoot: string,
+  add: (entry: Entry) => void,
+  diagnostics: Diagnostic[],
+): void => {
+  const config = readDistributionConfig(pkg.dir, repoRoot);
+  if (!config) {
+    return;
+  }
+  const where = `${pkg.dir}/${DISTRIBUTION_FILE}`;
+  const report = (why: string): void => {
+    diagnostics.push(
+      makeDiagnostic(
+        'unresolved-distribution',
+        `Cannot read ${where}: ${why}.`,
+        { file: where, line: 1 },
+        display,
+      ),
+    );
+  };
+  config.problems.forEach(report);
+  config.local.forEach((item) => {
+    const file = resolveLocalEntry(pkg.dir, item.extensionsPath, repoRoot);
+    if (!file) {
+      report(
+        `the local extensionsPath \`${item.extensionsPath}\` of ${item.name} resolves to no file`,
+      );
+      return;
+    }
+    const key = localEntryKey(item.extensionsPath);
+    add({ id: `${display}#${key}`, pkg: display, file, path: 'distribution-local', key });
+  });
+};
+
 /**
- * Finds every extension entry from `package.json` exports and `moduleFederation.js` files,
- * the display packages, and the federation the host would not load. No TypeScript programs
- * are needed.
+ * Finds every extension entry from `package.json` exports, `moduleFederation.js` files and the
+ * `packages.local[]` items of each `distribution.yaml`, the display packages, and the federation
+ * the host would not load. No TypeScript programs are needed.
  */
 export const discoverEntries = (
   ws: WorkspacePackage[],
@@ -85,6 +128,9 @@ export const discoverEntries = (
           ),
         );
       }
+    }
+    if (kindOf(pkg) === 'distribution') {
+      addDistributionEntries(pkg, display, repoRoot, add, diagnostics);
     }
   }
 

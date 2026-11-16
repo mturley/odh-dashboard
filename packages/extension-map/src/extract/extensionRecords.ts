@@ -15,6 +15,12 @@ import type { Collector, ProgramCtx } from '../programs/stream';
 
 export type ExtensionsResult = {
   extensions: ExtensionRecord[];
+  /**
+   * Per `Entry.id`, the `ExtensionRecord.key` of each extension the entry's array registers, in
+   * array order (a record registered twice appears twice). Not part of the model: app
+   * composition needs it to put an app's catalog in order.
+   */
+  order: Record<string, string[]>;
   diagnostics: Diagnostic[];
 };
 
@@ -115,6 +121,8 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
   const diagnostics = new Map<string, Diagnostic>();
   /** Entries whose module a program owned, so one no program reached can be reported. */
   const walked = new Set<string>();
+  /** Record keys per entry, in the order the entry's array registers them. */
+  const order = new Map<string, string[]>();
 
   const report = (diagnostic: Diagnostic): void => {
     const { loc } = diagnostic;
@@ -181,6 +189,12 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
     generated: Generated | undefined,
   ): void => {
     const key = declKey(object, ctx);
+    const sequence = order.get(entry.id);
+    if (sequence) {
+      sequence.push(key);
+    } else {
+      order.set(entry.id, [key]);
+    }
     const existing = records.get(key);
     if (existing) {
       existing.entries.add(entry.id);
@@ -380,6 +394,7 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
           ...found,
           entries: [...ids].toSorted(),
         })),
+        order: Object.fromEntries(order),
         diagnostics: [...diagnostics.values()],
       };
     },
