@@ -1,6 +1,6 @@
 import path from 'node:path';
 import ts from 'typescript';
-import { resolveValue } from './values';
+import { isUnresolvedSpreadKey, resolveValue, unresolvedSpreadKey } from './values';
 import type { ExtensionsResult } from './extensions';
 import type { Collector, ProgramCtx } from '../programs/stream';
 import { declKey, extensionTypeIds, locOf, resolveAlias } from '../programs/identity';
@@ -148,12 +148,27 @@ const reportUnresolvedValues = (
   ctx: ProgramCtx,
   diagnostics: Diagnostic[],
 ): void => {
-  const issuesIn = (current: Value): { unresolved: boolean; unsupportedCodeRef: boolean } => {
+  type ValueIssues = { unresolved: boolean; spreadLocs: Loc[]; unsupportedCodeRef: boolean };
+  const issuesIn = (current: Value): ValueIssues => {
     if (current.kind === 'unresolved') {
-      return { unresolved: true, unsupportedCodeRef: false };
+      const spread = current.reason === 'object spread contribution is not statically resolved';
+      return {
+        unresolved: !spread,
+        spreadLocs: spread ? [current.loc] : [],
+        unsupportedCodeRef: false,
+      };
     }
     if (current.kind === 'codeRef') {
-      return { unresolved: false, unsupportedCodeRef: current.export === null };
+      const supplies = Object.values(current.supplies ?? {}).filter(
+        (supply): supply is Value => supply.kind !== 'symbol',
+      );
+      const supplyIssues = supplies.map(issuesIn);
+      return {
+        unresolved: supplyIssues.some((issue) => issue.unresolved),
+        spreadLocs: supplyIssues.flatMap((issue) => issue.spreadLocs),
+        unsupportedCodeRef:
+          current.export === null || supplyIssues.some((issue) => issue.unsupportedCodeRef),
+      };
     }
     const children =
       current.kind === 'array'
@@ -163,10 +178,21 @@ const reportUnresolvedValues = (
         : [];
     return {
       unresolved: children.some((issue) => issue.unresolved),
+      spreadLocs: children.flatMap((issue) => issue.spreadLocs),
       unsupportedCodeRef: children.some((issue) => issue.unsupportedCodeRef),
     };
   };
   const issues = issuesIn(value);
+  for (const spreadLoc of issues.spreadLocs) {
+    diagnostics.push(
+      makeDiagnostic(
+        'unresolved-value',
+        `extension property '${name}' contains a value that could not be resolved`,
+        spreadLoc,
+        pkgForFile(spreadLoc.file, ctx.ws),
+      ),
+    );
+  }
   if (issues.unresolved || issues.unsupportedCodeRef) {
     diagnostics.push(
       makeDiagnostic(
@@ -225,6 +251,20 @@ const extensionRecord = (
         const value = resolveValue(property.name, ctx);
         properties[name] = value;
         reportUnresolvedValues(name, value, locOf(property, ctx), ctx, diagnostics);
+      } else if (ts.isSpreadAssignment(property)) {
+        for (const name of Object.keys(properties)) {
+          if (!isUnresolvedSpreadKey(name)) {
+            delete properties[name];
+          }
+        }
+        const spreadLoc = locOf(property, ctx);
+        const value: Value = {
+          kind: 'unresolved',
+          reason: 'object spread contribution is not statically resolved',
+          loc: spreadLoc,
+        };
+        properties[unresolvedSpreadKey(property, ctx)] = value;
+        reportUnresolvedValues('properties', value, spreadLoc, ctx, diagnostics);
       }
     }
   }

@@ -79,6 +79,17 @@ const unresolved = (expression: ts.Node, ctx: ProgramCtx, reason: string): Value
   loc: locOf(expression, ctx),
 });
 
+const UNRESOLVED_SPREAD_PREFIX = '<unresolved spread:';
+
+/** Reserved model-key namespace for unresolved spread contributions. */
+export const isUnresolvedSpreadKey = (key: string): boolean =>
+  key.startsWith(UNRESOLVED_SPREAD_PREFIX);
+
+export const unresolvedSpreadKey = (node: ts.Node, ctx: ProgramCtx): string => {
+  const loc = locOf(node, ctx);
+  return `${UNRESOLVED_SPREAD_PREFIX}${loc.file}:${loc.line}:${node.getStart()}>`;
+};
+
 const enumMemberValue = (
   expression: ts.PropertyAccessExpression,
   ctx: ProgramCtx,
@@ -145,6 +156,17 @@ const objectValue = (expression: ts.ObjectLiteralExpression, ctx: ProgramCtx): V
       props[propertyName(property.name)] = resolveValue(property.initializer, ctx);
     } else if (ts.isShorthandPropertyAssignment(property)) {
       props[property.name.text] = resolveValue(property.name, ctx);
+    } else if (ts.isSpreadAssignment(property)) {
+      for (const key of Object.keys(props)) {
+        if (!isUnresolvedSpreadKey(key)) {
+          delete props[key];
+        }
+      }
+      props[unresolvedSpreadKey(property, ctx)] = unresolved(
+        property,
+        ctx,
+        'object spread contribution is not statically resolved',
+      );
     } else {
       const name = ts.isMethodDeclaration(property)
         ? propertyName(property.name)

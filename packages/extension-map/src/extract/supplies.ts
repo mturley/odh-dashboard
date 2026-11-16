@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { resolveValue } from './values';
+import { isUnresolvedSpreadKey, resolveValue, unresolvedSpreadKey } from './values';
 import type { ProgramCtx } from '../programs/stream';
 import { locOf, resolveAlias } from '../programs/identity';
 import type { Loc, SymbolRef, Value } from '../model/types';
@@ -87,6 +87,17 @@ export const readSupplies = (
       supplies[key] = {
         kind: 'symbol',
         name: key,
+        loc: locOf(property, ctx),
+      };
+    } else if (ts.isSpreadAssignment(property)) {
+      for (const key of Object.keys(supplies)) {
+        if (!isUnresolvedSpreadKey(key)) {
+          delete supplies[key];
+        }
+      }
+      supplies[unresolvedSpreadKey(property, ctx)] = {
+        kind: 'unresolved',
+        reason: 'object spread contribution is not statically resolved',
         loc: locOf(property, ctx),
       };
     }
