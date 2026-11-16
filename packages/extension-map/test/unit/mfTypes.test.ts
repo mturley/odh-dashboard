@@ -99,6 +99,26 @@ describe('@mf-types declaration copies', () => {
     expect(stale.every((d) => d.loc?.file.startsWith('frontend/@mf-types/'))).toBe(true);
   });
 
+  it('reports a same-name copy whose point ID differs from the source', () => {
+    const { keys, diagnostics } = importKeys(CONSUMER, COPY_SPECIFIER, ['DriftP']);
+    expect(keys.DriftP).toMatch(/^frontend\/@mf-types\//);
+    const stale = diagnostics.filter((d) => d.code === 'stale-mf-types');
+    expect(stale).toHaveLength(1);
+    expect(stale[0].message).toContain("point ID of 'DriftP' differs");
+    expect(stale[0].message).toContain('rem.drift.copy');
+    expect(stale[0].message).toContain('rem.drift.source');
+    expect(stale[0].loc?.file.startsWith('frontend/@mf-types/')).toBe(true);
+  });
+
+  it('does not map a point-type copy whose source ID cannot be proven in this program', () => {
+    const { keys, diagnostics } = importKeys(CONSUMER, COPY_SPECIFIER, ['UnvP']);
+    expect(keys.UnvP).toMatch(/^frontend\/@mf-types\//);
+    const stale = diagnostics.filter((d) => d.code === 'stale-mf-types');
+    expect(stale).toHaveLength(1);
+    expect(stale[0].message).toContain("point ID of 'UnvP'");
+    expect(stale[0].message).toContain('cannot be proven');
+  });
+
   it('reports each stale copy only once', () => {
     const keys: string[] = [];
     const collector: Collector<void> = {

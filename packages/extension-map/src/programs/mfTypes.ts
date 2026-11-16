@@ -2,6 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 import type { ProgramCtx } from './stream';
+// Call-time-only cycle: `identity.declKey` calls into this module, which uses
+// `extensionTypeIds` from `identity` inside function bodies only.
+import { extensionTypeIds } from './identity';
 import { readFederationExpose } from '../discovery/hostFederation';
 import { toRelPosix } from '../discovery/workspace';
 import { makeDiagnostic } from '../model/diagnostics';
@@ -18,8 +21,11 @@ import type { Loc, WorkspacePackage } from '../model/types';
  *
  * Only source declaration keys, `Loc`s and plain strings leave this module.
  * Source files are parsed with `ts.createSourceFile` (parser-only, never a
- * checker or `ts.Program`); the parsed files are cached per mapper, and a
- * mapper never outlives its `ProgramCtx`.
+ * second `ts.Program`); the parsed files are cached per mapper, and a
+ * mapper never outlives its `ProgramCtx`. The point-ID comparison (§5.3)
+ * uses the current program's checker: the copy declaration's own type, and
+ * the source declaration's type when the current program happens to include
+ * the source file (checked transiently, never retained in the cache).
  */
 
 export type MfTypesMapping = { key: string; loc: Loc } | { stale: string };
@@ -119,23 +125,62 @@ const locOfNode = (node: ts.Node, relFile: string): Loc => {
   return { file: relFile, line: lineOf(node.getStart()), endLine: lineOf(node.getEnd()) };
 };
 
+/**
+ * The point-ID literals a declaration's type proves (checker-proof, spec
+ * §5.4: a string-literal `type` property on a type that also has a
+ * `properties` property), or undefined when the type is not extension-shaped.
+ */
+const pointIdsOf = (node: ts.Node, ctx: ProgramCtx): string[] | undefined =>
+  extensionTypeIds(ctx.checker.getTypeAtLocation(node), ctx.checker);
+
+/** Whether two checker-proven point-ID lists name the same ids. */
+const samePointIds = (copy: string[], source: string[]): boolean =>
+  copy.length === source.length && copy.every((id) => source.includes(id));
+
 /** Maps one copy declaration onto its mirrored source file, by name. */
 const mapToSource = (
+  node: ts.Node,
   relFile: string,
   name: string,
   rest: string,
   frontendDir: string,
-  repoRoot: string,
+  ctx: ProgramCtx,
   mapper: Mapper,
 ): MfTypesMapping => {
   for (const suffix of ['.ts', '.tsx']) {
     const rel = path.posix.normalize(path.posix.join(frontendDir, `${rest}${suffix}`));
-    if (!fs.existsSync(path.join(repoRoot, rel))) {
+    const abs = path.join(ctx.repoRoot, rel);
+    if (!fs.existsSync(abs)) {
       continue;
     }
-    const found = findNamed(parseSource(path.join(repoRoot, rel), mapper), name);
+    // Prefer the current program's copy of the source file when it has one:
+    // it allows a checker-proof point-ID comparison (§5.3) and never enters
+    // the parser-only cache, so no program `SourceFile` is retained here.
+    const programFile = ctx.program.getSourceFile(abs);
+    const source = programFile ?? parseSource(abs, mapper);
+    const found = findNamed(source, name);
     if (!found) {
       return { stale: `${relFile}: source ${rel} declares no top-level '${name}'` };
+    }
+    // An extension-point copy maps only when the source's point-ID literal is
+    // proven equal; a differing — or unverifiable — ID is stale, never mapped.
+    const copyIds = pointIdsOf(node, ctx);
+    if (copyIds !== undefined) {
+      const sourceIds = programFile ? pointIdsOf(found, ctx) : undefined;
+      if (sourceIds === undefined) {
+        return {
+          stale:
+            `${relFile}: point ID of '${name}' (${copyIds.join(', ')}) cannot be proven ` +
+            `against ${rel}: the source is not part of this program`,
+        };
+      }
+      if (!samePointIds(copyIds, sourceIds)) {
+        return {
+          stale:
+            `${relFile}: point ID of '${name}' differs between copy ` +
+            `(${copyIds.join(', ')}) and source ${rel} (${sourceIds.join(', ')})`,
+        };
+      }
     }
     return { key: `${rel}:${found.getStart()}`, loc: locOfNode(found, rel) };
   }
@@ -146,7 +191,8 @@ const mapToSource = (
  * Maps a declaration reached through an `@mf-types` copy to its source key and
  * location: `undefined` when the declaration's file is not a copy (or has no
  * name to map by), `{ stale: reason }` when the remote, source file or name is
- * missing. Never consults the checker and never recurses into `declKey`.
+ * missing, or when an extension-point copy's point ID is not proven equal to
+ * the source's. Never recurses into `declKey` and never creates a program.
  */
 export const mapMfTypesDecl = (node: ts.Node, ctx: ProgramCtx): MfTypesMapping | undefined => {
   const relFile = toRelPosix(ctx.repoRoot, node.getSourceFile().fileName);
@@ -172,7 +218,7 @@ export const mapMfTypesDecl = (node: ts.Node, ctx: ProgramCtx): MfTypesMapping |
   if (!('file' in expose)) {
     return { stale: `${relFile}: ${expose.unresolved}` };
   }
-  return mapToSource(relFile, name, rest, expose.frontendDir, ctx.repoRoot, mapperFor(ctx));
+  return mapToSource(node, relFile, name, rest, expose.frontendDir, ctx, mapperFor(ctx));
 };
 
 /** Records a `stale-mf-types` diagnostic for a copy declaration, once per copy. */
