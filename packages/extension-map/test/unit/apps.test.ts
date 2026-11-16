@@ -1,6 +1,7 @@
 import { analyzeFixture } from '../helpers/fixture';
 import type { App } from '../../src/model/types';
 
+// The fixture distribution is `dist1`, not `dist`: the repo's .gitignore ignores every `dist`.
 describe('app composition', () => {
   const m = analyzeFixture('apps');
 
@@ -22,20 +23,20 @@ describe('app composition', () => {
     const expected = [
       '@fx/a#./extensions',
       '@fx/b#./extensions/static',
-      '@fx/dist#local:./extensions',
+      '@fx/dist1#local:./extensions',
     ];
-    expect(app('dist').entries.map((x) => x.entry)).toEqual(expected);
+    expect(app('dist1').entries.map((x) => x.entry)).toEqual(expected);
   });
 
   it('adds a literal loadRemote as a conditional entry', () => {
-    expect(app('dist').entries.find((x) => x.entry === '@fx/rem#mf:./extensions')).toBeUndefined();
+    expect(app('dist1').entries.find((x) => x.entry === '@fx/rem#mf:./extensions')).toBeUndefined();
     expect(
       app('dist2').entries.find((x) => x.entry === '@fx/rem#mf:./extensions')?.conditional,
     ).toBeDefined();
   });
 
   it('models the host and every distribution with a distribution.yaml', () => {
-    expect(m.apps.map((a) => a.id)).toEqual(['dist', 'dist2', 'host']);
+    expect(m.apps.map((a) => a.id)).toEqual(['dist1', 'dist2', 'host']);
   });
 
   it('orders the host catalog static entries first, then loaded federated entries', () => {
@@ -47,22 +48,22 @@ describe('app composition', () => {
   });
 
   it('discovers a distribution-local entry relative to the distribution source', () => {
-    expect(m.entries.find((e) => e.id === '@fx/dist#local:./extensions')).toEqual({
-      id: '@fx/dist#local:./extensions',
-      pkg: '@fx/dist',
-      file: 'distributions/dist/src/extensions.ts',
+    expect(m.entries.find((e) => e.id === '@fx/dist1#local:./extensions')).toEqual({
+      id: '@fx/dist1#local:./extensions',
+      pkg: '@fx/dist1',
+      file: 'distributions/dist1/src/extensions.ts',
       path: 'distribution-local',
       key: 'local:./extensions',
     });
   });
 
   it('merges global feature flags first, then per package', () => {
-    expect(app('dist').featureFlags).toEqual({ bFlag: true, globalFlag: true });
+    expect(app('dist1').featureFlags).toEqual({ bFlag: true, globalFlag: true });
   });
 
   it('records the apps that include each extension', () => {
     expect(recordById('a-one')?.apps).toEqual([
-      { app: 'dist', via: '@fx/a#./extensions' },
+      { app: 'dist1', via: '@fx/a#./extensions' },
       { app: 'host', via: '@fx/a#./extensions' },
     ]);
     expect(recordById('rem-one')?.apps).toEqual([
@@ -72,7 +73,7 @@ describe('app composition', () => {
   });
 
   it('resolves the overrides of a distribution against its catalog', () => {
-    const dist = m.overrides.filter((o) => o.app === 'dist');
+    const dist = m.overrides.filter((o) => o.app === 'dist1');
     expect(dist.map((o) => [o.kind, o.effect, o.targets])).toEqual([
       ['suppress', 'removed', [recordById('a-one')?.key]],
       ['patch', 'applied', [recordById('a-two')?.key]],

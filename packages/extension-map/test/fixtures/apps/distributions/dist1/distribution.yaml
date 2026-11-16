@@ -1,0 +1,16 @@
+name: dist1
+
+packages:
+  local:
+    - name: dist1
+      extensionsPath: ./extensions
+  bundled:
+    - '@fx/a'
+    - package: '@fx/b'
+      extensionsPath: ./extensions/static
+      featureFlags:
+        bFlag: true
+
+featureFlags:
+  bFlag: false
+  globalFlag: true

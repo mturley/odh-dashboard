@@ -21,9 +21,9 @@
     }
   },
   {
-    "name": "@fx/dist",
-    "dir": "distributions/dist",
-    "packageJson": { "name": "@fx/dist" }
+    "name": "@fx/dist1",
+    "dir": "distributions/dist1",
+    "packageJson": { "name": "@fx/dist1" }
   },
   {
     "name": "@fx/dist2",
