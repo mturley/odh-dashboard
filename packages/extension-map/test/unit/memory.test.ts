@@ -4,11 +4,28 @@ import {
   InsufficientMemoryError,
   UNCACHED_MAX_HEAP_MIB,
   UNKNOWN_AVAILABILITY_HEAP_MIB,
+  cacheModeFor,
   decideBudget,
 } from '../../src/runtime/memory';
 
 const MIB = 1024 ** 2;
 const GIB = 1024 ** 3;
+
+describe('cacheModeFor', () => {
+  it('is always uncached when availability is unknown, even for an explicit request', () => {
+    for (const preference of [undefined, true]) {
+      expect(cacheModeFor(undefined, preference)).toBe('uncached');
+      expect(cacheModeFor(0, preference)).toBe('uncached');
+    }
+  });
+
+  it('is cached only at or above the threshold and never for an explicit false', () => {
+    expect(cacheModeFor(CACHED_MODE_THRESHOLD_BYTES, undefined)).toBe('cached');
+    expect(cacheModeFor(CACHED_MODE_THRESHOLD_BYTES, true)).toBe('cached');
+    expect(cacheModeFor(CACHED_MODE_THRESHOLD_BYTES - 1, true)).toBe('uncached');
+    expect(cacheModeFor(16 * GIB, false)).toBe('uncached');
+  });
+});
 
 describe('decideBudget', () => {
   it('selects cached analysis at or above the 8 GiB threshold with the 6144 MiB heap cap', () => {

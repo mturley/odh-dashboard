@@ -86,6 +86,23 @@ const describeBudget = (
 };
 
 /**
+ * The cache mode shared by the isolated runner and the in-process analyzer:
+ * cached only with known availability at or above the threshold and no
+ * explicit `false`. Unknown (zero, non-finite or missing) availability is
+ * always the conservative uncached mode, even for an explicit cache request
+ * (memory-fix brief).
+ */
+export const cacheModeFor = (
+  availableBytes: number | undefined,
+  cachePreference: boolean | undefined,
+): BudgetMode =>
+  isKnown(availableBytes) &&
+  cachePreference !== false &&
+  availableBytes >= CACHED_MODE_THRESHOLD_BYTES
+    ? 'cached'
+    : 'uncached';
+
+/**
  * Selects the analysis mode and the child heap cap.
  *
  * `cachePreference === false` always disables the cache. `true` is a
@@ -97,11 +114,7 @@ export const decideBudget = (
   availableBytes: number | undefined,
   cachePreference: boolean | undefined,
 ): MemoryBudget => {
-  if (
-    isKnown(availableBytes) &&
-    cachePreference !== false &&
-    availableBytes >= CACHED_MODE_THRESHOLD_BYTES
-  ) {
+  if (cacheModeFor(availableBytes, cachePreference) === 'cached') {
     return {
       mode: 'cached',
       heapMiB: CACHED_HEAP_MIB,

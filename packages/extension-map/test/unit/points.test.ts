@@ -12,7 +12,21 @@ const diags = (code: DiagnosticCode) => m.diagnostics.filter((d) => d.code === c
 
 describe('points collector', () => {
   it('detects alias, interface, intersection and typeof-constant points', () => {
-    expect(pointIds(m)).toEqual(['fx.a', 'fx.b', 'fx.c', 'fx.d']);
+    expect(pointIds(m)).toEqual(['fx.a', 'fx.b', 'fx.c', 'fx.d', 'fx.e']);
+  });
+
+  it('collects declarations exported through a local export list', () => {
+    expect(point('fx.e')).toMatchObject({ pkg: '@fx/points', typeName: 'FxE' });
+    expect(point('fx.e')?.guards).toEqual(['isFxE']);
+    expect(m.guards.find((g) => g.name === 'isFxE')).toMatchObject({
+      style: 'inline',
+      pointIds: ['fx.e'],
+    });
+  });
+
+  it('does not collect a local type that is never exported', () => {
+    expect(pointIds(m)).not.toContain('fx.local');
+    expect(m.points.map((p) => p.typeName)).not.toContain('FxLocal');
   });
 
   it('does not treat specializations or unions as points', () => {

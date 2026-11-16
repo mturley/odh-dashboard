@@ -90,3 +90,17 @@ export const guardForZ =
   (id: string): ExtensionPredicate<ZExt> =>
   (e): e is ZExt =>
     e.type === id;
+
+/**
+ * Point `fx.e` summary.
+ */
+type FxE = Extension<'fx.e', { label: string }>;
+
+const isFxE = (e: Extension): e is FxE => e.type === 'fx.e';
+
+/** A local type that is never exported is not collected as a point. */
+type FxLocal = Extension<'fx.local', { label: string }>;
+
+export const localProbe: FxLocal['properties'] = { label: 'probe' };
+
+export { FxE, isFxE };

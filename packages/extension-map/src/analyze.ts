@@ -5,7 +5,7 @@ import { keptWorkspacePackages, loadWorkspace } from './discovery/workspace';
 import { pointsCollector } from './extract/points';
 import { runPass } from './programs/stream';
 import { createSourceFileCache } from './programs/sourceCache';
-import { CACHED_MODE_THRESHOLD_BYTES } from './runtime/memory';
+import { cacheModeFor } from './runtime/memory';
 
 export type AnalyzeOptions = {
   repoRoot: string;
@@ -14,27 +14,26 @@ export type AnalyzeOptions = {
   /**
    * Share `ts.SourceFile`s across programs. A preference: `false` always
    * disables the cache; `true` requests it but a safe memory budget may still
-   * select uncached; omitted auto-selects by available memory.
+   * select uncached (unknown availability is always uncached); omitted
+   * auto-selects by available memory.
    */
   sourceCache?: boolean;
+  /** Test seam replacing `process.availableMemory()` for the cache decision. */
+  availableMemory?: () => number | undefined;
 };
 
+/** Reads process-available memory, which the OS may not report. */
+const readAvailableMemory = (): number | undefined => process.availableMemory();
+
 /**
- * Whether the shared source cache is used: `false` always disables it; `true`
- * and omitted are subject to the same safe available-memory threshold the
- * isolated CLI child uses, and an explicit request is honored when the OS
- * reports no usable availability figure.
+ * Whether one analysis run uses the shared source cache — the runtime memory
+ * policy (`cacheModeFor`) is the single decision source, so the in-process
+ * analyzer and the isolated runner can never disagree.
  */
-const useSharedSourceCache = (preference: boolean | undefined): boolean => {
-  if (preference === false) {
-    return false;
-  }
-  const available = process.availableMemory();
-  if (typeof available !== 'number' || !Number.isFinite(available) || available <= 0) {
-    return preference === true;
-  }
-  return available >= CACHED_MODE_THRESHOLD_BYTES;
-};
+export const analysisSourceCache = (
+  preference: boolean | undefined,
+  availableMemory: () => number | undefined,
+): boolean => cacheModeFor(availableMemory(), preference) === 'cached';
 
 /**
  * Analyzes the repo into an `ExtensionMapModel`.
@@ -48,11 +47,15 @@ export const analyzeRepo = (opts: AnalyzeOptions): ExtensionMapModel => {
   const { entries, packages, diagnostics } = discoverEntries(ws, opts.repoRoot);
 
   const points = pointsCollector();
+  const availableMemory = opts.availableMemory ?? readAvailableMemory;
+  const sourceCache = analysisSourceCache(opts.sourceCache, availableMemory)
+    ? createSourceFileCache()
+    : undefined;
   const passDiagnostics = runPass(
     opts.repoRoot,
     ws,
     [points],
-    useSharedSourceCache(opts.sourceCache) ? { sourceCache: createSourceFileCache() } : {},
+    sourceCache === undefined ? {} : { sourceCache },
   );
   const { points: extractedPoints, guards, diagnostics: collectorDiagnostics } = points.finish();
 

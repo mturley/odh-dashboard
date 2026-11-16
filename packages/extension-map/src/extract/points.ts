@@ -42,11 +42,55 @@ const SDK_PACKAGE_DIR = '/@openshift/dynamic-plugin-sdk/';
 const isSdkFile = (fileName: string): boolean =>
   fileName.split(/[\\/]/).join('/').includes(SDK_PACKAGE_DIR);
 
-const isExported = (node: ts.Node): boolean => {
+const hasExportModifier = (node: ts.Node): boolean => {
   if (!ts.canHaveModifiers(node)) {
     return false;
   }
   return node.modifiers?.some((mod) => mod.kind === ts.SyntaxKind.ExportKeyword) ?? false;
+};
+
+/**
+ * The symbols this module exports through local export lists
+ * (`export { Foo }` / `export { Foo as Bar }`), resolved through their alias
+ * identity to the declarations' symbols. Re-exports (`export { X } from
+ * './m'`) are skipped: they resolve to another module's declarations and so
+ * can never match a declaration of this file, which keeps imports and
+ * re-exports from producing duplicate own declarations.
+ */
+const exportListedSymbols = (file: ts.SourceFile, ctx: ProgramCtx): Set<ts.Symbol> => {
+  const symbols = new Set<ts.Symbol>();
+  for (const statement of file.statements) {
+    if (
+      !ts.isExportDeclaration(statement) ||
+      statement.moduleSpecifier !== undefined ||
+      statement.exportClause === undefined ||
+      !ts.isNamedExports(statement.exportClause)
+    ) {
+      continue;
+    }
+    for (const element of statement.exportClause.elements) {
+      const localName = element.propertyName ?? element.name;
+      const symbol = ctx.checker.getSymbolAtLocation(localName);
+      if (symbol !== undefined) {
+        symbols.add(resolveAlias(ctx.checker, symbol));
+      }
+    }
+  }
+  return symbols;
+};
+
+/** Whether `declaration` is named by one of the file's local export lists. */
+const isExportedListed = (
+  declaration: ts.NamedDeclaration,
+  exportedSymbols: Set<ts.Symbol>,
+  ctx: ProgramCtx,
+): boolean => {
+  const { name } = declaration;
+  if (name === undefined || !ts.isIdentifier(name)) {
+    return false;
+  }
+  const symbol = ctx.checker.getSymbolAtLocation(name);
+  return symbol !== undefined && exportedSymbols.has(symbol);
 };
 
 const isSdkDeclaration = (node: ts.Declaration): boolean =>
@@ -133,6 +177,18 @@ const namedSymbolOf = (type: ts.Type): ts.Symbol | undefined => {
 };
 
 /**
+ * The alias's declared default for its first type parameter, resolved through
+ * the checker — a bare `ComponentCodeRef` carries `AnyObject`, not a guess.
+ */
+const defaultTypeArgumentOf = (aliasSymbol: ts.Symbol, ctx: ProgramCtx): ts.Type | undefined => {
+  const declaration = aliasSymbol.declarations?.find(ts.isTypeAliasDeclaration);
+  const typeParameter = declaration?.typeParameters?.[0];
+  return typeParameter?.default === undefined
+    ? undefined
+    : ctx.checker.getTypeAtLocation(typeParameter.default);
+};
+
+/**
  * The properties of the point's second `Extension` type argument, in declared
  * order: name, optionality, declared type text, JSDoc, and `codeRef` with the
  * inner type (plus its declaration keys, recorded for Task 11's carried types).
@@ -163,7 +219,7 @@ const propertiesOf = (node: ts.TypeNode, ctx: ProgramCtx): ExtensionPoint['prope
       (aliasSymbol.name === 'CodeRef' || aliasSymbol.name === 'ComponentCodeRef') &&
       isCodeRefAliasOwner(aliasSymbol, ctx)
     ) {
-      const inner = declaredType.aliasTypeArguments?.[0];
+      const inner = declaredType.aliasTypeArguments?.[0] ?? defaultTypeArgumentOf(aliasSymbol, ctx);
       property.codeRef = {
         inner: inner === undefined ? 'unknown' : ctx.checker.typeToString(inner),
       };
@@ -418,17 +474,24 @@ export const pointsCollector = (): Collector<PointsResult> => {
   const visit = (ctx: ProgramCtx): void => {
     ws = ctx.ws;
     for (const file of ctx.ownedFiles) {
+      // Transient per-file data (never retained past this program): the
+      // symbols exported through this module's local export lists.
+      const exportedSymbols = exportListedSymbols(file, ctx);
       for (const statement of file.statements) {
-        if (!isExported(statement)) {
-          continue;
-        }
+        const modifierExported = hasExportModifier(statement);
         if (ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement)) {
-          visitPointDeclaration(statement, ctx);
+          if (modifierExported || isExportedListed(statement, exportedSymbols, ctx)) {
+            visitPointDeclaration(statement, ctx);
+          }
         } else if (ts.isFunctionDeclaration(statement)) {
-          visitGuardDeclaration(statement, ctx);
+          if (modifierExported || isExportedListed(statement, exportedSymbols, ctx)) {
+            visitGuardDeclaration(statement, ctx);
+          }
         } else if (ts.isVariableStatement(statement)) {
           for (const declaration of statement.declarationList.declarations) {
-            visitGuardDeclaration(declaration, ctx);
+            if (modifierExported || isExportedListed(declaration, exportedSymbols, ctx)) {
+              visitGuardDeclaration(declaration, ctx);
+            }
           }
         }
       }

@@ -37,6 +37,17 @@ describe('extension points in the repo', () => {
     );
   });
 
+  it('resolves a defaulted ComponentCodeRef generic through the checker', () => {
+    // plugin-core declares `ComponentCodeRef<Props = AnyObject>`; a bare use
+    // must stringify the resolved default, not substitute a guess.
+    const logo = point('app.masthead/brand')?.properties.find((p) => p.name === 'logoComponent');
+    expect(logo?.codeRef).toEqual({ inner: 'AnyObject' });
+    // An explicit anonymous inner type keeps no invented declaration key.
+    const about = point('app.masthead/about')?.properties.find((p) => p.name === 'component');
+    expect(about?.codeRef?.inner).toContain('onClose');
+    expect(about?.innerDeclKeys).toBeUndefined();
+  });
+
   it('reads the WizardFieldExtractorExtension summary', () => {
     const p = point('model-serving.deployment/wizard-field-extractor');
     expect(p?.doc.summary).toMatch(/^Extension for extracting initial data/);
