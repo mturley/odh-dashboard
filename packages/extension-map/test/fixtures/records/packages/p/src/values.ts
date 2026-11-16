@@ -74,3 +74,25 @@ export const plainArrayRef = plainArray;
 
 const plainObject = { label: 'a' };
 export const plainObjectRef = plainObject;
+
+type Schema = { parse: (input: unknown) => string };
+
+const makeSchema = (): Schema => ({ parse: (input) => String(input) });
+
+const wrapFn =
+  (fn: () => string): (() => string) =>
+  () =>
+    fn();
+
+const schemaObject = makeSchema();
+export const schemaRef = schemaObject;
+
+export const computedRef = computed;
+
+export const inlineCall = makeSchema();
+
+const wrappedCompute = wrapFn(compute);
+export const wrappedFnRef = wrappedCompute;
+
+const opaque: unknown = makeSchema();
+export const opaqueRef = opaque;

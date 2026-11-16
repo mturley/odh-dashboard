@@ -174,6 +174,45 @@ const isMutatedInFile = (symbol: ts.Symbol, checker: ts.TypeChecker): boolean =>
   return mutated;
 };
 
+/** True when a variable declaration is part of a `const` declaration list. */
+const isConstDeclaration = (node: ts.Node): node is ts.VariableDeclaration =>
+  ts.isVariableDeclaration(node) &&
+  ts.isVariableDeclarationList(node.parent) &&
+  (node.parent.flags & ts.NodeFlags.Const) !== 0;
+
+/**
+ * The `const` declaration of a symbol, whatever its initializer and whether or not its file
+ * mutates what it holds. Use `constInitializer` to read the value; this only says what it is.
+ */
+export const constDeclaration = (
+  symbol: ts.Symbol | undefined,
+): ts.VariableDeclaration | undefined => symbol?.declarations?.find(isConstDeclaration);
+
+/**
+ * The name of the `const` whose initializer is this expression, once `as`, `satisfies`,
+ * type assertions, non-null assertions and parentheses around it are set aside. `undefined` for
+ * an expression written anywhere else (inline in an array, returned from a callback, assigned to
+ * a `let`), or bound by destructuring.
+ */
+export const constBindingName = (expr: ts.Expression): string | undefined => {
+  let current: ts.Node = expr;
+  while (
+    ts.isParenthesizedExpression(current.parent) ||
+    ts.isAsExpression(current.parent) ||
+    ts.isSatisfiesExpression(current.parent) ||
+    ts.isTypeAssertionExpression(current.parent) ||
+    ts.isNonNullExpression(current.parent)
+  ) {
+    current = current.parent;
+  }
+  const { parent } = current;
+  return isConstDeclaration(parent) &&
+    parent.initializer === current &&
+    ts.isIdentifier(parent.name)
+    ? parent.name.text
+    : undefined;
+};
+
 /** True when an initializer is written `as const`. */
 const isAsConst = (expr: ts.Expression): boolean =>
   ts.isAsExpression(expr) &&
@@ -195,12 +234,7 @@ export const constInitializer = (
   symbol: ts.Symbol | undefined,
   checker: ts.TypeChecker,
 ): { decl: ts.VariableDeclaration; initializer: ts.Expression } | undefined => {
-  const decl = symbol?.declarations?.find(
-    (candidate): candidate is ts.VariableDeclaration =>
-      ts.isVariableDeclaration(candidate) &&
-      ts.isVariableDeclarationList(candidate.parent) &&
-      (candidate.parent.flags & ts.NodeFlags.Const) !== 0,
-  );
+  const decl = constDeclaration(symbol);
   const { initializer } = decl ?? {};
   if (!decl || !initializer || !symbol) {
     return undefined;

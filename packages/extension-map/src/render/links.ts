@@ -3,8 +3,16 @@ import { githubAnchor } from './markdown';
 import { CORE_PACKAGE } from '../discovery/workspace';
 import type { ExtensionMapModel, ExtensionPoint, Loc, Pkg } from '../model/types';
 
+/**
+ * The directory a package's generated docs are written to: `docs/` beside the package, and
+ * `frontend/docs` for the core app (whose package directory is `frontend/src`).
+ */
+export const docsDirFor = (pkg: Pick<Pkg, 'name' | 'dir'>): string =>
+  pkg.name === CORE_PACKAGE ? 'frontend/docs' : `${pkg.dir}/docs`;
+
 /** The page a package's extensions are documented on. */
-export const docPathFor = (pkg: Pkg): string => `${pkg.docsDir}/extensions.md`;
+export const docPathFor = (pkg: Pick<Pkg, 'name' | 'dir'>): string =>
+  `${docsDirFor(pkg)}/extensions.md`;
 
 /** How a package is named in prose: the bare name, or the core app by where it lives. */
 export const pkgDisplayName = (pkg: Pkg): string =>

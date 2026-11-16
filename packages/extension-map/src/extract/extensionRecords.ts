@@ -4,6 +4,7 @@ import { pkgForFile, relFile } from '../discovery/workspace';
 import { makeDiagnostic } from '../model/diagnostics';
 import type { Diagnostic, Entry, ExtensionRecord, Value } from '../model/types';
 import {
+  constBindingName,
   constInitializer,
   declKey,
   locOf,
@@ -186,6 +187,7 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
       return;
     }
     const loc = locOf(object, ctx);
+    const binding = constBindingName(object);
     const flags = propAt(props, 'flags');
     const flagsProps = flags?.kind === 'object' ? flags.props : {};
     const next: ExtensionRecord = {
@@ -193,6 +195,7 @@ export const extensionsCollector = (entries: Entry[]): Collector<ExtensionsResul
       type,
       pkg: pkgOf(loc.file, ctx, entry),
       loc,
+      ...(binding === undefined ? {} : { binding }),
       entries: [],
       apps: [],
       flags: {

@@ -3,6 +3,7 @@ import { readSupplies } from './supplies';
 import { relFile } from '../discovery/workspace';
 import type { Loc, Value } from '../model/types';
 import {
+  constDeclaration,
   constInitializer,
   declLoc,
   locOf,
@@ -241,6 +242,82 @@ const referencedFunction = (
     : undefined;
 };
 
+/** Types that hold data: strings, numbers, booleans, bigints, enums, their literals, null, undefined. */
+const DATA_FLAGS =
+  ts.TypeFlags.StringLike |
+  ts.TypeFlags.NumberLike |
+  ts.TypeFlags.BigIntLike |
+  ts.TypeFlags.BooleanLike |
+  ts.TypeFlags.EnumLike |
+  ts.TypeFlags.Null |
+  ts.TypeFlags.Undefined;
+
+/** Types that prove nothing about what a value holds. */
+const OPAQUE_FLAGS = ts.TypeFlags.Any | ts.TypeFlags.Unknown | ts.TypeFlags.Never;
+
+/**
+ * What a type says a value is: `data` (see `DATA_FLAGS`, unions of those, and arrays or tuples of
+ * those), `callable` (it has a call signature), `opaque` (`any`, `unknown`, `never`, or a union
+ * with such a member), or `code` (anything else: an object such as a schema, a class instance, a
+ * `Map`).
+ */
+const shapeOfType = (
+  type: ts.Type,
+  checker: ts.TypeChecker,
+  depth = 0,
+): 'data' | 'callable' | 'opaque' | 'code' => {
+  if ((type.flags & OPAQUE_FLAGS) !== 0 || depth > MAX_DEPTH) {
+    return 'opaque';
+  }
+  if ((type.flags & DATA_FLAGS) !== 0) {
+    return 'data';
+  }
+  if (type.isUnion()) {
+    const shapes = type.types.map((member) => shapeOfType(member, checker, depth + 1));
+    if (shapes.every((shape) => shape === 'data')) {
+      return 'data';
+    }
+    return shapes.includes('opaque') ? 'opaque' : 'code';
+  }
+  if (checker.isArrayType(type) || checker.isTupleType(type)) {
+    const element = checker.getIndexTypeOfType(type, ts.IndexKind.Number);
+    const shape = element ? shapeOfType(element, checker, depth + 1) : 'opaque';
+    return shape === 'data' || shape === 'opaque' ? shape : 'code';
+  }
+  return type.getCallSignatures().length > 0 ? 'callable' : 'code';
+};
+
+/**
+ * A reference to a `const` the walk cannot read as data, named rather than left unresolved when
+ * its type proves it is code: a function value built by a call is a `function`, and any other
+ * value whose type is not data (a schema object, a class instance, a `Map`) is a `reference`. A
+ * `const` written as an object or array literal holds data in place, and one whose type is data
+ * or proves nothing stays unresolved: those are gaps, not code.
+ */
+const referencedCode = (
+  expr: ts.Identifier | ts.PropertyAccessExpression,
+  symbol: ts.Symbol | undefined,
+  state: State,
+): Value | undefined => {
+  const decl = constDeclaration(symbol);
+  const initializer = decl?.initializer ? unwrapExpression(decl.initializer) : undefined;
+  if (
+    !decl ||
+    !initializer ||
+    ts.isObjectLiteralExpression(initializer) ||
+    ts.isArrayLiteralExpression(initializer)
+  ) {
+    return undefined;
+  }
+  const shape = shapeOfType(state.ctx.checker.getTypeAtLocation(expr), state.ctx.checker);
+  const name = collapse(expr.getText());
+  const loc = declLoc(decl, state.ctx);
+  if (shape === 'callable') {
+    return { kind: 'function', name, loc };
+  }
+  return shape === 'code' ? { kind: 'reference', name, loc } : undefined;
+};
+
 /**
  * The array literal an expression stands for: written inline, or held by a `const` that can be
  * trusted (see `constInitializer`). `undefined` when the elements cannot be counted.
@@ -304,6 +381,7 @@ const resolveReference = (
     member ??
     referencedValue(expr, symbol, state) ??
     referencedFunction(expr, symbol, state) ??
+    referencedCode(expr, symbol, state) ??
     unresolved(`'${collapse(expr.getText())}' does not resolve to a literal`, expr, state)
   );
 };
@@ -471,7 +549,8 @@ const freshState = (ctx: ProgramCtx): State => ({ ctx, depth: 0, seen: new Set<s
 
 /**
  * The value an expression carries, proven rather than guessed: literals, enum members, named
- * constants, code references, arrays and objects of those. Anything else is `unresolved`.
+ * constants, code references, arrays and objects of those, and functions and code-like constants
+ * by name. Anything else is `unresolved`.
  */
 export const resolveValue = (expr: ts.Expression, ctx: ProgramCtx): Value =>
   resolveIn(expr, freshState(ctx));

@@ -42,6 +42,8 @@ export const valueText = (value: Value): string => {
       return `${value.module}#${value.export ?? '?'}`;
     case 'function':
       return value.name ?? 'function';
+    case 'reference':
+      return value.name;
     case 'mapped':
       return 'one per mapped element';
     default:
@@ -56,7 +58,11 @@ export const moduleBasename = (module: string): string =>
 export const codeRefName = (value: Extract<Value, { kind: 'codeRef' }>): string =>
   value.export === null || value.export === 'default' ? moduleBasename(value.module) : value.export;
 
-/** The CodeRef target cell: a link when the target is known in this repo, plain text otherwise. */
+/**
+ * The CodeRef target cell. When the target is known in this repo: a link named after the file
+ * that declares the export, followed by the module the code imports when that module only
+ * re-exports it. Otherwise plain `module#export` text.
+ */
 export const codeRefCell = (
   value: Extract<Value, { kind: 'codeRef' }>,
   docPath: string,
@@ -65,11 +71,13 @@ export const codeRefCell = (
   if (value.external) {
     return `\`${value.module}#${exported}\` (external)`;
   }
-  const label = `${moduleBasename(value.module)}#${exported}`;
   if (value.export === null || !value.target) {
-    return `\`${label}\``;
+    return `\`${moduleBasename(value.module)}#${exported}\``;
   }
-  return relLink(docPath, value.target, label);
+  const link = relLink(docPath, value.target, `${moduleBasename(value.target.file)}#${exported}`);
+  return value.target.file === value.module
+    ? link
+    : `${link} (via \`${moduleBasename(value.module)}\`)`;
 };
 
 /** A value as one table cell: code-formatted, with links to code the value points at. */
@@ -88,6 +96,8 @@ export const valueCell = (value: Value, ctx: CellCtx): string => {
       return `\`${valueText(value)}\``;
     case 'function':
       return `\`function\` (${relLink(ctx.docPath, value.loc, value.name ?? ctx.label)})`;
+    case 'reference':
+      return `${relLink(ctx.docPath, value.loc, value.name)} (code)`;
     case 'mapped':
       return (ctx.record.mappedValues ?? []).length === 0
         ? 'one per mapped element'

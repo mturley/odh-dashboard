@@ -1,6 +1,6 @@
 import path from 'path';
 import ts from 'typescript';
-import { docsDirFor, loadWorkspace, pkgForFile } from '../../src/discovery/workspace';
+import { loadWorkspace, pkgForFile } from '../../src/discovery/workspace';
 import { extensionTypeIds, predicateTargetIds } from '../../src/programs/identity';
 import { createSourceFileCache } from '../../src/programs/sourceCache';
 import type { SourceFileCache } from '../../src/programs/sourceCache';
@@ -131,15 +131,6 @@ describe('workspace packages', () => {
   it('maps a file to its own package and nothing outside the workspace', () => {
     expect(pkgForFile('packages/a/src/index.ts', ws)).toBe('@fx/a');
     expect(pkgForFile('elsewhere/x.ts', ws)).toBeUndefined();
-  });
-
-  it('puts package docs next to the package, and the core app docs in frontend', () => {
-    expect(docsDirFor({ name: '@fx/a', dir: 'packages/a', packageJson: {} })).toBe(
-      'packages/a/docs',
-    );
-    expect(
-      docsDirFor({ name: '@odh-dashboard/internal', dir: 'frontend/src', packageJson: {} }),
-    ).toBe('frontend/docs');
   });
 
   it('loads the real workspace without the excluded packages', () => {

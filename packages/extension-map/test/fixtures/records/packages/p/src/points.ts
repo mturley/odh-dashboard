@@ -22,3 +22,9 @@ export type FxGeneratedExtension = Extension<'fx.generated', { name: string }>;
 
 /** Declared by spreading a base extension and overriding part of it. */
 export type FxSpreadExtension = Extension<'fx.spread', { id: string; label: string }>;
+
+/** Bound to a name through `satisfies`, with a code-like constant, a computed path and a call. */
+export type FxWrappedExtension = Extension<
+  'fx.wrapped',
+  { schema: { parse: (input: unknown) => string }; route: string; label: string }
+>;

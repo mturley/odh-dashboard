@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { hostFederatedMembers, readFederationExpose } from './hostFederation';
-import { CORE_PACKAGE, docsDirFor, pkgForFile, toPosix } from './workspace';
+import { CORE_PACKAGE, pkgForFile, toPosix } from './workspace';
 import { makeDiagnostic } from '../model/diagnostics';
 import type { Diagnostic, Entry, Pkg, WorkspacePackage } from '../model/types';
 
@@ -32,7 +32,6 @@ const toPkg = (pkg: WorkspacePackage, repoRoot: string): Pkg => {
     name: pkg.name,
     dir: pkg.dir,
     kind: kindOf(pkg),
-    docsDir: docsDirFor(pkg),
     upstreamDirs: fs.existsSync(path.join(repoRoot, upstream)) ? [upstream] : [],
   };
 };

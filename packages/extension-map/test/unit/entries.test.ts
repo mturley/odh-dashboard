@@ -28,11 +28,11 @@ describe('entry discovery', () => {
   });
 
   it('lists a package per display package', () => {
-    expect(m.packages.map((p) => [p.name, p.kind, p.docsDir])).toEqual([
-      ['@fx/d', 'package', 'packages/d/docs'],
-      ['@fx/f', 'package', 'packages/f/docs'],
-      ['@fx/k', 'package', 'packages/k/docs'],
-      ['@fx/s', 'package', 'packages/s/docs'],
+    expect(m.packages.map((p) => [p.name, p.kind, p.dir])).toEqual([
+      ['@fx/d', 'package', 'packages/d'],
+      ['@fx/f', 'package', 'packages/f'],
+      ['@fx/k', 'package', 'packages/k'],
+      ['@fx/s', 'package', 'packages/s'],
     ]);
   });
 });

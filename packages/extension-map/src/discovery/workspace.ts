@@ -130,7 +130,3 @@ export const pkgForFile = (relPath: string, ws: WorkspacePackage[]): string | un
   }
   return best ? rollUp(best, ws) : undefined;
 };
-
-/** The directory a package's generated docs are written to. */
-export const docsDirFor = (pkg: WorkspacePackage): string =>
-  pkg.name === CORE_PACKAGE ? 'frontend/docs' : `${toPosix(pkg.dir)}/docs`;

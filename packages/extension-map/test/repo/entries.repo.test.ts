@@ -1,4 +1,5 @@
 import { diag, entriesOf, pkg, staticEntryPkgs } from './model';
+import { docPathFor } from '../../src/render/links';
 
 describe('entries in the real repo', () => {
   it('model-serving has static and federated entries', () => {
@@ -25,6 +26,6 @@ describe('entries in the real repo', () => {
   });
 
   it('writes the core app page to frontend/docs', () => {
-    expect(pkg('@odh-dashboard/internal').docsDir).toBe('frontend/docs');
+    expect(docPathFor(pkg('@odh-dashboard/internal'))).toBe('frontend/docs/extensions.md');
   });
 });

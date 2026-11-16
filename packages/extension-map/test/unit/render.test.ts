@@ -1,4 +1,4 @@
-import { docPathFor, pkgDisplayName, pointLink, relLink } from '../../src/render/links';
+import { docPathFor, docsDirFor, pkgDisplayName, pointLink, relLink } from '../../src/render/links';
 import { HEADER, defList, escapeCell, githubAnchor, table } from '../../src/render/markdown';
 import { flowchart, mermaidId, mermaidLabel } from '../../src/render/mermaid';
 import { renderPackagePage } from '../../src/render/packagePage';
@@ -10,7 +10,6 @@ const definer: Pkg = {
   name: '@odh-dashboard/definer',
   dir: 'packages/definer',
   kind: 'package',
-  docsDir: 'packages/definer/docs',
   upstreamDirs: [],
 };
 
@@ -18,7 +17,6 @@ const contributor: Pkg = {
   name: '@odh-dashboard/contributor',
   dir: 'packages/contributor',
   kind: 'package',
-  docsDir: 'packages/contributor/docs',
   upstreamDirs: [],
 };
 
@@ -163,6 +161,14 @@ describe('markdown primitives', () => {
 });
 
 describe('links', () => {
+  it('puts package docs next to the package, and the core app docs in frontend', () => {
+    expect(docsDirFor({ name: '@fx/a', dir: 'packages/a' })).toBe('packages/a/docs');
+    expect(docsDirFor({ name: '@odh-dashboard/internal', dir: 'frontend/src' })).toBe(
+      'frontend/docs',
+    );
+    expect(docPathFor(contributor)).toBe('packages/contributor/docs/extensions.md');
+  });
+
   it('builds relative line links', () => {
     const loc = { file: 'packages/kserve/src/deployments.ts', line: 36 };
     const link = relLink('packages/kserve/docs/extensions.md', loc, 'useWatchDeployments');
@@ -188,7 +194,7 @@ describe('links', () => {
   it('names packages without the scope, and the core app by where it lives', () => {
     expect(pkgDisplayName(contributor)).toBe('contributor');
     expect(
-      pkgDisplayName({ ...contributor, name: '@odh-dashboard/internal', docsDir: 'frontend/docs' }),
+      pkgDisplayName({ ...contributor, name: '@odh-dashboard/internal', dir: 'frontend/src' }),
     ).toBe('frontend (core app)');
     expect(docPathFor(contributor)).toBe('packages/contributor/docs/extensions.md');
   });
@@ -430,12 +436,109 @@ describe('renderPackagePage', () => {
         ...definer,
         name: '@odh-dashboard/idle',
         dir: 'packages/idle',
-        docsDir: 'packages/idle/docs',
       },
     ];
     expect(renderAll(model).map((file) => file.path)).toEqual([
       'packages/contributor/docs/extensions.md',
       'packages/definer/docs/extensions.md',
     ]);
+  });
+
+  it('names a contribution by its id, then its binding, then its CodeRef export', () => {
+    const model = fixtureModel();
+    const component = {
+      kind: 'codeRef' as const,
+      module: 'packages/contributor/src/Thing.tsx',
+      export: 'Thing',
+      target: { file: 'packages/contributor/src/Thing.tsx', line: 7 },
+    };
+    model.extensions = [
+      record('a', { binding: 'idWins', properties: { id: { kind: 'literal', value: 'a' } } }),
+      record('b', { binding: 'bindingWins', properties: { component } }),
+      record('c', { properties: { component } }),
+      record('d', { properties: { step: { kind: 'literal', value: 'x' } } }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('["a"]');
+    expect(content).toContain('["bindingWins"]');
+    expect(content).toContain('["Thing"]');
+    expect(content).toContain('["slot #4"]');
+    expect(content).not.toContain('idWins');
+  });
+
+  it('uses the binding label in the Supplies and Not resolved tables', () => {
+    const model = fixtureModel();
+    model.extensions = [
+      record('a', {
+        binding: 'myFormData',
+        properties: {
+          extract: {
+            kind: 'codeRef',
+            module: 'packages/contributor/src/extract.ts',
+            export: 'extract',
+            target: { file: 'packages/contributor/src/extract.ts', line: 3 },
+            supplies: { mode: { kind: 'literal', value: 'fast' } },
+          },
+          other: {
+            kind: 'unresolved',
+            reason: 'CallExpression is not a resolvable value',
+            loc: { file: 'packages/contributor/extensions.ts', line: 30 },
+          },
+        },
+      }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain("| myFormData | mode | `'fast'` |");
+    expect(content).toContain('| myFormData | other | CallExpression is not a resolvable value |');
+  });
+
+  it('names the declaring file in a CodeRef link, and the imported module when they differ', () => {
+    const model = fixtureModel();
+    model.extensions = [
+      record('a', {
+        properties: {
+          id: { kind: 'literal', value: 'a' },
+          paths: {
+            kind: 'codeRef',
+            module: 'packages/contributor/src/hardware.ts',
+            export: 'PATHS',
+            target: { file: 'packages/shared/const.ts', line: 18, endLine: 23 },
+          },
+        },
+      }),
+      record('b', {
+        properties: {
+          id: { kind: 'literal', value: 'b' },
+          paths: {
+            kind: 'codeRef',
+            module: 'packages/contributor/src/missing.ts',
+            export: 'PATHS',
+          },
+        },
+      }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('[const#PATHS](../../shared/const.ts#L18-L23) (via `hardware`)');
+    expect(content).toContain('`missing#PATHS`');
+    expect(content).not.toContain('(via `missing`)');
+  });
+
+  it('renders a reference to a code-like constant as a link marked as code', () => {
+    const model = fixtureModel();
+    model.extensions = [
+      record('a', {
+        properties: {
+          id: { kind: 'literal', value: 'a' },
+          schema: {
+            kind: 'reference',
+            name: 'timeoutFieldSchema',
+            loc: { file: 'packages/contributor/src/schema.ts', line: 5 },
+          },
+        },
+      }),
+    ];
+    const { content } = renderPackagePage(model, contributor);
+    expect(content).toContain('[timeoutFieldSchema](../src/schema.ts#L5) (code)');
+    expect(content).not.toContain('**Not resolved**');
   });
 });

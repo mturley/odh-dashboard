@@ -67,7 +67,7 @@ describe('extensions', () => {
 
   it('merges a spread extension, with the element as its own declaration', () => {
     const spread = ext('fx.spread');
-    expect(spread.loc).toMatchObject({ file: 'packages/p/src/entry.ts', line: 22 });
+    expect(spread.loc).toMatchObject({ file: 'packages/p/src/entry.ts', line: 23 });
     expect(spread.properties).toEqual({
       id: { kind: 'literal', value: 'base' },
       label: { kind: 'literal', value: 'Override' },
@@ -91,5 +91,37 @@ describe('extensions', () => {
       kind: 'codeRef',
       supplies: { externalDataHook: { kind: 'symbol', name: 'useData' } },
     });
+  });
+
+  it('records the const an extension is bound to, through satisfies', () => {
+    expect(ext('fx.field').binding).toBe('fieldExtension');
+    expect(ext('fx.spread').binding).toBe('spreadExtension');
+    expect(ext('fx.wrapped').binding).toBe('wrappedExtension');
+  });
+
+  it('records no binding for a literal written inline or in a .map() callback', () => {
+    expect(ext('fx.flagged')).not.toHaveProperty('binding');
+    expect(ext('fx.shared')).not.toHaveProperty('binding');
+    expect(ext('app.route')).not.toHaveProperty('binding');
+  });
+
+  it('names a code-like constant as a reference, without a diagnostic', () => {
+    expect(ext('fx.wrapped').properties.schema).toEqual({
+      kind: 'reference',
+      name: 'wrappedSchema',
+      loc: { file: 'packages/p/src/wrapped.ts', line: 10 },
+    });
+    const wrapped = m.diagnostics.filter(
+      (d) => d.code === 'unresolved-value' && d.message.includes("'fx.wrapped'"),
+    );
+    expect(wrapped.map((d) => d.message).toSorted()).toEqual([
+      expect.stringContaining("'label'"),
+      expect.stringContaining("'route'"),
+    ]);
+  });
+
+  it('keeps a computed route and an inline call unresolved', () => {
+    expect(ext('fx.wrapped').properties.route).toMatchObject({ kind: 'unresolved' });
+    expect(ext('fx.wrapped').properties.label).toMatchObject({ kind: 'unresolved' });
   });
 });

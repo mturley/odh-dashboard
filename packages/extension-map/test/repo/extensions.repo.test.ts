@@ -1,4 +1,5 @@
-import { contributors, diags, extsOf, flagNames, point, typesOf } from './model';
+import { contributors, diags, extsOf, flagNames, getRepoModel, pkg, point, typesOf } from './model';
+import { renderPackagePage } from '../../src/render/packagePage';
 
 const LLMD_TYPES = [
   'platform/watch-deployments',
@@ -87,5 +88,47 @@ describe('extensions on the real repo', () => {
     const types = typesOf('@odh-dashboard/model-serving', 'model-registry.');
     expect(types.length).toBeGreaterThan(0);
     types.forEach((t) => expect(point(t).pkg).toBe('@odh-dashboard/model-registry'));
+  });
+
+  it('records the const the nim-kserve form-data extension is bound to, and labels it so', () => {
+    const [extension] = extsOf('@odh-dashboard/nim-serving').filter(
+      (e) =>
+        e.type === 'model-serving.deployment/form-data' &&
+        e.loc.file === 'packages/nim-serving/extensions/nim-kserve.ts' &&
+        e.loc.line === 113,
+    );
+    expect(extension.binding).toBe('nimKServeFormDataExtension');
+    const { content } = renderPackagePage(getRepoModel(), pkg('@odh-dashboard/nim-serving'));
+    expect(content).toContain('["nimKServeFormDataExtension"]');
+    expect(content).toContain('| nimKServeFormDataExtension | extension of model-serving.');
+    expect(content).not.toContain('| extractDeploymentStrategy |');
+  });
+
+  it('names the declaring file of a re-exported CodeRef target, and the module it imports', () => {
+    const [extension] = extsOf('@odh-dashboard/kserve').filter(
+      (e) =>
+        e.type === 'model-serving.deployment/form-data' &&
+        e.loc.file === 'packages/kserve/extensions.ts',
+    );
+    expect(extension.binding).toBe('kserveFormDataExtension');
+    expect(extension.properties.hardwareProfilePaths).toMatchObject({
+      kind: 'codeRef',
+      module: 'packages/kserve/src/hardware.ts',
+      target: { file: 'packages/hardware-profiles/shared/const.ts' },
+    });
+    const { content } = renderPackagePage(getRepoModel(), pkg('@odh-dashboard/kserve'));
+    expect(content).toMatch(
+      /\[const#INFERENCE_SERVICE_HARDWARE_PROFILE_PATHS\]\([^)]*\) \(via `hardware`\)/,
+    );
+  });
+
+  it('names the timeout field validation schema as a code reference', () => {
+    const { content } = renderPackagePage(getRepoModel(), pkg('@odh-dashboard/kserve'));
+    expect(content).toMatch(
+      /\| kserveTimeoutFieldExtension \| reducerFunctions \| .*validationSchema: timeoutFieldSchema/,
+    );
+    expect(content).not.toContain(
+      '| kserveTimeoutFieldExtension | field → reducerFunctions.validationSchema |',
+    );
   });
 });

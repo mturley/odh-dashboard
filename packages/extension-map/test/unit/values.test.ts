@@ -120,4 +120,35 @@ describe('values', () => {
       reason: expect.stringContaining('compute()'),
     });
   });
+
+  it('names a reference to a code-like constant instead of reading it', () => {
+    expect(v('schemaRef')).toEqual({
+      kind: 'reference',
+      name: 'schemaObject',
+      loc: { file: 'packages/p/src/values.ts', line: 87 },
+    });
+  });
+
+  it('keeps a data-like constant it cannot read unresolved', () => {
+    expect(v('computedRef')).toMatchObject({
+      kind: 'unresolved',
+      reason: expect.stringContaining('computed'),
+    });
+  });
+
+  it('keeps an inline helper call unresolved, never a reference', () => {
+    expect(v('inlineCall')).toMatchObject({ kind: 'unresolved' });
+  });
+
+  it('reads a constant the checker proves callable as a function, not a reference', () => {
+    expect(v('wrappedFnRef')).toEqual({
+      kind: 'function',
+      name: 'wrappedCompute',
+      loc: { file: 'packages/p/src/values.ts', line: 94 },
+    });
+  });
+
+  it('keeps a constant whose type proves nothing unresolved', () => {
+    expect(v('opaqueRef')).toMatchObject({ kind: 'unresolved' });
+  });
 });

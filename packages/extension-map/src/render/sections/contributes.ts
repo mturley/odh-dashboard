@@ -72,13 +72,19 @@ const pointTail = (type: string): string => {
   return dot === -1 ? type : type.slice(dot + 1);
 };
 
-/** The name a contribution gives itself, if it gives itself one. */
+/**
+ * The name a contribution goes by, if it has one: its own `id`, `title` or `name`, else the
+ * `const` it is bound to, else the export of its first resolved code reference.
+ */
 const selfName = (record: ExtensionRecord): string | undefined => {
   for (const key of ['id', 'title', 'name']) {
     const value = propertyOf(record, key);
     if (value?.kind === 'literal' || value?.kind === 'constant' || value?.kind === 'enumMember') {
       return String(value.value);
     }
+  }
+  if (record.binding !== undefined) {
+    return record.binding;
   }
   for (const key of Object.keys(record.properties).toSorted()) {
     const value = propertyOf(record, key);

@@ -3,6 +3,7 @@ import { DISALLOWED_FLAGS, NAMES, ROUTE_BASE } from './consts';
 import type { FxFieldExtension, FxRouteExtension } from './points';
 import shared from './shared';
 import { Area } from './values';
+import { wrappedExtension } from './wrapped';
 
 const makeExt = (): Extension => ({ type: 'fx.extra', properties: {} });
 
@@ -50,6 +51,7 @@ const extensions = [
   makeExt(),
   { type: 'fx.nowhere', properties: {} },
   fieldExtension,
+  wrappedExtension,
 ] satisfies Extension[];
 
 export default extensions;
