@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import {
   DISTRIBUTION_FILE,
+  isDistributionPackage,
   localEntryKey,
   readDistributionConfig,
   resolveLocalEntry,
@@ -129,7 +130,7 @@ export const discoverEntries = (
         );
       }
     }
-    if (kindOf(pkg) === 'distribution') {
+    if (isDistributionPackage(pkg, ws)) {
       addDistributionEntries(pkg, display, repoRoot, add, diagnostics);
     }
   }

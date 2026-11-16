@@ -1,7 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'yaml';
-import { toPosix } from './workspace';
+import { pkgForFile, toPosix } from './workspace';
+import type { WorkspacePackage } from '../model/types';
+
+/**
+ * True for a distribution: a workspace package under `distributions/` that is its own display
+ * package (not a nested package rolled up into another). Only these are read for a
+ * `distribution.yaml`.
+ */
+export const isDistributionPackage = (pkg: WorkspacePackage, ws: WorkspacePackage[]): boolean =>
+  pkg.dir.startsWith('distributions/') && pkgForFile(pkg.dir, ws) === pkg.name;
 
 /** The file a distribution declares its packages in. */
 export const DISTRIBUTION_FILE = 'distribution.yaml';
@@ -88,7 +97,27 @@ const bundledItem = (raw: unknown, index: number, problems: string[]): Distribut
   return [];
 };
 
+/**
+ * True when a local `extensionsPath` escapes the distribution as `validatePackageRef` judges it:
+ * absolute, or `..` (or under `../`) once normalized. The plugin refuses to build such a config.
+ */
+const escapesDistribution = (extensionsPath: string): boolean => {
+  const normalized = path.posix.normalize(extensionsPath);
+  return path.posix.isAbsolute(normalized) || normalized === '..' || normalized.startsWith('../');
+};
+
 const localItem = (raw: unknown, index: number, problems: string[]): DistributionItem[] => {
+  if (
+    isRecord(raw) &&
+    typeof raw.name === 'string' &&
+    typeof raw.extensionsPath === 'string' &&
+    escapesDistribution(raw.extensionsPath)
+  ) {
+    problems.push(
+      `the local extensionsPath \`${raw.extensionsPath}\` of ${raw.name} must resolve within the distribution directory`,
+    );
+    return [];
+  }
   if (
     isRecord(raw) &&
     typeof raw.name === 'string' &&

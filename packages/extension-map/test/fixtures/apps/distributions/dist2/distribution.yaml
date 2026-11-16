@@ -2,3 +2,6 @@ name: dist2
 
 packages:
   bundled: []
+  local:
+    - name: escape
+      extensionsPath: ../outside

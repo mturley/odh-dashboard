@@ -385,13 +385,26 @@ export type Override = {
    * `removed` (a suppress removed its targets), `applied` (a patch applies if a target is in use;
    * a redefine is registered in place of its targets), `noop-missing` (no registration has the
    * key), `noop-suppressed` (every registration with the key was suppressed), `superseded` (a
-   * later patch of the same key replaces this whole patch), or `unresolved` (the key, or whether
-   * a registration has it, cannot be proven).
+   * later patch of the same key that the store keeps replaces this whole patch), `dropped` (the
+   * plugin store discards the override: a target that is not two non-empty strings, or a patch
+   * whose target type has no patch schema or whose payload fails it), or `unresolved` (the key,
+   * the override's validity, whether a registration has the key, or which override wins, cannot
+   * be proven).
    */
-  effect: 'removed' | 'applied' | 'noop-missing' | 'noop-suppressed' | 'superseded' | 'unresolved';
+  effect:
+    | 'removed'
+    | 'applied'
+    | 'noop-missing'
+    | 'noop-suppressed'
+    | 'superseded'
+    | 'dropped'
+    | 'unresolved';
   /** The patched properties and values. Present only for `patch`. */
   patch?: Record<string, Value>;
-  /** Patch keys the plugin store ignores. Omitted when there are none. */
+  /**
+   * Patch keys outside the nav allowlist, which the plugin store ignores while applying the
+   * rest. Omitted when there are none.
+   */
   ignoredKeys?: string[];
 };
 
@@ -492,6 +505,8 @@ export type DiagnosticCode =
   | 'federation-not-loaded'
   | 'stale-mf-types'
   | 'suppress-no-match'
+  | 'suppress-dropped'
+  | 'patch-dropped'
   | 'patch-noop-missing'
   | 'patch-noop-suppressed'
   | 'patch-ignored-keys'

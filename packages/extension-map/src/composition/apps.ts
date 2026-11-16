@@ -1,6 +1,6 @@
 import path from 'path';
 import ts from 'typescript';
-import { readDistributionConfig } from '../discovery/distribution';
+import { isDistributionPackage, readDistributionConfig } from '../discovery/distribution';
 import type { DistributionItem } from '../discovery/distribution';
 import { hostFederatedMembers } from '../discovery/hostFederation';
 import { CORE_PACKAGE, pkgForFile, relFile, toPosix } from '../discovery/workspace';
@@ -170,10 +170,10 @@ export const composeApps = (
   // The distributions.
   for (const pkg of ws) {
     const display = displayOf(pkg);
-    const config = pkg.dir.startsWith('distributions/')
+    const config = isDistributionPackage(pkg, ws)
       ? readDistributionConfig(pkg.dir, repoRoot)
       : undefined;
-    if (!config || display !== pkg.name) {
+    if (!config) {
       continue;
     }
     const id = config.name ?? path.posix.basename(pkg.dir);

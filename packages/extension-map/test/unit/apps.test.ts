@@ -86,4 +86,15 @@ describe('app composition', () => {
       ['@fx/dist2', 'distributions/dist2/src/bootstrap.ts', 5],
     ]);
   });
+
+  it('refuses a local extensionsPath that leaves the distribution, as the build does', () => {
+    const found = m.diagnostics.filter((d) => d.code === 'unresolved-distribution');
+    expect(found.map((d) => [d.pkg, d.message])).toEqual([
+      [
+        '@fx/dist2',
+        'Cannot read distributions/dist2/distribution.yaml: the local extensionsPath `../outside` of escape must resolve within the distribution directory.',
+      ],
+    ]);
+    expect(m.entries.filter((e) => e.pkg === '@fx/dist2')).toEqual([]);
+  });
 });
