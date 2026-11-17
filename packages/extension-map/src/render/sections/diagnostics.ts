@@ -1,4 +1,5 @@
 import { table } from '../markdown';
+import { docPathFor, relLink, sourceSymbolName } from '../links';
 import type { ExtensionMapModel, Pkg } from '../../model/types';
 
 export const renderDiagnostics = (model: ExtensionMapModel, pkg: Pkg): string => {
@@ -15,7 +16,11 @@ export const renderDiagnostics = (model: ExtensionMapModel, pkg: Pkg): string =>
         diagnostic.message,
         diagnostic.loc === undefined
           ? '[details](#diagnostics)'
-          : `[${diagnostic.code}](#diagnostics)`,
+          : relLink(
+              docPathFor(pkg),
+              diagnostic.loc,
+              sourceSymbolName(diagnostic.loc, diagnostic.code),
+            ),
       ]),
     ),
   ].join('\n\n');

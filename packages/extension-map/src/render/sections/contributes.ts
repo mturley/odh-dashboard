@@ -201,6 +201,17 @@ const pointTable = (
 
 const namespaceOf = (point: ExtensionPoint): string => point.id.split('.')[0];
 
+const representedCount = (extensions: ExtensionRecord[]): number | undefined => {
+  let count = 0;
+  for (const extension of extensions) {
+    if (extension.multiplicity === 'unknown') {
+      return undefined;
+    }
+    count += extension.multiplicity ?? 1;
+  }
+  return count;
+};
+
 const renderNamespaceDiagram = (
   model: ExtensionMapModel,
   pkg: Pkg,
@@ -219,7 +230,8 @@ const renderNamespaceDiagram = (
       continue;
     }
     const node = `point_${mermaidId(point.id)}`;
-    const suffix = extensions.length >= 5 ? ` ×${extensions.length}` : '';
+    const count = representedCount(extensions);
+    const suffix = count !== undefined && count >= 5 ? ` ×${count}` : '';
     chart.node(node, `${point.id}${suffix}`, 'point');
     const federatedEntries = new Set(
       model.entries.filter((entry) => entry.path === 'federated').map((entry) => entry.id),

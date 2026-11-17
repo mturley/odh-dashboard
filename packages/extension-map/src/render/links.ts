@@ -19,7 +19,7 @@ export const sourceSymbolName = (loc: Loc, fallback: string): string => {
       /^\s*(?:export\s+)?(?:default\s+)?(?:const|let|var|function|class|interface|type|enum)\s+([A-Za-z_$][\w$]*)/u,
     );
     const defaultValue = line.match(/^\s*(?:export\s+)?default\s+([A-Za-z_$][\w$]*)/u);
-    const expression = line.match(/^\s*(?:return\s+)?([A-Za-z_$][\w$]*)\s*(?:\(|\.|,|;|$)/u);
+    const expression = line.match(/^\s*(?:return\s+)?([A-Za-z_$][\w$]*)\s*(?::|\(|\.|,|;|$)/u);
     return declaration?.[1] ?? defaultValue?.[1] ?? expression?.[1] ?? fallback;
   } catch {
     return fallback;

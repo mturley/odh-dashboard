@@ -153,19 +153,85 @@ describe('package pages', () => {
     expect(content).toContain('- **Source**:');
   });
 
-  it('collapses five same-point contributions into one diagram node', () => {
+  it('shows a single mapped contribution record with multiplicity five as ×5', () => {
     const extension = model.extensions.find((item) => item.type === 'fx.route');
     if (extension === undefined) {
       throw new Error('Missing fixture contribution');
     }
-    const fiveExtensions = Array.from({ length: 5 }, (_, index) => ({
+    const { content } = renderPackagePage(
+      { ...model, extensions: [{ ...extension, multiplicity: 5 }] },
+      packagePage,
+    );
+    expect(content).toContain('fx.route ×5');
+  });
+
+  it('collapses five separate same-point contributions into one diagram node', () => {
+    const extension = model.extensions.find((item) => item.type === 'fx.route');
+    if (extension === undefined) {
+      throw new Error('Missing fixture contribution');
+    }
+    const extensions = Array.from({ length: 5 }, (_, index) => ({
       ...extension,
       key: `${extension.key}-${index}`,
       loc: { ...extension.loc, line: extension.loc.line + index },
     }));
-    const { content } = renderPackagePage({ ...model, extensions: fiveExtensions }, packagePage);
+    const { content } = renderPackagePage({ ...model, extensions }, packagePage);
     expect(content).toContain('fx.route ×5');
     expect(content.match(/^ {2}point_n_fx_route_[a-f0-9]{6}\(\(/gmu)).toHaveLength(1);
+  });
+
+  it('sums known multiplicities and defaults missing multiplicity to one', () => {
+    const extension = model.extensions.find((item) => item.type === 'fx.route');
+    if (extension === undefined) {
+      throw new Error('Missing fixture contribution');
+    }
+    const extensions = [
+      { ...extension, key: `${extension.key}-mapped`, multiplicity: 3 },
+      { ...extension, key: `${extension.key}-default-a` },
+      { ...extension, key: `${extension.key}-default-b` },
+    ];
+    const { content } = renderPackagePage({ ...model, extensions }, packagePage);
+    expect(content).toContain('fx.route ×5');
+  });
+
+  it('omits an exact diagram count when any mapped multiplicity is unknown', () => {
+    const extension = model.extensions.find((item) => item.type === 'fx.route');
+    if (extension === undefined) {
+      throw new Error('Missing fixture contribution');
+    }
+    const extensions = [
+      { ...extension, key: `${extension.key}-known`, multiplicity: 5 },
+      { ...extension, key: `${extension.key}-unknown`, multiplicity: 'unknown' as const },
+    ];
+    const { content } = renderPackagePage({ ...model, extensions }, packagePage);
+    expect(content).not.toContain('fx.route ×');
+    expect(content).toContain('| fx.route |');
+  });
+
+  it('links located diagnostics to their source symbol', () => {
+    const diagnostic = model.diagnostics[0];
+    const { content } = renderPackagePage(
+      {
+        ...model,
+        diagnostics: [
+          {
+            ...diagnostic,
+            loc: { file: 'packages/kserve/extensions.ts', line: 68 },
+          },
+        ],
+      },
+      packagePage,
+    );
+    expect(content).toContain('[field](../../kserve/extensions.ts#L68)');
+  });
+
+  it('keeps an in-page link for diagnostics without a source location', () => {
+    const diagnostic = model.diagnostics[0];
+    const { content } = renderPackagePage(
+      { ...model, diagnostics: [{ ...diagnostic, loc: undefined }] },
+      packagePage,
+    );
+    expect(content).toContain('[details](#diagnostics)');
   });
 
   it('shows unresolved spreads without inventing extension properties', () => {
