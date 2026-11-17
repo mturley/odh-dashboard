@@ -184,6 +184,7 @@ export type DiagnosticCode =
   | 'multiplicity-unknown'
   | 'federation-not-loaded'
   | 'stale-mf-types'
+  | 'unverified-mf-types'
   | 'suppress-no-match'
   | 'patch-noop-missing'
   | 'patch-noop-suppressed'

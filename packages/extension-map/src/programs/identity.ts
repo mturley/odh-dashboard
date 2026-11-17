@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import type { ProgramCtx } from './stream';
-import { mapMfTypesDecl, reportStaleMfTypes } from './mfTypes';
+import { mapMfTypesDecl, reportMfTypesDiagnostic } from './mfTypes';
 import type { Loc } from '../model/types';
 import { toRelPosix } from '../discovery/workspace';
 
@@ -9,7 +9,8 @@ import { toRelPosix } from '../discovery/workspace';
  * Positions are byte offsets, stable across programs that parse the same
  * file, so declarations join without holding any AST state. A declaration
  * reached through an `@mf-types` copy uses its source declaration's key; a
- * stale copy keeps its own key and reports `stale-mf-types` (§5.3).
+ * stale or unverified copy keeps its own key and reports `stale-mf-types` or
+ * `unverified-mf-types` respectively (§5.3).
  */
 export const declKey = (node: ts.Node, ctx: ProgramCtx): string => {
   const mapped = mapMfTypesDecl(node, ctx);
@@ -17,7 +18,11 @@ export const declKey = (node: ts.Node, ctx: ProgramCtx): string => {
     if ('key' in mapped) {
       return mapped.key;
     }
-    reportStaleMfTypes(mapped.stale, node, ctx);
+    if ('stale' in mapped) {
+      reportMfTypesDiagnostic('stale-mf-types', mapped.stale, node, ctx);
+    } else {
+      reportMfTypesDiagnostic('unverified-mf-types', mapped.unverified, node, ctx);
+    }
   }
   return `${toRelPosix(ctx.repoRoot, node.getSourceFile().fileName)}:${node.getStart()}`;
 };

@@ -41,3 +41,13 @@ memory against concurrent consumers.
 ## Static entry forwarding limits
 
 Excluded entry modules are associated only through a statically proven default-re-export chain to a discovered entry whose extensions were checker-proven in its owning TypeScript program. Excluded entries that construct arrays or use unsupported forwarding remain unresolved; they are not added as program roots. Supporting broader discovered-entry roots would require explicit ownership, compiler-option, and performance/memory validation.
+
+## `@mf-types` copy verification limits
+
+Declaration copies under `frontend/@mf-types/@mf/<remote>/compiled-types/` are mapped to their
+source declarations by mirroring the path and matching the declaration name. Extension-point
+copies additionally require a checker-proven point-ID match: proven equal IDs map, proven
+mismatches are reported `stale-mf-types`, and copies whose source point ID the current program
+cannot prove (typically because the remote's sources are not part of that program) are reported
+`unverified-mf-types` and are not mapped — never treated as known-stale. Verifying these copies
+exactly would need a cross-program source-definition index, an owner-approved deferred follow-up.

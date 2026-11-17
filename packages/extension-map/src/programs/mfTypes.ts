@@ -28,7 +28,7 @@ import type { Loc, WorkspacePackage } from '../model/types';
  * the source file (checked transiently, never retained in the cache).
  */
 
-export type MfTypesMapping = { key: string; loc: Loc } | { stale: string };
+export type MfTypesMapping = { key: string; loc: Loc } | { stale: string } | { unverified: string };
 
 /** `frontend/@mf-types/@mf/<remote>/compiled-types/<rest>.d.ts` */
 const COPY_PATH = /^frontend\/@mf-types\/@mf\/([^/]+)\/compiled-types\/(.+)\.d\.ts$/;
@@ -163,15 +163,24 @@ const mapToSource = (
       return { stale: `${relFile}: source ${rel} declares no top-level '${name}'` };
     }
     // An extension-point copy maps only when the source's point-ID literal is
-    // proven equal; a differing — or unverifiable — ID is stale, never mapped.
+    // proven equal. A proven mismatch is stale; unavailable checker evidence
+    // (the source is not part of this program, or proves no literal point ID)
+    // is unverified — never mapped, and never claimed to be known-stale.
     const copyIds = pointIdsOf(node, ctx);
     if (copyIds !== undefined) {
-      const sourceIds = programFile ? pointIdsOf(found, ctx) : undefined;
-      if (sourceIds === undefined) {
+      if (!programFile) {
         return {
-          stale:
+          unverified:
             `${relFile}: point ID of '${name}' (${copyIds.join(', ')}) cannot be proven ` +
             `against ${rel}: the source is not part of this program`,
+        };
+      }
+      const sourceIds = pointIdsOf(found, ctx);
+      if (sourceIds === undefined) {
+        return {
+          unverified:
+            `${relFile}: point ID of '${name}' (${copyIds.join(', ')}) cannot be proven: ` +
+            `${rel} proves no literal point ID in this program`,
         };
       }
       if (!samePointIds(copyIds, sourceIds)) {
@@ -190,9 +199,10 @@ const mapToSource = (
 /**
  * Maps a declaration reached through an `@mf-types` copy to its source key and
  * location: `undefined` when the declaration's file is not a copy (or has no
- * name to map by), `{ stale: reason }` when the remote, source file or name is
- * missing, or when an extension-point copy's point ID is not proven equal to
- * the source's. Never recurses into `declKey` and never creates a program.
+ * name to map by), `{ stale: reason }` when the remote, source file, name or
+ * (proven) point ID is missing, and `{ unverified: reason }` when the source's
+ * point ID cannot be proven by the current program. Never recurses into
+ * `declKey` and never creates a program.
  */
 export const mapMfTypesDecl = (node: ts.Node, ctx: ProgramCtx): MfTypesMapping | undefined => {
   const relFile = toRelPosix(ctx.repoRoot, node.getSourceFile().fileName);
@@ -221,8 +231,17 @@ export const mapMfTypesDecl = (node: ts.Node, ctx: ProgramCtx): MfTypesMapping |
   return mapToSource(node, relFile, name, rest, expose.frontendDir, ctx, mapperFor(ctx));
 };
 
-/** Records a `stale-mf-types` diagnostic for a copy declaration, once per copy. */
-export const reportStaleMfTypes = (reason: string, node: ts.Node, ctx: ProgramCtx): void => {
+/**
+ * Records an `@mf-types` diagnostic for a copy declaration, once per copy:
+ * `stale-mf-types` for proven staleness, `unverified-mf-types` for source
+ * evidence the current program cannot prove.
+ */
+export const reportMfTypesDiagnostic = (
+  code: 'stale-mf-types' | 'unverified-mf-types',
+  reason: string,
+  node: ts.Node,
+  ctx: ProgramCtx,
+): void => {
   const mapper = mapperFor(ctx);
   const file = node.getSourceFile();
   const relFile = toRelPosix(ctx.repoRoot, file.fileName);
@@ -233,7 +252,7 @@ export const reportStaleMfTypes = (reason: string, node: ts.Node, ctx: ProgramCt
   mapper.reported.add(copyKey);
   const lineOf = (pos: number): number => file.getLineAndCharacterOfPosition(pos).line + 1;
   ctx.diagnostics.push(
-    makeDiagnostic('stale-mf-types', reason, {
+    makeDiagnostic(code, reason, {
       file: relFile,
       line: lineOf(node.getStart()),
       endLine: lineOf(node.getEnd()),

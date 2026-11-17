@@ -108,15 +108,32 @@ describe('@mf-types declaration copies', () => {
     expect(stale[0].message).toContain('rem.drift.copy');
     expect(stale[0].message).toContain('rem.drift.source');
     expect(stale[0].loc?.file.startsWith('frontend/@mf-types/')).toBe(true);
+    // a proven mismatch is never reported as unverified
+    expect(diagnostics.filter((d) => d.code === 'unverified-mf-types')).toHaveLength(0);
   });
 
-  it('does not map a point-type copy whose source ID cannot be proven in this program', () => {
+  it('reports an unverified copy whose source is not part of this program', () => {
     const { keys, diagnostics } = importKeys(CONSUMER, COPY_SPECIFIER, ['UnvP']);
     expect(keys.UnvP).toMatch(/^frontend\/@mf-types\//);
-    const stale = diagnostics.filter((d) => d.code === 'stale-mf-types');
-    expect(stale).toHaveLength(1);
-    expect(stale[0].message).toContain("point ID of 'UnvP'");
-    expect(stale[0].message).toContain('cannot be proven');
+    const unverified = diagnostics.filter((d) => d.code === 'unverified-mf-types');
+    expect(unverified).toHaveLength(1);
+    expect(unverified[0].message).toContain("point ID of 'UnvP'");
+    expect(unverified[0].message).toContain('cannot be proven');
+    expect(unverified[0].message).toContain('not part of this program');
+    // unavailable evidence must not inflate the stale count
+    expect(diagnostics.filter((d) => d.code === 'stale-mf-types')).toHaveLength(0);
+  });
+
+  it('reports an unverified copy whose source proves no point ID', () => {
+    const { keys, diagnostics } = importKeys(CONSUMER, COPY_SPECIFIER, ['ShapeP']);
+    expect(keys.ShapeP).toMatch(/^frontend\/@mf-types\//);
+    const unverified = diagnostics.filter((d) => d.code === 'unverified-mf-types');
+    expect(unverified).toHaveLength(1);
+    expect(unverified[0].message).toContain("point ID of 'ShapeP'");
+    expect(unverified[0].message).toContain('no literal point ID');
+    // the source file is present in this program; the reason must not claim it is absent
+    expect(unverified[0].message).not.toContain('not part of this program');
+    expect(diagnostics.filter((d) => d.code === 'stale-mf-types')).toHaveLength(0);
   });
 
   it('reports each stale copy only once', () => {
