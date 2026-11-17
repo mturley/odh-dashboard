@@ -39,7 +39,7 @@ describe('extension-map CLI', () => {
     try {
       const r = runCli(['generate', '--json', outFile], pkgDir);
       expect(r.status).toBe(0);
-      expect(r.stdout).toContain('documentation rendering is not implemented yet');
+      expect(r.stdout).toContain('extension-map generate: wrote');
       expect(r.stderr).toContain('extension-map:');
       // The child analyzed the real repo: the model exists and carries the
       // discovered entries (the empty stub model is gone since discovery).

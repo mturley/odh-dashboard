@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import { runAnalysis } from './runtime/runAnalysis';
 import { findRepoRoot } from './repoRoot';
+import { renderAll } from './render/renderAll';
+import { writeGenerated } from './output/write';
 
 const USAGE = 'Usage: extension-map <generate|check>';
 
@@ -14,22 +16,23 @@ const generate = async (args: string[]): Promise<number> => {
     console.error(`--json requires a <file> argument\n${USAGE}`);
     return 2;
   }
-  let model;
   try {
-    model = await runAnalysis({
-      repoRoot: findRepoRoot(),
+    const repoRoot = findRepoRoot();
+    const model = await runAnalysis({
+      repoRoot,
       sourceCache: args.includes('--no-source-cache') ? false : undefined,
     });
+    const generated = renderAll(model);
+    writeGenerated(repoRoot, generated);
+    if (jsonFile !== undefined) {
+      fs.writeFileSync(jsonFile, `${JSON.stringify(model, null, 2)}\n`);
+    }
+    console.log(`extension-map generate: wrote ${generated.length} package pages`);
+    return 0;
   } catch (error) {
     console.error(`extension-map generate: ${errorMessage(error)}`);
     return 1;
   }
-  // No output is written until the analysis succeeded.
-  if (jsonFile !== undefined) {
-    fs.writeFileSync(jsonFile, `${JSON.stringify(model, null, 2)}\n`);
-  }
-  console.log('extension-map generate: documentation rendering is not implemented yet');
-  return 0;
 };
 
 const check = (): number => {
