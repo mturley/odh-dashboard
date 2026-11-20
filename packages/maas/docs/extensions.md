@@ -2,6 +2,25 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.navigation/section](#appnavigationsection)
+    - [app.route](#approute)
+    - [app.task/item](#apptaskitem)
+  - [core](#core)
+    - [core.detail/tab](#coredetailtab)
+  - [model-serving](#model-serving)
+    - [model-serving.deployment/wizard-field](#model-servingdeploymentwizard-field)
+    - [model-serving.deployment/wizard-field-apply](#model-servingdeploymentwizard-field-apply)
+    - [model-serving.deployment/wizard-field-deployment-functions](#model-servingdeploymentwizard-field-deployment-functions)
+    - [model-serving.deployment/wizard-field-extractor](#model-servingdeploymentwizard-field-extractor)
+    - [model-serving.deployments/banner](#model-servingdeploymentsbanner)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -28,14 +47,14 @@ flowchart LR
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_app_task_item_001b33
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/maas | [@odh-dashboard/maas](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/odhExtensions/odhExtensions.ts#L21-L31) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L57-L70)<br>[app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L71-L83)<br>[app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L32-L44) |
-| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection)<br>[app.navigation/section](../frontend/src/odh/odhExtensions/odhExtensions.ts#L45-L56) |
-| app.route ×7 | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L84-L93)<br>[app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L107-L116)<br>[app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L117-L126)<br>[app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L127-L136)<br>[app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L137-L146)<br>[app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L147-L156)<br>[app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L157-L166) |
-| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem)<br>[app.task/item](../frontend/src/odh/odhExtensions/odhExtensions.ts#L167-L179) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/maas](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/odhExtensions/odhExtensions.ts:21](../frontend/src/odh/odhExtensions/odhExtensions.ts#L21-L31) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/odhExtensions/odhExtensions.ts:57](../frontend/src/odh/odhExtensions/odhExtensions.ts#L57-L70)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:71](../frontend/src/odh/odhExtensions/odhExtensions.ts#L71-L83)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:32](../frontend/src/odh/odhExtensions/odhExtensions.ts#L32-L44) |
+| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) | [../frontend/src/odh/odhExtensions/odhExtensions.ts:45](../frontend/src/odh/odhExtensions/odhExtensions.ts#L45-L56) |
+| app.route ×7 | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/odhExtensions/odhExtensions.ts:84](../frontend/src/odh/odhExtensions/odhExtensions.ts#L84-L93)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:107](../frontend/src/odh/odhExtensions/odhExtensions.ts#L107-L116)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:117](../frontend/src/odh/odhExtensions/odhExtensions.ts#L117-L126)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:127](../frontend/src/odh/odhExtensions/odhExtensions.ts#L127-L136)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:137](../frontend/src/odh/odhExtensions/odhExtensions.ts#L137-L146)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:147](../frontend/src/odh/odhExtensions/odhExtensions.ts#L147-L156)<br>[../frontend/src/odh/odhExtensions/odhExtensions.ts:157](../frontend/src/odh/odhExtensions/odhExtensions.ts#L157-L166) |
+| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | [../frontend/src/odh/odhExtensions/odhExtensions.ts:167](../frontend/src/odh/odhExtensions/odhExtensions.ts#L167-L179) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -43,6 +62,77 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### app.area
+
+| featureFlags | customCondition | id | Source |
+| --- | --- | --- | --- |
+| `"modelAsService"` | [not resolved](#diagnostics) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | [app.area](../frontend/src/odh/odhExtensions/odhExtensions.ts#L21-L31) |
+
+**Not resolved**
+
+| Location | Reason | Link |
+| --- | --- | --- |
+| properties.customCondition | CodeRef body is not a supported dynamic import | [diagnostics](#diagnostics) |
+
+#### app.navigation/href
+
+**Contribution:** `app.navigation/href` at `packages/maas/frontend/src/odh/odhExtensions/odhExtensions.ts:57`
+
+- **id**: `"maas-tokens-view"`
+- **title**: `"API keys"`
+- **section**: `"gen-ai-studio"`
+- **href**: `"/maas/tokens"`
+- **path**: `"/maas/tokens/*"`
+- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
+- **Disallows**: `MAAS_MY_SUBSCRIPTIONS` (`"mySubscriptions"`)
+- **Source**: [app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L57-L70)
+
+**Contribution:** `app.navigation/href` at `packages/maas/frontend/src/odh/odhExtensions/odhExtensions.ts:71`
+
+- **id**: `"maas-tokens-subscriptions-view"`
+- **title**: `"API keys"`
+- **section**: `"gen-ai-studio"`
+- **href**: `"/maas/keys-and-subs"`
+- **path**: `"/maas/keys-and-subs/*"`
+- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
+- **Disallows**: —
+- **Source**: [app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L71-L83)
+
+**Contribution:** `app.navigation/href` at `packages/maas/frontend/src/odh/odhExtensions/odhExtensions.ts:32`
+
+- **id**: `"maas-governance-view"`
+- **title**: `"MaaS governance"`
+- **section**: `"settings"`
+- **href**: `"/maas/maas-governance"`
+- **path**: `"/maas/maas-governance/*"`
+- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `ADMIN_USER` (`"ADMIN_USER"`)
+- **Disallows**: —
+- **Source**: [app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L32-L44)
+
+#### app.navigation/section
+
+| id | title | group | iconRef | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"gen-ai-studio"` | `"Gen AI studio"` | `"4_gen_ai_studio"` | packages/maas/frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#L3-L11) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#L3-L11) | [app.navigation/section](../frontend/src/odh/odhExtensions/odhExtensions.ts#L45-L56) |
+
+#### app.route
+
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | `"/maas/maas-governance/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `ADMIN_USER` (`"ADMIN_USER"`) | packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L84-L93) |
+| packages/maas/frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#[ExternalProvidersWrapper](../frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#L13-L20) | `"/ai-hub/models/deployments/external-providers/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#[ExternalProvidersWrapper](../frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#L13-L20) | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L107-L116) |
+| packages/maas/frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#[ExternalModelsCreateWrapper](../frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#L5-L9) | `"/ai-hub/models/deployments/external/:namespace/register"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#[ExternalModelsCreateWrapper](../frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#L5-L9) | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L117-L126) |
+| packages/maas/frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#[ExternalModelsEditWrapper](../frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#L5-L9) | `"/ai-hub/models/deployments/external/:namespace/:modelName/edit"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#[ExternalModelsEditWrapper](../frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#L5-L9) | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L127-L136) |
+| packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | `"/maas/tokens/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L137-L146) |
+| packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | `"/maas/keys-and-subs/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L147-L156) |
+| packages/maas/frontend/src/odh/odhExtensions/MaaSRedirect.tsx#[MaaSRedirect](../frontend/src/odh/odhExtensions/MaaSRedirect.tsx#L5-L12) | `"/maas"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/MaaSRedirect.tsx#[MaaSRedirect](../frontend/src/odh/odhExtensions/MaaSRedirect.tsx#L5-L12) | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L157-L166) |
+
+#### app.task/item
+
+| id | group | title | destination | order | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"genai-api-keys"` | `"gen-ai-studio"` | `"Manage API keys"` | href: `"/maas/tokens"` | `"5_api_keys"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | [app.task/item](../frontend/src/odh/odhExtensions/odhExtensions.ts#L167-L179) |
 
 ### core
 
@@ -53,10 +143,10 @@ flowchart LR
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_core_detail_tab_1d8ba9
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/maas | [@odh-dashboard/maas](#contributes) |
-| core.detail/tab | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab)<br>[core.detail/tab](../frontend/src/odh/odhExtensions/odhExtensions.ts#L94-L106) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/maas](#loading-paths) | — | — |
+| core.detail/tab | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) | [../frontend/src/odh/odhExtensions/odhExtensions.ts:94](../frontend/src/odh/odhExtensions/odhExtensions.ts#L94-L106) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -64,6 +154,12 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### core.detail/tab
+
+| id | title | component | group | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"external-models"` | `"External models"` | packages/maas/frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#[ExternalModelsWrapper](../frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#L5-L9) | `GLOBAL_DEPLOYMENTS_DETAIL_TAB_GROUP` (`"model-serving.global-deployments"`) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#[ExternalModelsWrapper](../frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#L5-L9) | [core.detail/tab](../frontend/src/odh/odhExtensions/odhExtensions.ts#L94-L106) |
 
 ### model-serving
 
@@ -82,14 +178,14 @@ flowchart LR
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_model_serving_deployments_banner_1a4c0c
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/maas | [@odh-dashboard/maas](#contributes) |
-| model-serving.deployment/wizard-field | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field)<br>[model-serving.deployment/wizard-field](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L23-L35) |
-| model-serving.deployment/wizard-field-apply | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply)<br>[model-serving.deployment/wizard-field-apply](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L36-L49) |
-| model-serving.deployment/wizard-field-deployment-functions | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions)<br>[model-serving.deployment/wizard-field-deployment-functions](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L64-L77) |
-| model-serving.deployment/wizard-field-extractor | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor)<br>[model-serving.deployment/wizard-field-extractor](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L50-L63) |
-| model-serving.deployments/banner | [model-serving.deployments/banner](../../model-serving/docs/extensions.md#model-servingdeploymentsbanner)<br>[model-serving.deployments/banner](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L78-L90) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/maas](#loading-paths) | — | — |
+| model-serving.deployment/wizard-field | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | [../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts:23](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L23-L35) |
+| model-serving.deployment/wizard-field-apply | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | [../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts:36](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L36-L49) |
+| model-serving.deployment/wizard-field-deployment-functions | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) | [../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts:64](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L64-L77) |
+| model-serving.deployment/wizard-field-extractor | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | [../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts:50](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L50-L63) |
+| model-serving.deployments/banner | [model-serving.deployments/banner](../../model-serving/docs/extensions.md#model-servingdeploymentsbanner) | [../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts:78](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L78-L90) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -98,112 +194,11 @@ flowchart LR
 - `--x` suppression
 - `-- "patch" -->` patch
 
-#### app.area
-
-- **featureFlags**: `"modelAsService"`
-- **customCondition**: [not resolved](#diagnostics)
-- **id**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/odhExtensions/odhExtensions.ts#L21-L31)
-
-**Not resolved**
-
-| Location | Reason | Link |
-| --- | --- | --- |
-| properties.customCondition | CodeRef body is not a supported dynamic import | [diagnostics](#diagnostics) |
-
-#### app.navigation/href
-
-- **id**: `"maas-tokens-view"`
-- **title**: `"API keys"`
-- **section**: `"gen-ai-studio"`
-- **href**: `"/maas/tokens"`
-- **path**: `"/maas/tokens/*"`
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
-- **Disallows**: `MAAS_MY_SUBSCRIPTIONS` (`"mySubscriptions"`)
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L57-L70)
-
-- **id**: `"maas-tokens-subscriptions-view"`
-- **title**: `"API keys"`
-- **section**: `"gen-ai-studio"`
-- **href**: `"/maas/keys-and-subs"`
-- **path**: `"/maas/keys-and-subs/*"`
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L71-L83)
-
-- **id**: `"maas-governance-view"`
-- **title**: `"MaaS governance"`
-- **section**: `"settings"`
-- **href**: `"/maas/maas-governance"`
-- **path**: `"/maas/maas-governance/*"`
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../frontend/src/odh/odhExtensions/odhExtensions.ts#L32-L44)
-
-#### app.navigation/section
-
-- **id**: `"gen-ai-studio"`
-- **title**: `"Gen AI studio"`
-- **group**: `"4_gen_ai_studio"`
-- **iconRef**: packages/maas/frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#L3-L11)
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
-- **Disallows**: 
-- **CodeRef target**: packages/maas/frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/odhExtensions/GenAiStudioNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../frontend/src/odh/odhExtensions/odhExtensions.ts#L45-L56)
-
-#### app.route
-
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | `"/maas/maas-governance/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `ADMIN_USER` (`"ADMIN_USER"`) |  | packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) |  | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L84-L93) |
-| packages/maas/frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#[ExternalProvidersWrapper](../frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#L13-L20) | `"/ai-hub/models/deployments/external-providers/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#[ExternalProvidersWrapper](../frontend/src/odh/odhExtensions/ExternalProvidersWrapper.tsx#L13-L20) |  | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L107-L116) |
-| packages/maas/frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#[ExternalModelsCreateWrapper](../frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#L5-L9) | `"/ai-hub/models/deployments/external/:namespace/register"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#[ExternalModelsCreateWrapper](../frontend/src/odh/odhExtensions/ExternalModelsCreateWrapper.tsx#L5-L9) |  | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L117-L126) |
-| packages/maas/frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#[ExternalModelsEditWrapper](../frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#L5-L9) | `"/ai-hub/models/deployments/external/:namespace/:modelName/edit"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#[ExternalModelsEditWrapper](../frontend/src/odh/odhExtensions/ExternalModelsEditWrapper.tsx#L5-L9) |  | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L127-L136) |
-| packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | `"/maas/tokens/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) |  | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L137-L146) |
-| packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) | `"/maas/keys-and-subs/*"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/odhExtensions/MaaSWrapper.tsx#[MaaSWrapper](../frontend/src/odh/odhExtensions/MaaSWrapper.tsx#L5-L9) |  | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L147-L156) |
-| packages/maas/frontend/src/odh/odhExtensions/MaaSRedirect.tsx#[MaaSRedirect](../frontend/src/odh/odhExtensions/MaaSRedirect.tsx#L5-L12) | `"/maas"` | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/odhExtensions/MaaSRedirect.tsx#[MaaSRedirect](../frontend/src/odh/odhExtensions/MaaSRedirect.tsx#L5-L12) |  | [app.route](../frontend/src/odh/odhExtensions/odhExtensions.ts#L157-L166) |
-
-#### app.task/item
-
-- **id**: `"genai-api-keys"`
-- **group**: `"gen-ai-studio"`
-- **title**: `"Manage API keys"`
-- **destination**: href: `"/maas/tokens"`
-- **order**: `"5_api_keys"`
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../frontend/src/odh/odhExtensions/odhExtensions.ts#L167-L179)
-
-#### core.detail/tab
-
-- **id**: `"external-models"`
-- **title**: `"External models"`
-- **component**: packages/maas/frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#[ExternalModelsWrapper](../frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#L5-L9)
-- **group**: `GLOBAL_DEPLOYMENTS_DETAIL_TAB_GROUP` (`"model-serving.global-deployments"`)
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`)
-- **Disallows**: 
-- **CodeRef target**: packages/maas/frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#[ExternalModelsWrapper](../frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#L5-L9)
-- **Included in**: 
-- **Source**: [core.detail/tab](../frontend/src/odh/odhExtensions/odhExtensions.ts#L94-L106)
-
 #### model-serving.deployment/wizard-field
 
-| platform | field | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#[MaaSEndpointFieldWizardField](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#L118-L193) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#[MaaSEndpointFieldWizardField](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#L118-L193) |  | [model-serving.deployment/wizard-field](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L23-L35) |
+| platform | field | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#[MaaSEndpointFieldWizardField](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#L118-L193) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#[MaaSEndpointFieldWizardField](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/MaaSEndpointCheckbox.tsx#L118-L193) | [model-serving.deployment/wizard-field](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L23-L35) |
 
 **Not resolved**
 
@@ -231,43 +226,27 @@ flowchart LR
 
 #### model-serving.deployment/wizard-field-apply
 
-- **fieldId**: `MAAS_ENDPOINT_FIELD_ID` (`"maas/save-as-maas-checkbox"`)
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **apply**: packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[applyMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L17-L56)
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
-- **CodeRef target**: packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[applyMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L17-L56)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L36-L49)
+| fieldId | platform | apply | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `MAAS_ENDPOINT_FIELD_ID` (`"maas/save-as-maas-checkbox"`) | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[applyMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L17-L56) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[applyMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L17-L56) | [model-serving.deployment/wizard-field-apply](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L36-L49) |
 
 #### model-serving.deployment/wizard-field-deployment-functions
 
-- **fieldId**: `MAAS_ENDPOINT_FIELD_ID` (`"maas/save-as-maas-checkbox"`)
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **preDeploy**: packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[preDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L54-L134)
-- **postDeploy**: packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[postDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L149-L236)
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
-- **CodeRef target**: packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[preDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L54-L134), packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[postDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L149-L236)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-deployment-functions](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L64-L77)
+| fieldId | platform | preDeploy | postDeploy | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `MAAS_ENDPOINT_FIELD_ID` (`"maas/save-as-maas-checkbox"`) | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[preDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L54-L134) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[postDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L149-L236) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[preDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L54-L134), packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#[postDeployMaaSModelRef](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maas-model-ref.ts#L149-L236) | [model-serving.deployment/wizard-field-deployment-functions](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L64-L77) |
 
 #### model-serving.deployment/wizard-field-extractor
 
-- **fieldId**: `MAAS_ENDPOINT_FIELD_ID` (`"maas/save-as-maas-checkbox"`)
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[extractMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L62-L71)
-- **Requires**: `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
-- **CodeRef target**: packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[extractMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L62-L71)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L50-L63)
+| fieldId | platform | extract | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `MAAS_ENDPOINT_FIELD_ID` (`"maas/save-as-maas-checkbox"`) | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[extractMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L62-L71) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`), `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/maas/frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#[extractMaaSEndpointData](../frontend/src/odh/modelServingExtensions/modelDeploymentWizard/maasDeploymentTransformer.ts#L62-L71) | [model-serving.deployment/wizard-field-extractor](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L50-L63) |
 
 #### model-serving.deployments/banner
 
-| id | component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"maas-published-post-deploy-alert"` | packages/maas/frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#[MaaSPublishedInternalPostDeployAlert](../frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#L83-L94) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) |  | packages/maas/frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#[MaaSPublishedInternalPostDeployAlert](../frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#L83-L94) |  | [model-serving.deployments/banner](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L78-L90) |
+| id | component | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `"maas-published-post-deploy-alert"` | packages/maas/frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#[MaaSPublishedInternalPostDeployAlert](../frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#L83-L94) | `MODEL_AS_SERVICE_ID` (`"modelAsService"`) | packages/maas/frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#[MaaSPublishedInternalPostDeployAlert](../frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#L83-L94) | [model-serving.deployments/banner](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L78-L90) |
 
 ## Diagnostics
 

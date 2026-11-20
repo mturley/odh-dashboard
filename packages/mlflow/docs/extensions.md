@@ -2,6 +2,18 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Defines](#defines)
+  - [mlflow.project/selector](#mlflowprojectselector)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.route](#approute)
+  - [core](#core)
+    - [core.action](#coreaction)
+  - [mlflow](#mlflow)
+    - [mlflow.project/selector](#mlflowprojectselector-1)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -34,52 +46,10 @@ flowchart LR
   pkg_n__odh_dashboard_mlflow_1dd153 -. "federated" .-> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/mlflow | [@odh-dashboard/mlflow](#contributes) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L36-L45) |
-
-- `-->` declared or type-resolved contribution
-- `==>` derived relationship
-- `-. "rendered in" .->` rendered in one hop
-- `-. "federated" .->` federated contribution
-- `--x` suppression
-- `-- "patch" -->` patch
-
-### core
-
-```mermaid
-flowchart LR
-  pkg_n__odh_dashboard_mlflow_1dd153["@odh-dashboard/mlflow"]
-  point_n_core_action_c380ca("core.action")
-  pkg_n__odh_dashboard_mlflow_1dd153 -. "federated" .-> point_n_core_action_c380ca
-```
-
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/mlflow | [@odh-dashboard/mlflow](#contributes) |
-| core.action | [core.action](../../plugin-core/docs/extensions.md#coreaction)<br>[core.action](../frontend/src/odh/extensions.ts#L46-L57) |
-
-- `-->` declared or type-resolved contribution
-- `==>` derived relationship
-- `-. "rendered in" .->` rendered in one hop
-- `-. "federated" .->` federated contribution
-- `--x` suppression
-- `-- "patch" -->` patch
-
-### mlflow
-
-```mermaid
-flowchart LR
-  pkg_n__odh_dashboard_mlflow_1dd153["@odh-dashboard/mlflow"]
-  point_n_mlflow_project_selector_073795("mlflow.project/selector")
-  pkg_n__odh_dashboard_mlflow_1dd153 --> point_n_mlflow_project_selector_073795
-```
-
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/mlflow | [@odh-dashboard/mlflow](#contributes) |
-| mlflow.project/selector | [mlflow.project/selector](extensions.md#mlflowprojectselector)<br>[mlflow.project/selector](../extensions.ts#L4-L9) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/mlflow](#loading-paths) | — | — |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:36](../frontend/src/odh/extensions.ts#L36-L45) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -90,24 +60,60 @@ flowchart LR
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/mlflow/frontend/src/odh/MlflowWrapper.tsx#[MlflowWrapper](../frontend/src/odh/MlflowWrapper.tsx#L18-L26) | `"/mlflow-bff/main-view/*"` |  |  | packages/mlflow/frontend/src/odh/MlflowWrapper.tsx#[MlflowWrapper](../frontend/src/odh/MlflowWrapper.tsx#L18-L26) |  | [app.route](../frontend/src/odh/extensions.ts#L36-L45) |
+| component | path | CodeRef target | Source |
+| --- | --- | --- | --- |
+| packages/mlflow/frontend/src/odh/MlflowWrapper.tsx#[MlflowWrapper](../frontend/src/odh/MlflowWrapper.tsx#L18-L26) | `"/mlflow-bff/main-view/*"` | packages/mlflow/frontend/src/odh/MlflowWrapper.tsx#[MlflowWrapper](../frontend/src/odh/MlflowWrapper.tsx#L18-L26) | [app.route](../frontend/src/odh/extensions.ts#L36-L45) |
+
+### core
+
+```mermaid
+flowchart LR
+  pkg_n__odh_dashboard_mlflow_1dd153["@odh-dashboard/mlflow"]
+  point_n_core_action_c380ca("core.action")
+  pkg_n__odh_dashboard_mlflow_1dd153 -. "federated" .-> point_n_core_action_c380ca
+```
+
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/mlflow](#loading-paths) | — | — |
+| core.action | [core.action](../../plugin-core/docs/extensions.md#coreaction) | [../frontend/src/odh/extensions.ts:46](../frontend/src/odh/extensions.ts#L46-L57) |
+
+- `-->` declared or type-resolved contribution
+- `==>` derived relationship
+- `-. "rendered in" .->` rendered in one hop
+- `-. "federated" .->` federated contribution
+- `--x` suppression
+- `-- "patch" -->` patch
 
 #### core.action
 
-- **id**: `"register-mcp-server"`
-- **label**: `"Register MCP server"`
-- **component**: packages/mlflow/frontend/src/odh/components/McpServerRegisterAction.tsx#[McpServerRegisterActionExtension](../frontend/src/odh/components/McpServerRegisterAction.tsx#L91-L96)
-- **group**: `"mcp-catalog.server-actions"`
-- **Requires**: `SupportedArea.MCP_CATALOG` (`"mcp-catalog"`), `SupportedArea.MCP_REGISTRY` (`"mcp-registry"`)
-- **Disallows**: 
-- **CodeRef target**: packages/mlflow/frontend/src/odh/components/McpServerRegisterAction.tsx#[McpServerRegisterActionExtension](../frontend/src/odh/components/McpServerRegisterAction.tsx#L91-L96)
-- **Included in**: 
-- **Source**: [core.action](../frontend/src/odh/extensions.ts#L46-L57)
+| id | label | component | group | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"register-mcp-server"` | `"Register MCP server"` | packages/mlflow/frontend/src/odh/components/McpServerRegisterAction.tsx#[McpServerRegisterActionExtension](../frontend/src/odh/components/McpServerRegisterAction.tsx#L91-L96) | `"mcp-catalog.server-actions"` | `SupportedArea.MCP_CATALOG` (`"mcp-catalog"`), `SupportedArea.MCP_REGISTRY` (`"mcp-registry"`) | packages/mlflow/frontend/src/odh/components/McpServerRegisterAction.tsx#[McpServerRegisterActionExtension](../frontend/src/odh/components/McpServerRegisterAction.tsx#L91-L96) | [core.action](../frontend/src/odh/extensions.ts#L46-L57) |
+
+### mlflow
+
+```mermaid
+flowchart LR
+  pkg_n__odh_dashboard_mlflow_1dd153["@odh-dashboard/mlflow"]
+  point_n_mlflow_project_selector_073795("mlflow.project/selector")
+  pkg_n__odh_dashboard_mlflow_1dd153 --> point_n_mlflow_project_selector_073795
+```
+
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/mlflow](#loading-paths) | — | — |
+| mlflow.project/selector | [mlflow.project/selector](extensions.md#mlflowprojectselector) | [../extensions.ts:4](../extensions.ts#L4-L9) |
+
+- `-->` declared or type-resolved contribution
+- `==>` derived relationship
+- `-. "rendered in" .->` rendered in one hop
+- `-. "federated" .->` federated contribution
+- `--x` suppression
+- `-- "patch" -->` patch
 
 #### mlflow.project/selector
 
-| component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| packages/mlflow/src/projectSelector/ProjectSelectorField.tsx#[ProjectSelectorField](../src/projectSelector/ProjectSelectorField.tsx#L9-L11) |  |  | packages/mlflow/src/projectSelector/ProjectSelectorField.tsx#[ProjectSelectorField](../src/projectSelector/ProjectSelectorField.tsx#L9-L11) |  | [mlflow.project/selector](../extensions.ts#L4-L9) |
+| component | CodeRef target | Source |
+| --- | --- | --- |
+| packages/mlflow/src/projectSelector/ProjectSelectorField.tsx#[ProjectSelectorField](../src/projectSelector/ProjectSelectorField.tsx#L9-L11) | packages/mlflow/src/projectSelector/ProjectSelectorField.tsx#[ProjectSelectorField](../src/projectSelector/ProjectSelectorField.tsx#L9-L11) | [mlflow.project/selector](../extensions.ts#L4-L9) |

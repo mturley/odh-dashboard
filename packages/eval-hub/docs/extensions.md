@@ -2,6 +2,14 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.route](#approute)
+    - [app.task/item](#apptaskitem)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -23,12 +31,12 @@ flowchart LR
   pkg_n__odh_dashboard_eval_hub_b5b956 -. "federated" .-> point_n_app_task_item_001b33
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/eval-hub | [@odh-dashboard/eval-hub](#contributes) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L9-L22) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L23-L32) |
-| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem)<br>[app.task/item](../frontend/src/odh/extensions.ts#L33-L45) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/eval-hub](#loading-paths) | — | — |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/extensions.ts:9](../frontend/src/odh/extensions.ts#L9-L22) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:23](../frontend/src/odh/extensions.ts#L23-L32) |
+| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | [../frontend/src/odh/extensions.ts:33](../frontend/src/odh/extensions.ts#L33-L45) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -39,6 +47,8 @@ flowchart LR
 
 #### app.navigation/href
 
+**Contribution:** `app.navigation/href` at `packages/eval-hub/frontend/src/odh/extensions.ts:9`
+
 - **id**: `"eval-hub"`
 - **title**: `"Evaluations"`
 - **section**: `"develop-and-train"`
@@ -46,26 +56,16 @@ flowchart LR
 - **href**: `"/evaluation"`
 - **path**: `"/evaluation/*"`
 - **Requires**: `SupportedArea.LM_EVAL` (`"lm-eval"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L9-L22)
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/eval-hub/frontend/src/odh/EvalHubWrapper.tsx#[EvalHubWrapper](../frontend/src/odh/EvalHubWrapper.tsx#L80-L84) | `"/evaluation/*"` | `SupportedArea.LM_EVAL` (`"lm-eval"`) |  | packages/eval-hub/frontend/src/odh/EvalHubWrapper.tsx#[EvalHubWrapper](../frontend/src/odh/EvalHubWrapper.tsx#L80-L84) |  | [app.route](../frontend/src/odh/extensions.ts#L23-L32) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/eval-hub/frontend/src/odh/EvalHubWrapper.tsx#[EvalHubWrapper](../frontend/src/odh/EvalHubWrapper.tsx#L80-L84) | `"/evaluation/*"` | `SupportedArea.LM_EVAL` (`"lm-eval"`) | packages/eval-hub/frontend/src/odh/EvalHubWrapper.tsx#[EvalHubWrapper](../frontend/src/odh/EvalHubWrapper.tsx#L80-L84) | [app.route](../frontend/src/odh/extensions.ts#L23-L32) |
 
 #### app.task/item
 
-- **id**: `"develop-evaluate"`
-- **group**: `"develop-and-train"`
-- **title**: `"Evaluate models"`
-- **destination**: href: `"/evaluation"`
-- **order**: `"2_evaluate"`
-- **Requires**: `SupportedArea.LM_EVAL` (`"lm-eval"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../frontend/src/odh/extensions.ts#L33-L45)
+| id | group | title | destination | order | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"develop-evaluate"` | `"develop-and-train"` | `"Evaluate models"` | href: `"/evaluation"` | `"2_evaluate"` | `SupportedArea.LM_EVAL` (`"lm-eval"`) | [app.task/item](../frontend/src/odh/extensions.ts#L33-L45) |

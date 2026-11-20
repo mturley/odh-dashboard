@@ -2,6 +2,30 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.route](#approute)
+    - [app.tab-route/tab](#apptab-routetab)
+  - [model-serving](#model-serving)
+    - [model-serving.deployed-model/serving-runtime](#model-servingdeployed-modelserving-runtime)
+    - [model-serving.deployment/assemble-model-resource](#model-servingdeploymentassemble-model-resource)
+    - [model-serving.deployment/deploy](#model-servingdeploymentdeploy)
+    - [model-serving.deployment/form-data](#model-servingdeploymentform-data)
+    - [model-serving.deployment/tracking-properties](#model-servingdeploymenttracking-properties)
+    - [model-serving.deployment/wizard-field](#model-servingdeploymentwizard-field)
+    - [model-serving.deployment/wizard-field-apply](#model-servingdeploymentwizard-field-apply)
+    - [model-serving.deployment/wizard-field-deployment-functions](#model-servingdeploymentwizard-field-deployment-functions)
+    - [model-serving.deployment/wizard-field-extractor](#model-servingdeploymentwizard-field-extractor)
+    - [model-serving.deployment/wizard-field-override](#model-servingdeploymentwizard-field-override)
+    - [model-serving.deployments-table/start-stop-action](#model-servingdeployments-tablestart-stop-action)
+    - [model-serving.platform/delete-deployment](#model-servingplatformdelete-deployment)
+    - [model-serving.platform/watch-deployments](#model-servingplatformwatch-deployments)
+    - [model-serving.runtime-image/install-target](#model-servingruntime-imageinstall-target)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -23,12 +47,12 @@ flowchart LR
   pkg_n__odh_dashboard_llmd_serving_2d801a --> point_n_app_tab_route_tab_10b1cd
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/llmd-serving | [@odh-dashboard/llmd-serving](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../extensions/extensions.ts#L417-L424) |
-| app.route ×12 | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../extensions/extensions.ts#L626-L638)<br>[app.route](../extensions/extensions.ts#L639-L651)<br>[app.route](../extensions/extensions.ts#L652-L664)<br>[app.route](../extensions/extensions.ts#L707-L717)<br>[app.route](../extensions/extensions.ts#L742-L751)<br>[app.route](../extensions/extensions.ts#L776-L785) |
-| app.tab-route/tab | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab)<br>[app.tab-route/tab](../extensions/extensions.ts#L683-L696)<br>[app.tab-route/tab](../extensions/extensions.ts#L719-L731)<br>[app.tab-route/tab](../extensions/extensions.ts#L753-L765) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/llmd-serving](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../extensions/extensions.ts:417](../extensions/extensions.ts#L417-L424) |
+| app.route ×12 | [app.route](../../plugin-core/docs/extensions.md#approute) | [../extensions/extensions.ts:626](../extensions/extensions.ts#L626-L638)<br>[../extensions/extensions.ts:639](../extensions/extensions.ts#L639-L651)<br>[../extensions/extensions.ts:652](../extensions/extensions.ts#L652-L664)<br>[../extensions/extensions.ts:707](../extensions/extensions.ts#L707-L717)<br>[../extensions/extensions.ts:742](../extensions/extensions.ts#L742-L751)<br>[../extensions/extensions.ts:776](../extensions/extensions.ts#L776-L785) |
+| app.tab-route/tab | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | [../extensions/extensions.ts:683](../extensions/extensions.ts#L683-L696)<br>[../extensions/extensions.ts:719](../extensions/extensions.ts#L719-L731)<br>[../extensions/extensions.ts:753](../extensions/extensions.ts#L753-L765) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -36,6 +60,69 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### app.area
+
+| reliantAreas | featureFlags | id | Source |
+| --- | --- | --- | --- |
+| `SupportedArea.K_SERVE` (`"kserve"`) | `"disableLLMd"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | [app.area](../extensions/extensions.ts#L417-L424) |
+
+#### app.route
+
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| [not resolved](#diagnostics) | `"/settings/model-resources-operations/llm-accelerator-configs/*"` | `LLMD_SERVING_ID` (`"llmd-serving"`), `ADMIN_USER` (`"ADMIN_USER"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | — | [app.route](../extensions/extensions.ts#L626-L638) |
+| [not resolved](#diagnostics) | `"/settings/model-resources-operations/llmd-topology-configurations/*"` | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) | — | [app.route](../extensions/extensions.ts#L639-L651) |
+| [not resolved](#diagnostics) | `"/settings/model-resources-operations/llmd-routing-configurations/*"` | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) | — | [app.route](../extensions/extensions.ts#L652-L664) |
+| packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#[LlmInferenceServiceConfigFormRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#L24-L40) | [not resolved](#diagnostics) | `LLMD_SERVING_ID` (`"llmd-serving"`), `ADMIN_USER` (`"ADMIN_USER"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#[LlmInferenceServiceConfigFormRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#L24-L40) | [app.route](../extensions/extensions.ts#L707-L717) |
+| packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#[TopologyConfigFormRoutes](../src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#L22-L32) | [not resolved](#diagnostics) | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) | packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#[TopologyConfigFormRoutes](../src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#L22-L32) | [app.route](../extensions/extensions.ts#L742-L751) |
+| packages/llmd-serving/src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#[RoutingConfigFormRoutes](../src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#L22-L32) | [not resolved](#diagnostics) | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) | packages/llmd-serving/src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#[RoutingConfigFormRoutes](../src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#L22-L32) | [app.route](../extensions/extensions.ts#L776-L785) |
+
+**Not resolved**
+
+| Location | Reason | Link |
+| --- | --- | --- |
+| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
+| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
+| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
+| properties.path | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
+| properties.path | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
+| properties.path | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
+
+#### app.tab-route/tab
+
+**Contribution:** `app.tab-route/tab` at `packages/llmd-serving/extensions/extensions.ts:683`
+
+- **pageId**: `"model-deployment-settings"`
+- **id**: `"llm-inference-service-configurations"`
+- **title**: `"LLM inference service configurations"`
+- **component**: packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#[LlmInferenceServiceConfigTabRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#L16-L25)
+- **group**: `"3_accelerator"`
+- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`), `ADMIN_USER` (`"ADMIN_USER"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
+- **CodeRef target**: packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#[LlmInferenceServiceConfigTabRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#L16-L25)
+- **Source**: [app.tab-route/tab](../extensions/extensions.ts#L683-L696)
+
+**Contribution:** `app.tab-route/tab` at `packages/llmd-serving/extensions/extensions.ts:719`
+
+- **pageId**: `"model-deployment-settings"`
+- **id**: `"topology-configurations"`
+- **title**: `"llm-d topology configurations"`
+- **component**: packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#[TopologyConfigTabRoutes](../src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#L16-L25)
+- **group**: `"4_topology"`
+- **Requires**: `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`)
+- **CodeRef target**: packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#[TopologyConfigTabRoutes](../src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#L16-L25)
+- **Source**: [app.tab-route/tab](../extensions/extensions.ts#L719-L731)
+
+**Contribution:** `app.tab-route/tab` at `packages/llmd-serving/extensions/extensions.ts:753`
+
+- **pageId**: `"model-deployment-settings"`
+- **id**: `"routing-configurations"`
+- **title**: `"llm-d routing configurations"`
+- **component**: packages/llmd-serving/src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#[RoutingConfigTabRoutes](../src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#L16-L25)
+- **group**: `"5_routing"`
+- **Requires**: `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`)
+- **CodeRef target**: packages/llmd-serving/src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#[RoutingConfigTabRoutes](../src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#L16-L25)
+- **Source**: [app.tab-route/tab](../extensions/extensions.ts#L753-L765)
 
 ### model-serving
 
@@ -72,23 +159,23 @@ flowchart LR
   pkg_n__odh_dashboard_llmd_serving_2d801a --> point_n_model_serving_runtime_image_install_target_e22ef9
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/llmd-serving | [@odh-dashboard/llmd-serving](#contributes) |
-| model-serving.deployed-model/serving-runtime | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime)<br>[model-serving.deployed-model/serving-runtime](../extensions/extensions.ts#L436-L450) |
-| model-serving.deployment/assemble-model-resource | [model-serving.deployment/assemble-model-resource](../../model-serving/docs/extensions.md#model-servingdeploymentassemble-model-resource)<br>[model-serving.deployment/assemble-model-resource](../extensions/extensions.ts#L514-L525) |
-| model-serving.deployment/deploy | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy)<br>[model-serving.deployment/deploy](../extensions/extensions.ts#L500-L513) |
-| model-serving.deployment/form-data | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data)<br>[model-serving.deployment/form-data](../extensions/extensions.ts#L451-L487) |
-| model-serving.deployment/tracking-properties | [model-serving.deployment/tracking-properties](../../model-serving/docs/extensions.md#model-servingdeploymenttracking-properties)<br>[model-serving.deployment/tracking-properties](../extensions/extensions.ts#L151-L163) |
-| model-serving.deployment/wizard-field ×6 | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field)<br>[model-serving.deployment/wizard-field](../extensions/extensions.ts#L274-L286)<br>[model-serving.deployment/wizard-field](../extensions/extensions.ts#L310-L320)<br>[model-serving.deployment/wizard-field](../extensions/extensions.ts#L89-L101)<br>[model-serving.deployment/wizard-field](../extensions/extensions.ts#L103-L113)<br>[model-serving.deployment/wizard-field](../extensions/extensions.ts#L189-L199)<br>[model-serving.deployment/wizard-field](../extensions/extensions.ts#L223-L235) |
-| model-serving.deployment/wizard-field-apply ×5 | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply)<br>[model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L287-L297)<br>[model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L321-L329)<br>[model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L118-L131)<br>[model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L200-L210)<br>[model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L236-L246) |
-| model-serving.deployment/wizard-field-deployment-functions | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions)<br>[model-serving.deployment/wizard-field-deployment-functions](../extensions/extensions.ts#L258-L269)<br>[model-serving.deployment/wizard-field-deployment-functions](../extensions/extensions.ts#L340-L350) |
-| model-serving.deployment/wizard-field-extractor ×7 | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor)<br>[model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L298-L308)<br>[model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L330-L339)<br>[model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L356-L368)<br>[model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L372-L383)<br>[model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L136-L149)<br>[model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L211-L221)<br>[model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L247-L257) |
-| model-serving.deployment/wizard-field-override ×7 | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override)<br>[model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L526-L536)<br>[model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L537-L547)<br>[model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L548-L558)<br>[model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L559-L569)<br>[model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L570-L580)<br>[model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L581-L593)<br>[model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L594-L606) |
-| model-serving.deployments-table/start-stop-action | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action)<br>[model-serving.deployments-table/start-stop-action](../extensions/extensions.ts#L615-L622) |
-| model-serving.platform/delete-deployment | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment)<br>[model-serving.platform/delete-deployment](../extensions/extensions.ts#L488-L499) |
-| model-serving.platform/watch-deployments | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments)<br>[model-serving.platform/watch-deployments](../extensions/extensions.ts#L425-L435) |
-| model-serving.runtime-image/install-target | [model-serving.runtime-image/install-target](../../model-serving/docs/extensions.md#model-servingruntime-imageinstall-target)<br>[model-serving.runtime-image/install-target](../extensions/extensions.ts#L665-L682) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/llmd-serving](#loading-paths) | — | — |
+| model-serving.deployed-model/serving-runtime | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime) | [../extensions/extensions.ts:436](../extensions/extensions.ts#L436-L450) |
+| model-serving.deployment/assemble-model-resource | [model-serving.deployment/assemble-model-resource](../../model-serving/docs/extensions.md#model-servingdeploymentassemble-model-resource) | [../extensions/extensions.ts:514](../extensions/extensions.ts#L514-L525) |
+| model-serving.deployment/deploy | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy) | [../extensions/extensions.ts:500](../extensions/extensions.ts#L500-L513) |
+| model-serving.deployment/form-data | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data) | [../extensions/extensions.ts:451](../extensions/extensions.ts#L451-L487) |
+| model-serving.deployment/tracking-properties | [model-serving.deployment/tracking-properties](../../model-serving/docs/extensions.md#model-servingdeploymenttracking-properties) | [../extensions/extensions.ts:151](../extensions/extensions.ts#L151-L163) |
+| model-serving.deployment/wizard-field ×6 | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | [../extensions/extensions.ts:274](../extensions/extensions.ts#L274-L286)<br>[../extensions/extensions.ts:310](../extensions/extensions.ts#L310-L320)<br>[../extensions/extensions.ts:89](../extensions/extensions.ts#L89-L101)<br>[../extensions/extensions.ts:103](../extensions/extensions.ts#L103-L113)<br>[../extensions/extensions.ts:189](../extensions/extensions.ts#L189-L199)<br>[../extensions/extensions.ts:223](../extensions/extensions.ts#L223-L235) |
+| model-serving.deployment/wizard-field-apply ×5 | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | [../extensions/extensions.ts:287](../extensions/extensions.ts#L287-L297)<br>[../extensions/extensions.ts:321](../extensions/extensions.ts#L321-L329)<br>[../extensions/extensions.ts:118](../extensions/extensions.ts#L118-L131)<br>[../extensions/extensions.ts:200](../extensions/extensions.ts#L200-L210)<br>[../extensions/extensions.ts:236](../extensions/extensions.ts#L236-L246) |
+| model-serving.deployment/wizard-field-deployment-functions | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) | [../extensions/extensions.ts:258](../extensions/extensions.ts#L258-L269)<br>[../extensions/extensions.ts:340](../extensions/extensions.ts#L340-L350) |
+| model-serving.deployment/wizard-field-extractor ×7 | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | [../extensions/extensions.ts:298](../extensions/extensions.ts#L298-L308)<br>[../extensions/extensions.ts:330](../extensions/extensions.ts#L330-L339)<br>[../extensions/extensions.ts:356](../extensions/extensions.ts#L356-L368)<br>[../extensions/extensions.ts:372](../extensions/extensions.ts#L372-L383)<br>[../extensions/extensions.ts:136](../extensions/extensions.ts#L136-L149)<br>[../extensions/extensions.ts:211](../extensions/extensions.ts#L211-L221)<br>[../extensions/extensions.ts:247](../extensions/extensions.ts#L247-L257) |
+| model-serving.deployment/wizard-field-override ×7 | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) | [../extensions/extensions.ts:526](../extensions/extensions.ts#L526-L536)<br>[../extensions/extensions.ts:537](../extensions/extensions.ts#L537-L547)<br>[../extensions/extensions.ts:548](../extensions/extensions.ts#L548-L558)<br>[../extensions/extensions.ts:559](../extensions/extensions.ts#L559-L569)<br>[../extensions/extensions.ts:570](../extensions/extensions.ts#L570-L580)<br>[../extensions/extensions.ts:581](../extensions/extensions.ts#L581-L593)<br>[../extensions/extensions.ts:594](../extensions/extensions.ts#L594-L606) |
+| model-serving.deployments-table/start-stop-action | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action) | [../extensions/extensions.ts:615](../extensions/extensions.ts#L615-L622) |
+| model-serving.platform/delete-deployment | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment) | [../extensions/extensions.ts:488](../extensions/extensions.ts#L488-L499) |
+| model-serving.platform/watch-deployments | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments) | [../extensions/extensions.ts:425](../extensions/extensions.ts#L425-L435) |
+| model-serving.runtime-image/install-target | [model-serving.runtime-image/install-target](../../model-serving/docs/extensions.md#model-servingruntime-imageinstall-target) | [../extensions/extensions.ts:665](../extensions/extensions.ts#L665-L682) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -97,98 +184,21 @@ flowchart LR
 - `--x` suppression
 - `-- "patch" -->` patch
 
-#### app.area
-
-- **reliantAreas**: `SupportedArea.K_SERVE` (`"kserve"`)
-- **featureFlags**: `"disableLLMd"`
-- **id**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions/extensions.ts#L417-L424)
-
-#### app.route
-
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| [not resolved](#diagnostics) | `"/settings/model-resources-operations/llm-accelerator-configs/*"` | `LLMD_SERVING_ID` (`"llmd-serving"`), `ADMIN_USER` (`"ADMIN_USER"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) |  |  |  | [app.route](../extensions/extensions.ts#L626-L638) |
-| [not resolved](#diagnostics) | `"/settings/model-resources-operations/llmd-topology-configurations/*"` | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../extensions/extensions.ts#L639-L651) |
-| [not resolved](#diagnostics) | `"/settings/model-resources-operations/llmd-routing-configurations/*"` | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../extensions/extensions.ts#L652-L664) |
-| packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#[LlmInferenceServiceConfigFormRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#L24-L40) | [not resolved](#diagnostics) | `LLMD_SERVING_ID` (`"llmd-serving"`), `ADMIN_USER` (`"ADMIN_USER"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) |  | packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#[LlmInferenceServiceConfigFormRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigFormRoutes.tsx#L24-L40) |  | [app.route](../extensions/extensions.ts#L707-L717) |
-| packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#[TopologyConfigFormRoutes](../src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#L22-L32) | [not resolved](#diagnostics) | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) |  | packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#[TopologyConfigFormRoutes](../src/settings/topologyConfigs/TopologyConfigFormRoutes.tsx#L22-L32) |  | [app.route](../extensions/extensions.ts#L742-L751) |
-| packages/llmd-serving/src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#[RoutingConfigFormRoutes](../src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#L22-L32) | [not resolved](#diagnostics) | `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`) |  | packages/llmd-serving/src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#[RoutingConfigFormRoutes](../src/settings/routingConfigs/RoutingConfigFormRoutes.tsx#L22-L32) |  | [app.route](../extensions/extensions.ts#L776-L785) |
-
-**Not resolved**
-
-| Location | Reason | Link |
-| --- | --- | --- |
-| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
-| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
-| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
-| properties.path | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
-| properties.path | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
-| properties.path | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
-
-#### app.tab-route/tab
-
-- **pageId**: `"model-deployment-settings"`
-- **id**: `"llm-inference-service-configurations"`
-- **title**: `"LLM inference service configurations"`
-- **component**: packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#[LlmInferenceServiceConfigTabRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#L16-L25)
-- **group**: `"3_accelerator"`
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`), `ADMIN_USER` (`"ADMIN_USER"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#[LlmInferenceServiceConfigTabRoutes](../src/settings/llmInferenceServiceConfigs/LlmInferenceServiceConfigTabRoutes.tsx#L16-L25)
-- **Included in**: 
-- **Source**: [app.tab-route/tab](../extensions/extensions.ts#L683-L696)
-
-- **pageId**: `"model-deployment-settings"`
-- **id**: `"topology-configurations"`
-- **title**: `"llm-d topology configurations"`
-- **component**: packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#[TopologyConfigTabRoutes](../src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#L16-L25)
-- **group**: `"4_topology"`
-- **Requires**: `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#[TopologyConfigTabRoutes](../src/settings/topologyConfigs/TopologyConfigTabRoutes.tsx#L16-L25)
-- **Included in**: 
-- **Source**: [app.tab-route/tab](../extensions/extensions.ts#L719-L731)
-
-- **pageId**: `"model-deployment-settings"`
-- **id**: `"routing-configurations"`
-- **title**: `"llm-d routing configurations"`
-- **component**: packages/llmd-serving/src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#[RoutingConfigTabRoutes](../src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#L16-L25)
-- **group**: `"5_routing"`
-- **Requires**: `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#[RoutingConfigTabRoutes](../src/settings/routingConfigs/RoutingConfigTabRoutes.tsx#L16-L25)
-- **Included in**: 
-- **Source**: [app.tab-route/tab](../extensions/extensions.ts#L753-L765)
-
 #### model-serving.deployed-model/serving-runtime
 
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **dataHook**: packages/llmd-serving/src/components/ServingDetails.tsx#[useServingDetailsData](../src/components/ServingDetails.tsx#L16-L19)
-- **ServingDetailsComponent**: packages/llmd-serving/src/components/ServingDetails.tsx#[LLMInferenceServiceServingDetails](../src/components/ServingDetails.tsx#L26-L71)
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/components/ServingDetails.tsx#[useServingDetailsData](../src/components/ServingDetails.tsx#L16-L19), packages/llmd-serving/src/components/ServingDetails.tsx#[LLMInferenceServiceServingDetails](../src/components/ServingDetails.tsx#L26-L71)
-- **Included in**: 
-- **Source**: [model-serving.deployed-model/serving-runtime](../extensions/extensions.ts#L436-L450)
+| platform | dataHook | ServingDetailsComponent | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/components/ServingDetails.tsx#[useServingDetailsData](../src/components/ServingDetails.tsx#L16-L19) | packages/llmd-serving/src/components/ServingDetails.tsx#[LLMInferenceServiceServingDetails](../src/components/ServingDetails.tsx#L26-L71) | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/components/ServingDetails.tsx#[useServingDetailsData](../src/components/ServingDetails.tsx#L16-L19), packages/llmd-serving/src/components/ServingDetails.tsx#[LLMInferenceServiceServingDetails](../src/components/ServingDetails.tsx#L26-L71) | [model-serving.deployed-model/serving-runtime](../extensions/extensions.ts#L436-L450) |
 
 #### model-serving.deployment/assemble-model-resource
 
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **isActive**: packages/llmd-serving/src/formUtils.ts#[isLLMInferenceServiceActive](../src/formUtils.ts#L14-L28)
-- **priority**: `100`
-- **assemble**: packages/llmd-serving/src/deployments/deploy.ts#[assembleLLMdDeployment](../src/deployments/deploy.ts#L214-L265)
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/formUtils.ts#[isLLMInferenceServiceActive](../src/formUtils.ts#L14-L28), packages/llmd-serving/src/deployments/deploy.ts#[assembleLLMdDeployment](../src/deployments/deploy.ts#L214-L265)
-- **Included in**: 
-- **Source**: [model-serving.deployment/assemble-model-resource](../extensions/extensions.ts#L514-L525)
+| platform | isActive | priority | assemble | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/formUtils.ts#[isLLMInferenceServiceActive](../src/formUtils.ts#L14-L28) | `100` | packages/llmd-serving/src/deployments/deploy.ts#[assembleLLMdDeployment](../src/deployments/deploy.ts#L214-L265) | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/formUtils.ts#[isLLMInferenceServiceActive](../src/formUtils.ts#L14-L28), packages/llmd-serving/src/deployments/deploy.ts#[assembleLLMdDeployment](../src/deployments/deploy.ts#L214-L265) | [model-serving.deployment/assemble-model-resource](../extensions/extensions.ts#L514-L525) |
 
 #### model-serving.deployment/deploy
+
+**Contribution:** `model-serving.deployment/deploy` at `packages/llmd-serving/extensions/extensions.ts:500`
 
 - **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
 - **isActive**: packages/llmd-serving/src/formUtils.ts#[isLLMInferenceServiceActive](../src/formUtils.ts#L14-L28)
@@ -197,12 +207,12 @@ flowchart LR
 - **supportsDRAHardwareProfiles**: `true`
 - **deploy**: packages/llmd-serving/src/deployments/deploy.ts#[deployLLMdDeployment](../src/deployments/deploy.ts#L313-L388)
 - **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
 - **CodeRef target**: packages/llmd-serving/src/formUtils.ts#[isLLMInferenceServiceActive](../src/formUtils.ts#L14-L28), packages/llmd-serving/src/deployments/deploy.ts#[deployLLMdDeployment](../src/deployments/deploy.ts#L313-L388)
-- **Included in**: 
 - **Source**: [model-serving.deployment/deploy](../extensions/extensions.ts#L500-L513)
 
 #### model-serving.deployment/form-data
+
+**Contribution:** `model-serving.deployment/form-data` at `packages/llmd-serving/extensions/extensions.ts:451`
 
 - **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
 - **isActive**: `true`
@@ -220,9 +230,7 @@ flowchart LR
 - **extractHuggingFaceApiKey**: packages/llmd-serving/src/hfTokenSecret.ts#hfTokenSecret
 - **validateExtraction**: packages/llmd-serving/src/deployments/validateExtraction.ts#[validateExtraction](../src/deployments/validateExtraction.ts#L11-L34)
 - **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
 - **CodeRef target**: packages/llmd-serving/src/deployments/hardware.ts#[extractHardwareProfileConfig](../src/deployments/hardware.ts#L22-L42), packages/llmd-serving/src/deployments/model.ts#[extractModelType](../src/deployments/model.ts#L92-L94), packages/llmd-serving/src/deployments/model.ts#[extractModelFormat](../src/deployments/model.ts#L88-L90), packages/llmd-serving/src/deployments/hardware.ts#[extractReplicas](../src/deployments/hardware.ts#L53-L57), packages/llmd-serving/src/deployments/model.ts#[extractRuntimeArgs](../src/deployments/model.ts#L147-L159), packages/llmd-serving/src/deployments/model.ts#[extractEnvironmentVariables](../src/deployments/model.ts#L161-L174), packages/llmd-serving/src/hfTokenSecret.ts#hfTokenSecret, packages/llmd-serving/src/wizardFields/modelAvailability.ts#[extractModelAvailabilityData](../src/wizardFields/modelAvailability.ts#L16-L23), packages/llmd-serving/src/deployments/model.ts#[extractModelLocationData](../src/deployments/model.ts#L197-L237), packages/llmd-serving/src/deployments/server.ts#[extractModelServerTemplate](../src/deployments/server.ts#L9-L30), packages/llmd-serving/src/deployments/hardware.ts#[LLMD_INFERENCE_SERVICE_HARDWARE_PROFILE_PATHS](../src/deployments/hardware.ts#L15-L20), packages/llmd-serving/src/deployments/validateExtraction.ts#[validateExtraction](../src/deployments/validateExtraction.ts#L11-L34)
-- **Included in**: 
 - **Source**: [model-serving.deployment/form-data](../extensions/extensions.ts#L451-L487)
 
 **Supplies**
@@ -236,20 +244,20 @@ flowchart LR
 
 #### model-serving.deployment/tracking-properties
 
-| platform | getProperties | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/tracking/llmdWizardTracking.ts#[extractLlmdDeploymentTrackingProperties](../src/tracking/llmdWizardTracking.ts#L198-L203) | `LLMD_SERVING_ID` (`"llmd-serving"`) |  | packages/llmd-serving/src/tracking/llmdWizardTracking.ts#[extractLlmdDeploymentTrackingProperties](../src/tracking/llmdWizardTracking.ts#L198-L203) |  | [model-serving.deployment/tracking-properties](../extensions/extensions.ts#L151-L163) |
+| platform | getProperties | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/tracking/llmdWizardTracking.ts#[extractLlmdDeploymentTrackingProperties](../src/tracking/llmdWizardTracking.ts#L198-L203) | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/tracking/llmdWizardTracking.ts#[extractLlmdDeploymentTrackingProperties](../src/tracking/llmdWizardTracking.ts#L198-L203) | [model-serving.deployment/tracking-properties](../extensions/extensions.ts#L151-L163) |
 
 #### model-serving.deployment/wizard-field
 
-| platform | field | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/AdvancedRoutingField.tsx#[AdvancedRoutingFieldWizardField](../src/wizardFields/AdvancedRoutingField.tsx#L287-L318) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) |  | packages/llmd-serving/src/wizardFields/AdvancedRoutingField.tsx#[AdvancedRoutingFieldWizardField](../src/wizardFields/AdvancedRoutingField.tsx#L287-L318) |  | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L274-L286) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/AcceleratorConfigField.tsx#[AcceleratorConfigFieldWizardField](../src/wizardFields/AcceleratorConfigField.tsx#L336-L373) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) |  | packages/llmd-serving/src/wizardFields/AcceleratorConfigField.tsx#[AcceleratorConfigFieldWizardField](../src/wizardFields/AcceleratorConfigField.tsx#L336-L373) |  | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L310-L320) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/LlmConfigOptionsField.tsx#[LLMConfigOptionsFieldWizardField](../src/wizardFields/LlmConfigOptionsField.tsx#L159-L201) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) |  | packages/llmd-serving/src/wizardFields/LlmConfigOptionsField.tsx#[LLMConfigOptionsFieldWizardField](../src/wizardFields/LlmConfigOptionsField.tsx#L159-L201) |  | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L89-L101) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/gateway/GatewaySelectField.tsx#[GatewaySelectField](../src/wizardFields/gateway/GatewaySelectField.tsx#L302-L320) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.LLMD_GATEWAY_FIELD` (`"llmd-gateway-field"`) |  | packages/llmd-serving/src/wizardFields/gateway/GatewaySelectField.tsx#[GatewaySelectField](../src/wizardFields/gateway/GatewaySelectField.tsx#L302-L320) |  | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L103-L113) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/TopologyTypeField.tsx#[TopologyTypeFieldWizardField](../src/wizardFields/TopologyTypeField.tsx#L247-L264) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) |  | packages/llmd-serving/src/wizardFields/TopologyTypeField.tsx#[TopologyTypeFieldWizardField](../src/wizardFields/TopologyTypeField.tsx#L247-L264) |  | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L189-L199) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/CustomTopologyConfigField.tsx#[CustomTopologyConfigFieldWizardField](../src/wizardFields/CustomTopologyConfigField.tsx#L248-L298) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) |  | packages/llmd-serving/src/wizardFields/CustomTopologyConfigField.tsx#[CustomTopologyConfigFieldWizardField](../src/wizardFields/CustomTopologyConfigField.tsx#L248-L298) |  | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L223-L235) |
+| platform | field | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/AdvancedRoutingField.tsx#[AdvancedRoutingFieldWizardField](../src/wizardFields/AdvancedRoutingField.tsx#L287-L318) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | packages/llmd-serving/src/wizardFields/AdvancedRoutingField.tsx#[AdvancedRoutingFieldWizardField](../src/wizardFields/AdvancedRoutingField.tsx#L287-L318) | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L274-L286) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/AcceleratorConfigField.tsx#[AcceleratorConfigFieldWizardField](../src/wizardFields/AcceleratorConfigField.tsx#L336-L373) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/wizardFields/AcceleratorConfigField.tsx#[AcceleratorConfigFieldWizardField](../src/wizardFields/AcceleratorConfigField.tsx#L336-L373) | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L310-L320) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/LlmConfigOptionsField.tsx#[LLMConfigOptionsFieldWizardField](../src/wizardFields/LlmConfigOptionsField.tsx#L159-L201) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/wizardFields/LlmConfigOptionsField.tsx#[LLMConfigOptionsFieldWizardField](../src/wizardFields/LlmConfigOptionsField.tsx#L159-L201) | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L89-L101) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/gateway/GatewaySelectField.tsx#[GatewaySelectField](../src/wizardFields/gateway/GatewaySelectField.tsx#L302-L320) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.LLMD_GATEWAY_FIELD` (`"llmd-gateway-field"`) | packages/llmd-serving/src/wizardFields/gateway/GatewaySelectField.tsx#[GatewaySelectField](../src/wizardFields/gateway/GatewaySelectField.tsx#L302-L320) | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L103-L113) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/TopologyTypeField.tsx#[TopologyTypeFieldWizardField](../src/wizardFields/TopologyTypeField.tsx#L247-L264) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | packages/llmd-serving/src/wizardFields/TopologyTypeField.tsx#[TopologyTypeFieldWizardField](../src/wizardFields/TopologyTypeField.tsx#L247-L264) | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L189-L199) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/CustomTopologyConfigField.tsx#[CustomTopologyConfigFieldWizardField](../src/wizardFields/CustomTopologyConfigField.tsx#L248-L298) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | packages/llmd-serving/src/wizardFields/CustomTopologyConfigField.tsx#[CustomTopologyConfigFieldWizardField](../src/wizardFields/CustomTopologyConfigField.tsx#L248-L298) | [model-serving.deployment/wizard-field](../extensions/extensions.ts#L223-L235) |
 
 **Not resolved**
 
@@ -339,149 +347,44 @@ flowchart LR
 
 #### model-serving.deployment/wizard-field-apply
 
-- **fieldId**: `"llmd-serving/advanced-routing"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **apply**: packages/llmd-serving/src/deployments/topology.ts#[applyRoutingConfig](../src/deployments/topology.ts#L69-L102)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/topology.ts#[applyRoutingConfig](../src/deployments/topology.ts#L69-L102)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L287-L297)
-
-- **fieldId**: `"llmd-serving/accelerator-config"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **apply**: packages/llmd-serving/src/deployments/accelerator.ts#[applyAcceleratorConfig](../src/deployments/accelerator.ts#L15-L23)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/accelerator.ts#[applyAcceleratorConfig](../src/deployments/accelerator.ts#L15-L23)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L321-L329)
-
-- **fieldId**: `"llmd-serving/gateway"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **apply**: packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[applyGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L14-L36)
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.LLMD_GATEWAY_FIELD` (`"llmd-gateway-field"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[applyGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L14-L36)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L118-L131)
-
-- **fieldId**: `"llmd-serving/topology-type"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **apply**: packages/llmd-serving/src/deployments/topology.ts#[applyTopologyType](../src/deployments/topology.ts#L20-L33)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/topology.ts#[applyTopologyType](../src/deployments/topology.ts#L20-L33)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L200-L210)
-
-- **fieldId**: `"llmd-serving/custom-topology-config"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **apply**: packages/llmd-serving/src/deployments/topology.ts#[applyTopologyConfig](../src/deployments/topology.ts#L37-L45)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/topology.ts#[applyTopologyConfig](../src/deployments/topology.ts#L37-L45)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L236-L246)
+| fieldId | platform | apply | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"llmd-serving/advanced-routing"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/topology.ts#[applyRoutingConfig](../src/deployments/topology.ts#L69-L102) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | packages/llmd-serving/src/deployments/topology.ts#[applyRoutingConfig](../src/deployments/topology.ts#L69-L102) | [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L287-L297) |
+| `"llmd-serving/accelerator-config"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/accelerator.ts#[applyAcceleratorConfig](../src/deployments/accelerator.ts#L15-L23) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/deployments/accelerator.ts#[applyAcceleratorConfig](../src/deployments/accelerator.ts#L15-L23) | [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L321-L329) |
+| `"llmd-serving/gateway"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[applyGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L14-L36) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.LLMD_GATEWAY_FIELD` (`"llmd-gateway-field"`) | packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[applyGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L14-L36) | [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L118-L131) |
+| `"llmd-serving/topology-type"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/topology.ts#[applyTopologyType](../src/deployments/topology.ts#L20-L33) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | packages/llmd-serving/src/deployments/topology.ts#[applyTopologyType](../src/deployments/topology.ts#L20-L33) | [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L200-L210) |
+| `"llmd-serving/custom-topology-config"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/topology.ts#[applyTopologyConfig](../src/deployments/topology.ts#L37-L45) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | packages/llmd-serving/src/deployments/topology.ts#[applyTopologyConfig](../src/deployments/topology.ts#L37-L45) | [model-serving.deployment/wizard-field-apply](../extensions/extensions.ts#L236-L246) |
 
 #### model-serving.deployment/wizard-field-deployment-functions
 
-- **fieldId**: `"llmd-serving/custom-topology-config"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **preDeploy**: packages/llmd-serving/src/deployments/topology.ts#[preDeployTopologyConfig](../src/deployments/topology.ts#L49-L65)
-- **postDeploy**: `null`
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/topology.ts#[preDeployTopologyConfig](../src/deployments/topology.ts#L49-L65)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-deployment-functions](../extensions/extensions.ts#L258-L269)
-
-- **fieldId**: `"llmd-serving/accelerator-config"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **preDeploy**: packages/llmd-serving/src/deployments/accelerator.ts#[preDeployAcceleratorConfig](../src/deployments/accelerator.ts#L25-L38)
-- **postDeploy**: `null`
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/accelerator.ts#[preDeployAcceleratorConfig](../src/deployments/accelerator.ts#L25-L38)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-deployment-functions](../extensions/extensions.ts#L340-L350)
+| fieldId | platform | preDeploy | postDeploy | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"llmd-serving/custom-topology-config"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/topology.ts#[preDeployTopologyConfig](../src/deployments/topology.ts#L49-L65) | `null` | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | packages/llmd-serving/src/deployments/topology.ts#[preDeployTopologyConfig](../src/deployments/topology.ts#L49-L65) | [model-serving.deployment/wizard-field-deployment-functions](../extensions/extensions.ts#L258-L269) |
+| `"llmd-serving/accelerator-config"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/accelerator.ts#[preDeployAcceleratorConfig](../src/deployments/accelerator.ts#L25-L38) | `null` | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/deployments/accelerator.ts#[preDeployAcceleratorConfig](../src/deployments/accelerator.ts#L25-L38) | [model-serving.deployment/wizard-field-deployment-functions](../extensions/extensions.ts#L340-L350) |
 
 #### model-serving.deployment/wizard-field-extractor
 
-- **fieldId**: `"llmd-serving/advanced-routing"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/llmd-serving/src/deployments/topology.ts#[extractRoutingConfig](../src/deployments/topology.ts#L130-L138)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/topology.ts#[extractRoutingConfig](../src/deployments/topology.ts#L130-L138)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L298-L308)
-
-- **fieldId**: `"llmd-serving/accelerator-config"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/llmd-serving/src/deployments/accelerator.ts#[extractAcceleratorConfig](../src/deployments/accelerator.ts#L40-L48)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/accelerator.ts#[extractAcceleratorConfig](../src/deployments/accelerator.ts#L40-L48)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L330-L339)
-
-- **fieldId**: `"deploymentMethod"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodAlwaysLlmd](../src/deployments/model.ts#L323-L325)
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
-- **CodeRef target**: packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodAlwaysLlmd](../src/deployments/model.ts#L323-L325)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L356-L368)
-
-- **fieldId**: `"deploymentMethod"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodvLLMOnMaaS](../src/deployments/model.ts#L327-L331)
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodvLLMOnMaaS](../src/deployments/model.ts#L327-L331)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L372-L383)
-
-- **fieldId**: `"llmd-serving/gateway"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[extractGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L38-L56)
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.LLMD_GATEWAY_FIELD` (`"llmd-gateway-field"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[extractGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L38-L56)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L136-L149)
-
-- **fieldId**: `"llmd-serving/topology-type"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/llmd-serving/src/deployments/topology.ts#[extractTopologyType](../src/deployments/topology.ts#L106-L114)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/topology.ts#[extractTopologyType](../src/deployments/topology.ts#L106-L114)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L211-L221)
-
-- **fieldId**: `"llmd-serving/custom-topology-config"`
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **extract**: packages/llmd-serving/src/deployments/topology.ts#[extractTopologyConfig](../src/deployments/topology.ts#L118-L126)
-- **Requires**: `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/deployments/topology.ts#[extractTopologyConfig](../src/deployments/topology.ts#L118-L126)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L247-L257)
+| fieldId | platform | extract | Requires | Disallows | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"llmd-serving/advanced-routing"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/topology.ts#[extractRoutingConfig](../src/deployments/topology.ts#L130-L138) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | — | packages/llmd-serving/src/deployments/topology.ts#[extractRoutingConfig](../src/deployments/topology.ts#L130-L138) | [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L298-L308) |
+| `"llmd-serving/accelerator-config"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/accelerator.ts#[extractAcceleratorConfig](../src/deployments/accelerator.ts#L40-L48) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | — | packages/llmd-serving/src/deployments/accelerator.ts#[extractAcceleratorConfig](../src/deployments/accelerator.ts#L40-L48) | [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L330-L339) |
+| `"deploymentMethod"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodAlwaysLlmd](../src/deployments/model.ts#L323-L325) | `LLMD_SERVING_ID` (`"llmd-serving"`) | `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodAlwaysLlmd](../src/deployments/model.ts#L323-L325) | [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L356-L368) |
+| `"deploymentMethod"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodvLLMOnMaaS](../src/deployments/model.ts#L327-L331) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | — | packages/llmd-serving/src/deployments/model.ts#[extractDeploymentMethodvLLMOnMaaS](../src/deployments/model.ts#L327-L331) | [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L372-L383) |
+| `"llmd-serving/gateway"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[extractGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L38-L56) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.LLMD_GATEWAY_FIELD` (`"llmd-gateway-field"`) | — | packages/llmd-serving/src/wizardFields/gateway/gatewaySelectApplyExtract.ts#[extractGatewaySelectData](../src/wizardFields/gateway/gatewaySelectApplyExtract.ts#L38-L56) | [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L136-L149) |
+| `"llmd-serving/topology-type"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/topology.ts#[extractTopologyType](../src/deployments/topology.ts#L106-L114) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | — | packages/llmd-serving/src/deployments/topology.ts#[extractTopologyType](../src/deployments/topology.ts#L106-L114) | [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L211-L221) |
+| `"llmd-serving/custom-topology-config"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/topology.ts#[extractTopologyConfig](../src/deployments/topology.ts#L118-L126) | `SupportedArea.LLMD_SERVING` (`"llmd-serving"`), `SupportedArea.LLMD_TOPOLOGY_CONFIGS` (`"llmd-topology-configs"`) | — | packages/llmd-serving/src/deployments/topology.ts#[extractTopologyConfig](../src/deployments/topology.ts#L118-L126) | [model-serving.deployment/wizard-field-extractor](../extensions/extensions.ts#L247-L257) |
 
 #### model-serving.deployment/wizard-field-override
 
-| platform | field | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/modelServerField.ts#[modelServerField](../src/wizardFields/modelServerField.ts#L18-L26) | `LLMD_SERVING_ID` (`"llmd-serving"`) | `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/wizardFields/modelServerField.ts#[modelServerField](../src/wizardFields/modelServerField.ts#L18-L26) |  | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L526-L536) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/modelAvailability.ts#[modelAvailabilityField](../src/wizardFields/modelAvailability.ts#L8-L14) | `"model-as-service"`, `LLMD_SERVING_ID` (`"llmd-serving"`) |  | packages/llmd-serving/src/wizardFields/modelAvailability.ts#[modelAvailabilityField](../src/wizardFields/modelAvailability.ts#L8-L14) |  | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L537-L547) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[externalRouteField](../src/wizardFields/advancedOptionsFields.ts#L8-L13) | `LLMD_SERVING_ID` (`"llmd-serving"`) |  | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[externalRouteField](../src/wizardFields/advancedOptionsFields.ts#L8-L13) |  | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L548-L558) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[tokenAuthField](../src/wizardFields/advancedOptionsFields.ts#L15-L20) | `LLMD_SERVING_ID` (`"llmd-serving"`) |  | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[tokenAuthField](../src/wizardFields/advancedOptionsFields.ts#L15-L20) |  | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L559-L569) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[deploymentStrategyField](../src/wizardFields/advancedOptionsFields.ts#L22-L27) | `LLMD_SERVING_ID` (`"llmd-serving"`) |  | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[deploymentStrategyField](../src/wizardFields/advancedOptionsFields.ts#L22-L27) |  | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L570-L580) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[vllmDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L17-L24) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) |  | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[vllmDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L17-L24) |  | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L581-L593) |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[llmdDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L36-L42) | `LLMD_SERVING_ID` (`"llmd-serving"`) |  | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[llmdDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L36-L42) |  | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L594-L606) |
+| platform | field | Requires | Disallows | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/modelServerField.ts#[modelServerField](../src/wizardFields/modelServerField.ts#L18-L26) | `LLMD_SERVING_ID` (`"llmd-serving"`) | `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | packages/llmd-serving/src/wizardFields/modelServerField.ts#[modelServerField](../src/wizardFields/modelServerField.ts#L18-L26) | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L526-L536) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/modelAvailability.ts#[modelAvailabilityField](../src/wizardFields/modelAvailability.ts#L8-L14) | `"model-as-service"`, `LLMD_SERVING_ID` (`"llmd-serving"`) | — | packages/llmd-serving/src/wizardFields/modelAvailability.ts#[modelAvailabilityField](../src/wizardFields/modelAvailability.ts#L8-L14) | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L537-L547) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[externalRouteField](../src/wizardFields/advancedOptionsFields.ts#L8-L13) | `LLMD_SERVING_ID` (`"llmd-serving"`) | — | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[externalRouteField](../src/wizardFields/advancedOptionsFields.ts#L8-L13) | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L548-L558) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[tokenAuthField](../src/wizardFields/advancedOptionsFields.ts#L15-L20) | `LLMD_SERVING_ID` (`"llmd-serving"`) | — | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[tokenAuthField](../src/wizardFields/advancedOptionsFields.ts#L15-L20) | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L559-L569) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[deploymentStrategyField](../src/wizardFields/advancedOptionsFields.ts#L22-L27) | `LLMD_SERVING_ID` (`"llmd-serving"`) | — | packages/llmd-serving/src/wizardFields/advancedOptionsFields.ts#[deploymentStrategyField](../src/wizardFields/advancedOptionsFields.ts#L22-L27) | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L570-L580) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[vllmDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L17-L24) | `LLMD_SERVING_ID` (`"llmd-serving"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`) | — | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[vllmDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L17-L24) | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L581-L593) |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[llmdDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L36-L42) | `LLMD_SERVING_ID` (`"llmd-serving"`) | — | packages/llmd-serving/src/wizardFields/deploymentMethodField.ts#[llmdDeploymentMethodOverride](../src/wizardFields/deploymentMethodField.ts#L36-L42) | [model-serving.deployment/wizard-field-override](../extensions/extensions.ts#L594-L606) |
 
 **Not resolved**
 
@@ -529,29 +432,25 @@ flowchart LR
 
 #### model-serving.deployments-table/start-stop-action
 
-| platform | patchDeploymentStoppedStatus | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/status.ts#[patchDeploymentStoppedStatus](../src/deployments/status.ts#L222-L239) |  |  | packages/llmd-serving/src/deployments/status.ts#[patchDeploymentStoppedStatus](../src/deployments/status.ts#L222-L239) |  | [model-serving.deployments-table/start-stop-action](../extensions/extensions.ts#L615-L622) |
+| platform | patchDeploymentStoppedStatus | CodeRef target | Source |
+| --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/status.ts#[patchDeploymentStoppedStatus](../src/deployments/status.ts#L222-L239) | packages/llmd-serving/src/deployments/status.ts#[patchDeploymentStoppedStatus](../src/deployments/status.ts#L222-L239) | [model-serving.deployments-table/start-stop-action](../extensions/extensions.ts#L615-L622) |
 
 #### model-serving.platform/delete-deployment
 
-- **platform**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **onDelete**: packages/llmd-serving/src/api/LLMdDeployment.ts#[deleteDeployment](../src/api/LLMdDeployment.ts#L11-L49)
-- **title**: `"Delete model deployment?"`
-- **submitButtonLabel**: `"Delete model deployment"`
-- **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`)
-- **Disallows**: 
-- **CodeRef target**: packages/llmd-serving/src/api/LLMdDeployment.ts#[deleteDeployment](../src/api/LLMdDeployment.ts#L11-L49)
-- **Included in**: 
-- **Source**: [model-serving.platform/delete-deployment](../extensions/extensions.ts#L488-L499)
+| platform | onDelete | title | submitButtonLabel | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/api/LLMdDeployment.ts#[deleteDeployment](../src/api/LLMdDeployment.ts#L11-L49) | `"Delete model deployment?"` | `"Delete model deployment"` | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/api/LLMdDeployment.ts#[deleteDeployment](../src/api/LLMdDeployment.ts#L11-L49) | [model-serving.platform/delete-deployment](../extensions/extensions.ts#L488-L499) |
 
 #### model-serving.platform/watch-deployments
 
-| platform | watch | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/deployments/useWatchDeployments.ts#L13-L107) | `LLMD_SERVING_ID` (`"llmd-serving"`) |  | packages/llmd-serving/src/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/deployments/useWatchDeployments.ts#L13-L107) |  | [model-serving.platform/watch-deployments](../extensions/extensions.ts#L425-L435) |
+| platform | watch | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/deployments/useWatchDeployments.ts#L13-L107) | `LLMD_SERVING_ID` (`"llmd-serving"`) | packages/llmd-serving/src/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/deployments/useWatchDeployments.ts#L13-L107) | [model-serving.platform/watch-deployments](../extensions/extensions.ts#L425-L435) |
 
 #### model-serving.runtime-image/install-target
+
+**Contribution:** `model-serving.runtime-image/install-target` at `packages/llmd-serving/extensions/extensions.ts:665`
 
 - **id**: `"llmInferenceServiceConfig"`
 - **label**: `"LLM inference service configuration"`
@@ -560,9 +459,7 @@ flowchart LR
 - **selectedState**: listName: `"LLM inference service configurations"`, description: `"and the LLM inference service deployment wizard."`
 - **component**: packages/llmd-serving/src/runtimeImageInstall/LlmInferenceServiceConfigInstallTarget.tsx#[LlmInferenceServiceConfigInstallTarget](../src/runtimeImageInstall/LlmInferenceServiceConfigInstallTarget.tsx#L109-L115)
 - **Requires**: `LLMD_SERVING_ID` (`"llmd-serving"`), `ADMIN_USER` (`"ADMIN_USER"`), `SupportedArea.VLLM_ON_MAAS` (`"vllm-on-maas"`)
-- **Disallows**: 
 - **CodeRef target**: packages/llmd-serving/src/runtimeImageInstall/LlmInferenceServiceConfigInstallTarget.tsx#[LlmInferenceServiceConfigInstallTarget](../src/runtimeImageInstall/LlmInferenceServiceConfigInstallTarget.tsx#L109-L115)
-- **Included in**: 
 - **Source**: [model-serving.runtime-image/install-target](../extensions/extensions.ts#L665-L682)
 
 ## Diagnostics

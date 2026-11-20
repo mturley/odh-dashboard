@@ -2,6 +2,18 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Defines](#defines)
+  - [agent-ops.projects/bridge-provider](#agent-opsprojectsbridge-provider)
+- [Contributes](#contributes)
+  - [agent-ops](#agent-ops)
+    - [agent-ops.projects/bridge-provider](#agent-opsprojectsbridge-provider-1)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.route](#approute)
+    - [app.tab-route/tab](#apptab-routetab)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -33,10 +45,10 @@ flowchart LR
   pkg_n__odh_dashboard_agent_ops_232eca --> point_n_agent_ops_projects_bridge_provider_e5b4cf
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/agent-ops | [@odh-dashboard/agent-ops](#contributes) |
-| agent-ops.projects/bridge-provider | [agent-ops.projects/bridge-provider](extensions.md#agent-opsprojectsbridge-provider)<br>[agent-ops.projects/bridge-provider](../extensions.ts#L4-L9) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/agent-ops](#loading-paths) | — | — |
+| agent-ops.projects/bridge-provider | [agent-ops.projects/bridge-provider](extensions.md#agent-opsprojectsbridge-provider) | [../extensions.ts:4](../extensions.ts#L4-L9) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -44,6 +56,12 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### agent-ops.projects/bridge-provider
+
+| component | CodeRef target | Source |
+| --- | --- | --- |
+| packages/agent-ops/src/ProjectsBridgeProvider.tsx#[ProjectsBridgeProvider](../src/ProjectsBridgeProvider.tsx#L13-L61) | packages/agent-ops/src/ProjectsBridgeProvider.tsx#[ProjectsBridgeProvider](../src/ProjectsBridgeProvider.tsx#L13-L61) | [agent-ops.projects/bridge-provider](../extensions.ts#L4-L9) |
 
 ### app
 
@@ -58,12 +76,12 @@ flowchart LR
   pkg_n__odh_dashboard_agent_ops_232eca -. "federated" .-> point_n_app_tab_route_tab_10b1cd
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/agent-ops | [@odh-dashboard/agent-ops](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/extensions.ts#L15-L21)<br>[app.area](../frontend/src/odh/extensions.ts#L22-L28) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L44-L53)<br>[app.route](../frontend/src/odh/extensions.ts#L54-L63) |
-| app.tab-route/tab | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab)<br>[app.tab-route/tab](../frontend/src/odh/extensions.ts#L29-L41) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/agent-ops](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/extensions.ts:15](../frontend/src/odh/extensions.ts#L15-L21)<br>[../frontend/src/odh/extensions.ts:22](../frontend/src/odh/extensions.ts#L22-L28) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:44](../frontend/src/odh/extensions.ts#L44-L53)<br>[../frontend/src/odh/extensions.ts:54](../frontend/src/odh/extensions.ts#L54-L63) |
+| app.tab-route/tab | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | [../frontend/src/odh/extensions.ts:29](../frontend/src/odh/extensions.ts#L29-L41) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -72,27 +90,23 @@ flowchart LR
 - `--x` suppression
 - `-- "patch" -->` patch
 
-#### agent-ops.projects/bridge-provider
-
-| component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| packages/agent-ops/src/ProjectsBridgeProvider.tsx#[ProjectsBridgeProvider](../src/ProjectsBridgeProvider.tsx#L13-L61) |  |  | packages/agent-ops/src/ProjectsBridgeProvider.tsx#[ProjectsBridgeProvider](../src/ProjectsBridgeProvider.tsx#L13-L61) |  | [agent-ops.projects/bridge-provider](../extensions.ts#L4-L9) |
-
 #### app.area
 
-| featureFlags | id | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"agentOps"` | `AGENT_OPS` (`"agent-ops"`) |  |  |  |  | [app.area](../frontend/src/odh/extensions.ts#L15-L21) |
-| `"agentOpsDeploy"` | `"agent-ops-deploy"` |  |  |  |  | [app.area](../frontend/src/odh/extensions.ts#L22-L28) |
+| featureFlags | id | Source |
+| --- | --- | --- |
+| `"agentOps"` | `AGENT_OPS` (`"agent-ops"`) | [app.area](../frontend/src/odh/extensions.ts#L15-L21) |
+| `"agentOpsDeploy"` | `"agent-ops-deploy"` | [app.area](../frontend/src/odh/extensions.ts#L22-L28) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/agent-ops/frontend/src/odh/AgentDeploymentDetailRoutes.tsx#[AgentDeploymentDetailRoutes](../frontend/src/odh/AgentDeploymentDetailRoutes.tsx#L7-L15) | `"/ai-hub/agents/deployments/:namespace/:agentId/*"` | `AGENT_OPS` (`"agent-ops"`), `"agent-ops-deploy"` |  | packages/agent-ops/frontend/src/odh/AgentDeploymentDetailRoutes.tsx#[AgentDeploymentDetailRoutes](../frontend/src/odh/AgentDeploymentDetailRoutes.tsx#L7-L15) |  | [app.route](../frontend/src/odh/extensions.ts#L44-L53) |
-| packages/agent-ops/frontend/src/odh/AgentDeployWizardRoutes.tsx#[AgentDeployWizardRoutes](../frontend/src/odh/AgentDeployWizardRoutes.tsx#L7-L15) | `agentDeployWizardPath` (`"/ai-hub/agents/deployments/deploy"`) | `AGENT_OPS` (`"agent-ops"`), `"agent-ops-deploy"` |  | packages/agent-ops/frontend/src/odh/AgentDeployWizardRoutes.tsx#[AgentDeployWizardRoutes](../frontend/src/odh/AgentDeployWizardRoutes.tsx#L7-L15) |  | [app.route](../frontend/src/odh/extensions.ts#L54-L63) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/agent-ops/frontend/src/odh/AgentDeploymentDetailRoutes.tsx#[AgentDeploymentDetailRoutes](../frontend/src/odh/AgentDeploymentDetailRoutes.tsx#L7-L15) | `"/ai-hub/agents/deployments/:namespace/:agentId/*"` | `AGENT_OPS` (`"agent-ops"`), `"agent-ops-deploy"` | packages/agent-ops/frontend/src/odh/AgentDeploymentDetailRoutes.tsx#[AgentDeploymentDetailRoutes](../frontend/src/odh/AgentDeploymentDetailRoutes.tsx#L7-L15) | [app.route](../frontend/src/odh/extensions.ts#L44-L53) |
+| packages/agent-ops/frontend/src/odh/AgentDeployWizardRoutes.tsx#[AgentDeployWizardRoutes](../frontend/src/odh/AgentDeployWizardRoutes.tsx#L7-L15) | `agentDeployWizardPath` (`"/ai-hub/agents/deployments/deploy"`) | `AGENT_OPS` (`"agent-ops"`), `"agent-ops-deploy"` | packages/agent-ops/frontend/src/odh/AgentDeployWizardRoutes.tsx#[AgentDeployWizardRoutes](../frontend/src/odh/AgentDeployWizardRoutes.tsx#L7-L15) | [app.route](../frontend/src/odh/extensions.ts#L54-L63) |
 
 #### app.tab-route/tab
+
+**Contribution:** `app.tab-route/tab` at `packages/agent-ops/frontend/src/odh/extensions.ts:29`
 
 - **pageId**: `AGENTS_TAB_PAGE` (`"agents-tab-page"`)
 - **id**: `"deployments"`
@@ -100,7 +114,5 @@ flowchart LR
 - **component**: packages/agent-ops/frontend/src/odh/AgentDeploymentsWrapper.tsx#[AgentDeploymentsWrapper](../frontend/src/odh/AgentDeploymentsWrapper.tsx#L6-L12)
 - **group**: `"1_deployments"`
 - **Requires**: `AGENT_OPS` (`"agent-ops"`)
-- **Disallows**: 
 - **CodeRef target**: packages/agent-ops/frontend/src/odh/AgentDeploymentsWrapper.tsx#[AgentDeploymentsWrapper](../frontend/src/odh/AgentDeploymentsWrapper.tsx#L6-L12)
-- **Included in**: 
 - **Source**: [app.tab-route/tab](../frontend/src/odh/extensions.ts#L29-L41)

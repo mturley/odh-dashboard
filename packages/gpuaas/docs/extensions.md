@@ -2,6 +2,14 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.route](#approute)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -23,12 +31,12 @@ flowchart LR
   pkg_n__odh_dashboard_gpuaas_a3565b --> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/gpuaas | [@odh-dashboard/gpuaas](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../extensions.ts#L12-L19) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../extensions.ts#L20-L32) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../extensions.ts#L33-L42) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/gpuaas](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../extensions.ts:12](../extensions.ts#L12-L19) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../extensions.ts:20](../extensions.ts#L20-L32) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../extensions.ts:33](../extensions.ts#L33-L42) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -39,30 +47,18 @@ flowchart LR
 
 #### app.area
 
-- **reliantAreas**: `SupportedArea.GPUAAS_INFRASTRUCTURE` (`"gpuaas-infrastructure"`)
-- **featureFlags**: `"gpuaas"`
-- **id**: `PLUGIN_GPUAAS` (`"plugin-gpuaas"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions.ts#L12-L19)
+| reliantAreas | featureFlags | id | Source |
+| --- | --- | --- | --- |
+| `SupportedArea.GPUAAS_INFRASTRUCTURE` (`"gpuaas-infrastructure"`) | `"gpuaas"` | `PLUGIN_GPUAAS` (`"plugin-gpuaas"`) | [app.area](../extensions.ts#L12-L19) |
 
 #### app.navigation/href
 
-- **id**: `"gpuaas-infrastructure"`
-- **title**: `"Infrastructure"`
-- **section**: `"observe-and-monitor"`
-- **href**: `"/observe-and-monitor/infrastructure"`
-- **path**: `"/observe-and-monitor/infrastructure/*"`
-- **Requires**: `PLUGIN_GPUAAS` (`"plugin-gpuaas"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../extensions.ts#L20-L32)
+| id | title | section | href | path | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"gpuaas-infrastructure"` | `"Infrastructure"` | `"observe-and-monitor"` | `"/observe-and-monitor/infrastructure"` | `"/observe-and-monitor/infrastructure/*"` | `PLUGIN_GPUAAS` (`"plugin-gpuaas"`) | [app.navigation/href](../extensions.ts#L20-L32) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/gpuaas/src/InfrastructureRoutes.tsx#[InfrastructureRoutes](../src/InfrastructureRoutes.tsx#L7-L12) | `"/observe-and-monitor/infrastructure/*"` | `PLUGIN_GPUAAS` (`"plugin-gpuaas"`) |  | packages/gpuaas/src/InfrastructureRoutes.tsx#[InfrastructureRoutes](../src/InfrastructureRoutes.tsx#L7-L12) |  | [app.route](../extensions.ts#L33-L42) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/gpuaas/src/InfrastructureRoutes.tsx#[InfrastructureRoutes](../src/InfrastructureRoutes.tsx#L7-L12) | `"/observe-and-monitor/infrastructure/*"` | `PLUGIN_GPUAAS` (`"plugin-gpuaas"`) | packages/gpuaas/src/InfrastructureRoutes.tsx#[InfrastructureRoutes](../src/InfrastructureRoutes.tsx#L7-L12) | [app.route](../extensions.ts#L33-L42) |

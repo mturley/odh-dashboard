@@ -2,6 +2,35 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.cluster-storage/storage-context](#appcluster-storagestorage-context)
+    - [app.project-details/settings-card](#appproject-detailssettings-card)
+  - [model-serving](#model-serving)
+    - [model-serving.auth](#model-servingauth)
+    - [model-serving.deployed-model/serving-runtime](#model-servingdeployed-modelserving-runtime)
+    - [model-serving.deployment/assemble-model-resource](#model-servingdeploymentassemble-model-resource)
+    - [model-serving.deployment/deploy](#model-servingdeploymentdeploy)
+    - [model-serving.deployment/form-data](#model-servingdeploymentform-data)
+    - [model-serving.deployment/tracking-properties](#model-servingdeploymenttracking-properties)
+    - [model-serving.deployment/wizard-field](#model-servingdeploymentwizard-field)
+    - [model-serving.deployment/wizard-field-apply](#model-servingdeploymentwizard-field-apply)
+    - [model-serving.deployment/wizard-field-deployment-functions](#model-servingdeploymentwizard-field-deployment-functions)
+    - [model-serving.deployment/wizard-field-extractor](#model-servingdeploymentwizard-field-extractor)
+    - [model-serving.deployment/wizard-field-override](#model-servingdeploymentwizard-field-override)
+    - [model-serving.deployments-table/start-stop-action](#model-servingdeployments-tablestart-stop-action)
+    - [model-serving.platform](#model-servingplatform)
+    - [model-serving.platform/delete-deployment](#model-servingplatformdelete-deployment)
+    - [model-serving.platform/exclude-deployment](#model-servingplatformexclude-deployment)
+    - [model-serving.platform/global-models-page](#model-servingplatformglobal-models-page)
+    - [model-serving.platform/overview-section](#model-servingplatformoverview-section)
+    - [model-serving.platform/project-details-tab](#model-servingplatformproject-details-tab)
+    - [model-serving.platform/watch-deployments](#model-servingplatformwatch-deployments)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -23,12 +52,12 @@ flowchart LR
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_app_project_details_settings_card_bc8e85
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/nim-serving | [@odh-dashboard/nim-serving](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../extensions/nim-service.ts#L130-L137)<br>[app.area](../extensions/wizard.ts#L74-L81) |
-| app.cluster-storage/storage-context | [app.cluster-storage/storage-context](../../plugin-core/docs/extensions.md#appcluster-storagestorage-context)<br>[app.cluster-storage/storage-context](../extensions/cluster-storage.ts#L6-L19) |
-| app.project-details/settings-card | [app.project-details/settings-card](../../plugin-core/docs/extensions.md#appproject-detailssettings-card)<br>[app.project-details/settings-card](../extensions/project-key.ts#L9-L19) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/nim-serving](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../extensions/nim-service.ts:130](../extensions/nim-service.ts#L130-L137)<br>[../extensions/wizard.ts:74](../extensions/wizard.ts#L74-L81) |
+| app.cluster-storage/storage-context | [app.cluster-storage/storage-context](../../plugin-core/docs/extensions.md#appcluster-storagestorage-context) | [../extensions/cluster-storage.ts:6](../extensions/cluster-storage.ts#L6-L19) |
+| app.project-details/settings-card | [app.project-details/settings-card](../../plugin-core/docs/extensions.md#appproject-detailssettings-card) | [../extensions/project-key.ts:9](../extensions/project-key.ts#L9-L19) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -36,6 +65,25 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### app.area
+
+| reliantAreas | featureFlags | id | Source |
+| --- | --- | --- | --- |
+| `SupportedArea.NIM_MODEL` (`"nim-model"`) | `"nimServiceOperator"` | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | [app.area](../extensions/nim-service.ts#L130-L137) |
+| `SupportedArea.NIM_MODEL` (`"nim-model"`) | `"nimWizard"` | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | [app.area](../extensions/wizard.ts#L74-L81) |
+
+#### app.cluster-storage/storage-context
+
+| title | description | isPVCUsingStorageContextType | PVCStorageContextSettingsFields | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"NIM storage"` | `"Appropriate for caching NIM models. Enables you to define a subpath for the NIM image."` | packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[isNIMPVC](../src/pages/clusterStorage/clusterStorage.tsx#L10-L11) | packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[Fields](../src/pages/clusterStorage/clusterStorage.tsx#L13-L34) | `SupportedArea.NIM_MODEL` (`"nim-model"`) | packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[isNIMPVC](../src/pages/clusterStorage/clusterStorage.tsx#L10-L11), packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[Fields](../src/pages/clusterStorage/clusterStorage.tsx#L13-L34) | [app.cluster-storage/storage-context](../extensions/cluster-storage.ts#L6-L19) |
+
+#### app.project-details/settings-card
+
+| id | title | component | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"nim-settings"` | `"NVIDIA NIM"` | packages/nim-serving/src/pages/projectSettings/NIMSettingsCard.tsx#[NIMSettingsCard](../src/pages/projectSettings/NIMSettingsCard.tsx#L59-L330) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/pages/projectSettings/NIMSettingsCard.tsx#[NIMSettingsCard](../src/pages/projectSettings/NIMSettingsCard.tsx#L59-L330) | [app.project-details/settings-card](../extensions/project-key.ts#L9-L19) |
 
 ### model-serving
 
@@ -82,28 +130,28 @@ flowchart LR
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_watch_deployments_cf294d
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/nim-serving | [@odh-dashboard/nim-serving](#contributes) |
-| model-serving.auth | [model-serving.auth](../../model-serving/docs/extensions.md#model-servingauth)<br>[model-serving.auth](../extensions/nim-service.ts#L242-L252) |
-| model-serving.deployed-model/serving-runtime | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime)<br>[model-serving.deployed-model/serving-runtime](../extensions/nim-service.ts#L149-L158) |
-| model-serving.deployment/assemble-model-resource | [model-serving.deployment/assemble-model-resource](../../model-serving/docs/extensions.md#model-servingdeploymentassemble-model-resource)<br>[model-serving.deployment/assemble-model-resource](../extensions/nim-service.ts#L183-L194) |
-| model-serving.deployment/deploy | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy)<br>[model-serving.deployment/deploy](../extensions/nim-kserve.ts#L139-L151)<br>[model-serving.deployment/deploy](../extensions/nim-service.ts#L170-L182) |
-| model-serving.deployment/form-data | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data)<br>[model-serving.deployment/form-data](../extensions/nim-service.ts#L195-L241) |
-| model-serving.deployment/tracking-properties | [model-serving.deployment/tracking-properties](../../model-serving/docs/extensions.md#model-servingdeploymenttracking-properties)<br>[model-serving.deployment/tracking-properties](../extensions/nim-kserve.ts#L47-L57) |
-| model-serving.deployment/wizard-field | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field)<br>[model-serving.deployment/wizard-field](../extensions/wizard.ts#L11-L22)<br>[model-serving.deployment/wizard-field](../extensions/wizard.ts#L24-L35) |
-| model-serving.deployment/wizard-field-apply | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply)<br>[model-serving.deployment/wizard-field-apply](../extensions/nim-kserve.ts#L20-L31)<br>[model-serving.deployment/wizard-field-apply](../extensions/nim-kserve.ts#L76-L87)<br>[model-serving.deployment/wizard-field-apply](../extensions/nim-service.ts#L26-L39)<br>[model-serving.deployment/wizard-field-apply](../extensions/nim-service.ts#L57-L70) |
-| model-serving.deployment/wizard-field-deployment-functions | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions)<br>[model-serving.deployment/wizard-field-deployment-functions](../extensions/nim-kserve.ts#L62-L74)<br>[model-serving.deployment/wizard-field-deployment-functions](../extensions/nim-service.ts#L90-L107) |
-| model-serving.deployment/wizard-field-extractor | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor)<br>[model-serving.deployment/wizard-field-extractor](../extensions/nim-kserve.ts#L34-L45)<br>[model-serving.deployment/wizard-field-extractor](../extensions/nim-kserve.ts#L92-L108)<br>[model-serving.deployment/wizard-field-extractor](../extensions/nim-service.ts#L42-L55)<br>[model-serving.deployment/wizard-field-extractor](../extensions/nim-service.ts#L72-L85) |
-| model-serving.deployment/wizard-field-override | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override)<br>[model-serving.deployment/wizard-field-override](../extensions/wizard.ts#L37-L49)<br>[model-serving.deployment/wizard-field-override](../extensions/wizard.ts#L51-L63) |
-| model-serving.deployments-table/start-stop-action | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action)<br>[model-serving.deployments-table/start-stop-action](../extensions/nim-service.ts#L258-L268) |
-| model-serving.platform | [model-serving.platform](../../model-serving/docs/extensions.md#model-servingplatform)<br>[model-serving.platform](../extensions/legacy-ui.ts#L23-L58) |
-| model-serving.platform/delete-deployment | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment)<br>[model-serving.platform/delete-deployment](../extensions/nim-kserve.ts#L152-L168) |
-| model-serving.platform/exclude-deployment | [model-serving.platform/exclude-deployment](../../model-serving/docs/extensions.md#model-servingplatformexclude-deployment)<br>[model-serving.platform/exclude-deployment](../extensions/nim-service.ts#L159-L169) |
-| model-serving.platform/global-models-page | [model-serving.platform/global-models-page](../../model-serving/docs/extensions.md#model-servingplatformglobal-models-page)<br>[model-serving.platform/global-models-page](../extensions/legacy-ui.ts#L85-L95) |
-| model-serving.platform/overview-section | [model-serving.platform/overview-section](../../model-serving/docs/extensions.md#model-servingplatformoverview-section)<br>[model-serving.platform/overview-section](../extensions/legacy-ui.ts#L71-L84) |
-| model-serving.platform/project-details-tab | [model-serving.platform/project-details-tab](../../model-serving/docs/extensions.md#model-servingplatformproject-details-tab)<br>[model-serving.platform/project-details-tab](../extensions/legacy-ui.ts#L59-L70) |
-| model-serving.platform/watch-deployments | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments)<br>[model-serving.platform/watch-deployments](../extensions/nim-service.ts#L138-L148) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/nim-serving](#loading-paths) | — | — |
+| model-serving.auth | [model-serving.auth](../../model-serving/docs/extensions.md#model-servingauth) | [../extensions/nim-service.ts:242](../extensions/nim-service.ts#L242-L252) |
+| model-serving.deployed-model/serving-runtime | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime) | [../extensions/nim-service.ts:149](../extensions/nim-service.ts#L149-L158) |
+| model-serving.deployment/assemble-model-resource | [model-serving.deployment/assemble-model-resource](../../model-serving/docs/extensions.md#model-servingdeploymentassemble-model-resource) | [../extensions/nim-service.ts:183](../extensions/nim-service.ts#L183-L194) |
+| model-serving.deployment/deploy | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy) | [../extensions/nim-kserve.ts:139](../extensions/nim-kserve.ts#L139-L151)<br>[../extensions/nim-service.ts:170](../extensions/nim-service.ts#L170-L182) |
+| model-serving.deployment/form-data | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data) | [../extensions/nim-service.ts:195](../extensions/nim-service.ts#L195-L241) |
+| model-serving.deployment/tracking-properties | [model-serving.deployment/tracking-properties](../../model-serving/docs/extensions.md#model-servingdeploymenttracking-properties) | [../extensions/nim-kserve.ts:47](../extensions/nim-kserve.ts#L47-L57) |
+| model-serving.deployment/wizard-field | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | [../extensions/wizard.ts:11](../extensions/wizard.ts#L11-L22)<br>[../extensions/wizard.ts:24](../extensions/wizard.ts#L24-L35) |
+| model-serving.deployment/wizard-field-apply | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | [../extensions/nim-kserve.ts:20](../extensions/nim-kserve.ts#L20-L31)<br>[../extensions/nim-kserve.ts:76](../extensions/nim-kserve.ts#L76-L87)<br>[../extensions/nim-service.ts:26](../extensions/nim-service.ts#L26-L39)<br>[../extensions/nim-service.ts:57](../extensions/nim-service.ts#L57-L70) |
+| model-serving.deployment/wizard-field-deployment-functions | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) | [../extensions/nim-kserve.ts:62](../extensions/nim-kserve.ts#L62-L74)<br>[../extensions/nim-service.ts:90](../extensions/nim-service.ts#L90-L107) |
+| model-serving.deployment/wizard-field-extractor | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | [../extensions/nim-kserve.ts:34](../extensions/nim-kserve.ts#L34-L45)<br>[../extensions/nim-kserve.ts:92](../extensions/nim-kserve.ts#L92-L108)<br>[../extensions/nim-service.ts:42](../extensions/nim-service.ts#L42-L55)<br>[../extensions/nim-service.ts:72](../extensions/nim-service.ts#L72-L85) |
+| model-serving.deployment/wizard-field-override | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) | [../extensions/wizard.ts:37](../extensions/wizard.ts#L37-L49)<br>[../extensions/wizard.ts:51](../extensions/wizard.ts#L51-L63) |
+| model-serving.deployments-table/start-stop-action | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action) | [../extensions/nim-service.ts:258](../extensions/nim-service.ts#L258-L268) |
+| model-serving.platform | [model-serving.platform](../../model-serving/docs/extensions.md#model-servingplatform) | [../extensions/legacy-ui.ts:23](../extensions/legacy-ui.ts#L23-L58) |
+| model-serving.platform/delete-deployment | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment) | [../extensions/nim-kserve.ts:152](../extensions/nim-kserve.ts#L152-L168) |
+| model-serving.platform/exclude-deployment | [model-serving.platform/exclude-deployment](../../model-serving/docs/extensions.md#model-servingplatformexclude-deployment) | [../extensions/nim-service.ts:159](../extensions/nim-service.ts#L159-L169) |
+| model-serving.platform/global-models-page | [model-serving.platform/global-models-page](../../model-serving/docs/extensions.md#model-servingplatformglobal-models-page) | [../extensions/legacy-ui.ts:85](../extensions/legacy-ui.ts#L85-L95) |
+| model-serving.platform/overview-section | [model-serving.platform/overview-section](../../model-serving/docs/extensions.md#model-servingplatformoverview-section) | [../extensions/legacy-ui.ts:71](../extensions/legacy-ui.ts#L71-L84) |
+| model-serving.platform/project-details-tab | [model-serving.platform/project-details-tab](../../model-serving/docs/extensions.md#model-servingplatformproject-details-tab) | [../extensions/legacy-ui.ts:59](../extensions/legacy-ui.ts#L59-L70) |
+| model-serving.platform/watch-deployments | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments) | [../extensions/nim-service.ts:138](../extensions/nim-service.ts#L138-L148) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -112,74 +160,27 @@ flowchart LR
 - `--x` suppression
 - `-- "patch" -->` patch
 
-#### app.area
-
-- **reliantAreas**: `SupportedArea.NIM_MODEL` (`"nim-model"`)
-- **featureFlags**: `"nimServiceOperator"`
-- **id**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions/nim-service.ts#L130-L137)
-
-- **reliantAreas**: `SupportedArea.NIM_MODEL` (`"nim-model"`)
-- **featureFlags**: `"nimWizard"`
-- **id**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions/wizard.ts#L74-L81)
-
-#### app.cluster-storage/storage-context
-
-- **title**: `"NIM storage"`
-- **description**: `"Appropriate for caching NIM models. Enables you to define a subpath for the NIM image."`
-- **isPVCUsingStorageContextType**: packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[isNIMPVC](../src/pages/clusterStorage/clusterStorage.tsx#L10-L11)
-- **PVCStorageContextSettingsFields**: packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[Fields](../src/pages/clusterStorage/clusterStorage.tsx#L13-L34)
-- **Requires**: `SupportedArea.NIM_MODEL` (`"nim-model"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[isNIMPVC](../src/pages/clusterStorage/clusterStorage.tsx#L10-L11), packages/nim-serving/src/pages/clusterStorage/clusterStorage.tsx#[Fields](../src/pages/clusterStorage/clusterStorage.tsx#L13-L34)
-- **Included in**: 
-- **Source**: [app.cluster-storage/storage-context](../extensions/cluster-storage.ts#L6-L19)
-
-#### app.project-details/settings-card
-
-- **id**: `"nim-settings"`
-- **title**: `"NVIDIA NIM"`
-- **component**: packages/nim-serving/src/pages/projectSettings/NIMSettingsCard.tsx#[NIMSettingsCard](../src/pages/projectSettings/NIMSettingsCard.tsx#L59-L330)
-- **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/pages/projectSettings/NIMSettingsCard.tsx#[NIMSettingsCard](../src/pages/projectSettings/NIMSettingsCard.tsx#L59-L330)
-- **Included in**: 
-- **Source**: [app.project-details/settings-card](../extensions/project-key.ts#L9-L19)
-
 #### model-serving.auth
 
-| platform | usePlatformAuthEnabled | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[isNIMAuthEnabled](../src/pages/deploymentWizard/extractNIMFormData.ts#L89-L98) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) |  | packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[isNIMAuthEnabled](../src/pages/deploymentWizard/extractNIMFormData.ts#L89-L98) |  | [model-serving.auth](../extensions/nim-service.ts#L242-L252) |
+| platform | usePlatformAuthEnabled | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[isNIMAuthEnabled](../src/pages/deploymentWizard/extractNIMFormData.ts#L89-L98) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[isNIMAuthEnabled](../src/pages/deploymentWizard/extractNIMFormData.ts#L89-L98) | [model-serving.auth](../extensions/nim-service.ts#L242-L252) |
 
 #### model-serving.deployed-model/serving-runtime
 
-| platform | ServingDetailsComponent | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deployments/NIMServingDetails.tsx#[NIMServingDetails](../src/pages/deployments/NIMServingDetails.tsx#L3-L3) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) |  | packages/nim-serving/src/pages/deployments/NIMServingDetails.tsx#[NIMServingDetails](../src/pages/deployments/NIMServingDetails.tsx#L3-L3) |  | [model-serving.deployed-model/serving-runtime](../extensions/nim-service.ts#L149-L158) |
+| platform | ServingDetailsComponent | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deployments/NIMServingDetails.tsx#[NIMServingDetails](../src/pages/deployments/NIMServingDetails.tsx#L3-L3) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/pages/deployments/NIMServingDetails.tsx#[NIMServingDetails](../src/pages/deployments/NIMServingDetails.tsx#L3-L3) | [model-serving.deployed-model/serving-runtime](../extensions/nim-service.ts#L149-L158) |
 
 #### model-serving.deployment/assemble-model-resource
 
-- **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
-- **isActive**: packages/nim-serving/src/api/deployments/deploy.ts#[isNIMDeployActive](../src/api/deployments/deploy.ts#L18-L19)
-- **priority**: `100`
-- **assemble**: packages/nim-serving/src/api/deployments/deploy.ts#[assembleNIMDeployment](../src/api/deployments/deploy.ts#L21-L52)
-- **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/api/deployments/deploy.ts#[isNIMDeployActive](../src/api/deployments/deploy.ts#L18-L19), packages/nim-serving/src/api/deployments/deploy.ts#[assembleNIMDeployment](../src/api/deployments/deploy.ts#L21-L52)
-- **Included in**: 
-- **Source**: [model-serving.deployment/assemble-model-resource](../extensions/nim-service.ts#L183-L194)
+| platform | isActive | priority | assemble | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/api/deployments/deploy.ts#[isNIMDeployActive](../src/api/deployments/deploy.ts#L18-L19) | `100` | packages/nim-serving/src/api/deployments/deploy.ts#[assembleNIMDeployment](../src/api/deployments/deploy.ts#L21-L52) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/api/deployments/deploy.ts#[isNIMDeployActive](../src/api/deployments/deploy.ts#L18-L19), packages/nim-serving/src/api/deployments/deploy.ts#[assembleNIMDeployment](../src/api/deployments/deploy.ts#L21-L52) | [model-serving.deployment/assemble-model-resource](../extensions/nim-service.ts#L183-L194) |
 
 #### model-serving.deployment/deploy
+
+**Contribution:** `model-serving.deployment/deploy` at `packages/nim-serving/extensions/nim-kserve.ts:139`
 
 - **platform**: `NIM_LEGACY_ID` (`"nvidia-nim"`)
 - **isActive**: packages/nim-serving/src/nimKServe/deploy.ts#[isNIMKServeDeployActive](../src/nimKServe/deploy.ts#L25-L26)
@@ -187,10 +188,10 @@ flowchart LR
 - **supportsOverwrite**: `true`
 - **deploy**: packages/nim-serving/src/nimKServe/deploy.ts#[deployNIMKServeDeployment](../src/nimKServe/deploy.ts#L33-L96)
 - **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
 - **CodeRef target**: packages/nim-serving/src/nimKServe/deploy.ts#[isNIMKServeDeployActive](../src/nimKServe/deploy.ts#L25-L26), packages/nim-serving/src/nimKServe/deploy.ts#[deployNIMKServeDeployment](../src/nimKServe/deploy.ts#L33-L96)
-- **Included in**: 
 - **Source**: [model-serving.deployment/deploy](../extensions/nim-kserve.ts#L139-L151)
+
+**Contribution:** `model-serving.deployment/deploy` at `packages/nim-serving/extensions/nim-service.ts:170`
 
 - **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
 - **isActive**: packages/nim-serving/src/api/deployments/deploy.ts#[isNIMDeployActive](../src/api/deployments/deploy.ts#L18-L19)
@@ -198,12 +199,12 @@ flowchart LR
 - **supportsOverwrite**: `true`
 - **deploy**: packages/nim-serving/src/api/deployments/deploy.ts#[deployNIMDeployment](../src/api/deployments/deploy.ts#L68-L107)
 - **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
 - **CodeRef target**: packages/nim-serving/src/api/deployments/deploy.ts#[isNIMDeployActive](../src/api/deployments/deploy.ts#L18-L19), packages/nim-serving/src/api/deployments/deploy.ts#[deployNIMDeployment](../src/api/deployments/deploy.ts#L68-L107)
-- **Included in**: 
 - **Source**: [model-serving.deployment/deploy](../extensions/nim-service.ts#L170-L182)
 
 #### model-serving.deployment/form-data
+
+**Contribution:** `model-serving.deployment/form-data` at `packages/nim-serving/extensions/nim-service.ts:195`
 
 - **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
 - **isActive**: `true`
@@ -218,9 +219,7 @@ flowchart LR
 - **extractModelType**: packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMModelType](../src/pages/deploymentWizard/extractNIMFormData.ts#L81-L83)
 - **extractModelServerTemplate**: packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMModelServerTemplate](../src/pages/deploymentWizard/extractNIMFormData.ts#L85-L85)
 - **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
 - **CodeRef target**: packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[NIM_SERVICE_HARDWARE_PROFILE_PATHS](../src/api/nimservices/utils.ts#L17-L21), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMHardwareProfileConfig](../src/pages/deploymentWizard/extractNIMFormData.ts#L21-L41), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMReplicas](../src/pages/deploymentWizard/extractNIMFormData.ts#L43-L45), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMRuntimeArgs](../src/pages/deploymentWizard/extractNIMFormData.ts#L66-L74), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMEnvironmentVariables](../src/pages/deploymentWizard/extractNIMFormData.ts#L47-L58), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMModelAvailabilityData](../src/pages/deploymentWizard/extractNIMFormData.ts#L76-L79), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMModelLocationData](../src/pages/deploymentWizard/extractNIMFormData.ts#L60-L64), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMModelType](../src/pages/deploymentWizard/extractNIMFormData.ts#L81-L83), packages/nim-serving/src/pages/deploymentWizard/extractNIMFormData.ts#[extractNIMModelServerTemplate](../src/pages/deploymentWizard/extractNIMFormData.ts#L85-L85)
-- **Included in**: 
 - **Source**: [model-serving.deployment/form-data](../extensions/nim-service.ts#L195-L241)
 
 **Supplies**
@@ -233,16 +232,16 @@ flowchart LR
 
 #### model-serving.deployment/tracking-properties
 
-| platform | getProperties | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_LEGACY_ID` (`"nvidia-nim"`) | packages/nim-serving/src/tracking/nimWizardTracking.ts#[getNIMWizardTrackingProperties](../src/tracking/nimWizardTracking.ts#L76-L101) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) |  | packages/nim-serving/src/tracking/nimWizardTracking.ts#[getNIMWizardTrackingProperties](../src/tracking/nimWizardTracking.ts#L76-L101) |  | [model-serving.deployment/tracking-properties](../extensions/nim-kserve.ts#L47-L57) |
+| platform | getProperties | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `NIM_LEGACY_ID` (`"nvidia-nim"`) | packages/nim-serving/src/tracking/nimWizardTracking.ts#[getNIMWizardTrackingProperties](../src/tracking/nimWizardTracking.ts#L76-L101) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/tracking/nimWizardTracking.ts#[getNIMWizardTrackingProperties](../src/tracking/nimWizardTracking.ts#L76-L101) | [model-serving.deployment/tracking-properties](../extensions/nim-kserve.ts#L47-L57) |
 
 #### model-serving.deployment/wizard-field
 
-| field | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| packages/nim-serving/src/pages/deploymentWizard/fields/NIMImageField.tsx#[NIMImageFieldWizardField](../src/pages/deploymentWizard/fields/NIMImageField.tsx#L362-L408) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) |  | packages/nim-serving/src/pages/deploymentWizard/fields/NIMImageField.tsx#[NIMImageFieldWizardField](../src/pages/deploymentWizard/fields/NIMImageField.tsx#L362-L408) |  | [model-serving.deployment/wizard-field](../extensions/wizard.ts#L11-L22) |
-| packages/nim-serving/src/pages/deploymentWizard/fields/NIMPVCField.tsx#[NIMPVCFieldWizardField](../src/pages/deploymentWizard/fields/NIMPVCField.tsx#L453-L511) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) |  | packages/nim-serving/src/pages/deploymentWizard/fields/NIMPVCField.tsx#[NIMPVCFieldWizardField](../src/pages/deploymentWizard/fields/NIMPVCField.tsx#L453-L511) |  | [model-serving.deployment/wizard-field](../extensions/wizard.ts#L24-L35) |
+| field | Requires | CodeRef target | Source |
+| --- | --- | --- | --- |
+| packages/nim-serving/src/pages/deploymentWizard/fields/NIMImageField.tsx#[NIMImageFieldWizardField](../src/pages/deploymentWizard/fields/NIMImageField.tsx#L362-L408) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/pages/deploymentWizard/fields/NIMImageField.tsx#[NIMImageFieldWizardField](../src/pages/deploymentWizard/fields/NIMImageField.tsx#L362-L408) | [model-serving.deployment/wizard-field](../extensions/wizard.ts#L11-L22) |
+| packages/nim-serving/src/pages/deploymentWizard/fields/NIMPVCField.tsx#[NIMPVCFieldWizardField](../src/pages/deploymentWizard/fields/NIMPVCField.tsx#L453-L511) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/pages/deploymentWizard/fields/NIMPVCField.tsx#[NIMPVCFieldWizardField](../src/pages/deploymentWizard/fields/NIMPVCField.tsx#L453-L511) | [model-serving.deployment/wizard-field](../extensions/wizard.ts#L24-L35) |
 
 **Not resolved**
 
@@ -281,108 +280,35 @@ flowchart LR
 
 #### model-serving.deployment/wizard-field-apply
 
-- **fieldId**: `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`)
-- **platform**: `NIM_LEGACY_ID` (`"nvidia-nim"`)
-- **apply**: packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L87-L91)
-- **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L87-L91)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/nim-kserve.ts#L20-L31)
-
-- **fieldId**: `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`)
-- **platform**: `NIM_LEGACY_ID` (`"nvidia-nim"`)
-- **apply**: packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L79-L94)
-- **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L79-L94)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/nim-kserve.ts#L76-L87)
-
-- **fieldId**: `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`)
-- **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
-- **apply**: packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L4-L20)
-- **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L4-L20)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/nim-service.ts#L26-L39)
-
-- **fieldId**: `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`)
-- **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
-- **apply**: packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L27-L44)
-- **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L27-L44)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/nim-service.ts#L57-L70)
+| fieldId | platform | apply | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`) | `NIM_LEGACY_ID` (`"nvidia-nim"`) | packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L87-L91) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L87-L91) | [model-serving.deployment/wizard-field-apply](../extensions/nim-kserve.ts#L20-L31) |
+| `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`) | `NIM_LEGACY_ID` (`"nvidia-nim"`) | packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L79-L94) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L79-L94) | [model-serving.deployment/wizard-field-apply](../extensions/nim-kserve.ts#L76-L87) |
+| `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`) | `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L4-L20) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[applyNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L4-L20) | [model-serving.deployment/wizard-field-apply](../extensions/nim-service.ts#L26-L39) |
+| `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`) | `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L27-L44) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[applyNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L27-L44) | [model-serving.deployment/wizard-field-apply](../extensions/nim-service.ts#L57-L70) |
 
 #### model-serving.deployment/wizard-field-deployment-functions
 
-- **fieldId**: `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`)
-- **platform**: `NIM_LEGACY_ID` (`"nvidia-nim"`)
-- **preDeploy**: packages/nim-serving/src/nimKServe/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/nimKServe/fields/nimPVCDeployFunctions.ts#L22-L58)
-- **postDeploy**: `null`
-- **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/nimKServe/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/nimKServe/fields/nimPVCDeployFunctions.ts#L22-L58)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-deployment-functions](../extensions/nim-kserve.ts#L62-L74)
-
-- **fieldId**: `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`)
-- **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
-- **preDeploy**: packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L16-L66)
-- **postDeploy**: packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPostDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L68-L70)
-- **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L16-L66), packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPostDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L68-L70)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-deployment-functions](../extensions/nim-service.ts#L90-L107)
+| fieldId | platform | preDeploy | postDeploy | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`) | `NIM_LEGACY_ID` (`"nvidia-nim"`) | packages/nim-serving/src/nimKServe/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/nimKServe/fields/nimPVCDeployFunctions.ts#L22-L58) | `null` | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/nimKServe/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/nimKServe/fields/nimPVCDeployFunctions.ts#L22-L58) | [model-serving.deployment/wizard-field-deployment-functions](../extensions/nim-kserve.ts#L62-L74) |
+| `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`) | `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L16-L66) | packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPostDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L68-L70) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPreDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L16-L66), packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#[nimPVCPostDeploy](../src/pages/deploymentWizard/fields/nimPVCDeployFunctions.ts#L68-L70) | [model-serving.deployment/wizard-field-deployment-functions](../extensions/nim-service.ts#L90-L107) |
 
 #### model-serving.deployment/wizard-field-extractor
 
-- **fieldId**: `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`)
-- **platform**: `KSERVE_ID` (`"kserve"`)
-- **extract**: packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L98-L135)
-- **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L98-L135)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/nim-kserve.ts#L34-L45)
-
-- **fieldId**: `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`)
-- **platform**: `KSERVE_ID` (`"kserve"`)
-- **extract**: packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[extractNIMKServeImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L104-L112)
-- **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[extractNIMKServeImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L104-L112)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/nim-kserve.ts#L92-L108)
-
-- **fieldId**: `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`)
-- **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
-- **extract**: packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[extractNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L22-L30)
-- **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[extractNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L22-L30)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/nim-service.ts#L42-L55)
-
-- **fieldId**: `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`)
-- **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
-- **extract**: packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L46-L59)
-- **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L46-L59)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/nim-service.ts#L72-L85)
+| fieldId | platform | extract | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`) | `KSERVE_ID` (`"kserve"`) | packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L98-L135) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/nimKServe/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/nimKServe/fields/nimPVCApplyExtract.ts#L98-L135) | [model-serving.deployment/wizard-field-extractor](../extensions/nim-kserve.ts#L34-L45) |
+| `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`) | `KSERVE_ID` (`"kserve"`) | packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[extractNIMKServeImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L104-L112) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/nimKServe/fields/nimImageApplyExtract.ts#[extractNIMKServeImageFieldData](../src/nimKServe/fields/nimImageApplyExtract.ts#L104-L112) | [model-serving.deployment/wizard-field-extractor](../extensions/nim-kserve.ts#L92-L108) |
+| `NIM_IMAGE_FIELD_ID` (`"nim-serving/nimImage"`) | `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[extractNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L22-L30) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#[extractNIMImageFieldData](../src/pages/deploymentWizard/fields/nimImageApplyExtract.ts#L22-L30) | [model-serving.deployment/wizard-field-extractor](../extensions/nim-service.ts#L42-L55) |
+| `NIM_PVC_STORAGE_FIELD_ID` (`"nim-serving/pvcStorage"`) | `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L46-L59) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#[extractNIMPVCFieldData](../src/pages/deploymentWizard/fields/nimPVCApplyExtract.ts#L46-L59) | [model-serving.deployment/wizard-field-extractor](../extensions/nim-service.ts#L72-L85) |
 
 #### model-serving.deployment/wizard-field-override
 
-| platform | field | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"nim-wizard"` | packages/nim-serving/src/wizardFields/overrides/NIMModelTypeOverride.ts#[NIMModelTypeOverride](../src/wizardFields/overrides/NIMModelTypeOverride.ts#L12-L21) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) |  | packages/nim-serving/src/wizardFields/overrides/NIMModelTypeOverride.ts#[NIMModelTypeOverride](../src/wizardFields/overrides/NIMModelTypeOverride.ts#L12-L21) |  | [model-serving.deployment/wizard-field-override](../extensions/wizard.ts#L37-L49) |
-| `"nim-wizard"` | packages/nim-serving/src/wizardFields/overrides/NIMModelLocationOverride.ts#[NIMModelLocationOverride](../src/wizardFields/overrides/NIMModelLocationOverride.ts#L7-L15) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) |  | packages/nim-serving/src/wizardFields/overrides/NIMModelLocationOverride.ts#[NIMModelLocationOverride](../src/wizardFields/overrides/NIMModelLocationOverride.ts#L7-L15) |  | [model-serving.deployment/wizard-field-override](../extensions/wizard.ts#L51-L63) |
+| platform | field | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `"nim-wizard"` | packages/nim-serving/src/wizardFields/overrides/NIMModelTypeOverride.ts#[NIMModelTypeOverride](../src/wizardFields/overrides/NIMModelTypeOverride.ts#L12-L21) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/wizardFields/overrides/NIMModelTypeOverride.ts#[NIMModelTypeOverride](../src/wizardFields/overrides/NIMModelTypeOverride.ts#L12-L21) | [model-serving.deployment/wizard-field-override](../extensions/wizard.ts#L37-L49) |
+| `"nim-wizard"` | packages/nim-serving/src/wizardFields/overrides/NIMModelLocationOverride.ts#[NIMModelLocationOverride](../src/wizardFields/overrides/NIMModelLocationOverride.ts#L7-L15) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | packages/nim-serving/src/wizardFields/overrides/NIMModelLocationOverride.ts#[NIMModelLocationOverride](../src/wizardFields/overrides/NIMModelLocationOverride.ts#L7-L15) | [model-serving.deployment/wizard-field-override](../extensions/wizard.ts#L51-L63) |
 
 **Supplies**
 
@@ -403,23 +329,19 @@ flowchart LR
 
 #### model-serving.deployments-table/start-stop-action
 
-| platform | patchDeploymentStoppedStatus | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/api/deployments/status.ts#[patchDeploymentStoppedStatus](../src/api/deployments/status.ts#L64-L81) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) |  | packages/nim-serving/src/api/deployments/status.ts#[patchDeploymentStoppedStatus](../src/api/deployments/status.ts#L64-L81) |  | [model-serving.deployments-table/start-stop-action](../extensions/nim-service.ts#L258-L268) |
+| platform | patchDeploymentStoppedStatus | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/api/deployments/status.ts#[patchDeploymentStoppedStatus](../src/api/deployments/status.ts#L64-L81) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/api/deployments/status.ts#[patchDeploymentStoppedStatus](../src/api/deployments/status.ts#L64-L81) | [model-serving.deployments-table/start-stop-action](../extensions/nim-service.ts#L258-L268) |
 
 #### model-serving.platform
 
-- **id**: `NIM_LEGACY_ID` (`"nvidia-nim"`)
-- **manage**: namespaceApplicationCase: `NamespaceApplicationCase.KSERVE_NIM_PROMOTION` (`2`), priority: `100`, projectRequirements: annotations: opendatahub.io/nim-support: `"true"`, clusterRequirements: integrationAppName: `"nvidia-nim"`
-- **enableCardText**: title: `"NVIDIA NIM model serving platform"`, description: `"Models are deployed using NVIDIA NIM microservices. Choose this option when you want to deploy your model within a NIM container. Please provide the API key to authenticate with the NIM service."`, selectText: `"Select NVIDIA NIM"`, enabledText: `"NVIDIA NIM serving enabled"`, objectType: `ProjectObjectType.modelServer` (`"model-server"`)
-- **deployedModelsView**: startHintTitle: `"Start by adding a model server"`, startHintDescription: `"Model servers are used to deploy models and to allow apps to send requests to your models. Configuring a model server includes specifying the number of replicas being deployed, the server size, the token authentication, the serving runtime, and how the project that the model server belongs to is accessed. "`, deployButtonText: `"Add model server"`
-- **Requires**: `SupportedArea.NIM_MODEL` (`"nim-model"`)
-- **Disallows**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [model-serving.platform](../extensions/legacy-ui.ts#L23-L58)
+| id | manage | enableCardText | deployedModelsView | Requires | Disallows | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `NIM_LEGACY_ID` (`"nvidia-nim"`) | namespaceApplicationCase: `NamespaceApplicationCase.KSERVE_NIM_PROMOTION` (`2`), priority: `100`, projectRequirements: annotations: opendatahub.io/nim-support: `"true"`, clusterRequirements: integrationAppName: `"nvidia-nim"` | title: `"NVIDIA NIM model serving platform"`, description: `"Models are deployed using NVIDIA NIM microservices. Choose this option when you want to deploy your model within a NIM container. Please provide the API key to authenticate with the NIM service."`, selectText: `"Select NVIDIA NIM"`, enabledText: `"NVIDIA NIM serving enabled"`, objectType: `ProjectObjectType.modelServer` (`"model-server"`) | startHintTitle: `"Start by adding a model server"`, startHintDescription: `"Model servers are used to deploy models and to allow apps to send requests to your models. Configuring a model server includes specifying the number of replicas being deployed, the server size, the token authentication, the serving runtime, and how the project that the model server belongs to is accessed. "`, deployButtonText: `"Add model server"` | `SupportedArea.NIM_MODEL` (`"nim-model"`) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | [model-serving.platform](../extensions/legacy-ui.ts#L23-L58) |
 
 #### model-serving.platform/delete-deployment
+
+**Contribution:** `model-serving.platform/delete-deployment` at `packages/nim-serving/extensions/nim-kserve.ts:152`
 
 - **platform**: `KSERVE_ID` (`"kserve"`)
 - **onDelete**: packages/kserve/src/deployments.ts#[deleteDeployment](../../kserve/src/deployments.ts#L161-L200)
@@ -429,45 +351,38 @@ flowchart LR
 - **priority**: `50`
 - **DeleteModalComponent**: packages/nim-serving/src/nimKServe/NIMKServeDeleteModal.tsx#[NIMKServeDeleteModal](../src/nimKServe/NIMKServeDeleteModal.tsx#L16-L171)
 - **Requires**: `SupportedArea.NIM_WIZARD` (`"nim-wizard"`)
-- **Disallows**: 
 - **CodeRef target**: packages/nim-serving/src/nimKServe/extractFormData.ts#[isNIMKServeDeployment](../src/nimKServe/extractFormData.ts#L18-L20), packages/kserve/src/deployments.ts#[deleteDeployment](../../kserve/src/deployments.ts#L161-L200), packages/nim-serving/src/nimKServe/NIMKServeDeleteModal.tsx#[NIMKServeDeleteModal](../src/nimKServe/NIMKServeDeleteModal.tsx#L16-L171)
-- **Included in**: 
 - **Source**: [model-serving.platform/delete-deployment](../extensions/nim-kserve.ts#L152-L168)
 
 #### model-serving.platform/exclude-deployment
 
-- **platform**: `NIM_SERVICE_ID` (`"nvidia-nim-service"`)
-- **excludeFromPlatform**: `"kserve"`
-- **filter**: packages/nim-serving/src/nimOwnership.ts#[isNIMOwned](../src/nimOwnership.ts#L8-L11)
-- **Requires**: `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`)
-- **Disallows**: 
-- **CodeRef target**: packages/nim-serving/src/nimOwnership.ts#[isNIMOwned](../src/nimOwnership.ts#L8-L11)
-- **Included in**: 
-- **Source**: [model-serving.platform/exclude-deployment](../extensions/nim-service.ts#L159-L169)
+| platform | excludeFromPlatform | filter | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | `"kserve"` | packages/nim-serving/src/nimOwnership.ts#[isNIMOwned](../src/nimOwnership.ts#L8-L11) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/nimOwnership.ts#[isNIMOwned](../src/nimOwnership.ts#L8-L11) | [model-serving.platform/exclude-deployment](../extensions/nim-service.ts#L159-L169) |
 
 #### model-serving.platform/global-models-page
 
-| platform | component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_LEGACY_ID` (`"nvidia-nim"`) | frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../../../frontend/src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) | `SupportedArea.NIM_MODEL` (`"nim-model"`) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../../../frontend/src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) |  | [model-serving.platform/global-models-page](../extensions/legacy-ui.ts#L85-L95) |
+| platform | component | Requires | Disallows | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `NIM_LEGACY_ID` (`"nvidia-nim"`) | frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../../../frontend/src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) | `SupportedArea.NIM_MODEL` (`"nim-model"`) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../../../frontend/src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) | [model-serving.platform/global-models-page](../extensions/legacy-ui.ts#L85-L95) |
 
 #### model-serving.platform/overview-section
 
-| platform | component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_LEGACY_ID` (`"nvidia-nim"`) | frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#[ServeModelsSection](../../../frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#L9-L29) | `SupportedArea.NIM_MODEL` (`"nim-model"`) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#[ServeModelsSection](../../../frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#L9-L29) |  | [model-serving.platform/overview-section](../extensions/legacy-ui.ts#L71-L84) |
+| platform | component | Requires | Disallows | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `NIM_LEGACY_ID` (`"nvidia-nim"`) | frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#[ServeModelsSection](../../../frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#L9-L29) | `SupportedArea.NIM_MODEL` (`"nim-model"`) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#[ServeModelsSection](../../../frontend/src/pages/projects/screens/detail/overview/serverModels/ServeModelsSection.tsx#L9-L29) | [model-serving.platform/overview-section](../extensions/legacy-ui.ts#L71-L84) |
 
 #### model-serving.platform/project-details-tab
 
-| platform | component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_LEGACY_ID` (`"nvidia-nim"`) | frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#[ModelServingPlatform](../../../frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#L45-L300) | `SupportedArea.NIM_MODEL` (`"nim-model"`) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#[ModelServingPlatform](../../../frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#L45-L300) |  | [model-serving.platform/project-details-tab](../extensions/legacy-ui.ts#L59-L70) |
+| platform | component | Requires | Disallows | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `NIM_LEGACY_ID` (`"nvidia-nim"`) | frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#[ModelServingPlatform](../../../frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#L45-L300) | `SupportedArea.NIM_MODEL` (`"nim-model"`) | `SupportedArea.NIM_WIZARD` (`"nim-wizard"`) | frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#[ModelServingPlatform](../../../frontend/src/pages/modelServing/screens/projects/ModelServingPlatform.tsx#L45-L300) | [model-serving.platform/project-details-tab](../extensions/legacy-ui.ts#L59-L70) |
 
 #### model-serving.platform/watch-deployments
 
-| platform | watch | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/api/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/api/deployments/useWatchDeployments.ts#L13-L83) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) |  | packages/nim-serving/src/api/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/api/deployments/useWatchDeployments.ts#L13-L83) |  | [model-serving.platform/watch-deployments](../extensions/nim-service.ts#L138-L148) |
+| platform | watch | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| `NIM_SERVICE_ID` (`"nvidia-nim-service"`) | packages/nim-serving/src/api/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/api/deployments/useWatchDeployments.ts#L13-L83) | `SupportedArea.NIM_SERVICE_OPERATOR` (`"nim-service-operator"`) | packages/nim-serving/src/api/deployments/useWatchDeployments.ts#[useWatchDeployments](../src/api/deployments/useWatchDeployments.ts#L13-L83) | [model-serving.platform/watch-deployments](../extensions/nim-service.ts#L138-L148) |
 
 ## Diagnostics
 

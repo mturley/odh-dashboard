@@ -2,6 +2,15 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.route](#approute)
+    - [app.status-provider](#appstatus-provider)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -23,12 +32,12 @@ flowchart LR
   pkg_n__odh_dashboard_hardware_profiles_e0986f --> point_n_app_status_provider_94dc4e
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/hardware-profiles | [@odh-dashboard/hardware-profiles](#contributes) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../extensions.ts#L13-L28) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../extensions.ts#L36-L45)<br>[app.route](../extensions.ts#L29-L35) |
-| app.status-provider | [app.status-provider](../../plugin-core/docs/extensions.md#appstatus-provider)<br>[app.status-provider](../extensions.ts#L46-L55) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/hardware-profiles](#loading-paths) | — | — |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../extensions.ts:13](../extensions.ts#L13-L28) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../extensions.ts:36](../extensions.ts#L36-L45)<br>[../extensions.ts:29](../extensions.ts#L29-L35) |
+| app.status-provider | [app.status-provider](../../plugin-core/docs/extensions.md#appstatus-provider) | [../extensions.ts:46](../extensions.ts#L46-L55) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -39,6 +48,8 @@ flowchart LR
 
 #### app.navigation/href
 
+**Contribution:** `app.navigation/href` at `packages/hardware-profiles/extensions.ts:13`
+
 - **id**: `"settings-hardware-profiles"`
 - **title**: `"Hardware profiles"`
 - **section**: `"settings-environment-setup"`
@@ -46,18 +57,14 @@ flowchart LR
 - **accessReview**: group: `"infrastructure.opendatahub.io"`, resource: `"hardwareprofiles"`, verb: `"create"`
 - **statusProviderId**: `"hardware-profiles.status"`
 - **path**: `"/settings/environment-setup/hardware-profiles/*"`
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L13-L28)
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| [not resolved](#diagnostics) | `"/hardwareProfiles/*"` |  |  |  |  | [app.route](../extensions.ts#L36-L45) |
-| packages/hardware-profiles/src/pages/HardwareProfilesRoutes.tsx#[accessAllowedRouteHoC](../src/pages/HardwareProfilesRoutes.tsx#L23-L25) | `"/settings/environment-setup/hardware-profiles/*"` |  |  | packages/hardware-profiles/src/pages/HardwareProfilesRoutes.tsx#[accessAllowedRouteHoC](../src/pages/HardwareProfilesRoutes.tsx#L23-L25) |  | [app.route](../extensions.ts#L29-L35) |
+| component | path | CodeRef target | Source |
+| --- | --- | --- | --- |
+| [not resolved](#diagnostics) | `"/hardwareProfiles/*"` | — | [app.route](../extensions.ts#L36-L45) |
+| packages/hardware-profiles/src/pages/HardwareProfilesRoutes.tsx#[accessAllowedRouteHoC](../src/pages/HardwareProfilesRoutes.tsx#L23-L25) | `"/settings/environment-setup/hardware-profiles/*"` | packages/hardware-profiles/src/pages/HardwareProfilesRoutes.tsx#[accessAllowedRouteHoC](../src/pages/HardwareProfilesRoutes.tsx#L23-L25) | [app.route](../extensions.ts#L29-L35) |
 
 **Not resolved**
 
@@ -67,9 +74,9 @@ flowchart LR
 
 #### app.status-provider
 
-| id | statusProviderHook | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"hardware-profiles.status"` | packages/hardware-profiles/src/useHardwareProfilesStatusProvider.ts#[useHardwareProfilesStatusProvider](../src/useHardwareProfilesStatusProvider.ts#L12-L29) |  |  | packages/hardware-profiles/src/useHardwareProfilesStatusProvider.ts#[useHardwareProfilesStatusProvider](../src/useHardwareProfilesStatusProvider.ts#L12-L29) |  | [app.status-provider](../extensions.ts#L46-L55) |
+| id | statusProviderHook | CodeRef target | Source |
+| --- | --- | --- | --- |
+| `"hardware-profiles.status"` | packages/hardware-profiles/src/useHardwareProfilesStatusProvider.ts#[useHardwareProfilesStatusProvider](../src/useHardwareProfilesStatusProvider.ts#L12-L29) | packages/hardware-profiles/src/useHardwareProfilesStatusProvider.ts#[useHardwareProfilesStatusProvider](../src/useHardwareProfilesStatusProvider.ts#L12-L29) | [app.status-provider](../extensions.ts#L46-L55) |
 
 ## Diagnostics
 

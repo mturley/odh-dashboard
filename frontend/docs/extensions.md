@@ -2,6 +2,23 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.connection-types/default-value-renderer](#appconnection-typesdefault-value-renderer)
+    - [app.connection-types/details-helper](#appconnection-typesdetails-helper)
+    - [app.connection-types/form](#appconnection-typesform)
+    - [app.connection-types/form-fields](#appconnection-typesform-fields)
+    - [app.connection-types/service](#appconnection-typesservice)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.navigation/section](#appnavigationsection)
+    - [app.route](#approute)
+    - [app.tab-route/page](#apptab-routepage)
+    - [app.task/group](#apptaskgroup)
+    - [app.task/item](#apptaskitem)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -39,20 +56,20 @@ flowchart LR
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_task_item_001b33
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/internal | [@odh-dashboard/internal](#contributes) |
-| app.connection-types/default-value-renderer | [app.connection-types/default-value-renderer](../../packages/plugin-core/docs/extensions.md#appconnection-typesdefault-value-renderer)<br>[app.connection-types/default-value-renderer](../src/plugins/extensions/connection-types.ts#L38-L44) |
-| app.connection-types/details-helper | [app.connection-types/details-helper](../../packages/plugin-core/docs/extensions.md#appconnection-typesdetails-helper)<br>[app.connection-types/details-helper](../src/plugins/extensions/connection-types.ts#L31-L37) |
-| app.connection-types/form | [app.connection-types/form](../../packages/plugin-core/docs/extensions.md#appconnection-typesform)<br>[app.connection-types/form](../src/plugins/extensions/connection-types.ts#L45-L50) |
-| app.connection-types/form-fields | [app.connection-types/form-fields](../../packages/plugin-core/docs/extensions.md#appconnection-typesform-fields)<br>[app.connection-types/form-fields](../src/plugins/extensions/connection-types.ts#L25-L30) |
-| app.connection-types/service | [app.connection-types/service](../../packages/plugin-core/docs/extensions.md#appconnection-typesservice)<br>[app.connection-types/service](../src/plugins/extensions/connection-types.ts#L17-L24) |
-| app.navigation/href ×17 | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L105-L117)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L118-L130)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L131-L143)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L144-L156)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L12-L24)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L166-L178)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L180-L189)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L200-L211)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L212-L223)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L224-L232)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L252-L263)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L264-L276)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L26-L39)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L286-L298)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L299-L311)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L330-L343)<br>[app.navigation/href](../src/plugins/extensions/navigation.ts#L345-L361) |
-| app.navigation/section ×10 | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L87-L95)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L96-L104)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L157-L165)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L191-L199)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L234-L242)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L243-L251)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L277-L285)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L312-L320)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L321-L329)<br>[app.navigation/section](../src/plugins/extensions/navigation.ts#L41-L49) |
-| app.route ×41 | [app.route](../../packages/plugin-core/docs/extensions.md#approute)<br>[app.route](../src/plugins/extensions/routes.ts#L44-L53)<br>[app.route](../src/plugins/extensions/routes.ts#L54-L60)<br>[app.route](../src/plugins/extensions/routes.ts#L61-L67)<br>[app.route](../src/plugins/extensions/routes.ts#L68-L74)<br>[app.route](../src/plugins/extensions/routes.ts#L75-L81)<br>[app.route](../src/plugins/extensions/routes.ts#L82-L88)<br>[app.route](../src/plugins/extensions/routes.ts#L89-L95)<br>[app.route](../src/plugins/extensions/routes.ts#L96-L102)<br>[app.route](../src/plugins/extensions/routes.ts#L103-L112)<br>[app.route](../src/plugins/extensions/routes.ts#L113-L119)<br>[app.route](../src/plugins/extensions/routes.ts#L120-L129)<br>[app.route](../src/plugins/extensions/routes.ts#L130-L142)<br>[app.route](../src/plugins/extensions/routes.ts#L143-L149)<br>[app.route](../src/plugins/extensions/routes.ts#L150-L159)<br>[app.route](../src/plugins/extensions/routes.ts#L160-L166)<br>[app.route](../src/plugins/extensions/routes.ts#L167-L176)<br>[app.route](../src/plugins/extensions/routes.ts#L177-L183)<br>[app.route](../src/plugins/extensions/routes.ts#L184-L193)<br>[app.route](../src/plugins/extensions/routes.ts#L194-L200)<br>[app.route](../src/plugins/extensions/routes.ts#L201-L210)<br>[app.route](../src/plugins/extensions/routes.ts#L211-L217)<br>[app.route](../src/plugins/extensions/routes.ts#L218-L227)<br>[app.route](../src/plugins/extensions/routes.ts#L14-L23)<br>[app.route](../src/plugins/extensions/routes.ts#L228-L237)<br>[app.route](../src/plugins/extensions/routes.ts#L238-L250)<br>[app.route](../src/plugins/extensions/routes.ts#L251-L257)<br>[app.route](../src/plugins/extensions/routes.ts#L258-L267)<br>[app.route](../src/plugins/extensions/routes.ts#L268-L277)<br>[app.route](../src/plugins/extensions/routes.ts#L278-L290)<br>[app.route](../src/plugins/extensions/routes.ts#L291-L300)<br>[app.route](../src/plugins/extensions/routes.ts#L24-L33)<br>[app.route](../src/plugins/extensions/routes.ts#L301-L313)<br>[app.route](../src/plugins/extensions/routes.ts#L314-L323)<br>[app.route](../src/plugins/extensions/routes.ts#L324-L336)<br>[app.route](../src/plugins/extensions/routes.ts#L337-L346)<br>[app.route](../src/plugins/extensions/routes.ts#L347-L359)<br>[app.route](../src/plugins/extensions/routes.ts#L360-L369)<br>[app.route](../src/plugins/extensions/routes.ts#L370-L382)<br>[app.route](../src/plugins/extensions/routes.ts#L383-L392)<br>[app.route](../src/plugins/extensions/routes.ts#L393-L405)<br>[app.route](../src/plugins/extensions/routes.ts#L34-L43) |
-| app.tab-route/page | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage)<br>[app.tab-route/page](../src/plugins/extensions/navigation.ts#L50-L61)<br>[app.tab-route/page](../src/plugins/extensions/navigation.ts#L62-L73)<br>[app.tab-route/page](../src/plugins/extensions/navigation.ts#L74-L86) |
-| app.task/group | [app.task/group](../../packages/plugin-core/docs/extensions.md#apptaskgroup)<br>[app.task/group](../src/plugins/extensions/tasks.ts#L11-L22)<br>[app.task/group](../src/plugins/extensions/tasks.ts#L23-L34) |
-| app.task/item | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem)<br>[app.task/item](../src/plugins/extensions/tasks.ts#L38-L47)<br>[app.task/item](../src/plugins/extensions/tasks.ts#L48-L57)<br>[app.task/item](../src/plugins/extensions/tasks.ts#L61-L73) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/internal](#loading-paths) | — | — |
+| app.connection-types/default-value-renderer | [app.connection-types/default-value-renderer](../../packages/plugin-core/docs/extensions.md#appconnection-typesdefault-value-renderer) | [../src/plugins/extensions/connection-types.ts:38](../src/plugins/extensions/connection-types.ts#L38-L44) |
+| app.connection-types/details-helper | [app.connection-types/details-helper](../../packages/plugin-core/docs/extensions.md#appconnection-typesdetails-helper) | [../src/plugins/extensions/connection-types.ts:31](../src/plugins/extensions/connection-types.ts#L31-L37) |
+| app.connection-types/form | [app.connection-types/form](../../packages/plugin-core/docs/extensions.md#appconnection-typesform) | [../src/plugins/extensions/connection-types.ts:45](../src/plugins/extensions/connection-types.ts#L45-L50) |
+| app.connection-types/form-fields | [app.connection-types/form-fields](../../packages/plugin-core/docs/extensions.md#appconnection-typesform-fields) | [../src/plugins/extensions/connection-types.ts:25](../src/plugins/extensions/connection-types.ts#L25-L30) |
+| app.connection-types/service | [app.connection-types/service](../../packages/plugin-core/docs/extensions.md#appconnection-typesservice) | [../src/plugins/extensions/connection-types.ts:17](../src/plugins/extensions/connection-types.ts#L17-L24) |
+| app.navigation/href ×17 | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | [../src/plugins/extensions/navigation.ts:105](../src/plugins/extensions/navigation.ts#L105-L117)<br>[../src/plugins/extensions/navigation.ts:118](../src/plugins/extensions/navigation.ts#L118-L130)<br>[../src/plugins/extensions/navigation.ts:131](../src/plugins/extensions/navigation.ts#L131-L143)<br>[../src/plugins/extensions/navigation.ts:144](../src/plugins/extensions/navigation.ts#L144-L156)<br>[../src/plugins/extensions/navigation.ts:12](../src/plugins/extensions/navigation.ts#L12-L24)<br>[../src/plugins/extensions/navigation.ts:166](../src/plugins/extensions/navigation.ts#L166-L178)<br>[../src/plugins/extensions/navigation.ts:180](../src/plugins/extensions/navigation.ts#L180-L189)<br>[../src/plugins/extensions/navigation.ts:200](../src/plugins/extensions/navigation.ts#L200-L211)<br>[../src/plugins/extensions/navigation.ts:212](../src/plugins/extensions/navigation.ts#L212-L223)<br>[../src/plugins/extensions/navigation.ts:224](../src/plugins/extensions/navigation.ts#L224-L232)<br>[../src/plugins/extensions/navigation.ts:252](../src/plugins/extensions/navigation.ts#L252-L263)<br>[../src/plugins/extensions/navigation.ts:264](../src/plugins/extensions/navigation.ts#L264-L276)<br>[../src/plugins/extensions/navigation.ts:26](../src/plugins/extensions/navigation.ts#L26-L39)<br>[../src/plugins/extensions/navigation.ts:286](../src/plugins/extensions/navigation.ts#L286-L298)<br>[../src/plugins/extensions/navigation.ts:299](../src/plugins/extensions/navigation.ts#L299-L311)<br>[../src/plugins/extensions/navigation.ts:330](../src/plugins/extensions/navigation.ts#L330-L343)<br>[../src/plugins/extensions/navigation.ts:345](../src/plugins/extensions/navigation.ts#L345-L361) |
+| app.navigation/section ×10 | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | [../src/plugins/extensions/navigation.ts:87](../src/plugins/extensions/navigation.ts#L87-L95)<br>[../src/plugins/extensions/navigation.ts:96](../src/plugins/extensions/navigation.ts#L96-L104)<br>[../src/plugins/extensions/navigation.ts:157](../src/plugins/extensions/navigation.ts#L157-L165)<br>[../src/plugins/extensions/navigation.ts:191](../src/plugins/extensions/navigation.ts#L191-L199)<br>[../src/plugins/extensions/navigation.ts:234](../src/plugins/extensions/navigation.ts#L234-L242)<br>[../src/plugins/extensions/navigation.ts:243](../src/plugins/extensions/navigation.ts#L243-L251)<br>[../src/plugins/extensions/navigation.ts:277](../src/plugins/extensions/navigation.ts#L277-L285)<br>[../src/plugins/extensions/navigation.ts:312](../src/plugins/extensions/navigation.ts#L312-L320)<br>[../src/plugins/extensions/navigation.ts:321](../src/plugins/extensions/navigation.ts#L321-L329)<br>[../src/plugins/extensions/navigation.ts:41](../src/plugins/extensions/navigation.ts#L41-L49) |
+| app.route ×41 | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | [../src/plugins/extensions/routes.ts:44](../src/plugins/extensions/routes.ts#L44-L53)<br>[../src/plugins/extensions/routes.ts:54](../src/plugins/extensions/routes.ts#L54-L60)<br>[../src/plugins/extensions/routes.ts:61](../src/plugins/extensions/routes.ts#L61-L67)<br>[../src/plugins/extensions/routes.ts:68](../src/plugins/extensions/routes.ts#L68-L74)<br>[../src/plugins/extensions/routes.ts:75](../src/plugins/extensions/routes.ts#L75-L81)<br>[../src/plugins/extensions/routes.ts:82](../src/plugins/extensions/routes.ts#L82-L88)<br>[../src/plugins/extensions/routes.ts:89](../src/plugins/extensions/routes.ts#L89-L95)<br>[../src/plugins/extensions/routes.ts:96](../src/plugins/extensions/routes.ts#L96-L102)<br>[../src/plugins/extensions/routes.ts:103](../src/plugins/extensions/routes.ts#L103-L112)<br>[../src/plugins/extensions/routes.ts:113](../src/plugins/extensions/routes.ts#L113-L119)<br>[../src/plugins/extensions/routes.ts:120](../src/plugins/extensions/routes.ts#L120-L129)<br>[../src/plugins/extensions/routes.ts:130](../src/plugins/extensions/routes.ts#L130-L142)<br>[../src/plugins/extensions/routes.ts:143](../src/plugins/extensions/routes.ts#L143-L149)<br>[../src/plugins/extensions/routes.ts:150](../src/plugins/extensions/routes.ts#L150-L159)<br>[../src/plugins/extensions/routes.ts:160](../src/plugins/extensions/routes.ts#L160-L166)<br>[../src/plugins/extensions/routes.ts:167](../src/plugins/extensions/routes.ts#L167-L176)<br>[../src/plugins/extensions/routes.ts:177](../src/plugins/extensions/routes.ts#L177-L183)<br>[../src/plugins/extensions/routes.ts:184](../src/plugins/extensions/routes.ts#L184-L193)<br>[../src/plugins/extensions/routes.ts:194](../src/plugins/extensions/routes.ts#L194-L200)<br>[../src/plugins/extensions/routes.ts:201](../src/plugins/extensions/routes.ts#L201-L210)<br>[../src/plugins/extensions/routes.ts:211](../src/plugins/extensions/routes.ts#L211-L217)<br>[../src/plugins/extensions/routes.ts:218](../src/plugins/extensions/routes.ts#L218-L227)<br>[../src/plugins/extensions/routes.ts:14](../src/plugins/extensions/routes.ts#L14-L23)<br>[../src/plugins/extensions/routes.ts:228](../src/plugins/extensions/routes.ts#L228-L237)<br>[../src/plugins/extensions/routes.ts:238](../src/plugins/extensions/routes.ts#L238-L250)<br>[../src/plugins/extensions/routes.ts:251](../src/plugins/extensions/routes.ts#L251-L257)<br>[../src/plugins/extensions/routes.ts:258](../src/plugins/extensions/routes.ts#L258-L267)<br>[../src/plugins/extensions/routes.ts:268](../src/plugins/extensions/routes.ts#L268-L277)<br>[../src/plugins/extensions/routes.ts:278](../src/plugins/extensions/routes.ts#L278-L290)<br>[../src/plugins/extensions/routes.ts:291](../src/plugins/extensions/routes.ts#L291-L300)<br>[../src/plugins/extensions/routes.ts:24](../src/plugins/extensions/routes.ts#L24-L33)<br>[../src/plugins/extensions/routes.ts:301](../src/plugins/extensions/routes.ts#L301-L313)<br>[../src/plugins/extensions/routes.ts:314](../src/plugins/extensions/routes.ts#L314-L323)<br>[../src/plugins/extensions/routes.ts:324](../src/plugins/extensions/routes.ts#L324-L336)<br>[../src/plugins/extensions/routes.ts:337](../src/plugins/extensions/routes.ts#L337-L346)<br>[../src/plugins/extensions/routes.ts:347](../src/plugins/extensions/routes.ts#L347-L359)<br>[../src/plugins/extensions/routes.ts:360](../src/plugins/extensions/routes.ts#L360-L369)<br>[../src/plugins/extensions/routes.ts:370](../src/plugins/extensions/routes.ts#L370-L382)<br>[../src/plugins/extensions/routes.ts:383](../src/plugins/extensions/routes.ts#L383-L392)<br>[../src/plugins/extensions/routes.ts:393](../src/plugins/extensions/routes.ts#L393-L405)<br>[../src/plugins/extensions/routes.ts:34](../src/plugins/extensions/routes.ts#L34-L43) |
+| app.tab-route/page | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) | [../src/plugins/extensions/navigation.ts:50](../src/plugins/extensions/navigation.ts#L50-L61)<br>[../src/plugins/extensions/navigation.ts:62](../src/plugins/extensions/navigation.ts#L62-L73)<br>[../src/plugins/extensions/navigation.ts:74](../src/plugins/extensions/navigation.ts#L74-L86) |
+| app.task/group | [app.task/group](../../packages/plugin-core/docs/extensions.md#apptaskgroup) | [../src/plugins/extensions/tasks.ts:11](../src/plugins/extensions/tasks.ts#L11-L22)<br>[../src/plugins/extensions/tasks.ts:23](../src/plugins/extensions/tasks.ts#L23-L34) |
+| app.task/item | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem) | [../src/plugins/extensions/tasks.ts:38](../src/plugins/extensions/tasks.ts#L38-L47)<br>[../src/plugins/extensions/tasks.ts:48](../src/plugins/extensions/tasks.ts#L48-L57)<br>[../src/plugins/extensions/tasks.ts:61](../src/plugins/extensions/tasks.ts#L61-L73) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -63,431 +80,351 @@ flowchart LR
 
 #### app.connection-types/default-value-renderer
 
-| component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#[DefaultValueTextRenderer](../../packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#L15-L22) |  |  | packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#[DefaultValueTextRenderer](../../packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#L15-L22) |  | [app.connection-types/default-value-renderer](../src/plugins/extensions/connection-types.ts#L38-L44) |
+| component | CodeRef target | Source |
+| --- | --- | --- |
+| packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#[DefaultValueTextRenderer](../../packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#L15-L22) | packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#[DefaultValueTextRenderer](../../packages/ui-core/src/components/connectionTypes/DefaultValueTextRenderer.tsx#L15-L22) | [app.connection-types/default-value-renderer](../src/plugins/extensions/connection-types.ts#L38-L44) |
 
 #### app.connection-types/details-helper
 
-| component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#[ConnectionDetailsHelperText](../../packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#L26-L73) |  |  | packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#[ConnectionDetailsHelperText](../../packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#L26-L73) |  | [app.connection-types/details-helper](../src/plugins/extensions/connection-types.ts#L31-L37) |
+| component | CodeRef target | Source |
+| --- | --- | --- |
+| packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#[ConnectionDetailsHelperText](../../packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#L26-L73) | packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#[ConnectionDetailsHelperText](../../packages/ui-core/src/components/connectionTypes/ConnectionDetailsHelperText.tsx#L26-L73) | [app.connection-types/details-helper](../src/plugins/extensions/connection-types.ts#L31-L37) |
 
 #### app.connection-types/form
 
-| component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| frontend/src/concepts/connectionTypes/ConnectionTypeForm.tsx#[ConnectionTypeForm](../src/concepts/connectionTypes/ConnectionTypeForm.tsx#L126-L244) |  |  | frontend/src/concepts/connectionTypes/ConnectionTypeForm.tsx#[ConnectionTypeForm](../src/concepts/connectionTypes/ConnectionTypeForm.tsx#L126-L244) |  | [app.connection-types/form](../src/plugins/extensions/connection-types.ts#L45-L50) |
+| component | CodeRef target | Source |
+| --- | --- | --- |
+| frontend/src/concepts/connectionTypes/ConnectionTypeForm.tsx#[ConnectionTypeForm](../src/concepts/connectionTypes/ConnectionTypeForm.tsx#L126-L244) | frontend/src/concepts/connectionTypes/ConnectionTypeForm.tsx#[ConnectionTypeForm](../src/concepts/connectionTypes/ConnectionTypeForm.tsx#L126-L244) | [app.connection-types/form](../src/plugins/extensions/connection-types.ts#L45-L50) |
 
 #### app.connection-types/form-fields
 
-| component | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| frontend/src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#[React](../src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#L113-L113) |  |  | frontend/src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#[React](../src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#L113-L113) |  | [app.connection-types/form-fields](../src/plugins/extensions/connection-types.ts#L25-L30) |
+| component | CodeRef target | Source |
+| --- | --- | --- |
+| frontend/src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#[React](../src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#L113-L113) | frontend/src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#[React](../src/concepts/connectionTypes/fields/ConnectionTypeFormFields.tsx#L113-L113) | [app.connection-types/form-fields](../src/plugins/extensions/connection-types.ts#L25-L30) |
 
 #### app.connection-types/service
 
-| fetchConnectionTypes | fetchConnections | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| frontend/src/services/connectionTypesService.ts#[fetchConnectionTypes](../src/services/connectionTypesService.ts#L12-L29) | frontend/src/services/fetchConnections.ts#[fetchConnections](../src/services/fetchConnections.ts#L5-L14) |  |  | frontend/src/services/connectionTypesService.ts#[fetchConnectionTypes](../src/services/connectionTypesService.ts#L12-L29), frontend/src/services/fetchConnections.ts#[fetchConnections](../src/services/fetchConnections.ts#L5-L14) |  | [app.connection-types/service](../src/plugins/extensions/connection-types.ts#L17-L24) |
+| fetchConnectionTypes | fetchConnections | CodeRef target | Source |
+| --- | --- | --- | --- |
+| frontend/src/services/connectionTypesService.ts#[fetchConnectionTypes](../src/services/connectionTypesService.ts#L12-L29) | frontend/src/services/fetchConnections.ts#[fetchConnections](../src/services/fetchConnections.ts#L5-L14) | frontend/src/services/connectionTypesService.ts#[fetchConnectionTypes](../src/services/connectionTypesService.ts#L12-L29), frontend/src/services/fetchConnections.ts#[fetchConnections](../src/services/fetchConnections.ts#L5-L14) | [app.connection-types/service](../src/plugins/extensions/connection-types.ts#L17-L24) |
 
 #### app.navigation/href
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:105`
 
 - **id**: `"pipeline-definitions"`
 - **title**: `"Pipeline definitions"`
 - **section**: `"pipelines"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/develop-train/pipelines/definitions"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/pipelines/definitions/*"`
 - **Requires**: `SupportedArea.DS_PIPELINES` (`"ds-pipelines"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L105-L117)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:118`
 
 - **id**: `"runs"`
 - **title**: `"Runs"`
 - **section**: `"pipelines"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/develop-train/pipelines/runs"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/pipelines/runs/*"`
 - **Requires**: `SupportedArea.DS_PIPELINES` (`"ds-pipelines"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L118-L130)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:131`
 
 - **id**: `"artifacts"`
 - **title**: `"Artifacts"`
 - **section**: `"pipelines"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/develop-train/pipelines/artifacts"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/pipelines/artifacts/*"`
 - **Requires**: `SupportedArea.DS_PIPELINES` (`"ds-pipelines"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L131-L143)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:144`
 
 - **id**: `"executions"`
 - **title**: `"Executions"`
 - **section**: `"pipelines"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/develop-train/pipelines/executions"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/pipelines/executions/*"`
 - **Requires**: `SupportedArea.DS_PIPELINES` (`"ds-pipelines"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L144-L156)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:12`
 
 - **id**: `"home"`
 - **title**: `"Home"`
-- **section**: 
+- **section**: —
 - **group**: `"1_home"`
 - **iconRef**: frontend/src/images/icons/HomeNavIcon.ts#[HomeNavIcon](../src/images/icons/HomeNavIcon.ts#L3-L11)
 - **href**: `"/"`
-- **accessReview**: 
-- **path**: 
+- **accessReview**: —
+- **path**: —
 - **Requires**: `SupportedArea.HOME` (`"home"`)
-- **Disallows**: 
+- **Disallows**: —
 - **CodeRef target**: frontend/src/images/icons/HomeNavIcon.ts#[HomeNavIcon](../src/images/icons/HomeNavIcon.ts#L3-L11)
-- **Included in**: 
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L12-L24)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:166`
 
 - **id**: `"workloadMetrics"`
 - **title**: `"Workload metrics"`
 - **section**: `"observe-and-monitor"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/observe-monitor/workload-metrics"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/observe-monitor/workload-metrics/*"`
 - **Requires**: `SupportedArea.DISTRIBUTED_WORKLOADS` (`"distributed-workloads"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L166-L178)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:180`
 
 - **id**: `"learning-resources"`
 - **title**: `"Learning resources"`
-- **section**: 
+- **section**: —
 - **group**: `"7_other"`
 - **iconRef**: frontend/src/images/icons/LearningResourcesNavIcon.ts#[LearningResourcesNavIcon](../src/images/icons/LearningResourcesNavIcon.ts#L3-L11)
 - **href**: `"/learning-resources"`
-- **accessReview**: 
-- **path**: 
-- **Requires**: 
-- **Disallows**: 
+- **accessReview**: —
+- **path**: —
+- **Requires**: —
+- **Disallows**: —
 - **CodeRef target**: frontend/src/images/icons/LearningResourcesNavIcon.ts#[LearningResourcesNavIcon](../src/images/icons/LearningResourcesNavIcon.ts#L3-L11)
-- **Included in**: 
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L180-L189)
 
-- **id**: `"apps-installed"`
-- **title**: `"Enabled"`
-- **section**: `"applications"`
-- **group**: 
-- **iconRef**: 
-- **href**: `"/applications/enabled"`
-- **accessReview**: 
-- **path**: 
-- **Requires**: `SupportedArea.HOME` (`"home"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L200-L211)
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:200`
 
 - **id**: `"apps-installed"`
 - **title**: `"Enabled"`
 - **section**: `"applications"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
+- **href**: `"/applications/enabled"`
+- **accessReview**: —
+- **path**: —
+- **Requires**: `SupportedArea.HOME` (`"home"`)
+- **Disallows**: —
+- **CodeRef target**: —
+- **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L200-L211)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:212`
+
+- **id**: `"apps-installed"`
+- **title**: `"Enabled"`
+- **section**: `"applications"`
+- **group**: —
+- **iconRef**: —
 - **href**: `"/"`
-- **accessReview**: 
-- **path**: 
-- **Requires**: 
+- **accessReview**: —
+- **path**: —
+- **Requires**: —
 - **Disallows**: `SupportedArea.HOME` (`"home"`)
-- **CodeRef target**: 
-- **Included in**: 
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L212-L223)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:224`
 
 - **id**: `"apps-explore"`
 - **title**: `"Explore"`
 - **section**: `"applications"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/applications/explore"`
-- **accessReview**: 
-- **path**: 
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **accessReview**: —
+- **path**: —
+- **Requires**: —
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L224-L232)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:252`
 
 - **id**: `"settings-general-cluster-settings"`
 - **title**: `"General settings"`
 - **section**: `"cluster-settings"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/settings/cluster/general"`
-- **accessReview**: 
-- **path**: 
+- **accessReview**: —
+- **path**: —
 - **Requires**: `SupportedArea.CLUSTER_SETTINGS` (`"cluster-settings"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L252-L263)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:264`
 
 - **id**: `"settings-storage-classes"`
 - **title**: `"Storage classes"`
 - **section**: `"cluster-settings"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/settings/cluster/storage-classes"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/settings/cluster/storage-classes/*"`
 - **Requires**: `SupportedArea.STORAGE_CLASSES` (`"storage-classes"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L264-L276)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:26`
 
 - **id**: `"projects"`
 - **title**: `"Projects"`
-- **section**: 
+- **section**: —
 - **group**: `"2_projects"`
 - **iconRef**: frontend/src/images/icons/ProjectsNavIcon.ts#[ProjectsNavIcon](../src/images/icons/ProjectsNavIcon.ts#L3-L11)
 - **href**: `"/projects"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/projects/*"`
 - **Requires**: `SupportedArea.DS_PROJECTS_VIEW` (`"ds-projects"`)
-- **Disallows**: 
+- **Disallows**: —
 - **CodeRef target**: frontend/src/images/icons/ProjectsNavIcon.ts#[ProjectsNavIcon](../src/images/icons/ProjectsNavIcon.ts#L3-L11)
-- **Included in**: 
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L26-L39)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:286`
 
 - **id**: `"settings-workbench-images"`
 - **title**: `"Workbench images"`
 - **section**: `"settings-environment-setup"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/settings/environment-setup/workbench-images"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/settings/environment-setup/workbench-images/*"`
 - **Requires**: `SupportedArea.BYON` (`"bring-your-own-notebook"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L286-L298)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:299`
 
 - **id**: `"settings-connection-types"`
 - **title**: `"Connection types"`
 - **section**: `"settings-environment-setup"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/settings/environment-setup/connection-types"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/settings/environment-setup/connection-types/*"`
 - **Requires**: `SupportedArea.ADMIN_CONNECTION_TYPES` (`"connection-types"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L299-L311)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:330`
 
 - **id**: `"settings-model-registry"`
 - **title**: `"Model registry settings"`
 - **section**: `"settings-model-resources-and-operations"`
 - **group**: `"3_model-resources"`
-- **iconRef**: 
+- **iconRef**: —
 - **href**: `"/settings/model-resources-operations/model-registry"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/settings/model-resources-operations/model-registry/*"`
 - **Requires**: `SupportedArea.MODEL_REGISTRY` (`"model-registry"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L330-L343)
+
+**Contribution:** `app.navigation/href` at `frontend/src/plugins/extensions/navigation.ts:345`
 
 - **id**: `"settings-group-settings"`
 - **title**: `"User management"`
 - **section**: `"settings"`
-- **group**: 
-- **iconRef**: 
+- **group**: —
+- **iconRef**: —
 - **href**: `"/settings/user-management"`
 - **accessReview**: group: `"services.platform.opendatahub.io"`, resource: `"auths"`, verb: `"update"`
-- **path**: 
+- **path**: —
 - **Requires**: `SupportedArea.USER_MANAGEMENT` (`"user-management"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
+- **Disallows**: —
+- **CodeRef target**: —
 - **Source**: [app.navigation/href](../src/plugins/extensions/navigation.ts#L345-L361)
 
 #### app.navigation/section
 
-- **id**: `"develop-and-train"`
-- **title**: `"Develop & train"`
-- **section**: 
-- **group**: `"5_develop_and_train"`
-- **iconRef**: frontend/src/images/icons/DevelopAndTrainNavIcon.ts#[DevelopAndTrainNavIcon](../src/images/icons/DevelopAndTrainNavIcon.ts#L3-L11)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: frontend/src/images/icons/DevelopAndTrainNavIcon.ts#[DevelopAndTrainNavIcon](../src/images/icons/DevelopAndTrainNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L87-L95)
-
-- **id**: `"pipelines"`
-- **title**: `"Pipelines"`
-- **section**: `"develop-and-train"`
-- **group**: `"2_pipelines"`
-- **iconRef**: 
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L96-L104)
-
-- **id**: `"observe-and-monitor"`
-- **title**: `"Observe & monitor"`
-- **section**: 
-- **group**: `"6_observe_and_monitor"`
-- **iconRef**: frontend/src/images/icons/ObserveAndMonitorNavIcon.ts#[ObserveAndMonitorNavIcon](../src/images/icons/ObserveAndMonitorNavIcon.ts#L3-L11)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: frontend/src/images/icons/ObserveAndMonitorNavIcon.ts#[ObserveAndMonitorNavIcon](../src/images/icons/ObserveAndMonitorNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L157-L165)
-
-- **id**: `"applications"`
-- **title**: `"Applications"`
-- **section**: 
-- **group**: `"8_other"`
-- **iconRef**: frontend/src/images/icons/ApplicationsNavIcon.ts#[ApplicationsNavIcon](../src/images/icons/ApplicationsNavIcon.ts#L3-L11)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: frontend/src/images/icons/ApplicationsNavIcon.ts#[ApplicationsNavIcon](../src/images/icons/ApplicationsNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L191-L199)
-
-- **id**: `"settings"`
-- **title**: `"Settings"`
-- **section**: 
-- **group**: `"8_settings"`
-- **iconRef**: frontend/src/images/icons/SettingsNavIcon.ts#[SettingsNavIcon](../src/images/icons/SettingsNavIcon.ts#L3-L11)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: frontend/src/images/icons/SettingsNavIcon.ts#[SettingsNavIcon](../src/images/icons/SettingsNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L234-L242)
-
-- **id**: `"cluster-settings"`
-- **title**: `"Cluster settings"`
-- **section**: `"settings"`
-- **group**: `"1_cluster_settings"`
-- **iconRef**: 
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L243-L251)
-
-- **id**: `"settings-environment-setup"`
-- **title**: `"Environment setup"`
-- **section**: `"settings"`
-- **group**: `"2_environment_setup"`
-- **iconRef**: 
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L277-L285)
-
-- **id**: `"settings-model-resources-and-operations"`
-- **title**: `"Model resources and operations"`
-- **section**: `"settings"`
-- **group**: `"3_model_resources_and_operations"`
-- **iconRef**: 
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L312-L320)
-
-- **id**: `"settings-mcp-resources"`
-- **title**: `"MCP resources"`
-- **section**: `"settings"`
-- **group**: `"4_mcp_resources"`
-- **iconRef**: 
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L321-L329)
-
-- **id**: `"ai-hub"`
-- **title**: `"AI hub"`
-- **section**: 
-- **group**: `"3_ai_hub"`
-- **iconRef**: frontend/src/images/icons/AiHubNavIcon.ts#[AiHubNavIcon](../src/images/icons/AiHubNavIcon.ts#L3-L11)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: frontend/src/images/icons/AiHubNavIcon.ts#[AiHubNavIcon](../src/images/icons/AiHubNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../src/plugins/extensions/navigation.ts#L41-L49)
+| id | title | section | group | iconRef | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"develop-and-train"` | `"Develop & train"` | — | `"5_develop_and_train"` | frontend/src/images/icons/DevelopAndTrainNavIcon.ts#[DevelopAndTrainNavIcon](../src/images/icons/DevelopAndTrainNavIcon.ts#L3-L11) | frontend/src/images/icons/DevelopAndTrainNavIcon.ts#[DevelopAndTrainNavIcon](../src/images/icons/DevelopAndTrainNavIcon.ts#L3-L11) | [app.navigation/section](../src/plugins/extensions/navigation.ts#L87-L95) |
+| `"pipelines"` | `"Pipelines"` | `"develop-and-train"` | `"2_pipelines"` | — | — | [app.navigation/section](../src/plugins/extensions/navigation.ts#L96-L104) |
+| `"observe-and-monitor"` | `"Observe & monitor"` | — | `"6_observe_and_monitor"` | frontend/src/images/icons/ObserveAndMonitorNavIcon.ts#[ObserveAndMonitorNavIcon](../src/images/icons/ObserveAndMonitorNavIcon.ts#L3-L11) | frontend/src/images/icons/ObserveAndMonitorNavIcon.ts#[ObserveAndMonitorNavIcon](../src/images/icons/ObserveAndMonitorNavIcon.ts#L3-L11) | [app.navigation/section](../src/plugins/extensions/navigation.ts#L157-L165) |
+| `"applications"` | `"Applications"` | — | `"8_other"` | frontend/src/images/icons/ApplicationsNavIcon.ts#[ApplicationsNavIcon](../src/images/icons/ApplicationsNavIcon.ts#L3-L11) | frontend/src/images/icons/ApplicationsNavIcon.ts#[ApplicationsNavIcon](../src/images/icons/ApplicationsNavIcon.ts#L3-L11) | [app.navigation/section](../src/plugins/extensions/navigation.ts#L191-L199) |
+| `"settings"` | `"Settings"` | — | `"8_settings"` | frontend/src/images/icons/SettingsNavIcon.ts#[SettingsNavIcon](../src/images/icons/SettingsNavIcon.ts#L3-L11) | frontend/src/images/icons/SettingsNavIcon.ts#[SettingsNavIcon](../src/images/icons/SettingsNavIcon.ts#L3-L11) | [app.navigation/section](../src/plugins/extensions/navigation.ts#L234-L242) |
+| `"cluster-settings"` | `"Cluster settings"` | `"settings"` | `"1_cluster_settings"` | — | — | [app.navigation/section](../src/plugins/extensions/navigation.ts#L243-L251) |
+| `"settings-environment-setup"` | `"Environment setup"` | `"settings"` | `"2_environment_setup"` | — | — | [app.navigation/section](../src/plugins/extensions/navigation.ts#L277-L285) |
+| `"settings-model-resources-and-operations"` | `"Model resources and operations"` | `"settings"` | `"3_model_resources_and_operations"` | — | — | [app.navigation/section](../src/plugins/extensions/navigation.ts#L312-L320) |
+| `"settings-mcp-resources"` | `"MCP resources"` | `"settings"` | `"4_mcp_resources"` | — | — | [app.navigation/section](../src/plugins/extensions/navigation.ts#L321-L329) |
+| `"ai-hub"` | `"AI hub"` | — | `"3_ai_hub"` | frontend/src/images/icons/AiHubNavIcon.ts#[AiHubNavIcon](../src/images/icons/AiHubNavIcon.ts#L3-L11) | frontend/src/images/icons/AiHubNavIcon.ts#[AiHubNavIcon](../src/images/icons/AiHubNavIcon.ts#L3-L11) | [app.navigation/section](../src/plugins/extensions/navigation.ts#L41-L49) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) | `"/"` |  | `SupportedArea.HOME` (`"home"`) | frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) |  | [app.route](../src/plugins/extensions/routes.ts#L44-L53) |
-| frontend/src/pages/external/ExternalRoutes.tsx#[ExternalRoutes](../src/pages/external/ExternalRoutes.tsx#L11-L18) | `"/external/*"` |  |  | frontend/src/pages/external/ExternalRoutes.tsx#[ExternalRoutes](../src/pages/external/ExternalRoutes.tsx#L11-L18) |  | [app.route](../src/plugins/extensions/routes.ts#L54-L60) |
-| frontend/src/pages/exploreApplication/ExploreApplications.tsx#[ExploreApplications](../src/pages/exploreApplication/ExploreApplications.tsx#L103-L158) | `"/applications/explore"` |  |  | frontend/src/pages/exploreApplication/ExploreApplications.tsx#[ExploreApplications](../src/pages/exploreApplication/ExploreApplications.tsx#L103-L158) |  | [app.route](../src/plugins/extensions/routes.ts#L61-L67) |
-| [not resolved](#diagnostics) | `"/explore"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L68-L74) |
-| frontend/src/pages/learningCenter/LearningCenter.tsx#[LearningCenter](../src/pages/learningCenter/LearningCenter.tsx#L36-L173) | `"/learning-resources"` |  |  | frontend/src/pages/learningCenter/LearningCenter.tsx#[LearningCenter](../src/pages/learningCenter/LearningCenter.tsx#L36-L173) |  | [app.route](../src/plugins/extensions/routes.ts#L75-L81) |
-| [not resolved](#diagnostics) | `"/resources"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L82-L88) |
-| frontend/src/pages/projects/ProjectViewRoutes.tsx#[ProjectViewRoutes](../src/pages/projects/ProjectViewRoutes.tsx#L20-L62) | `"/projects/*"` |  |  | frontend/src/pages/projects/ProjectViewRoutes.tsx#[ProjectViewRoutes](../src/pages/projects/ProjectViewRoutes.tsx#L20-L62) |  | [app.route](../src/plugins/extensions/routes.ts#L89-L95) |
-| frontend/src/pages/notebookController/NotebookController.tsx#[NotebookController](../src/pages/notebookController/NotebookController.tsx#L10-L24) | `"/notebook-controller/*"` |  |  | frontend/src/pages/notebookController/NotebookController.tsx#[NotebookController](../src/pages/notebookController/NotebookController.tsx#L10-L24) |  | [app.route](../src/plugins/extensions/routes.ts#L96-L102) |
-| [not resolved](#diagnostics) | `"/notebookController/*"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L103-L112) |
-| frontend/src/pages/notebookController/NotebookLogoutRedirect.tsx#[NotebookLogoutRedirect](../src/pages/notebookController/NotebookLogoutRedirect.tsx#L9-L63) | `"/notebook/:namespace/:notebookName/logout"` |  |  | frontend/src/pages/notebookController/NotebookLogoutRedirect.tsx#[NotebookLogoutRedirect](../src/pages/notebookController/NotebookLogoutRedirect.tsx#L9-L63) |  | [app.route](../src/plugins/extensions/routes.ts#L113-L119) |
-| frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) | `"/ai-hub/models/deployments/*"` |  | `SupportedArea.PLUGIN_MODEL_SERVING` (`"plugin-model-serving"`) | frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) |  | [app.route](../src/plugins/extensions/routes.ts#L120-L129) |
-| [not resolved](#diagnostics) | `"/modelServing/*"` |  | `SupportedArea.PLUGIN_MODEL_SERVING` (`"plugin-model-serving"`) |  |  | [app.route](../src/plugins/extensions/routes.ts#L130-L142) |
-| frontend/src/pages/pipelines/GlobalPipelinesRoutes.tsx#[GlobalPipelinesRoutes](../src/pages/pipelines/GlobalPipelinesRoutes.tsx#L17-L42) | `"/develop-train/pipelines/definitions/*"` |  |  | frontend/src/pages/pipelines/GlobalPipelinesRoutes.tsx#[GlobalPipelinesRoutes](../src/pages/pipelines/GlobalPipelinesRoutes.tsx#L17-L42) |  | [app.route](../src/plugins/extensions/routes.ts#L143-L149) |
-| [not resolved](#diagnostics) | `"/pipelines/*"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L150-L159) |
-| frontend/src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#[GlobalPipelineRunsRoutes](../src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#L34-L118) | `"/develop-train/pipelines/runs/*"` |  |  | frontend/src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#[GlobalPipelineRunsRoutes](../src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#L34-L118) |  | [app.route](../src/plugins/extensions/routes.ts#L160-L166) |
-| [not resolved](#diagnostics) | `"/pipelineRuns/*"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L167-L176) |
-| frontend/src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#[GlobalPipelineExperimentsRoutes](../src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#L11-L15) | `"/develop-train/experiments/*"` |  |  | frontend/src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#[GlobalPipelineExperimentsRoutes](../src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#L11-L15) |  | [app.route](../src/plugins/extensions/routes.ts#L177-L183) |
-| [not resolved](#diagnostics) | `"/experiments/*"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L184-L193) |
-| frontend/src/pages/pipelines/GlobalArtifactsRoutes.tsx#[GlobalArtifactsRoutes](../src/pages/pipelines/GlobalArtifactsRoutes.tsx#L17-L48) | `"/develop-train/pipelines/artifacts/*"` |  |  | frontend/src/pages/pipelines/GlobalArtifactsRoutes.tsx#[GlobalArtifactsRoutes](../src/pages/pipelines/GlobalArtifactsRoutes.tsx#L17-L48) |  | [app.route](../src/plugins/extensions/routes.ts#L194-L200) |
-| [not resolved](#diagnostics) | `"/artifacts/*"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L201-L210) |
-| frontend/src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#[GlobalPipelineExecutionsRoutes](../src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#L16-L47) | `"/develop-train/pipelines/executions/*"` |  |  | frontend/src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#[GlobalPipelineExecutionsRoutes](../src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#L16-L47) |  | [app.route](../src/plugins/extensions/routes.ts#L211-L217) |
-| [not resolved](#diagnostics) | `"/executions/*"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L218-L227) |
-| frontend/src/pages/home/Home.tsx#[Home](../src/pages/home/Home.tsx#L12-L44) | `"/"` | `SupportedArea.HOME` (`"home"`) |  | frontend/src/pages/home/Home.tsx#[Home](../src/pages/home/Home.tsx#L12-L44) |  | [app.route](../src/plugins/extensions/routes.ts#L14-L23) |
-| frontend/src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#[GlobalModelCustomizationRoutes](../src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#L9-L23) | `"/ai-hub/model-customization/*"` | `SupportedArea.FINE_TUNING` (`"fine-tuning"`) |  | frontend/src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#[GlobalModelCustomizationRoutes](../src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#L9-L23) |  | [app.route](../src/plugins/extensions/routes.ts#L228-L237) |
-| [not resolved](#diagnostics) | `"/modelCustomization/*"` | `SupportedArea.FINE_TUNING` (`"fine-tuning"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L238-L250) |
-| frontend/src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#[GlobalDistributedWorkloadsRoutes](../src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#L10-L39) | `"/observe-monitor/workload-metrics/*"` |  |  | frontend/src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#[GlobalDistributedWorkloadsRoutes](../src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#L10-L39) |  | [app.route](../src/plugins/extensions/routes.ts#L251-L257) |
-| [not resolved](#diagnostics) | `"/distributedWorkloads/*"` |  |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L258-L267) |
-| frontend/src/pages/BYONImages/BYONImageRoutes.tsx#[BYONImageRoutes](../src/pages/BYONImages/BYONImageRoutes.tsx#L8-L23) | `"/settings/environment-setup/workbench-images/*"` | `ADMIN_USER` (`"ADMIN_USER"`) |  | frontend/src/pages/BYONImages/BYONImageRoutes.tsx#[BYONImageRoutes](../src/pages/BYONImages/BYONImageRoutes.tsx#L8-L23) |  | [app.route](../src/plugins/extensions/routes.ts#L268-L277) |
-| [not resolved](#diagnostics) | `"/workbenchImages/*"` | `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L278-L290) |
-| frontend/src/pages/clusterSettings/ClusterSettings.tsx#[ClusterSettings](../src/pages/clusterSettings/ClusterSettings.tsx#L38-L262) | `"/settings/cluster/general"` | `ADMIN_USER` (`"ADMIN_USER"`) |  | frontend/src/pages/clusterSettings/ClusterSettings.tsx#[ClusterSettings](../src/pages/clusterSettings/ClusterSettings.tsx#L38-L262) |  | [app.route](../src/plugins/extensions/routes.ts#L291-L300) |
-| frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) | `"/applications/enabled"` | `SupportedArea.HOME` (`"home"`) |  | frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) |  | [app.route](../src/plugins/extensions/routes.ts#L24-L33) |
-| [not resolved](#diagnostics) | `"/clusterSettings"` | `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L301-L313) |
-| frontend/src/pages/connectionTypes/ConnectionTypeRoutes.tsx#[ConnectionTypeRoutes](../src/pages/connectionTypes/ConnectionTypeRoutes.tsx#L11-L19) | `"/settings/environment-setup/connection-types/*"` | `ADMIN_USER` (`"ADMIN_USER"`) |  | frontend/src/pages/connectionTypes/ConnectionTypeRoutes.tsx#[ConnectionTypeRoutes](../src/pages/connectionTypes/ConnectionTypeRoutes.tsx#L11-L19) |  | [app.route](../src/plugins/extensions/routes.ts#L314-L323) |
-| [not resolved](#diagnostics) | `"/connectionTypes/*"` | `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L324-L336) |
-| frontend/src/pages/storageClasses/StorageClassesPage.tsx#[StorageClassesPage](../src/pages/storageClasses/StorageClassesPage.tsx#L75-L83) | `"/settings/cluster/storage-classes/*"` | `ADMIN_USER` (`"ADMIN_USER"`) |  | frontend/src/pages/storageClasses/StorageClassesPage.tsx#[StorageClassesPage](../src/pages/storageClasses/StorageClassesPage.tsx#L75-L83) |  | [app.route](../src/plugins/extensions/routes.ts#L337-L346) |
-| [not resolved](#diagnostics) | `"/storageClasses/*"` | `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L347-L359) |
-| frontend/src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#[ModelRegistrySettingsRoutes](../src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#L6-L12) | `"/settings/model-resources-operations/model-registry/*"` | `SupportedArea.MODEL_REGISTRY` (`"model-registry"`), `ADMIN_USER` (`"ADMIN_USER"`) |  | frontend/src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#[ModelRegistrySettingsRoutes](../src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#L6-L12) |  | [app.route](../src/plugins/extensions/routes.ts#L360-L369) |
-| [not resolved](#diagnostics) | `"/modelRegistrySettings/*"` | `SupportedArea.MODEL_REGISTRY` (`"model-registry"`), `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L370-L382) |
-| frontend/src/pages/groupSettings/GroupSettings.tsx#[GroupSettings](../src/pages/groupSettings/GroupSettings.tsx#L13-L94) | `"/settings/user-management"` | `ADMIN_USER` (`"ADMIN_USER"`) |  | frontend/src/pages/groupSettings/GroupSettings.tsx#[GroupSettings](../src/pages/groupSettings/GroupSettings.tsx#L13-L94) |  | [app.route](../src/plugins/extensions/routes.ts#L383-L392) |
-| [not resolved](#diagnostics) | `"/groupSettings"` | `ADMIN_USER` (`"ADMIN_USER"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L393-L405) |
-| [not resolved](#diagnostics) | `"/enabled"` | `SupportedArea.HOME` (`"home"`) |  |  |  | [app.route](../src/plugins/extensions/routes.ts#L34-L43) |
+| component | path | Requires | Disallows | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) | `"/"` | — | `SupportedArea.HOME` (`"home"`) | frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) | [app.route](../src/plugins/extensions/routes.ts#L44-L53) |
+| frontend/src/pages/external/ExternalRoutes.tsx#[ExternalRoutes](../src/pages/external/ExternalRoutes.tsx#L11-L18) | `"/external/*"` | — | — | frontend/src/pages/external/ExternalRoutes.tsx#[ExternalRoutes](../src/pages/external/ExternalRoutes.tsx#L11-L18) | [app.route](../src/plugins/extensions/routes.ts#L54-L60) |
+| frontend/src/pages/exploreApplication/ExploreApplications.tsx#[ExploreApplications](../src/pages/exploreApplication/ExploreApplications.tsx#L103-L158) | `"/applications/explore"` | — | — | frontend/src/pages/exploreApplication/ExploreApplications.tsx#[ExploreApplications](../src/pages/exploreApplication/ExploreApplications.tsx#L103-L158) | [app.route](../src/plugins/extensions/routes.ts#L61-L67) |
+| [not resolved](#diagnostics) | `"/explore"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L68-L74) |
+| frontend/src/pages/learningCenter/LearningCenter.tsx#[LearningCenter](../src/pages/learningCenter/LearningCenter.tsx#L36-L173) | `"/learning-resources"` | — | — | frontend/src/pages/learningCenter/LearningCenter.tsx#[LearningCenter](../src/pages/learningCenter/LearningCenter.tsx#L36-L173) | [app.route](../src/plugins/extensions/routes.ts#L75-L81) |
+| [not resolved](#diagnostics) | `"/resources"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L82-L88) |
+| frontend/src/pages/projects/ProjectViewRoutes.tsx#[ProjectViewRoutes](../src/pages/projects/ProjectViewRoutes.tsx#L20-L62) | `"/projects/*"` | — | — | frontend/src/pages/projects/ProjectViewRoutes.tsx#[ProjectViewRoutes](../src/pages/projects/ProjectViewRoutes.tsx#L20-L62) | [app.route](../src/plugins/extensions/routes.ts#L89-L95) |
+| frontend/src/pages/notebookController/NotebookController.tsx#[NotebookController](../src/pages/notebookController/NotebookController.tsx#L10-L24) | `"/notebook-controller/*"` | — | — | frontend/src/pages/notebookController/NotebookController.tsx#[NotebookController](../src/pages/notebookController/NotebookController.tsx#L10-L24) | [app.route](../src/plugins/extensions/routes.ts#L96-L102) |
+| [not resolved](#diagnostics) | `"/notebookController/*"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L103-L112) |
+| frontend/src/pages/notebookController/NotebookLogoutRedirect.tsx#[NotebookLogoutRedirect](../src/pages/notebookController/NotebookLogoutRedirect.tsx#L9-L63) | `"/notebook/:namespace/:notebookName/logout"` | — | — | frontend/src/pages/notebookController/NotebookLogoutRedirect.tsx#[NotebookLogoutRedirect](../src/pages/notebookController/NotebookLogoutRedirect.tsx#L9-L63) | [app.route](../src/plugins/extensions/routes.ts#L113-L119) |
+| frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) | `"/ai-hub/models/deployments/*"` | — | `SupportedArea.PLUGIN_MODEL_SERVING` (`"plugin-model-serving"`) | frontend/src/pages/modelServing/ModelServingRoutes.tsx#[ModelServingRoutes](../src/pages/modelServing/ModelServingRoutes.tsx#L13-L44) | [app.route](../src/plugins/extensions/routes.ts#L120-L129) |
+| [not resolved](#diagnostics) | `"/modelServing/*"` | — | `SupportedArea.PLUGIN_MODEL_SERVING` (`"plugin-model-serving"`) | — | [app.route](../src/plugins/extensions/routes.ts#L130-L142) |
+| frontend/src/pages/pipelines/GlobalPipelinesRoutes.tsx#[GlobalPipelinesRoutes](../src/pages/pipelines/GlobalPipelinesRoutes.tsx#L17-L42) | `"/develop-train/pipelines/definitions/*"` | — | — | frontend/src/pages/pipelines/GlobalPipelinesRoutes.tsx#[GlobalPipelinesRoutes](../src/pages/pipelines/GlobalPipelinesRoutes.tsx#L17-L42) | [app.route](../src/plugins/extensions/routes.ts#L143-L149) |
+| [not resolved](#diagnostics) | `"/pipelines/*"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L150-L159) |
+| frontend/src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#[GlobalPipelineRunsRoutes](../src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#L34-L118) | `"/develop-train/pipelines/runs/*"` | — | — | frontend/src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#[GlobalPipelineRunsRoutes](../src/pages/pipelines/GlobalPipelineRunsRoutes.tsx#L34-L118) | [app.route](../src/plugins/extensions/routes.ts#L160-L166) |
+| [not resolved](#diagnostics) | `"/pipelineRuns/*"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L167-L176) |
+| frontend/src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#[GlobalPipelineExperimentsRoutes](../src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#L11-L15) | `"/develop-train/experiments/*"` | — | — | frontend/src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#[GlobalPipelineExperimentsRoutes](../src/pages/pipelines/GlobalPipelineExperimentsRoutes.tsx#L11-L15) | [app.route](../src/plugins/extensions/routes.ts#L177-L183) |
+| [not resolved](#diagnostics) | `"/experiments/*"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L184-L193) |
+| frontend/src/pages/pipelines/GlobalArtifactsRoutes.tsx#[GlobalArtifactsRoutes](../src/pages/pipelines/GlobalArtifactsRoutes.tsx#L17-L48) | `"/develop-train/pipelines/artifacts/*"` | — | — | frontend/src/pages/pipelines/GlobalArtifactsRoutes.tsx#[GlobalArtifactsRoutes](../src/pages/pipelines/GlobalArtifactsRoutes.tsx#L17-L48) | [app.route](../src/plugins/extensions/routes.ts#L194-L200) |
+| [not resolved](#diagnostics) | `"/artifacts/*"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L201-L210) |
+| frontend/src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#[GlobalPipelineExecutionsRoutes](../src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#L16-L47) | `"/develop-train/pipelines/executions/*"` | — | — | frontend/src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#[GlobalPipelineExecutionsRoutes](../src/pages/pipelines/GlobalPipelineExecutionsRoutes.tsx#L16-L47) | [app.route](../src/plugins/extensions/routes.ts#L211-L217) |
+| [not resolved](#diagnostics) | `"/executions/*"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L218-L227) |
+| frontend/src/pages/home/Home.tsx#[Home](../src/pages/home/Home.tsx#L12-L44) | `"/"` | `SupportedArea.HOME` (`"home"`) | — | frontend/src/pages/home/Home.tsx#[Home](../src/pages/home/Home.tsx#L12-L44) | [app.route](../src/plugins/extensions/routes.ts#L14-L23) |
+| frontend/src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#[GlobalModelCustomizationRoutes](../src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#L9-L23) | `"/ai-hub/model-customization/*"` | `SupportedArea.FINE_TUNING` (`"fine-tuning"`) | — | frontend/src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#[GlobalModelCustomizationRoutes](../src/pages/pipelines/GlobalModelCustomizationRoutes.tsx#L9-L23) | [app.route](../src/plugins/extensions/routes.ts#L228-L237) |
+| [not resolved](#diagnostics) | `"/modelCustomization/*"` | `SupportedArea.FINE_TUNING` (`"fine-tuning"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L238-L250) |
+| frontend/src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#[GlobalDistributedWorkloadsRoutes](../src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#L10-L39) | `"/observe-monitor/workload-metrics/*"` | — | — | frontend/src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#[GlobalDistributedWorkloadsRoutes](../src/pages/distributedWorkloads/GlobalDistributedWorkloadsRoutes.tsx#L10-L39) | [app.route](../src/plugins/extensions/routes.ts#L251-L257) |
+| [not resolved](#diagnostics) | `"/distributedWorkloads/*"` | — | — | — | [app.route](../src/plugins/extensions/routes.ts#L258-L267) |
+| frontend/src/pages/BYONImages/BYONImageRoutes.tsx#[BYONImageRoutes](../src/pages/BYONImages/BYONImageRoutes.tsx#L8-L23) | `"/settings/environment-setup/workbench-images/*"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | frontend/src/pages/BYONImages/BYONImageRoutes.tsx#[BYONImageRoutes](../src/pages/BYONImages/BYONImageRoutes.tsx#L8-L23) | [app.route](../src/plugins/extensions/routes.ts#L268-L277) |
+| [not resolved](#diagnostics) | `"/workbenchImages/*"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L278-L290) |
+| frontend/src/pages/clusterSettings/ClusterSettings.tsx#[ClusterSettings](../src/pages/clusterSettings/ClusterSettings.tsx#L38-L262) | `"/settings/cluster/general"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | frontend/src/pages/clusterSettings/ClusterSettings.tsx#[ClusterSettings](../src/pages/clusterSettings/ClusterSettings.tsx#L38-L262) | [app.route](../src/plugins/extensions/routes.ts#L291-L300) |
+| frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) | `"/applications/enabled"` | `SupportedArea.HOME` (`"home"`) | — | frontend/src/pages/enabledApplications/EnabledApplications.tsx#[EnabledApplications](../src/pages/enabledApplications/EnabledApplications.tsx#L57-L91) | [app.route](../src/plugins/extensions/routes.ts#L24-L33) |
+| [not resolved](#diagnostics) | `"/clusterSettings"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L301-L313) |
+| frontend/src/pages/connectionTypes/ConnectionTypeRoutes.tsx#[ConnectionTypeRoutes](../src/pages/connectionTypes/ConnectionTypeRoutes.tsx#L11-L19) | `"/settings/environment-setup/connection-types/*"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | frontend/src/pages/connectionTypes/ConnectionTypeRoutes.tsx#[ConnectionTypeRoutes](../src/pages/connectionTypes/ConnectionTypeRoutes.tsx#L11-L19) | [app.route](../src/plugins/extensions/routes.ts#L314-L323) |
+| [not resolved](#diagnostics) | `"/connectionTypes/*"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L324-L336) |
+| frontend/src/pages/storageClasses/StorageClassesPage.tsx#[StorageClassesPage](../src/pages/storageClasses/StorageClassesPage.tsx#L75-L83) | `"/settings/cluster/storage-classes/*"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | frontend/src/pages/storageClasses/StorageClassesPage.tsx#[StorageClassesPage](../src/pages/storageClasses/StorageClassesPage.tsx#L75-L83) | [app.route](../src/plugins/extensions/routes.ts#L337-L346) |
+| [not resolved](#diagnostics) | `"/storageClasses/*"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L347-L359) |
+| frontend/src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#[ModelRegistrySettingsRoutes](../src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#L6-L12) | `"/settings/model-resources-operations/model-registry/*"` | `SupportedArea.MODEL_REGISTRY` (`"model-registry"`), `ADMIN_USER` (`"ADMIN_USER"`) | — | frontend/src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#[ModelRegistrySettingsRoutes](../src/pages/modelRegistrySettings/ModelRegistrySettingsRoutes.tsx#L6-L12) | [app.route](../src/plugins/extensions/routes.ts#L360-L369) |
+| [not resolved](#diagnostics) | `"/modelRegistrySettings/*"` | `SupportedArea.MODEL_REGISTRY` (`"model-registry"`), `ADMIN_USER` (`"ADMIN_USER"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L370-L382) |
+| frontend/src/pages/groupSettings/GroupSettings.tsx#[GroupSettings](../src/pages/groupSettings/GroupSettings.tsx#L13-L94) | `"/settings/user-management"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | frontend/src/pages/groupSettings/GroupSettings.tsx#[GroupSettings](../src/pages/groupSettings/GroupSettings.tsx#L13-L94) | [app.route](../src/plugins/extensions/routes.ts#L383-L392) |
+| [not resolved](#diagnostics) | `"/groupSettings"` | `ADMIN_USER` (`"ADMIN_USER"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L393-L405) |
+| [not resolved](#diagnostics) | `"/enabled"` | `SupportedArea.HOME` (`"home"`) | — | — | [app.route](../src/plugins/extensions/routes.ts#L34-L43) |
 
 **Not resolved**
 
@@ -514,33 +451,31 @@ flowchart LR
 
 #### app.tab-route/page
 
+**Contribution:** `app.tab-route/page` at `frontend/src/plugins/extensions/navigation.ts:50`
+
 - **id**: `"models-tab-page"`
 - **title**: `"Models"`
 - **section**: `"ai-hub"`
 - **group**: `"2_models"`
-- **label**: 
+- **label**: —
 - **href**: `"/ai-hub/models"`
 - **path**: `"/ai-hub/models/*"`
 - **objectType**: `"registered-models"`
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.tab-route/page](../src/plugins/extensions/navigation.ts#L50-L61)
+
+**Contribution:** `app.tab-route/page` at `frontend/src/plugins/extensions/navigation.ts:62`
 
 - **id**: `"mcp-servers-tab-page"`
 - **title**: `"MCP servers"`
 - **section**: `"ai-hub"`
 - **group**: `"3_mcp_servers"`
-- **label**: 
+- **label**: —
 - **href**: `"/ai-hub/mcp-servers"`
 - **path**: `"/ai-hub/mcp-servers/*"`
 - **objectType**: `"mcp-catalog"`
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.tab-route/page](../src/plugins/extensions/navigation.ts#L62-L73)
+
+**Contribution:** `app.tab-route/page` at `frontend/src/plugins/extensions/navigation.ts:74`
 
 - **id**: `"agents-tab-page"`
 - **title**: `"Agents"`
@@ -550,13 +485,11 @@ flowchart LR
 - **href**: `"/ai-hub/agents"`
 - **path**: `"/ai-hub/agents/*"`
 - **objectType**: `"agent-ops"`
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.tab-route/page](../src/plugins/extensions/navigation.ts#L74-L86)
 
 #### app.task/group
+
+**Contribution:** `app.task/group` at `frontend/src/plugins/extensions/tasks.ts:11`
 
 - **id**: `"ai-hub"`
 - **title**: `"AI hub"`
@@ -565,11 +498,10 @@ flowchart LR
 - **icon**: frontend/src/images/icons/AiHubNavIcon.ts#[AiHubNavIcon](../src/images/icons/AiHubNavIcon.ts#L3-L11)
 - **type**: `"serving"`
 - **order**: `"1_ai_hub"`
-- **Requires**: 
-- **Disallows**: 
 - **CodeRef target**: frontend/src/images/icons/AiHubNavIcon.ts#[AiHubNavIcon](../src/images/icons/AiHubNavIcon.ts#L3-L11)
-- **Included in**: 
 - **Source**: [app.task/group](../src/plugins/extensions/tasks.ts#L11-L22)
+
+**Contribution:** `app.task/group` at `frontend/src/plugins/extensions/tasks.ts:23`
 
 - **id**: `"develop-and-train"`
 - **title**: `"Develop & train"`
@@ -578,46 +510,16 @@ flowchart LR
 - **icon**: frontend/src/images/icons/DevelopAndTrainNavIcon.ts#[DevelopAndTrainNavIcon](../src/images/icons/DevelopAndTrainNavIcon.ts#L3-L11)
 - **type**: `"training"`
 - **order**: `"3_develop_and_train"`
-- **Requires**: 
-- **Disallows**: 
 - **CodeRef target**: frontend/src/images/icons/DevelopAndTrainNavIcon.ts#[DevelopAndTrainNavIcon](../src/images/icons/DevelopAndTrainNavIcon.ts#L3-L11)
-- **Included in**: 
 - **Source**: [app.task/group](../src/plugins/extensions/tasks.ts#L23-L34)
 
 #### app.task/item
 
-- **id**: `"ai-hub-models"`
-- **group**: `"ai-hub"`
-- **title**: `"Find, register, and deploy models"`
-- **destination**: tabRoutePageId: `"models-tab-page"`
-- **order**: `"1_models"`
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../src/plugins/extensions/tasks.ts#L38-L47)
-
-- **id**: `"ai-hub-mcp-servers"`
-- **group**: `"ai-hub"`
-- **title**: `"Deploy and discover MCP servers"`
-- **destination**: tabRoutePageId: `"mcp-servers-tab-page"`
-- **order**: `"2_mcp_servers"`
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../src/plugins/extensions/tasks.ts#L48-L57)
-
-- **id**: `"develop-workbenches"`
-- **group**: `"develop-and-train"`
-- **title**: `"Code in workbenches"`
-- **destination**: href: `"/projects"`
-- **order**: `"4_workbenches"`
-- **Requires**: `SupportedArea.WORKBENCHES` (`"workbenches"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../src/plugins/extensions/tasks.ts#L61-L73)
+| id | group | title | destination | order | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"ai-hub-models"` | `"ai-hub"` | `"Find, register, and deploy models"` | tabRoutePageId: `"models-tab-page"` | `"1_models"` | — | [app.task/item](../src/plugins/extensions/tasks.ts#L38-L47) |
+| `"ai-hub-mcp-servers"` | `"ai-hub"` | `"Deploy and discover MCP servers"` | tabRoutePageId: `"mcp-servers-tab-page"` | `"2_mcp_servers"` | — | [app.task/item](../src/plugins/extensions/tasks.ts#L48-L57) |
+| `"develop-workbenches"` | `"develop-and-train"` | `"Code in workbenches"` | href: `"/projects"` | `"4_workbenches"` | `SupportedArea.WORKBENCHES` (`"workbenches"`) | [app.task/item](../src/plugins/extensions/tasks.ts#L61-L73) |
 
 ## Diagnostics
 

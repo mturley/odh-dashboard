@@ -2,6 +2,53 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Defines](#defines)
+  - [model-serving.auth](#model-servingauth)
+  - [model-serving.deployed-model/serving-runtime](#model-servingdeployed-modelserving-runtime)
+  - [model-serving.deployment/assemble-model-resource](#model-servingdeploymentassemble-model-resource)
+  - [model-serving.deployment/deploy](#model-servingdeploymentdeploy)
+  - [model-serving.deployment/form-data](#model-servingdeploymentform-data)
+  - [model-serving.deployment/tracking-properties](#model-servingdeploymenttracking-properties)
+  - [model-serving.deployment/transform](#model-servingdeploymenttransform)
+  - [model-serving.deployment/wizard-field](#model-servingdeploymentwizard-field)
+  - [model-serving.deployment/wizard-field-apply](#model-servingdeploymentwizard-field-apply)
+  - [model-serving.deployment/wizard-field-deployment-functions](#model-servingdeploymentwizard-field-deployment-functions)
+  - [model-serving.deployment/wizard-field-extractor](#model-servingdeploymentwizard-field-extractor)
+  - [model-serving.deployment/wizard-field-override](#model-servingdeploymentwizard-field-override)
+  - [model-serving.deployments-table](#model-servingdeployments-table)
+  - [model-serving.deployments-table/start-stop-action](#model-servingdeployments-tablestart-stop-action)
+  - [model-serving.deployments/banner](#model-servingdeploymentsbanner)
+  - [model-serving.metrics](#model-servingmetrics)
+  - [model-serving.platform](#model-servingplatform)
+  - [model-serving.platform/delete-deployment](#model-servingplatformdelete-deployment)
+  - [model-serving.platform/exclude-deployment](#model-servingplatformexclude-deployment)
+  - [model-serving.platform/fetch-deployment-status](#model-servingplatformfetch-deployment-status)
+  - [model-serving.platform/global-models-page](#model-servingplatformglobal-models-page)
+  - [model-serving.platform/overview-section](#model-servingplatformoverview-section)
+  - [model-serving.platform/project-details-tab](#model-servingplatformproject-details-tab)
+  - [model-serving.platform/watch-deployments](#model-servingplatformwatch-deployments)
+  - [model-serving.runtime-image/install-target](#model-servingruntime-imageinstall-target)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.project-details/overview-section](#appproject-detailsoverview-section)
+    - [app.project-details/tab](#appproject-detailstab)
+    - [app.route](#approute)
+    - [app.tab-route/page](#apptab-routepage)
+    - [app.tab-route/tab](#apptab-routetab)
+  - [core](#core)
+    - [core.action](#coreaction)
+  - [model-registry](#model-registry)
+    - [model-registry.model-version/deploy-modal](#model-registrymodel-versiondeploy-modal)
+    - [model-registry.model-version/deployments-context](#model-registrymodel-versiondeployments-context)
+  - [model-serving](#model-serving)
+    - [model-serving.deployment/wizard-field](#model-servingdeploymentwizard-field-1)
+    - [model-serving.deployment/wizard-field-apply](#model-servingdeploymentwizard-field-apply-1)
+    - [model-serving.deployment/wizard-field-extractor](#model-servingdeploymentwizard-field-extractor-1)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -333,15 +380,15 @@ flowchart LR
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_app_tab_route_tab_10b1cd
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/model-serving | [@odh-dashboard/model-serving](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../extensions/odh.ts#L98-L104)<br>[app.area](../extensions/odh.ts#L105-L111) |
-| app.project-details/overview-section | [app.project-details/overview-section](../../plugin-core/docs/extensions.md#appproject-detailsoverview-section)<br>[app.project-details/overview-section](../extensions/odh.ts#L123-L133) |
-| app.project-details/tab | [app.project-details/tab](../../plugin-core/docs/extensions.md#appproject-detailstab)<br>[app.project-details/tab](../extensions/odh.ts#L112-L122) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../extensions/odh.ts#L150-L159)<br>[app.route](../extensions/odh.ts#L161-L173)<br>[app.route](../extensions/odh.ts#L174-L186)<br>[app.route](../extensions/runtime-image-install.ts#L27-L34) |
-| app.tab-route/page | [app.tab-route/page](../../plugin-core/docs/extensions.md#apptab-routepage)<br>[app.tab-route/page](../extensions/odh.ts#L192-L206) |
-| app.tab-route/tab | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab)<br>[app.tab-route/tab](../extensions/odh.ts#L135-L148)<br>[app.tab-route/tab](../extensions/odh.ts#L208-L220) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/model-serving](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../extensions/odh.ts:98](../extensions/odh.ts#L98-L104)<br>[../extensions/odh.ts:105](../extensions/odh.ts#L105-L111) |
+| app.project-details/overview-section | [app.project-details/overview-section](../../plugin-core/docs/extensions.md#appproject-detailsoverview-section) | [../extensions/odh.ts:123](../extensions/odh.ts#L123-L133) |
+| app.project-details/tab | [app.project-details/tab](../../plugin-core/docs/extensions.md#appproject-detailstab) | [../extensions/odh.ts:112](../extensions/odh.ts#L112-L122) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../extensions/odh.ts:150](../extensions/odh.ts#L150-L159)<br>[../extensions/odh.ts:161](../extensions/odh.ts#L161-L173)<br>[../extensions/odh.ts:174](../extensions/odh.ts#L174-L186)<br>[../extensions/runtime-image-install.ts:27](../extensions/runtime-image-install.ts#L27-L34) |
+| app.tab-route/page | [app.tab-route/page](../../plugin-core/docs/extensions.md#apptab-routepage) | [../extensions/odh.ts:192](../extensions/odh.ts#L192-L206) |
+| app.tab-route/tab | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | [../extensions/odh.ts:135](../extensions/odh.ts#L135-L148)<br>[../extensions/odh.ts:208](../extensions/odh.ts#L208-L220) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -349,6 +396,82 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### app.area
+
+| devFlags | featureFlags | id | Source |
+| --- | --- | --- | --- |
+| — | `"disableModelServing"` | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | [app.area](../extensions/odh.ts#L98-L104) |
+| `BIDIRECTIONAL_YAML_WIZARD_GA` (`"bidirectionalYamlWizardGa"`) | — | `BIDIRECTIONAL_YAML_WIZARD_GA` (`"bidirectionalYamlWizardGa"`) | [app.area](../extensions/odh.ts#L105-L111) |
+
+#### app.project-details/overview-section
+
+| id | title | component | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"model-server"` | `"Serve Models"` | packages/model-serving/src/ServeModelsSection.tsx#[ServeModelsSection](../src/ServeModelsSection.tsx#L68-L99) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | packages/model-serving/src/ServeModelsSection.tsx#[ServeModelsSection](../src/ServeModelsSection.tsx#L68-L99) | [app.project-details/overview-section](../extensions/odh.ts#L123-L133) |
+
+#### app.project-details/tab
+
+| id | title | component | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"model-server"` | `"Deployments"` | packages/model-serving/src/ModelsProjectDetailsTab.tsx#[ModelsProjectDetailsTab](../src/ModelsProjectDetailsTab.tsx#L25-L57) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | packages/model-serving/src/ModelsProjectDetailsTab.tsx#[ModelsProjectDetailsTab](../src/ModelsProjectDetailsTab.tsx#L25-L57) | [app.project-details/tab](../extensions/odh.ts#L112-L122) |
+
+#### app.route
+
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/model-serving/src/ModelDeploymentWizardRoutes.tsx#[ModelDeploymentWizardRoutes](../src/ModelDeploymentWizardRoutes.tsx#L5-L9) | `"/ai-hub/models/deployments/deploy/*"` | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | packages/model-serving/src/ModelDeploymentWizardRoutes.tsx#[ModelDeploymentWizardRoutes](../src/ModelDeploymentWizardRoutes.tsx#L5-L9) | [app.route](../extensions/odh.ts#L150-L159) |
+| [not resolved](#diagnostics) | `"/ai-hub/deployments/:namespace?/*"` | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | — | [app.route](../extensions/odh.ts#L161-L173) |
+| [not resolved](#diagnostics) | `"/modelServing/:namespace?/*"` | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | — | [app.route](../extensions/odh.ts#L174-L186) |
+| packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#[RuntimeImageInstallPage](../src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#L148-L170) | `"/settings/model-resources-operations/model-deployment-settings/serving-runtime-catalog/:runtimeId/install"` | [not resolved](#diagnostics) | packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#[RuntimeImageInstallPage](../src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#L148-L170) | [app.route](../extensions/runtime-image-install.ts#L27-L34) |
+
+**Not resolved**
+
+| Location | Reason | Link |
+| --- | --- | --- |
+| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
+| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
+| flags.required[0] | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
+
+#### app.tab-route/page
+
+**Contribution:** `app.tab-route/page` at `packages/model-serving/extensions/odh.ts:192`
+
+- **id**: `"model-deployment-settings"`
+- **title**: `"Model deployment settings"`
+- **section**: `"settings-model-resources-and-operations"`
+- **group**: `"1_model-resources"`
+- **href**: `MODEL_DEPLOYMENT_SETTINGS_PATH` (`"/settings/model-resources-operations/model-deployment-settings"`)
+- **breadcrumbTabId**: `"general-settings"`
+- **path**: `"/settings/model-resources-operations/model-deployment-settings/*"`
+- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`), `ADMIN_USER` (`"ADMIN_USER"`)
+- **Source**: [app.tab-route/page](../extensions/odh.ts#L192-L206)
+
+#### app.tab-route/tab
+
+**Contribution:** `app.tab-route/tab` at `packages/model-serving/extensions/odh.ts:135`
+
+- **pageId**: `"models-tab-page"`
+- **id**: `"deployments"`
+- **title**: `"Deployments"`
+- **singleTabTitle**: `"Model deployments"`
+- **component**: packages/model-serving/src/GlobalModelsRoutes.tsx#[GlobalModelsRoutes](../src/GlobalModelsRoutes.tsx#L9-L38)
+- **group**: `"3_deployments"`
+- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`)
+- **CodeRef target**: packages/model-serving/src/GlobalModelsRoutes.tsx#[GlobalModelsRoutes](../src/GlobalModelsRoutes.tsx#L9-L38)
+- **Source**: [app.tab-route/tab](../extensions/odh.ts#L135-L148)
+
+**Contribution:** `app.tab-route/tab` at `packages/model-serving/extensions/odh.ts:208`
+
+- **pageId**: `"model-deployment-settings"`
+- **id**: `"general-settings"`
+- **title**: `"General settings"`
+- **singleTabTitle**: —
+- **component**: packages/model-serving/src/components/settings/GeneralSettingsTab.tsx#[GeneralSettingsTab](../src/components/settings/GeneralSettingsTab.tsx#L25-L228)
+- **group**: `"1_general"`
+- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`), `ADMIN_USER` (`"ADMIN_USER"`)
+- **CodeRef target**: packages/model-serving/src/components/settings/GeneralSettingsTab.tsx#[GeneralSettingsTab](../src/components/settings/GeneralSettingsTab.tsx#L25-L228)
+- **Source**: [app.tab-route/tab](../extensions/odh.ts#L208-L220)
 
 ### core
 
@@ -359,10 +482,10 @@ flowchart LR
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_core_action_c380ca
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/model-serving | [@odh-dashboard/model-serving](#contributes) |
-| core.action | [core.action](../../plugin-core/docs/extensions.md#coreaction)<br>[core.action](../extensions/runtime-image-install.ts#L17-L26) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/model-serving](#loading-paths) | — | — |
+| core.action | [core.action](../../plugin-core/docs/extensions.md#coreaction) | [../extensions/runtime-image-install.ts:17](../extensions/runtime-image-install.ts#L17-L26) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -370,6 +493,18 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### core.action
+
+| id | label | component | group | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"runtime-image-install"` | `"Install Runtime image"` | packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#[RuntimeImageInstallAction](../src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#L11-L50) | `"runtime-catalog.runtime-image/details-action"` | [not resolved](#diagnostics) | packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#[RuntimeImageInstallAction](../src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#L11-L50) | [core.action](../extensions/runtime-image-install.ts#L17-L26) |
+
+**Not resolved**
+
+| Location | Reason | Link |
+| --- | --- | --- |
+| flags.required[0] | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
 
 ### model-registry
 
@@ -382,11 +517,11 @@ flowchart LR
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_model_registry_model_version_deployments_context_5e3005
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/model-serving | [@odh-dashboard/model-serving](#contributes) |
-| model-registry.model-version/deploy-modal | [model-registry.model-version/deploy-modal](../../model-registry/docs/extensions.md#model-registrymodel-versiondeploy-modal)<br>[model-registry.model-version/deploy-modal](../extensions/model-registry.ts#L13-L24) |
-| model-registry.model-version/deployments-context | [model-registry.model-version/deployments-context](../../model-registry/docs/extensions.md#model-registrymodel-versiondeployments-context)<br>[model-registry.model-version/deployments-context](../extensions/model-registry.ts#L37-L46) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/model-serving](#loading-paths) | — | — |
+| model-registry.model-version/deploy-modal | [model-registry.model-version/deploy-modal](../../model-registry/docs/extensions.md#model-registrymodel-versiondeploy-modal) | [../extensions/model-registry.ts:13](../extensions/model-registry.ts#L13-L24) |
+| model-registry.model-version/deployments-context | [model-registry.model-version/deployments-context](../../model-registry/docs/extensions.md#model-registrymodel-versiondeployments-context) | [../extensions/model-registry.ts:37](../extensions/model-registry.ts#L37-L46) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -394,6 +529,18 @@ flowchart LR
 - `-. "federated" .->` federated contribution
 - `--x` suppression
 - `-- "patch" -->` patch
+
+#### model-registry.model-version/deploy-modal
+
+| useAvailablePlatformIds | modalComponent | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/model-serving/modelRegistry/useAvailablePlatformIds.ts#[useAvailablePlatformIds](../modelRegistry/useAvailablePlatformIds.ts#L7-L11) | packages/model-serving/modelRegistry/PreWizardDeployModal.tsx#[PreWizardDeployModal](../modelRegistry/PreWizardDeployModal.tsx#L46-L228) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | packages/model-serving/modelRegistry/useAvailablePlatformIds.ts#[useAvailablePlatformIds](../modelRegistry/useAvailablePlatformIds.ts#L7-L11), packages/model-serving/modelRegistry/PreWizardDeployModal.tsx#[PreWizardDeployModal](../modelRegistry/PreWizardDeployModal.tsx#L46-L228) | [model-registry.model-version/deploy-modal](../extensions/model-registry.ts#L13-L24) |
+
+#### model-registry.model-version/deployments-context
+
+| DeploymentsProvider | Requires | CodeRef target | Source |
+| --- | --- | --- | --- |
+| packages/model-serving/modelRegistry/DeploymentsContextProvider.tsx#[DeploymentsContextProvider](../modelRegistry/DeploymentsContextProvider.tsx#L35-L52) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | packages/model-serving/modelRegistry/DeploymentsContextProvider.tsx#[DeploymentsContextProvider](../modelRegistry/DeploymentsContextProvider.tsx#L35-L52) | [model-registry.model-version/deployments-context](../extensions/model-registry.ts#L37-L46) |
 
 ### model-serving
 
@@ -408,12 +555,12 @@ flowchart LR
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_model_serving_deployment_wizard_field_extractor_877f9e
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/model-serving | [@odh-dashboard/model-serving](#contributes) |
-| model-serving.deployment/wizard-field | [model-serving.deployment/wizard-field](extensions.md#model-servingdeploymentwizard-field)<br>[model-serving.deployment/wizard-field](../extensions/odh.ts#L30-L41)<br>[model-serving.deployment/wizard-field](../extensions/odh.ts#L73-L84) |
-| model-serving.deployment/wizard-field-apply | [model-serving.deployment/wizard-field-apply](extensions.md#model-servingdeploymentwizard-field-apply)<br>[model-serving.deployment/wizard-field-apply](../extensions/odh.ts#L43-L56) |
-| model-serving.deployment/wizard-field-extractor | [model-serving.deployment/wizard-field-extractor](extensions.md#model-servingdeploymentwizard-field-extractor)<br>[model-serving.deployment/wizard-field-extractor](../extensions/odh.ts#L58-L71) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/model-serving](#loading-paths) | — | — |
+| model-serving.deployment/wizard-field | [model-serving.deployment/wizard-field](extensions.md#model-servingdeploymentwizard-field) | [../extensions/odh.ts:30](../extensions/odh.ts#L30-L41)<br>[../extensions/odh.ts:73](../extensions/odh.ts#L73-L84) |
+| model-serving.deployment/wizard-field-apply | [model-serving.deployment/wizard-field-apply](extensions.md#model-servingdeploymentwizard-field-apply) | [../extensions/odh.ts:43](../extensions/odh.ts#L43-L56) |
+| model-serving.deployment/wizard-field-extractor | [model-serving.deployment/wizard-field-extractor](extensions.md#model-servingdeploymentwizard-field-extractor) | [../extensions/odh.ts:58](../extensions/odh.ts#L58-L71) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -422,142 +569,12 @@ flowchart LR
 - `--x` suppression
 - `-- "patch" -->` patch
 
-#### app.area
-
-- **devFlags**: 
-- **featureFlags**: `"disableModelServing"`
-- **id**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions/odh.ts#L98-L104)
-
-- **devFlags**: `BIDIRECTIONAL_YAML_WIZARD_GA` (`"bidirectionalYamlWizardGa"`)
-- **featureFlags**: 
-- **id**: `BIDIRECTIONAL_YAML_WIZARD_GA` (`"bidirectionalYamlWizardGa"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions/odh.ts#L105-L111)
-
-#### app.project-details/overview-section
-
-- **id**: `"model-server"`
-- **title**: `"Serve Models"`
-- **component**: packages/model-serving/src/ServeModelsSection.tsx#[ServeModelsSection](../src/ServeModelsSection.tsx#L68-L99)
-- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`)
-- **Disallows**: 
-- **CodeRef target**: packages/model-serving/src/ServeModelsSection.tsx#[ServeModelsSection](../src/ServeModelsSection.tsx#L68-L99)
-- **Included in**: 
-- **Source**: [app.project-details/overview-section](../extensions/odh.ts#L123-L133)
-
-#### app.project-details/tab
-
-- **id**: `"model-server"`
-- **title**: `"Deployments"`
-- **component**: packages/model-serving/src/ModelsProjectDetailsTab.tsx#[ModelsProjectDetailsTab](../src/ModelsProjectDetailsTab.tsx#L25-L57)
-- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`)
-- **Disallows**: 
-- **CodeRef target**: packages/model-serving/src/ModelsProjectDetailsTab.tsx#[ModelsProjectDetailsTab](../src/ModelsProjectDetailsTab.tsx#L25-L57)
-- **Included in**: 
-- **Source**: [app.project-details/tab](../extensions/odh.ts#L112-L122)
-
-#### app.route
-
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/model-serving/src/ModelDeploymentWizardRoutes.tsx#[ModelDeploymentWizardRoutes](../src/ModelDeploymentWizardRoutes.tsx#L5-L9) | `"/ai-hub/models/deployments/deploy/*"` | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) |  | packages/model-serving/src/ModelDeploymentWizardRoutes.tsx#[ModelDeploymentWizardRoutes](../src/ModelDeploymentWizardRoutes.tsx#L5-L9) |  | [app.route](../extensions/odh.ts#L150-L159) |
-| [not resolved](#diagnostics) | `"/ai-hub/deployments/:namespace?/*"` | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) |  |  |  | [app.route](../extensions/odh.ts#L161-L173) |
-| [not resolved](#diagnostics) | `"/modelServing/:namespace?/*"` | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) |  |  |  | [app.route](../extensions/odh.ts#L174-L186) |
-| packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#[RuntimeImageInstallPage](../src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#L148-L170) | `"/settings/model-resources-operations/model-deployment-settings/serving-runtime-catalog/:runtimeId/install"` | [not resolved](#diagnostics) |  | packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#[RuntimeImageInstallPage](../src/components/runtimeImageInstall/RuntimeImageInstallPage.tsx#L148-L170) |  | [app.route](../extensions/runtime-image-install.ts#L27-L34) |
-
-**Not resolved**
-
-| Location | Reason | Link |
-| --- | --- | --- |
-| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
-| properties.component | expression is not a statically resolvable value | [diagnostics](#diagnostics) |
-| flags.required[0] | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
-
-#### app.tab-route/page
-
-- **id**: `"model-deployment-settings"`
-- **title**: `"Model deployment settings"`
-- **section**: `"settings-model-resources-and-operations"`
-- **group**: `"1_model-resources"`
-- **href**: `MODEL_DEPLOYMENT_SETTINGS_PATH` (`"/settings/model-resources-operations/model-deployment-settings"`)
-- **breadcrumbTabId**: `"general-settings"`
-- **path**: `"/settings/model-resources-operations/model-deployment-settings/*"`
-- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.tab-route/page](../extensions/odh.ts#L192-L206)
-
-#### app.tab-route/tab
-
-- **pageId**: `"models-tab-page"`
-- **id**: `"deployments"`
-- **title**: `"Deployments"`
-- **singleTabTitle**: `"Model deployments"`
-- **component**: packages/model-serving/src/GlobalModelsRoutes.tsx#[GlobalModelsRoutes](../src/GlobalModelsRoutes.tsx#L9-L38)
-- **group**: `"3_deployments"`
-- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`)
-- **Disallows**: 
-- **CodeRef target**: packages/model-serving/src/GlobalModelsRoutes.tsx#[GlobalModelsRoutes](../src/GlobalModelsRoutes.tsx#L9-L38)
-- **Included in**: 
-- **Source**: [app.tab-route/tab](../extensions/odh.ts#L135-L148)
-
-- **pageId**: `"model-deployment-settings"`
-- **id**: `"general-settings"`
-- **title**: `"General settings"`
-- **singleTabTitle**: 
-- **component**: packages/model-serving/src/components/settings/GeneralSettingsTab.tsx#[GeneralSettingsTab](../src/components/settings/GeneralSettingsTab.tsx#L25-L228)
-- **group**: `"1_general"`
-- **Requires**: `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`), `ADMIN_USER` (`"ADMIN_USER"`)
-- **Disallows**: 
-- **CodeRef target**: packages/model-serving/src/components/settings/GeneralSettingsTab.tsx#[GeneralSettingsTab](../src/components/settings/GeneralSettingsTab.tsx#L25-L228)
-- **Included in**: 
-- **Source**: [app.tab-route/tab](../extensions/odh.ts#L208-L220)
-
-#### core.action
-
-- **id**: `"runtime-image-install"`
-- **label**: `"Install Runtime image"`
-- **component**: packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#[RuntimeImageInstallAction](../src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#L11-L50)
-- **group**: `"runtime-catalog.runtime-image/details-action"`
-- **Requires**: [not resolved](#diagnostics)
-- **Disallows**: 
-- **CodeRef target**: packages/model-serving/src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#[RuntimeImageInstallAction](../src/components/runtimeImageInstall/RuntimeImageInstallAction.tsx#L11-L50)
-- **Included in**: 
-- **Source**: [core.action](../extensions/runtime-image-install.ts#L17-L26)
-
-**Not resolved**
-
-| Location | Reason | Link |
-| --- | --- | --- |
-| flags.required[0] | identifier does not resolve to a literal value | [diagnostics](#diagnostics) |
-
-#### model-registry.model-version/deploy-modal
-
-| useAvailablePlatformIds | modalComponent | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/model-serving/modelRegistry/useAvailablePlatformIds.ts#[useAvailablePlatformIds](../modelRegistry/useAvailablePlatformIds.ts#L7-L11) | packages/model-serving/modelRegistry/PreWizardDeployModal.tsx#[PreWizardDeployModal](../modelRegistry/PreWizardDeployModal.tsx#L46-L228) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) |  | packages/model-serving/modelRegistry/useAvailablePlatformIds.ts#[useAvailablePlatformIds](../modelRegistry/useAvailablePlatformIds.ts#L7-L11), packages/model-serving/modelRegistry/PreWizardDeployModal.tsx#[PreWizardDeployModal](../modelRegistry/PreWizardDeployModal.tsx#L46-L228) |  | [model-registry.model-version/deploy-modal](../extensions/model-registry.ts#L13-L24) |
-
-#### model-registry.model-version/deployments-context
-
-| DeploymentsProvider | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| packages/model-serving/modelRegistry/DeploymentsContextProvider.tsx#[DeploymentsContextProvider](../modelRegistry/DeploymentsContextProvider.tsx#L35-L52) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) |  | packages/model-serving/modelRegistry/DeploymentsContextProvider.tsx#[DeploymentsContextProvider](../modelRegistry/DeploymentsContextProvider.tsx#L35-L52) |  | [model-registry.model-version/deployments-context](../extensions/model-registry.ts#L37-L46) |
-
 #### model-serving.deployment/wizard-field
 
-| field | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- |
-| packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#[ModelCapabilitiesFieldWizardField](../src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#L293-L305) | `SupportedArea.MODEL_CAPABILITIES` (`"model-capabilities"`) |  | packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#[ModelCapabilitiesFieldWizardField](../src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#L293-L305) |  | [model-serving.deployment/wizard-field](../extensions/odh.ts#L30-L41) |
-| packages/model-serving/src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#[DeploymentMethodSelectFieldWizardField](../src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#L151-L178) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) |  | packages/model-serving/src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#[DeploymentMethodSelectFieldWizardField](../src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#L151-L178) |  | [model-serving.deployment/wizard-field](../extensions/odh.ts#L73-L84) |
+| field | Requires | CodeRef target | Source |
+| --- | --- | --- | --- |
+| packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#[ModelCapabilitiesFieldWizardField](../src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#L293-L305) | `SupportedArea.MODEL_CAPABILITIES` (`"model-capabilities"`) | packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#[ModelCapabilitiesFieldWizardField](../src/components/deploymentWizard/fields/modelCapabilities/ModelCapabilitiesField.tsx#L293-L305) | [model-serving.deployment/wizard-field](../extensions/odh.ts#L30-L41) |
+| packages/model-serving/src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#[DeploymentMethodSelectFieldWizardField](../src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#L151-L178) | `SupportedArea.MODEL_SERVING` (`"model-serving-shell"`) | packages/model-serving/src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#[DeploymentMethodSelectFieldWizardField](../src/components/deploymentWizard/fields/DeploymentMethodSelectField.tsx#L151-L178) | [model-serving.deployment/wizard-field](../extensions/odh.ts#L73-L84) |
 
 **Not resolved**
 
@@ -592,25 +609,15 @@ flowchart LR
 
 #### model-serving.deployment/wizard-field-apply
 
-- **fieldId**: `"modelCapabilities"`
-- **platform**: `"all"`
-- **apply**: packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[applyModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L4-L18)
-- **Requires**: `SupportedArea.MODEL_CAPABILITIES` (`"model-capabilities"`)
-- **Disallows**: 
-- **CodeRef target**: packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[applyModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L4-L18)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-apply](../extensions/odh.ts#L43-L56)
+| fieldId | platform | apply | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"modelCapabilities"` | `"all"` | packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[applyModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L4-L18) | `SupportedArea.MODEL_CAPABILITIES` (`"model-capabilities"`) | packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[applyModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L4-L18) | [model-serving.deployment/wizard-field-apply](../extensions/odh.ts#L43-L56) |
 
 #### model-serving.deployment/wizard-field-extractor
 
-- **fieldId**: `"modelCapabilities"`
-- **platform**: `"all"`
-- **extract**: packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[extractModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L23-L38)
-- **Requires**: `SupportedArea.MODEL_CAPABILITIES` (`"model-capabilities"`)
-- **Disallows**: 
-- **CodeRef target**: packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[extractModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L23-L38)
-- **Included in**: 
-- **Source**: [model-serving.deployment/wizard-field-extractor](../extensions/odh.ts#L58-L71)
+| fieldId | platform | extract | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"modelCapabilities"` | `"all"` | packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[extractModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L23-L38) | `SupportedArea.MODEL_CAPABILITIES` (`"model-capabilities"`) | packages/model-serving/src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#[extractModelCapabilities](../src/components/deploymentWizard/fields/modelCapabilities/modelCapabilitiesApplyExtract.ts#L23-L38) | [model-serving.deployment/wizard-field-extractor](../extensions/odh.ts#L58-L71) |
 
 ## Diagnostics
 

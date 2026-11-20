@@ -2,6 +2,15 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.route](#approute)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -26,12 +35,12 @@ flowchart LR
   pkg_n__odh_dashboard_observability_eea447 --> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/observability | [@odh-dashboard/observability](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../extensions/area.ts#L7-L14) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../extensions.ts#L11-L24) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../extensions.ts#L25-L34) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/observability](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../extensions/area.ts:7](../extensions/area.ts#L7-L14) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../extensions.ts:11](../extensions.ts#L11-L24) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../extensions.ts:25](../extensions.ts#L25-L34) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -42,14 +51,9 @@ flowchart LR
 
 #### app.area
 
-- **featureFlags**: `"observabilityDashboard"`
-- **customCondition**: [not resolved](#diagnostics)
-- **id**: `PLUGIN_OBSERVABILITY` (`"plugin-observability"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions/area.ts#L7-L14)
+| featureFlags | customCondition | id | Source |
+| --- | --- | --- | --- |
+| `"observabilityDashboard"` | [not resolved](#diagnostics) | `PLUGIN_OBSERVABILITY` (`"plugin-observability"`) | [app.area](../extensions/area.ts#L7-L14) |
 
 **Not resolved**
 
@@ -59,6 +63,8 @@ flowchart LR
 
 #### app.navigation/href
 
+**Contribution:** `app.navigation/href` at `packages/observability/extensions.ts:11`
+
 - **id**: `"observability-dashboard"`
 - **title**: `"Metrics"`
 - **section**: `"observe-and-monitor"`
@@ -66,16 +72,13 @@ flowchart LR
 - **href**: `"/observe-and-monitor/dashboard"`
 - **path**: `"/observe-and-monitor/dashboard/*"`
 - **Requires**: `PLUGIN_OBSERVABILITY` (`"plugin-observability"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L11-L24)
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/observability/src/pages/DashboardPage.tsx#[DashboardPage](../src/pages/DashboardPage.tsx#L46-L71) | `"/observe-and-monitor/dashboard/*"` | `PLUGIN_OBSERVABILITY` (`"plugin-observability"`) |  | packages/observability/src/pages/DashboardPage.tsx#[DashboardPage](../src/pages/DashboardPage.tsx#L46-L71) |  | [app.route](../extensions.ts#L25-L34) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/observability/src/pages/DashboardPage.tsx#[DashboardPage](../src/pages/DashboardPage.tsx#L46-L71) | `"/observe-and-monitor/dashboard/*"` | `PLUGIN_OBSERVABILITY` (`"plugin-observability"`) | packages/observability/src/pages/DashboardPage.tsx#[DashboardPage](../src/pages/DashboardPage.tsx#L46-L71) | [app.route](../extensions.ts#L25-L34) |
 
 ## Diagnostics
 

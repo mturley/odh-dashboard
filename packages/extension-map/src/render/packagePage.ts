@@ -1,5 +1,5 @@
 import { HEADER, table } from './markdown';
-import { docPathFor } from './links';
+import { docPathFor, headingAnchors } from './links';
 import { renderContributes } from './sections/contributes';
 import { renderDefines } from './sections/defines';
 import { renderDiagnostics } from './sections/diagnostics';
@@ -28,6 +28,19 @@ const loadingPaths = (model: ExtensionMapModel, pkg: Pkg): string => {
     .join('\n\n');
 };
 
+const contents = (body: string): string => {
+  const headings = headingAnchors(`## Contents\n\n${body}`).slice(1);
+  if (headings.length === 0) {
+    return '';
+  }
+  return [
+    '## Contents',
+    ...headings.map(
+      ({ level, text, anchor }) => `${'  '.repeat(Math.max(0, level - 2))}- [${text}](#${anchor})`,
+    ),
+  ].join('\n');
+};
+
 export const renderPackagePage = (model: ExtensionMapModel, pkg: Pkg): GeneratedFile => {
   const sections = [
     loadingPaths(model, pkg),
@@ -35,8 +48,10 @@ export const renderPackagePage = (model: ExtensionMapModel, pkg: Pkg): Generated
     renderContributes(model, pkg),
     renderDiagnostics(model, pkg),
   ].filter((section) => section !== '');
+  const body = sections.join('\n\n');
+  const tableOfContents = contents(body);
   return {
     path: docPathFor(pkg),
-    content: `${HEADER}\n\n${sections.join('\n\n')}\n`,
+    content: `${HEADER}\n\n${tableOfContents}${tableOfContents === '' ? '' : '\n\n'}${body}\n`,
   };
 };

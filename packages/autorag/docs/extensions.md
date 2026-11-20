@@ -2,6 +2,15 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.route](#approute)
+    - [app.task/item](#apptaskitem)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -25,13 +34,13 @@ flowchart LR
   pkg_n__odh_dashboard_autorag_c53d65 -. "federated" .-> point_n_app_task_item_001b33
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/autorag | [@odh-dashboard/autorag](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/extensions.ts#L12-L20) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L21-L33) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L34-L43) |
-| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem)<br>[app.task/item](../frontend/src/odh/extensions.ts#L44-L56) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/autorag](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/extensions.ts:12](../frontend/src/odh/extensions.ts#L12-L20) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/extensions.ts:21](../frontend/src/odh/extensions.ts#L21-L33) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:34](../frontend/src/odh/extensions.ts#L34-L43) |
+| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | [../frontend/src/odh/extensions.ts:44](../frontend/src/odh/extensions.ts#L44-L56) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -42,44 +51,24 @@ flowchart LR
 
 #### app.area
 
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **featureFlags**: `"autorag"`, `"disablePipelines"`
-- **requiredComponents**: `DataScienceStackComponent.DS_PIPELINES` (`"aipipelines"`)
-- **id**: `PLUGIN_AUTORAG` (`"plugin-autorag"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L12-L20)
+| reliantAreas | featureFlags | requiredComponents | id | Source |
+| --- | --- | --- | --- | --- |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | `"autorag"`, `"disablePipelines"` | `DataScienceStackComponent.DS_PIPELINES` (`"aipipelines"`) | `PLUGIN_AUTORAG` (`"plugin-autorag"`) | [app.area](../frontend/src/odh/extensions.ts#L12-L20) |
 
 #### app.navigation/href
 
-- **id**: `"autorag"`
-- **title**: `"AutoRAG"`
-- **section**: `"gen-ai-studio"`
-- **href**: `"/gen-ai-studio/autorag"`
-- **path**: `"/gen-ai-studio/autorag/*"`
-- **Requires**: `PLUGIN_AUTORAG` (`"plugin-autorag"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L21-L33)
+| id | title | section | href | path | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"autorag"` | `"AutoRAG"` | `"gen-ai-studio"` | `"/gen-ai-studio/autorag"` | `"/gen-ai-studio/autorag/*"` | `PLUGIN_AUTORAG` (`"plugin-autorag"`) | [app.navigation/href](../frontend/src/odh/extensions.ts#L21-L33) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/autorag/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L37-L60) | `"/gen-ai-studio/autorag/*"` | `PLUGIN_AUTORAG` (`"plugin-autorag"`) |  | packages/autorag/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L37-L60) |  | [app.route](../frontend/src/odh/extensions.ts#L34-L43) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/autorag/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L37-L60) | `"/gen-ai-studio/autorag/*"` | `PLUGIN_AUTORAG` (`"plugin-autorag"`) | packages/autorag/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L37-L60) | [app.route](../frontend/src/odh/extensions.ts#L34-L43) |
 
 #### app.task/item
 
-- **id**: `"genai-autorag"`
-- **group**: `"gen-ai-studio"`
-- **title**: `"Create RAG pipelines"`
-- **destination**: href: `"/gen-ai-studio/autorag"`
-- **order**: `"3_autorag"`
-- **Requires**: `PLUGIN_AUTORAG` (`"plugin-autorag"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../frontend/src/odh/extensions.ts#L44-L56)
+| id | group | title | destination | order | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"genai-autorag"` | `"gen-ai-studio"` | `"Create RAG pipelines"` | href: `"/gen-ai-studio/autorag"` | `"3_autorag"` | `PLUGIN_AUTORAG` (`"plugin-autorag"`) | [app.task/item](../frontend/src/odh/extensions.ts#L44-L56) |

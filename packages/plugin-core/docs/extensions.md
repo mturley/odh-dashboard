@@ -2,6 +2,39 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Defines](#defines)
+  - [app.area](#apparea)
+  - [app.cluster-storage/connected-resources](#appcluster-storageconnected-resources)
+  - [app.cluster-storage/storage-context](#appcluster-storagestorage-context)
+  - [app.connection-types/default-value-renderer](#appconnection-typesdefault-value-renderer)
+  - [app.connection-types/details-helper](#appconnection-typesdetails-helper)
+  - [app.connection-types/form](#appconnection-typesform)
+  - [app.connection-types/form-fields](#appconnection-typesform-fields)
+  - [app.connection-types/service](#appconnection-typesservice)
+  - [app.masthead/about](#appmastheadabout)
+  - [app.masthead/brand](#appmastheadbrand)
+  - [app.masthead/toolbar-item](#appmastheadtoolbar-item)
+  - [app.masthead/user-menu](#appmastheaduser-menu)
+  - [app.navigation/href](#appnavigationhref)
+  - [app.navigation/section](#appnavigationsection)
+  - [app.patch](#apppatch)
+  - [app.project-details/overview-section](#appproject-detailsoverview-section)
+  - [app.project-details/settings-card](#appproject-detailssettings-card)
+  - [app.project-details/tab](#appproject-detailstab)
+  - [app.route](#approute)
+  - [app.status-provider](#appstatus-provider)
+  - [app.suppress](#appsuppress)
+  - [app.tab-route/page](#apptab-routepage)
+  - [app.tab-route/tab](#apptab-routetab)
+  - [app.task/group](#apptaskgroup)
+  - [app.task/item](#apptaskitem)
+  - [core.action](#coreaction)
+  - [core.detail-card](#coredetail-card)
+  - [core.detail/tab](#coredetailtab)
+  - [core.table-column](#coretable-column)
+- [Diagnostics](#diagnostics)
+
 ## Defines
 
 ### app.area

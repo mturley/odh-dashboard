@@ -8,7 +8,7 @@ import type {
   Value,
 } from '../../model/types';
 import { defList, table } from '../markdown';
-import { docPathFor, pointLink, relLink, sourceSymbolName } from '../links';
+import { docPathFor, locationLink, pointLink, relLink, sourceSymbolName } from '../links';
 import { flowchart, LEGEND_MD, mermaidId } from '../mermaid';
 
 const codeValue = (value: string | number | boolean | null): string =>
@@ -172,17 +172,25 @@ const pointTable = (
     column.startsWith('property:') ? column.slice('property:'.length) : column,
   );
   const rows = extensions.map((extension) => extensionRow(extension, columns, model, fromDoc));
+  const populatedColumns = columns
+    .map((column, index) => ({ column, header: headers[index], index }))
+    .filter(({ index }) => rows.some((row) => row[index] !== ''));
+  const populatedHeaders = populatedColumns.map(({ header }) => header);
+  const populatedRows = rows.map((row) => populatedColumns.map(({ index }) => row[index] || '—'));
   const contributionTable =
-    columns.length > 7
+    populatedColumns.length > 7
       ? extensions
-          .map((extension) => {
-            const row = extensionRow(extension, columns, model, fromDoc);
-            return defList(
-              headers.map((header, index): [string, string] => [header, row[index] ?? '']),
-            );
+          .map((extension, rowIndex) => {
+            const values = populatedRows[rowIndex];
+            return [
+              `**Contribution:** \`${extension.type}\` at \`${extension.loc.file}:${extension.loc.line}\``,
+              defList(
+                populatedHeaders.map((header, index): [string, string] => [header, values[index]]),
+              ),
+            ].join('\n\n');
           })
           .join('\n\n')
-      : table(headers, rows);
+      : table(populatedHeaders, populatedRows);
   const unresolved = extensions.flatMap(unresolvedRows);
   const supplies = suppliesRows(extensions, fromDoc, model);
   return [
@@ -223,7 +231,14 @@ const renderNamespaceDiagram = (
   const chart = flowchart('LR');
   const pkgNode = `pkg_${mermaidId(pkg.name)}`;
   chart.node(pkgNode, pkg.name, 'box');
-  const nodeRows: string[][] = [[pkg.name, `[${pkg.name}](#contributes)`]];
+  const hasLoadingPaths =
+    model.entries.some((entry) => entry.pkg === pkg.name) ||
+    model.diagnostics.some(
+      (diagnostic) => diagnostic.code === 'federation-not-loaded' && diagnostic.pkg === pkg.name,
+    );
+  const nodeRows: string[][] = [
+    [hasLoadingPaths ? `[${pkg.name}](#loading-paths)` : pkg.name, '—', '—'],
+  ];
   for (const point of points) {
     const extensions = byPoint.get(point.id) ?? [];
     if (extensions.length === 0) {
@@ -240,14 +255,19 @@ const renderNamespaceDiagram = (
       extension.entries.some((entry) => federatedEntries.has(entry)),
     );
     chart.edge(pkgNode, node, federated ? 'federated' : 'solid');
-    const links = [
+    nodeRows.push([
+      `${point.id}${suffix}`,
       pointLink(fromDoc, point, model),
-      ...extensions.map((extension) => relLink(fromDoc, extension.loc, point.id)),
-    ];
-    nodeRows.push([`${point.id}${suffix}`, links.join('<br>')]);
+      extensions.map((extension) => locationLink(fromDoc, extension.loc)).join('<br>'),
+    ]);
   }
   const diagram = `\`\`\`mermaid\n${chart.toString()}\n\`\`\``;
-  return [`### ${namespace}`, diagram, table(['Node', 'Link'], nodeRows), LEGEND_MD].join('\n\n');
+  return [
+    `### ${namespace}`,
+    diagram,
+    table(['Node', 'Contract', 'Registration sources'], nodeRows),
+    LEGEND_MD,
+  ].join('\n\n');
 };
 
 export const renderContributes = (model: ExtensionMapModel, pkg: Pkg): string => {
@@ -270,19 +290,15 @@ export const renderContributes = (model: ExtensionMapModel, pkg: Pkg): string =>
     .filter((point): point is ExtensionPoint => point !== undefined)
     .toSorted((a, b) => a.id.localeCompare(b.id));
   const namespaces = [...new Set(points.map(namespaceOf))].toSorted();
-  const diagrams = namespaces.map((namespace) =>
-    renderNamespaceDiagram(
-      model,
-      pkg,
-      namespace,
-      points.filter((point) => namespaceOf(point) === namespace),
-      byPoint,
-    ),
-  );
   const fromDoc = docPathFor(pkg);
-  const dataTables = points.map((point) =>
-    pointTable(model, point, byPoint.get(point.id) ?? [], fromDoc),
-  );
+  const namespaceSections = namespaces.map((namespace) => {
+    const namespacePoints = points.filter((point) => namespaceOf(point) === namespace);
+    const diagram = renderNamespaceDiagram(model, pkg, namespace, namespacePoints, byPoint);
+    const pointTables = namespacePoints.map((point) =>
+      pointTable(model, point, byPoint.get(point.id) ?? [], fromDoc),
+    );
+    return [diagram, ...pointTables].join('\n\n');
+  });
   const unresolvedUnknownPoints = contributions.filter(
     (extension) => !pointById.has(extension.type),
   );
@@ -297,5 +313,5 @@ export const renderContributes = (model: ExtensionMapModel, pkg: Pkg): string =>
             'No matching declared extension point; no diagram edge was inferred.',
           ]),
         )}`;
-  return ['## Contributes', ...diagrams, ...dataTables, unknown].filter(Boolean).join('\n\n');
+  return ['## Contributes', ...namespaceSections, unknown].filter(Boolean).join('\n\n');
 };

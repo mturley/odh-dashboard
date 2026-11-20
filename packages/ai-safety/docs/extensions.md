@@ -2,6 +2,15 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.navigation/section](#appnavigationsection)
+    - [app.route](#approute)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -25,13 +34,13 @@ flowchart LR
   pkg_n__odh_dashboard_ai_safety_1ccc3d -. "federated" .-> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/ai-safety | [@odh-dashboard/ai-safety](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/extensions.ts#L11-L17) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L30-L43) |
-| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection)<br>[app.navigation/section](../frontend/src/odh/extensions.ts#L18-L29) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L44-L53) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/ai-safety](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/extensions.ts:11](../frontend/src/odh/extensions.ts#L11-L17) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/extensions.ts:30](../frontend/src/odh/extensions.ts#L30-L43) |
+| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) | [../frontend/src/odh/extensions.ts:18](../frontend/src/odh/extensions.ts#L18-L29) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:44](../frontend/src/odh/extensions.ts#L44-L53) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -42,11 +51,13 @@ flowchart LR
 
 #### app.area
 
-| featureFlags | id | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"aiSafety"` | `SupportedArea.PLUGIN_AI_SAFETY` (`"plugin-ai-safety"`) |  |  |  |  | [app.area](../frontend/src/odh/extensions.ts#L11-L17) |
+| featureFlags | id | Source |
+| --- | --- | --- |
+| `"aiSafety"` | `SupportedArea.PLUGIN_AI_SAFETY` (`"plugin-ai-safety"`) | [app.area](../frontend/src/odh/extensions.ts#L11-L17) |
 
 #### app.navigation/href
+
+**Contribution:** `app.navigation/href` at `packages/ai-safety/frontend/src/odh/extensions.ts:30`
 
 - **id**: `"ai-safety-view"`
 - **title**: `"AI Safety Studio"`
@@ -55,25 +66,16 @@ flowchart LR
 - **href**: `"/ai-safety/main-view"`
 - **path**: `"/ai-safety/main-view/*"`
 - **Requires**: `SupportedArea.PLUGIN_AI_SAFETY` (`"plugin-ai-safety"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L30-L43)
 
 #### app.navigation/section
 
-- **id**: `"ai-safety"`
-- **title**: `"AI Safety Studio"`
-- **group**: `"7_ai_safety_studio"`
-- **iconRef**: packages/ai-safety/frontend/src/odh/AiSafetyNavIcon.ts#[ModArchNavIcon](../frontend/src/odh/AiSafetyNavIcon.ts#L3-L11)
-- **Requires**: `SupportedArea.PLUGIN_AI_SAFETY` (`"plugin-ai-safety"`)
-- **Disallows**: 
-- **CodeRef target**: packages/ai-safety/frontend/src/odh/AiSafetyNavIcon.ts#[ModArchNavIcon](../frontend/src/odh/AiSafetyNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../frontend/src/odh/extensions.ts#L18-L29)
+| id | title | group | iconRef | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"ai-safety"` | `"AI Safety Studio"` | `"7_ai_safety_studio"` | packages/ai-safety/frontend/src/odh/AiSafetyNavIcon.ts#[ModArchNavIcon](../frontend/src/odh/AiSafetyNavIcon.ts#L3-L11) | `SupportedArea.PLUGIN_AI_SAFETY` (`"plugin-ai-safety"`) | packages/ai-safety/frontend/src/odh/AiSafetyNavIcon.ts#[ModArchNavIcon](../frontend/src/odh/AiSafetyNavIcon.ts#L3-L11) | [app.navigation/section](../frontend/src/odh/extensions.ts#L18-L29) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/ai-safety/frontend/src/odh/AiSafetyWrapper.tsx#[ModArchWrapper](../frontend/src/odh/AiSafetyWrapper.tsx#L18-L26) | `"/ai-safety/main-view/*"` | `SupportedArea.PLUGIN_AI_SAFETY` (`"plugin-ai-safety"`) |  | packages/ai-safety/frontend/src/odh/AiSafetyWrapper.tsx#[ModArchWrapper](../frontend/src/odh/AiSafetyWrapper.tsx#L18-L26) |  | [app.route](../frontend/src/odh/extensions.ts#L44-L53) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/ai-safety/frontend/src/odh/AiSafetyWrapper.tsx#[ModArchWrapper](../frontend/src/odh/AiSafetyWrapper.tsx#L18-L26) | `"/ai-safety/main-view/*"` | `SupportedArea.PLUGIN_AI_SAFETY` (`"plugin-ai-safety"`) | packages/ai-safety/frontend/src/odh/AiSafetyWrapper.tsx#[ModArchWrapper](../frontend/src/odh/AiSafetyWrapper.tsx#L18-L26) | [app.route](../frontend/src/odh/extensions.ts#L44-L53) |

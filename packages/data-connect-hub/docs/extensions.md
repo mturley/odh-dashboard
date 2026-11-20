@@ -2,6 +2,14 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.route](#approute)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -23,12 +31,12 @@ flowchart LR
   pkg_n__odh_dashboard_data_connect_hub_84bd77 -. "federated" .-> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/data-connect-hub | [@odh-dashboard/data-connect-hub](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/extensions.ts#L9-L15) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L16-L30) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L31-L40) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/data-connect-hub](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/extensions.ts:9](../frontend/src/odh/extensions.ts#L9-L15) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/extensions.ts:16](../frontend/src/odh/extensions.ts#L16-L30) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:31](../frontend/src/odh/extensions.ts#L31-L40) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -39,11 +47,13 @@ flowchart LR
 
 #### app.area
 
-| featureFlags | id | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"dataConnectHub"` | `SupportedArea.PLUGIN_DATA_CONNECT_HUB` (`"plugin-data-connect-hub"`) |  |  |  |  | [app.area](../frontend/src/odh/extensions.ts#L9-L15) |
+| featureFlags | id | Source |
+| --- | --- | --- |
+| `"dataConnectHub"` | `SupportedArea.PLUGIN_DATA_CONNECT_HUB` (`"plugin-data-connect-hub"`) | [app.area](../frontend/src/odh/extensions.ts#L9-L15) |
 
 #### app.navigation/href
+
+**Contribution:** `app.navigation/href` at `packages/data-connect-hub/frontend/src/odh/extensions.ts:16`
 
 - **id**: `"data-connect-hub-view"`
 - **title**: `"Connections"`
@@ -53,13 +63,10 @@ flowchart LR
 - **href**: `"/ai-hub/connections"`
 - **path**: `"/ai-hub/connections/*"`
 - **Requires**: `SupportedArea.PLUGIN_DATA_CONNECT_HUB` (`"plugin-data-connect-hub"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L16-L30)
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/data-connect-hub/frontend/src/odh/DataConnectHubWrapper.tsx#[ModArchWrapper](../frontend/src/odh/DataConnectHubWrapper.tsx#L19-L28) | `"/ai-hub/connections/*"` | `SupportedArea.PLUGIN_DATA_CONNECT_HUB` (`"plugin-data-connect-hub"`) |  | packages/data-connect-hub/frontend/src/odh/DataConnectHubWrapper.tsx#[ModArchWrapper](../frontend/src/odh/DataConnectHubWrapper.tsx#L19-L28) |  | [app.route](../frontend/src/odh/extensions.ts#L31-L40) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/data-connect-hub/frontend/src/odh/DataConnectHubWrapper.tsx#[ModArchWrapper](../frontend/src/odh/DataConnectHubWrapper.tsx#L19-L28) | `"/ai-hub/connections/*"` | `SupportedArea.PLUGIN_DATA_CONNECT_HUB` (`"plugin-data-connect-hub"`) | packages/data-connect-hub/frontend/src/odh/DataConnectHubWrapper.tsx#[ModArchWrapper](../frontend/src/odh/DataConnectHubWrapper.tsx#L19-L28) | [app.route](../frontend/src/odh/extensions.ts#L31-L40) |

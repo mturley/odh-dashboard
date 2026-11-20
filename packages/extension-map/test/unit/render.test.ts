@@ -1,6 +1,6 @@
 import { emptyModel } from '../../src/model/sort';
 import type { ExtensionMapModel, Pkg } from '../../src/model/types';
-import { escapeCell, table, defList } from '../../src/render/markdown';
+import { HEADER, escapeCell, table, defList } from '../../src/render/markdown';
 import { githubAnchor, pointLink, relLink } from '../../src/render/links';
 import { flowchart, mermaidId, mermaidLabel } from '../../src/render/mermaid';
 import { renderPackagePage } from '../../src/render/packagePage';
@@ -139,19 +139,174 @@ describe('render helpers', () => {
 });
 
 describe('package pages', () => {
-  it('follows every diagram with a node link table', () => {
+  it('keeps contributed point Contents entries under their matching namespace sections', () => {
+    const template = model.extensions[0];
+    const points = ['app.area', 'model-serving.platform'].map((id) => ({
+      ...model.points[0],
+      id,
+    }));
+    const extensions = points.map((point, index) => ({
+      ...template,
+      key: `${template.key}-${point.id}`,
+      type: point.id,
+      loc: { ...template.loc, line: template.loc.line + index },
+    }));
+    const { content } = renderPackagePage({ ...model, points, extensions }, packagePage);
+    const contents = content.slice(
+      content.indexOf('## Contents'),
+      content.indexOf('\n## Loading paths'),
+    );
+    const appNamespaceLink = contents.indexOf('  - [app](#app)');
+    const appPointLink = contents.indexOf('    - [app.area](#apparea)');
+    const servingNamespaceLink = contents.indexOf('  - [model-serving](#model-serving)');
+    const servingPointLink = contents.indexOf(
+      '    - [model-serving.platform](#model-servingplatform)',
+    );
+    expect(appNamespaceLink).toBeGreaterThanOrEqual(0);
+    expect(appPointLink).toBeGreaterThan(appNamespaceLink);
+    expect(servingNamespaceLink).toBeGreaterThan(appPointLink);
+    expect(servingPointLink).toBeGreaterThan(servingNamespaceLink);
+    expect(content.indexOf('### app\n')).toBeLessThan(content.indexOf('#### app.area\n'));
+    expect(content.indexOf('#### app.area\n')).toBeLessThan(content.indexOf('### model-serving\n'));
+    expect(content.indexOf('### model-serving\n')).toBeLessThan(
+      content.indexOf('#### model-serving.platform\n'),
+    );
+  });
+
+  it('renders a nested contents section with collision-safe heading links', () => {
+    const secondPoint = {
+      ...model.points[0],
+      id: 'fxrou.te',
+      pkg: packagePage.name,
+      doc: { ...model.points[0].doc, summary: '```mermaid\n## Mermaid phantom\n```' },
+    };
+    const firstExtension = model.extensions[0];
+    const { content } = renderPackagePage(
+      {
+        ...model,
+        points: [...model.points, secondPoint],
+        extensions: [
+          firstExtension,
+          { ...firstExtension, key: `${firstExtension.key}-second`, type: 'fxrou.te' },
+        ],
+      },
+      packagePage,
+    );
+    expect(content).toContain('## Contents');
+    expect(content).toContain('  - [fx](#fx)');
+    expect(content).toContain('  - [fxrou.te](#fxroute)');
+    expect(content).toContain('  - [fxrou](#fxrou)');
+    expect(content).toContain('    - [fx.route](#fxroute-1)');
+    expect(content).toContain('    - [fxrou.te](#fxroute-2)');
+    expect(content).not.toContain('[Mermaid phantom]');
+    expect(content).toContain(`${HEADER}\n\n## Contents`);
+    expect(content.indexOf('## Contents')).toBeLessThan(content.indexOf('## Contributes'));
+    expect(content).not.toContain('#flowchart');
+  });
+
+  it('follows every diagram with a node, contract, and registration source table', () => {
     const { content } = renderPackagePage(model, packagePage);
     const diagrams = content.split('```mermaid').slice(1);
     expect(diagrams.length).toBeGreaterThan(0);
     expect(
-      diagrams.every((diagram) => diagram.indexOf('```') < diagram.indexOf('| Node | Link |')),
+      diagrams.every((diagram) =>
+        diagram
+          .slice(diagram.indexOf('```'))
+          .includes('| Node | Contract | Registration sources |'),
+      ),
     ).toBe(true);
+    expect(content).toContain('[fx.route](../../points/docs/extensions.md#fxroute)');
+    expect(content).toContain('[../extensions.ts:20](../extensions.ts#L20)');
+    expect(content).toContain(
+      '| fx.route | [fx.route](../../points/docs/extensions.md#fxroute) | [../extensions.ts:20](../extensions.ts#L20) |',
+    );
+    expect(content).toContain('[@fx/contributor](#loading-paths)');
   });
 
-  it('switches to definition lists when a point table has more than seven columns', () => {
+  it('omits empty metadata and columns, preserves values, and uses an em dash for a missing retained cell', () => {
+    const point = {
+      ...model.points[0],
+      properties: ['flag', 'count', 'empty', 'missing', 'unresolved'].map((name) => ({
+        name,
+        optional: true,
+        typeText: 'unknown',
+      })),
+    };
+    const first = {
+      ...model.extensions[0],
+      properties: {
+        flag: { kind: 'literal' as const, value: false },
+        count: { kind: 'literal' as const, value: 0 },
+        empty: { kind: 'literal' as const, value: '' },
+        missing: { kind: 'literal' as const, value: null },
+        unresolved: {
+          kind: 'unresolved' as const,
+          reason: 'spread is not statically resolved',
+          loc: { file: 'packages/contributor/extensions.ts', line: 30 },
+        },
+      },
+      flags: { required: [{ kind: 'literal' as const, value: false }], disallowed: [] },
+      apps: [],
+    };
+    const second = {
+      ...first,
+      key: `${first.key}-second`,
+      loc: { ...first.loc, line: 21 },
+      properties: {},
+      flags: { required: [], disallowed: [] },
+    };
+    const { content } = renderPackagePage(
+      { ...model, points: [point], extensions: [first, second] },
+      packagePage,
+    );
+    expect(content).toContain(
+      '| flag | count | empty | missing | unresolved | Requires | Source |',
+    );
+    expect(content).toContain(
+      '| `false` | `0` | `""` | `null` | [not resolved](#diagnostics) | `false` |',
+    );
+    expect(content).toContain('| — | — | — | — | — | — | [fx.route]');
+    expect(content).not.toContain('Disallows');
+    expect(content).not.toContain('CodeRef target');
+    expect(content).not.toContain('Included in');
+  });
+
+  it('labels each definition-list contribution with its source location', () => {
+    const point = {
+      ...model.points[0],
+      properties: Array.from({ length: 8 }, (_, index) => ({
+        name: `property${index}`,
+        optional: true,
+        typeText: 'string',
+      })),
+    };
+    const contribution = model.extensions[0];
+    const extensions = [20, 21].map((line) => ({
+      ...contribution,
+      key: `${contribution.key}-${line}`,
+      loc: { ...contribution.loc, line },
+      properties: Object.fromEntries(
+        point.properties.map((property) => [
+          property.name,
+          { kind: 'literal' as const, value: property.name },
+        ]),
+      ),
+    }));
+    const { content } = renderPackagePage({ ...model, points: [point], extensions }, packagePage);
+    expect(content).toContain(
+      '**Contribution:** `fx.route` at `packages/contributor/extensions.ts:20`',
+    );
+    expect(content).toContain(
+      '**Contribution:** `fx.route` at `packages/contributor/extensions.ts:21`',
+    );
+    expect(content.match(/\*\*Contribution:\*\*/gu)).toHaveLength(2);
+  });
+
+  it('filters empty columns before choosing between a table and definition lists', () => {
     const { content } = renderPackagePage(model, packagePage);
-    expect(content).toContain('- **method**: `"GET"`');
-    expect(content).toContain('- **Source**:');
+    expect(content).toContain('| path | component | method | CodeRef target | Source |');
+    expect(content).not.toContain('- **method**:');
+    expect(content).not.toContain('**Requires**');
   });
 
   it('shows a single mapped contribution record with multiplicity five as ×5', () => {

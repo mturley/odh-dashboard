@@ -2,6 +2,16 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.navigation/section](#appnavigationsection)
+    - [app.route](#approute)
+    - [app.task/item](#apptaskitem)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -27,14 +37,14 @@ flowchart LR
   pkg_n__odh_dashboard_feature_store_e1f958 --> point_n_app_task_item_001b33
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/feature-store | [@odh-dashboard/feature-store](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../extensions.ts#L21-L28)<br>[app.area](../extensions.ts#L29-L36) |
-| app.navigation/href ×8 | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../extensions.ts#L49-L61)<br>[app.navigation/href](../extensions.ts#L62-L74)<br>[app.navigation/href](../extensions.ts#L75-L87)<br>[app.navigation/href](../extensions.ts#L88-L100)<br>[app.navigation/href](../extensions.ts#L101-L113)<br>[app.navigation/href](../extensions.ts#L114-L126)<br>[app.navigation/href](../extensions.ts#L127-L139)<br>[app.navigation/href](../extensions.ts#L140-L157) |
-| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection)<br>[app.navigation/section](../extensions.ts#L37-L48) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../extensions.ts#L158-L167)<br>[app.route](../extensions.ts#L168-L177) |
-| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem)<br>[app.task/item](../extensions.ts#L178-L190) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/feature-store](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../extensions.ts:21](../extensions.ts#L21-L28)<br>[../extensions.ts:29](../extensions.ts#L29-L36) |
+| app.navigation/href ×8 | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../extensions.ts:49](../extensions.ts#L49-L61)<br>[../extensions.ts:62](../extensions.ts#L62-L74)<br>[../extensions.ts:75](../extensions.ts#L75-L87)<br>[../extensions.ts:88](../extensions.ts#L88-L100)<br>[../extensions.ts:101](../extensions.ts#L101-L113)<br>[../extensions.ts:114](../extensions.ts#L114-L126)<br>[../extensions.ts:127](../extensions.ts#L127-L139)<br>[../extensions.ts:140](../extensions.ts#L140-L157) |
+| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) | [../extensions.ts:37](../extensions.ts#L37-L48) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../extensions.ts:158](../extensions.ts#L158-L167)<br>[../extensions.ts:168](../extensions.ts#L168-L177) |
+| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | [../extensions.ts:178](../extensions.ts#L178-L190) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -45,109 +55,91 @@ flowchart LR
 
 #### app.area
 
-- **reliantAreas**: `SupportedArea.FEATURE_STORE` (`"feature-store"`)
-- **featureFlags**: `"disableFeatureStore"`
-- **id**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions.ts#L21-L28)
-
-- **reliantAreas**: `SupportedArea.FEATURE_STORE_ADMIN` (`"feature-store-admin"`)
-- **featureFlags**: `"featureStoreAdmin"`
-- **id**: `PLUGIN_FEATURE_STORE_ADMIN` (`"plugin-feature-store-admin"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../extensions.ts#L29-L36)
+| reliantAreas | featureFlags | id | Source |
+| --- | --- | --- | --- |
+| `SupportedArea.FEATURE_STORE` (`"feature-store"`) | `"disableFeatureStore"` | `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`) | [app.area](../extensions.ts#L21-L28) |
+| `SupportedArea.FEATURE_STORE_ADMIN` (`"feature-store-admin"`) | `"featureStoreAdmin"` | `PLUGIN_FEATURE_STORE_ADMIN` (`"plugin-feature-store-admin"`) | [app.area](../extensions.ts#L29-L36) |
 
 #### app.navigation/href
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:49`
 
 - **id**: `"featureStore-overview"`
 - **title**: `"Overview"`
 - **section**: `"feature-store"`
 - **href**: `"/develop-train/feature-store/overview"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/feature-store/overview/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L49-L61)
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:62`
 
 - **id**: `"featureStore-entities"`
 - **title**: `"Entities"`
 - **section**: `"feature-store"`
 - **href**: `"/develop-train/feature-store/entities"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/feature-store/entities/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L62-L74)
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:75`
 
 - **id**: `"featureStore-data-sources"`
 - **title**: `"Data sources"`
 - **section**: `"feature-store"`
 - **href**: `"/develop-train/feature-store/data-sources"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/feature-store/data-sources/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L75-L87)
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:88`
 
 - **id**: `"featureStore-datasets"`
 - **title**: `"Datasets"`
 - **section**: `"feature-store"`
 - **href**: `"/develop-train/feature-store/datasets"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/feature-store/datasets/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L88-L100)
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:101`
 
 - **id**: `"featureStore-features"`
 - **title**: `"Features"`
 - **section**: `"feature-store"`
 - **href**: `"/develop-train/feature-store/features"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/feature-store/features/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L101-L113)
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:114`
 
 - **id**: `"featureStore-feature-views"`
 - **title**: `"Feature views"`
 - **section**: `"feature-store"`
 - **href**: `"/develop-train/feature-store/feature-views"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/feature-store/feature-views/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L114-L126)
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:127`
 
 - **id**: `"featureStore-feature-services"`
 - **title**: `"Feature services"`
 - **section**: `"feature-store"`
 - **href**: `"/develop-train/feature-store/feature-services"`
-- **accessReview**: 
+- **accessReview**: —
 - **path**: `"/develop-train/feature-store/feature-services/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L127-L139)
+
+**Contribution:** `app.navigation/href` at `packages/feature-store/extensions.ts:140`
 
 - **id**: `"settings-feature-stores"`
 - **title**: `"Feature stores"`
@@ -156,39 +148,23 @@ flowchart LR
 - **accessReview**: group: `"feast.dev"`, resource: `"featurestores"`, verb: `"list"`
 - **path**: `"/settings/environment-setup/feature-stores/*"`
 - **Requires**: `PLUGIN_FEATURE_STORE_ADMIN` (`"plugin-feature-store-admin"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../extensions.ts#L140-L157)
 
 #### app.navigation/section
 
-- **id**: `"feature-store"`
-- **title**: `"Feature store"`
-- **section**: `"develop-and-train"`
-- **group**: `"1_feature_store"`
-- **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/section](../extensions.ts#L37-L48)
+| id | title | section | group | Requires | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"feature-store"` | `"Feature store"` | `"develop-and-train"` | `"1_feature_store"` | `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`) | [app.navigation/section](../extensions.ts#L37-L48) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/feature-store/src/screens/manage/FeatureStoreManageRoutes.tsx#[FeatureStoreManageRoutes](../src/screens/manage/FeatureStoreManageRoutes.tsx#L12-L17) | `"/settings/environment-setup/feature-stores/*"` | `PLUGIN_FEATURE_STORE_ADMIN` (`"plugin-feature-store-admin"`) |  | packages/feature-store/src/screens/manage/FeatureStoreManageRoutes.tsx#[FeatureStoreManageRoutes](../src/screens/manage/FeatureStoreManageRoutes.tsx#L12-L17) |  | [app.route](../extensions.ts#L158-L167) |
-| packages/feature-store/src/FeatureStoreRoutes.tsx#[FeatureStoreRoutes](../src/FeatureStoreRoutes.tsx#L53-L95) | `"/develop-train/feature-store/*"` | `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`) |  | packages/feature-store/src/FeatureStoreRoutes.tsx#[FeatureStoreRoutes](../src/FeatureStoreRoutes.tsx#L53-L95) |  | [app.route](../extensions.ts#L168-L177) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/feature-store/src/screens/manage/FeatureStoreManageRoutes.tsx#[FeatureStoreManageRoutes](../src/screens/manage/FeatureStoreManageRoutes.tsx#L12-L17) | `"/settings/environment-setup/feature-stores/*"` | `PLUGIN_FEATURE_STORE_ADMIN` (`"plugin-feature-store-admin"`) | packages/feature-store/src/screens/manage/FeatureStoreManageRoutes.tsx#[FeatureStoreManageRoutes](../src/screens/manage/FeatureStoreManageRoutes.tsx#L12-L17) | [app.route](../extensions.ts#L158-L167) |
+| packages/feature-store/src/FeatureStoreRoutes.tsx#[FeatureStoreRoutes](../src/FeatureStoreRoutes.tsx#L53-L95) | `"/develop-train/feature-store/*"` | `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`) | packages/feature-store/src/FeatureStoreRoutes.tsx#[FeatureStoreRoutes](../src/FeatureStoreRoutes.tsx#L53-L95) | [app.route](../extensions.ts#L168-L177) |
 
 #### app.task/item
 
-- **id**: `"develop-feature-store"`
-- **group**: `"develop-and-train"`
-- **title**: `"Build reusable ML features"`
-- **destination**: href: `"/develop-train/feature-store/overview"`
-- **order**: `"1_feature_store"`
-- **Requires**: `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../extensions.ts#L178-L190)
+| id | group | title | destination | order | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"develop-feature-store"` | `"develop-and-train"` | `"Build reusable ML features"` | href: `"/develop-train/feature-store/overview"` | `"1_feature_store"` | `PLUGIN_FEATURE_STORE` (`"plugin-feature-store"`) | [app.task/item](../extensions.ts#L178-L190) |

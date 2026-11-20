@@ -2,6 +2,15 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.project-details/tab](#appproject-detailstab)
+    - [app.route](#approute)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -25,13 +34,13 @@ flowchart LR
   pkg_n__odh_dashboard_notebooks_1cd74c -. "federated" .-> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/notebooks | [@odh-dashboard/notebooks](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../upstream/workspaces/frontend/src/odh/extensions.ts#L13-L19) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../upstream/workspaces/frontend/src/odh/extensions.ts#L20-L38) |
-| app.project-details/tab | [app.project-details/tab](../../plugin-core/docs/extensions.md#appproject-detailstab)<br>[app.project-details/tab](../upstream/workspaces/frontend/src/odh/extensions.ts#L49-L59) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../upstream/workspaces/frontend/src/odh/extensions.ts#L39-L48) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/notebooks](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../upstream/workspaces/frontend/src/odh/extensions.ts:13](../upstream/workspaces/frontend/src/odh/extensions.ts#L13-L19) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../upstream/workspaces/frontend/src/odh/extensions.ts:20](../upstream/workspaces/frontend/src/odh/extensions.ts#L20-L38) |
+| app.project-details/tab | [app.project-details/tab](../../plugin-core/docs/extensions.md#appproject-detailstab) | [../upstream/workspaces/frontend/src/odh/extensions.ts:49](../upstream/workspaces/frontend/src/odh/extensions.ts#L49-L59) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../upstream/workspaces/frontend/src/odh/extensions.ts:39](../upstream/workspaces/frontend/src/odh/extensions.ts#L39-L48) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -42,11 +51,13 @@ flowchart LR
 
 #### app.area
 
-| featureFlags | id | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `"workbenchesV2"` | `PLUGIN_NOTEBOOKS` (`"plugin-notebooks"`) |  |  |  |  | [app.area](../upstream/workspaces/frontend/src/odh/extensions.ts#L13-L19) |
+| featureFlags | id | Source |
+| --- | --- | --- |
+| `"workbenchesV2"` | `PLUGIN_NOTEBOOKS` (`"plugin-notebooks"`) | [app.area](../upstream/workspaces/frontend/src/odh/extensions.ts#L13-L19) |
 
 #### app.navigation/href
+
+**Contribution:** `app.navigation/href` at `packages/notebooks/upstream/workspaces/frontend/src/odh/extensions.ts:20`
 
 - **id**: `"notebooks-kf-workspacekinds"`
 - **title**: `"Workbench templates"`
@@ -56,24 +67,16 @@ flowchart LR
 - **accessReview**: group: `"kubeflow.org"`, resource: `"workspacekinds"`, verb: `"create"`
 - **path**: `"/notebooks/workspacekinds/*"`
 - **Requires**: `PLUGIN_NOTEBOOKS` (`"plugin-notebooks"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../upstream/workspaces/frontend/src/odh/extensions.ts#L20-L38)
 
 #### app.project-details/tab
 
-- **id**: `"workbenches-v2"`
-- **title**: `"Workbenches v2"`
-- **component**: packages/notebooks/upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#[WorkspacesProjectDetailsTab](../upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#L65-L81)
-- **Requires**: `PLUGIN_NOTEBOOKS` (`"plugin-notebooks"`)
-- **Disallows**: 
-- **CodeRef target**: packages/notebooks/upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#[WorkspacesProjectDetailsTab](../upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#L65-L81)
-- **Included in**: 
-- **Source**: [app.project-details/tab](../upstream/workspaces/frontend/src/odh/extensions.ts#L49-L59)
+| id | title | component | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"workbenches-v2"` | `"Workbenches v2"` | packages/notebooks/upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#[WorkspacesProjectDetailsTab](../upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#L65-L81) | `PLUGIN_NOTEBOOKS` (`"plugin-notebooks"`) | packages/notebooks/upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#[WorkspacesProjectDetailsTab](../upstream/workspaces/frontend/src/odh/WorkspacesProjectDetailsTab.tsx#L65-L81) | [app.project-details/tab](../upstream/workspaces/frontend/src/odh/extensions.ts#L49-L59) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/notebooks/upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#[NotebooksWrapper](../upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#L72-L85) | `"/notebooks/*"` | `PLUGIN_NOTEBOOKS` (`"plugin-notebooks"`) |  | packages/notebooks/upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#[NotebooksWrapper](../upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#L72-L85) |  | [app.route](../upstream/workspaces/frontend/src/odh/extensions.ts#L39-L48) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/notebooks/upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#[NotebooksWrapper](../upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#L72-L85) | `"/notebooks/*"` | `PLUGIN_NOTEBOOKS` (`"plugin-notebooks"`) | packages/notebooks/upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#[NotebooksWrapper](../upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#L72-L85) | [app.route](../upstream/workspaces/frontend/src/odh/extensions.ts#L39-L48) |

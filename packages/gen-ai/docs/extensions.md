@@ -2,6 +2,22 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Defines](#defines)
+  - [gen-ai.ai-assets/tab](#gen-aiai-assetstab)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.navigation/section](#appnavigationsection)
+    - [app.route](#approute)
+    - [app.task/group](#apptaskgroup)
+    - [app.task/item](#apptaskitem)
+  - [gen-ai](#gen-ai)
+    - [gen-ai.ai-assets/tab](#gen-aiai-assetstab-1)
+- [Diagnostics](#diagnostics)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -43,36 +59,15 @@ flowchart LR
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_app_task_item_001b33
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/gen-ai | [@odh-dashboard/gen-ai](#contributes) |
-| app.area ×15 | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/extensions.ts#L45-L51)<br>[app.area](../frontend/src/odh/extensions.ts#L52-L63)<br>[app.area](../frontend/src/odh/extensions.ts#L64-L71)<br>[app.area](../frontend/src/odh/extensions.ts#L72-L79)<br>[app.area](../frontend/src/odh/extensions.ts#L80-L91)<br>[app.area](../frontend/src/odh/extensions.ts#L92-L99)<br>[app.area](../frontend/src/odh/extensions.ts#L100-L107)<br>[app.area](../frontend/src/odh/extensions.ts#L108-L115)<br>[app.area](../frontend/src/odh/extensions.ts#L116-L123)<br>[app.area](../frontend/src/odh/extensions.ts#L124-L131)<br>[app.area](../frontend/src/odh/extensions.ts#L132-L139)<br>[app.area](../frontend/src/odh/extensions.ts#L140-L147)<br>[app.area](../frontend/src/odh/extensions.ts#L148-L155)<br>[app.area](../frontend/src/odh/extensions.ts#L156-L167)<br>[app.area](../frontend/src/odh/extensions.ts#L168-L179) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L192-L204)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L205-L217) |
-| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection)<br>[app.navigation/section](../frontend/src/odh/extensions.ts#L180-L191) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L218-L228) |
-| app.task/group | [app.task/group](../../plugin-core/docs/extensions.md#apptaskgroup)<br>[app.task/group](../frontend/src/odh/extensions.ts#L277-L288) |
-| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem)<br>[app.task/item](../frontend/src/odh/extensions.ts#L289-L301)<br>[app.task/item](../frontend/src/odh/extensions.ts#L302-L314) |
-
-- `-->` declared or type-resolved contribution
-- `==>` derived relationship
-- `-. "rendered in" .->` rendered in one hop
-- `-. "federated" .->` federated contribution
-- `--x` suppression
-- `-- "patch" -->` patch
-
-### gen-ai
-
-```mermaid
-flowchart LR
-  pkg_n__odh_dashboard_gen_ai_84b665["@odh-dashboard/gen-ai"]
-  point_n_gen_ai_ai_assets_tab_775728("gen-ai.ai-assets/tab")
-  pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_gen_ai_ai_assets_tab_775728
-```
-
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/gen-ai | [@odh-dashboard/gen-ai](#contributes) |
-| gen-ai.ai-assets/tab | [gen-ai.ai-assets/tab](extensions.md#gen-aiai-assetstab)<br>[gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L230-L240)<br>[gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L241-L251)<br>[gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L252-L262)<br>[gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L263-L273) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/gen-ai](#loading-paths) | — | — |
+| app.area ×15 | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/extensions.ts:45](../frontend/src/odh/extensions.ts#L45-L51)<br>[../frontend/src/odh/extensions.ts:52](../frontend/src/odh/extensions.ts#L52-L63)<br>[../frontend/src/odh/extensions.ts:64](../frontend/src/odh/extensions.ts#L64-L71)<br>[../frontend/src/odh/extensions.ts:72](../frontend/src/odh/extensions.ts#L72-L79)<br>[../frontend/src/odh/extensions.ts:80](../frontend/src/odh/extensions.ts#L80-L91)<br>[../frontend/src/odh/extensions.ts:92](../frontend/src/odh/extensions.ts#L92-L99)<br>[../frontend/src/odh/extensions.ts:100](../frontend/src/odh/extensions.ts#L100-L107)<br>[../frontend/src/odh/extensions.ts:108](../frontend/src/odh/extensions.ts#L108-L115)<br>[../frontend/src/odh/extensions.ts:116](../frontend/src/odh/extensions.ts#L116-L123)<br>[../frontend/src/odh/extensions.ts:124](../frontend/src/odh/extensions.ts#L124-L131)<br>[../frontend/src/odh/extensions.ts:132](../frontend/src/odh/extensions.ts#L132-L139)<br>[../frontend/src/odh/extensions.ts:140](../frontend/src/odh/extensions.ts#L140-L147)<br>[../frontend/src/odh/extensions.ts:148](../frontend/src/odh/extensions.ts#L148-L155)<br>[../frontend/src/odh/extensions.ts:156](../frontend/src/odh/extensions.ts#L156-L167)<br>[../frontend/src/odh/extensions.ts:168](../frontend/src/odh/extensions.ts#L168-L179) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/extensions.ts:192](../frontend/src/odh/extensions.ts#L192-L204)<br>[../frontend/src/odh/extensions.ts:205](../frontend/src/odh/extensions.ts#L205-L217) |
+| app.navigation/section | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) | [../frontend/src/odh/extensions.ts:180](../frontend/src/odh/extensions.ts#L180-L191) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:218](../frontend/src/odh/extensions.ts#L218-L228) |
+| app.task/group | [app.task/group](../../plugin-core/docs/extensions.md#apptaskgroup) | [../frontend/src/odh/extensions.ts:277](../frontend/src/odh/extensions.ts#L277-L288) |
+| app.task/item | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | [../frontend/src/odh/extensions.ts:289](../frontend/src/odh/extensions.ts#L289-L301)<br>[../frontend/src/odh/extensions.ts:302](../frontend/src/odh/extensions.ts#L302-L314) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -83,185 +78,23 @@ flowchart LR
 
 #### app.area
 
-- **reliantAreas**: 
-- **devFlags**: 
-- **featureFlags**: `GEN_AI_STUDIO` (`"genAiStudio"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L45-L51)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: 
-- **requiredComponents**: 
-- **customCondition**: [not resolved](#diagnostics)
-- **id**: `CHAT_PLAYGROUND` (`"chatPlayground"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L52-L63)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `GEN_AI_IMAGE_UPLOAD` (`"genAiImageUpload"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `GEN_AI_IMAGE_UPLOAD` (`"genAiImageUpload"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L64-L71)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `GEN_AI_AUDIO_UPLOAD` (`"genAiAudioUpload"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `GEN_AI_AUDIO_UPLOAD` (`"genAiAudioUpload"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L72-L79)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `GUARDRAILS` (`"guardrails"`)
-- **requiredComponents**: `DataScienceStackComponent.TRUSTY_AI` (`"trustyai"`)
-- **customCondition**: [not resolved](#diagnostics)
-- **id**: `GUARDRAILS` (`"guardrails"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L80-L91)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `AI_ASSET_CUSTOM_ENDPOINTS` (`"aiAssetCustomEndpoints"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `AI_ASSET_CUSTOM_ENDPOINTS` (`"aiAssetCustomEndpoints"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L92-L99)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `PROMPT_MANAGEMENT` (`"promptManagement"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `PROMPT_MANAGEMENT` (`"promptManagement"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L100-L107)
-
-- **reliantAreas**: `PROMPT_MANAGEMENT` (`"promptManagement"`)
-- **devFlags**: `PROMPT_MODEL_ASSOCIATIONS` (`"promptModelAssociations"`)
-- **featureFlags**: 
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `PROMPT_MODEL_ASSOCIATIONS` (`"promptModelAssociations"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L108-L115)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `EXTERNAL_VECTOR_STORES` (`"externalVectorStores"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `EXTERNAL_VECTOR_STORES` (`"externalVectorStores"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L116-L123)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `AGENT_CONFIG_MANAGEMENT` (`"agentConfigManagement"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `AGENT_CONFIG_MANAGEMENT` (`"agentConfigManagement"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L124-L131)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `GEN_AI_AGENT_DEPLOYMENT` (`"genAiAgentDeployment"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `GEN_AI_AGENT_DEPLOYMENT` (`"genAiAgentDeployment"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L132-L139)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `MCP_REGISTRY` (`"mcpRegistry"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `MCP_REGISTRY` (`"mcpRegistry"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L140-L147)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `GEN_AI_MCP_REGISTRY_SERVERS` (`"genAiMcpRegistryServers"`)
-- **requiredComponents**: 
-- **customCondition**: 
-- **id**: `GEN_AI_MCP_REGISTRY_SERVERS` (`"genAiMcpRegistryServers"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L148-L155)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `GEN_AI_TRACING` (`"genAiTracing"`)
-- **requiredComponents**: 
-- **customCondition**: [not resolved](#diagnostics)
-- **id**: `GEN_AI_TRACING` (`"genAiTracing"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L156-L167)
-
-- **reliantAreas**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **devFlags**: 
-- **featureFlags**: `MODEL_AS_SERVICE_CAMEL` (`"modelAsService"`)
-- **requiredComponents**: 
-- **customCondition**: [not resolved](#diagnostics)
-- **id**: `MODEL_AS_SERVICE_CAMEL` (`"modelAsService"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L168-L179)
+| reliantAreas | devFlags | featureFlags | requiredComponents | customCondition | id | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| — | — | `GEN_AI_STUDIO` (`"genAiStudio"`) | — | — | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | [app.area](../frontend/src/odh/extensions.ts#L45-L51) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | — | — | [not resolved](#diagnostics) | `CHAT_PLAYGROUND` (`"chatPlayground"`) | [app.area](../frontend/src/odh/extensions.ts#L52-L63) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `GEN_AI_IMAGE_UPLOAD` (`"genAiImageUpload"`) | — | — | `GEN_AI_IMAGE_UPLOAD` (`"genAiImageUpload"`) | [app.area](../frontend/src/odh/extensions.ts#L64-L71) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `GEN_AI_AUDIO_UPLOAD` (`"genAiAudioUpload"`) | — | — | `GEN_AI_AUDIO_UPLOAD` (`"genAiAudioUpload"`) | [app.area](../frontend/src/odh/extensions.ts#L72-L79) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `GUARDRAILS` (`"guardrails"`) | `DataScienceStackComponent.TRUSTY_AI` (`"trustyai"`) | [not resolved](#diagnostics) | `GUARDRAILS` (`"guardrails"`) | [app.area](../frontend/src/odh/extensions.ts#L80-L91) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `AI_ASSET_CUSTOM_ENDPOINTS` (`"aiAssetCustomEndpoints"`) | — | — | `AI_ASSET_CUSTOM_ENDPOINTS` (`"aiAssetCustomEndpoints"`) | [app.area](../frontend/src/odh/extensions.ts#L92-L99) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `PROMPT_MANAGEMENT` (`"promptManagement"`) | — | — | `PROMPT_MANAGEMENT` (`"promptManagement"`) | [app.area](../frontend/src/odh/extensions.ts#L100-L107) |
+| `PROMPT_MANAGEMENT` (`"promptManagement"`) | `PROMPT_MODEL_ASSOCIATIONS` (`"promptModelAssociations"`) | — | — | — | `PROMPT_MODEL_ASSOCIATIONS` (`"promptModelAssociations"`) | [app.area](../frontend/src/odh/extensions.ts#L108-L115) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `EXTERNAL_VECTOR_STORES` (`"externalVectorStores"`) | — | — | `EXTERNAL_VECTOR_STORES` (`"externalVectorStores"`) | [app.area](../frontend/src/odh/extensions.ts#L116-L123) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `AGENT_CONFIG_MANAGEMENT` (`"agentConfigManagement"`) | — | — | `AGENT_CONFIG_MANAGEMENT` (`"agentConfigManagement"`) | [app.area](../frontend/src/odh/extensions.ts#L124-L131) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `GEN_AI_AGENT_DEPLOYMENT` (`"genAiAgentDeployment"`) | — | — | `GEN_AI_AGENT_DEPLOYMENT` (`"genAiAgentDeployment"`) | [app.area](../frontend/src/odh/extensions.ts#L132-L139) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `MCP_REGISTRY` (`"mcpRegistry"`) | — | — | `MCP_REGISTRY` (`"mcpRegistry"`) | [app.area](../frontend/src/odh/extensions.ts#L140-L147) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `GEN_AI_MCP_REGISTRY_SERVERS` (`"genAiMcpRegistryServers"`) | — | — | `GEN_AI_MCP_REGISTRY_SERVERS` (`"genAiMcpRegistryServers"`) | [app.area](../frontend/src/odh/extensions.ts#L148-L155) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `GEN_AI_TRACING` (`"genAiTracing"`) | — | [not resolved](#diagnostics) | `GEN_AI_TRACING` (`"genAiTracing"`) | [app.area](../frontend/src/odh/extensions.ts#L156-L167) |
+| `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | — | `MODEL_AS_SERVICE_CAMEL` (`"modelAsService"`) | — | [not resolved](#diagnostics) | `MODEL_AS_SERVICE_CAMEL` (`"modelAsService"`) | [app.area](../frontend/src/odh/extensions.ts#L168-L179) |
 
 **Not resolved**
 
@@ -274,52 +107,26 @@ flowchart LR
 
 #### app.navigation/href
 
-- **id**: `"chat-playground"`
-- **title**: `"Playground"`
-- **section**: `"gen-ai-studio"`
-- **href**: `chatPlaygroundRootPath` (`"/gen-ai-studio/playground"`)
-- **path**: `globChatPlaygroundAll` (`"/gen-ai-studio/playground/*"`)
-- **Requires**: `CHAT_PLAYGROUND` (`"chatPlayground"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L192-L204)
-
-- **id**: `"ai-assets"`
-- **title**: `"AI asset endpoints"`
-- **section**: `"gen-ai-studio"`
-- **href**: `aiAssetsRootPath` (`"/gen-ai-studio/assets"`)
-- **path**: `globAiAssetsAll` (`"/gen-ai-studio/assets/*"`)
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L205-L217)
+| id | title | section | href | path | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"chat-playground"` | `"Playground"` | `"gen-ai-studio"` | `chatPlaygroundRootPath` (`"/gen-ai-studio/playground"`) | `globChatPlaygroundAll` (`"/gen-ai-studio/playground/*"`) | `CHAT_PLAYGROUND` (`"chatPlayground"`) | [app.navigation/href](../frontend/src/odh/extensions.ts#L192-L204) |
+| `"ai-assets"` | `"AI asset endpoints"` | `"gen-ai-studio"` | `aiAssetsRootPath` (`"/gen-ai-studio/assets"`) | `globAiAssetsAll` (`"/gen-ai-studio/assets/*"`) | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | [app.navigation/href](../frontend/src/odh/extensions.ts#L205-L217) |
 
 #### app.navigation/section
 
-- **id**: `"gen-ai-studio"`
-- **title**: `"Gen AI studio"`
-- **group**: `"4_gen_ai_studio"`
-- **iconRef**: packages/gen-ai/frontend/src/odh/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/GenAiStudioNavIcon.ts#L3-L11)
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **Disallows**: 
-- **CodeRef target**: packages/gen-ai/frontend/src/odh/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/GenAiStudioNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../frontend/src/odh/extensions.ts#L180-L191)
+| id | title | group | iconRef | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"gen-ai-studio"` | `"Gen AI studio"` | `"4_gen_ai_studio"` | packages/gen-ai/frontend/src/odh/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/GenAiStudioNavIcon.ts#L3-L11) | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | packages/gen-ai/frontend/src/odh/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/GenAiStudioNavIcon.ts#L3-L11) | [app.navigation/section](../frontend/src/odh/extensions.ts#L180-L191) |
 
 #### app.route
 
-- **id**: `"gen-ai-routes"`
-- **component**: packages/gen-ai/frontend/src/odh/GenAiWrapper.tsx#[GenAiWrapper](../frontend/src/odh/GenAiWrapper.tsx#L39-L53)
-- **path**: `globGenAiAll` (`"/gen-ai-studio/*"`)
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **Disallows**: 
-- **CodeRef target**: packages/gen-ai/frontend/src/odh/GenAiWrapper.tsx#[GenAiWrapper](../frontend/src/odh/GenAiWrapper.tsx#L39-L53)
-- **Included in**: 
-- **Source**: [app.route](../frontend/src/odh/extensions.ts#L218-L228)
+| id | component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"gen-ai-routes"` | packages/gen-ai/frontend/src/odh/GenAiWrapper.tsx#[GenAiWrapper](../frontend/src/odh/GenAiWrapper.tsx#L39-L53) | `globGenAiAll` (`"/gen-ai-studio/*"`) | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | packages/gen-ai/frontend/src/odh/GenAiWrapper.tsx#[GenAiWrapper](../frontend/src/odh/GenAiWrapper.tsx#L39-L53) | [app.route](../frontend/src/odh/extensions.ts#L218-L228) |
 
 #### app.task/group
+
+**Contribution:** `app.task/group` at `packages/gen-ai/frontend/src/odh/extensions.ts:277`
 
 - **id**: `"gen-ai-studio"`
 - **title**: `"Gen AI studio"`
@@ -328,73 +135,45 @@ flowchart LR
 - **icon**: packages/gen-ai/frontend/src/odh/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/GenAiStudioNavIcon.ts#L3-L11)
 - **type**: `"organize"`
 - **order**: `"2_gen_ai_studio"`
-- **Requires**: 
-- **Disallows**: 
 - **CodeRef target**: packages/gen-ai/frontend/src/odh/GenAiStudioNavIcon.ts#[GenAiStudioNavIcon](../frontend/src/odh/GenAiStudioNavIcon.ts#L3-L11)
-- **Included in**: 
 - **Source**: [app.task/group](../frontend/src/odh/extensions.ts#L277-L288)
 
 #### app.task/item
 
-- **id**: `"genai-playground"`
-- **group**: `"gen-ai-studio"`
-- **title**: `"Chat with models"`
-- **destination**: href: `chatPlaygroundRootPath` (`"/gen-ai-studio/playground"`)
-- **order**: `"1_playground"`
-- **Requires**: `CHAT_PLAYGROUND` (`"chatPlayground"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../frontend/src/odh/extensions.ts#L289-L301)
+| id | group | title | destination | order | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"genai-playground"` | `"gen-ai-studio"` | `"Chat with models"` | href: `chatPlaygroundRootPath` (`"/gen-ai-studio/playground"`) | `"1_playground"` | `CHAT_PLAYGROUND` (`"chatPlayground"`) | [app.task/item](../frontend/src/odh/extensions.ts#L289-L301) |
+| `"genai-ai-assets"` | `"gen-ai-studio"` | `"Browse available AI assets"` | href: `aiAssetsRootPath` (`"/gen-ai-studio/assets"`) | `"2_ai_assets"` | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | [app.task/item](../frontend/src/odh/extensions.ts#L302-L314) |
 
-- **id**: `"genai-ai-assets"`
-- **group**: `"gen-ai-studio"`
-- **title**: `"Browse available AI assets"`
-- **destination**: href: `aiAssetsRootPath` (`"/gen-ai-studio/assets"`)
-- **order**: `"2_ai_assets"`
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.task/item](../frontend/src/odh/extensions.ts#L302-L314)
+### gen-ai
+
+```mermaid
+flowchart LR
+  pkg_n__odh_dashboard_gen_ai_84b665["@odh-dashboard/gen-ai"]
+  point_n_gen_ai_ai_assets_tab_775728("gen-ai.ai-assets/tab")
+  pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_gen_ai_ai_assets_tab_775728
+```
+
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/gen-ai](#loading-paths) | — | — |
+| gen-ai.ai-assets/tab | [gen-ai.ai-assets/tab](extensions.md#gen-aiai-assetstab) | [../frontend/src/odh/extensions.ts:230](../frontend/src/odh/extensions.ts#L230-L240)<br>[../frontend/src/odh/extensions.ts:241](../frontend/src/odh/extensions.ts#L241-L251)<br>[../frontend/src/odh/extensions.ts:252](../frontend/src/odh/extensions.ts#L252-L262)<br>[../frontend/src/odh/extensions.ts:263](../frontend/src/odh/extensions.ts#L263-L273) |
+
+- `-->` declared or type-resolved contribution
+- `==>` derived relationship
+- `-. "rendered in" .->` rendered in one hop
+- `-. "federated" .->` federated contribution
+- `--x` suppression
+- `-- "patch" -->` patch
 
 #### gen-ai.ai-assets/tab
 
-- **id**: `"models"`
-- **title**: `"Models"`
-- **component**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#[AIAssetsModelsTab](../frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#L28-L261)
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **Disallows**: 
-- **CodeRef target**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#[AIAssetsModelsTab](../frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#L28-L261)
-- **Included in**: 
-- **Source**: [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L230-L240)
-
-- **id**: `"mcpservers"`
-- **title**: `"MCP servers"`
-- **component**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#[AIAssetsMCPTab](../frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#L23-L102)
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`)
-- **Disallows**: 
-- **CodeRef target**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#[AIAssetsMCPTab](../frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#L23-L102)
-- **Included in**: 
-- **Source**: [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L241-L251)
-
-- **id**: `"vectorstores"`
-- **title**: `"Vector stores"`
-- **component**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#[AIAssetsVectorStoresTab](../frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#L11-L73)
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`), `EXTERNAL_VECTOR_STORES` (`"externalVectorStores"`)
-- **Disallows**: 
-- **CodeRef target**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#[AIAssetsVectorStoresTab](../frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#L11-L73)
-- **Included in**: 
-- **Source**: [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L252-L262)
-
-- **id**: `"agentprofile"`
-- **title**: `"Agents"`
-- **component**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#[AIAssetsAgentProfilesTab](../frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#L10-L66)
-- **Requires**: `PLUGIN_GEN_AI` (`"plugin-gen-ai"`), `AGENT_CONFIG_MANAGEMENT` (`"agentConfigManagement"`)
-- **Disallows**: 
-- **CodeRef target**: packages/gen-ai/frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#[AIAssetsAgentProfilesTab](../frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#L10-L66)
-- **Included in**: 
-- **Source**: [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L263-L273)
+| id | title | component | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- |
+| `"models"` | `"Models"` | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#[AIAssetsModelsTab](../frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#L28-L261) | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#[AIAssetsModelsTab](../frontend/src/app/AIAssets/AIAssetsModelsTab.tsx#L28-L261) | [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L230-L240) |
+| `"mcpservers"` | `"MCP servers"` | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#[AIAssetsMCPTab](../frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#L23-L102) | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`) | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#[AIAssetsMCPTab](../frontend/src/app/AIAssets/AIAssetsMCPTab.tsx#L23-L102) | [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L241-L251) |
+| `"vectorstores"` | `"Vector stores"` | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#[AIAssetsVectorStoresTab](../frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#L11-L73) | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`), `EXTERNAL_VECTOR_STORES` (`"externalVectorStores"`) | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#[AIAssetsVectorStoresTab](../frontend/src/app/AIAssets/AIAssetsVectorStoresTab.tsx#L11-L73) | [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L252-L262) |
+| `"agentprofile"` | `"Agents"` | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#[AIAssetsAgentProfilesTab](../frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#L10-L66) | `PLUGIN_GEN_AI` (`"plugin-gen-ai"`), `AGENT_CONFIG_MANAGEMENT` (`"agentConfigManagement"`) | packages/gen-ai/frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#[AIAssetsAgentProfilesTab](../frontend/src/app/AIAssets/AIAssetsAgentProfilesTab.tsx#L10-L66) | [gen-ai.ai-assets/tab](../frontend/src/odh/extensions.ts#L263-L273) |
 
 ## Diagnostics
 

@@ -1,13 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { getRepoModel } from './model';
-import { githubAnchor } from '../../src/render/links';
+import { headingAnchors } from '../../src/render/links';
 import { findRepoRoot } from '../../src/repoRoot';
 import type { GeneratedFile } from '../../src/render/packagePage';
 import { renderAll } from '../../src/render/renderAll';
 
 const repoRoot = findRepoRoot();
-const files = renderAll(getRepoModel());
+const model = getRepoModel();
+const files = renderAll(model);
 const sourceLinkPattern = /\[([^\]]+)\]\(([^)#]+)#L(\d+)(?:-L\d+)?\)/gu;
 const anchorPattern = /\[([^\]]+)\]\(([^)]*)#([^#)]+)\)/gu;
 
@@ -24,9 +25,43 @@ const brokenSourceLinks = (generated: GeneratedFile[]): string[] =>
       }
       const lines = fs.readFileSync(sourcePath, 'utf8').split(/\r?\n/u);
       const sourceLine = lines.at(lineNumber - 1);
-      if (
-        sourceLine === undefined ||
-        (!sourceLine.includes(visible) && !sourceLine.includes('{'))
+      const locationLabel = visible.match(/^(.+):(\d+)$/u);
+      const relativeSource = path.relative(repoRoot, sourcePath);
+      const registrations = model.extensions.filter(
+        (extension) => extension.loc.file === relativeSource && extension.loc.line === lineNumber,
+      );
+      const registrationRow = file.content
+        .split(/\r?\n/u)
+        .find(
+          (row) => row.startsWith('|') && row.includes(`[${visible}](${relative}#L${lineNumber}`),
+        );
+      const contractId = registrationRow
+        ?.split('|')[2]
+        ?.trim()
+        .match(/^\[([^\]]+)\]\(/u)?.[1];
+      const knownRegistration =
+        contractId !== undefined &&
+        registrations.some((extension) => extension.type === contractId);
+      const knownDiagnostic = model.diagnostics.some(
+        (diagnostic) =>
+          diagnostic.code === visible &&
+          diagnostic.loc?.file === relativeSource &&
+          diagnostic.loc.line === lineNumber,
+      );
+      if (sourceLine === undefined) {
+        problems.push(`${file.path}: ${relative}#L${lineNumber} does not exist`);
+      } else if (locationLabel !== null) {
+        const [, labelPath, labelLine] = locationLabel;
+        const labeledPath = path.resolve(path.dirname(path.join(repoRoot, file.path)), labelPath);
+        if (labeledPath !== sourcePath || Number(labelLine) !== lineNumber || !knownRegistration) {
+          problems.push(
+            `${file.path}: ${visible} does not identify a known registration at ${relative}#L${lineNumber}`,
+          );
+        }
+      } else if (
+        !sourceLine.includes(visible) &&
+        !registrations.some((extension) => extension.type === visible) &&
+        !knownDiagnostic
       ) {
         problems.push(`${file.path}: ${relative}#L${lineNumber} does not contain ${visible}`);
       }
@@ -54,7 +89,7 @@ const brokenAnchors = (generated: GeneratedFile[]): string[] => {
       const targetAnchors =
         target === undefined
           ? []
-          : [...target.matchAll(/^#{1,6}\s+(.+)$/gmu)].map((heading) => githubAnchor(heading[1]));
+          : headingAnchors(target).map(({ anchor: targetAnchor }) => targetAnchor);
       if (target === undefined || !targetAnchors.includes(anchor)) {
         problems.push(`${file.path}: missing ${relative}#${anchor} (${visible})`);
       }

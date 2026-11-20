@@ -2,6 +2,14 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.route](#approute)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -23,12 +31,12 @@ flowchart LR
   pkg_n__odh_dashboard_automl_0d2600 -. "federated" .-> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/automl | [@odh-dashboard/automl](#contributes) |
-| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/extensions.ts#L12-L20) |
-| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L21-L33) |
-| app.route | [app.route](../../plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L34-L43) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/automl](#loading-paths) | — | — |
+| app.area | [app.area](../../plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/extensions.ts:12](../frontend/src/odh/extensions.ts#L12-L20) |
+| app.navigation/href | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/extensions.ts:21](../frontend/src/odh/extensions.ts#L21-L33) |
+| app.route | [app.route](../../plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:34](../frontend/src/odh/extensions.ts#L34-L43) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -39,31 +47,18 @@ flowchart LR
 
 #### app.area
 
-- **reliantAreas**: 
-- **featureFlags**: `"automl"`, `"disablePipelines"`
-- **requiredComponents**: `DataScienceStackComponent.DS_PIPELINES` (`"aipipelines"`)
-- **id**: `PLUGIN_AUTOML` (`"plugin-automl"`)
-- **Requires**: 
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.area](../frontend/src/odh/extensions.ts#L12-L20)
+| featureFlags | requiredComponents | id | Source |
+| --- | --- | --- | --- |
+| `"automl"`, `"disablePipelines"` | `DataScienceStackComponent.DS_PIPELINES` (`"aipipelines"`) | `PLUGIN_AUTOML` (`"plugin-automl"`) | [app.area](../frontend/src/odh/extensions.ts#L12-L20) |
 
 #### app.navigation/href
 
-- **id**: `"automl-view"`
-- **title**: `"AutoML"`
-- **section**: `"develop-and-train"`
-- **href**: `"/develop-train/automl"`
-- **path**: `"/develop-train/automl/*"`
-- **Requires**: `PLUGIN_AUTOML` (`"plugin-automl"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
-- **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L21-L33)
+| id | title | section | href | path | Requires | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"automl-view"` | `"AutoML"` | `"develop-and-train"` | `"/develop-train/automl"` | `"/develop-train/automl/*"` | `PLUGIN_AUTOML` (`"plugin-automl"`) | [app.navigation/href](../frontend/src/odh/extensions.ts#L21-L33) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| packages/automl/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L32-L53) | `"/develop-train/automl/*"` | `PLUGIN_AUTOML` (`"plugin-automl"`) |  | packages/automl/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L32-L53) |  | [app.route](../frontend/src/odh/extensions.ts#L34-L43) |
+| component | path | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- |
+| packages/automl/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L32-L53) | `"/develop-train/automl/*"` | `PLUGIN_AUTOML` (`"plugin-automl"`) | packages/automl/frontend/src/odh/AppWrapper.tsx#[AppWrapper](../frontend/src/odh/AppWrapper.tsx#L32-L53) | [app.route](../frontend/src/odh/extensions.ts#L34-L43) |

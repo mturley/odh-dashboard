@@ -2,6 +2,15 @@
 
 > Generated file. Regenerate with `pnpm docs:extension-map`.
 
+## Contents
+- [Loading paths](#loading-paths)
+- [Contributes](#contributes)
+  - [app](#app)
+    - [app.area](#apparea)
+    - [app.navigation/href](#appnavigationhref)
+    - [app.navigation/section](#appnavigationsection)
+    - [app.route](#approute)
+
 ## Loading paths
 
 | Entry | Path | Source |
@@ -25,13 +34,13 @@ flowchart LR
   pkg_n__odh_dashboard_core_bff_b8a0c6 -. "federated" .-> point_n_app_route_2735df
 ```
 
-| Node | Link |
-| --- | --- |
-| @odh-dashboard/core-bff | [@odh-dashboard/core-bff](#contributes) |
-| app.area | [app.area](../../../packages/plugin-core/docs/extensions.md#apparea)<br>[app.area](../frontend/src/odh/extensions.ts#L10-L16) |
-| app.navigation/href | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref)<br>[app.navigation/href](../frontend/src/odh/extensions.ts#L29-L42) |
-| app.navigation/section | [app.navigation/section](../../../packages/plugin-core/docs/extensions.md#appnavigationsection)<br>[app.navigation/section](../frontend/src/odh/extensions.ts#L17-L28) |
-| app.route | [app.route](../../../packages/plugin-core/docs/extensions.md#approute)<br>[app.route](../frontend/src/odh/extensions.ts#L43-L52) |
+| Node | Contract | Registration sources |
+| --- | --- | --- |
+| [@odh-dashboard/core-bff](#loading-paths) | — | — |
+| app.area | [app.area](../../../packages/plugin-core/docs/extensions.md#apparea) | [../frontend/src/odh/extensions.ts:10](../frontend/src/odh/extensions.ts#L10-L16) |
+| app.navigation/href | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref) | [../frontend/src/odh/extensions.ts:29](../frontend/src/odh/extensions.ts#L29-L42) |
+| app.navigation/section | [app.navigation/section](../../../packages/plugin-core/docs/extensions.md#appnavigationsection) | [../frontend/src/odh/extensions.ts:17](../frontend/src/odh/extensions.ts#L17-L28) |
+| app.route | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) | [../frontend/src/odh/extensions.ts:43](../frontend/src/odh/extensions.ts#L43-L52) |
 
 - `-->` declared or type-resolved contribution
 - `==>` derived relationship
@@ -42,11 +51,13 @@ flowchart LR
 
 #### app.area
 
-| devFlags | id | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| `CORE_BFF` (`"core-bff-module"`) | `CORE_BFF` (`"core-bff-module"`) |  |  |  |  | [app.area](../frontend/src/odh/extensions.ts#L10-L16) |
+| devFlags | id | Source |
+| --- | --- | --- |
+| `CORE_BFF` (`"core-bff-module"`) | `CORE_BFF` (`"core-bff-module"`) | [app.area](../frontend/src/odh/extensions.ts#L10-L16) |
 
 #### app.navigation/href
+
+**Contribution:** `app.navigation/href` at `distributions/core-bff/frontend/src/odh/extensions.ts:29`
 
 - **id**: `"core-bff-view"`
 - **title**: `"Core Bff"`
@@ -55,25 +66,16 @@ flowchart LR
 - **href**: `"/core-bff/main-view"`
 - **path**: `"/core-bff/main-view/*"`
 - **Requires**: `CORE_BFF` (`"core-bff-module"`)
-- **Disallows**: 
-- **CodeRef target**: 
-- **Included in**: 
 - **Source**: [app.navigation/href](../frontend/src/odh/extensions.ts#L29-L42)
 
 #### app.navigation/section
 
-- **id**: `"core-bff"`
-- **title**: `"Core Bff"`
-- **group**: `"7_core_bff_studio"`
-- **iconRef**: distributions/core-bff/frontend/src/odh/CoreBffNavIcon.ts#[CoreBffNavIcon](../frontend/src/odh/CoreBffNavIcon.ts#L3-L11)
-- **Requires**: `CORE_BFF` (`"core-bff-module"`)
-- **Disallows**: 
-- **CodeRef target**: distributions/core-bff/frontend/src/odh/CoreBffNavIcon.ts#[CoreBffNavIcon](../frontend/src/odh/CoreBffNavIcon.ts#L3-L11)
-- **Included in**: 
-- **Source**: [app.navigation/section](../frontend/src/odh/extensions.ts#L17-L28)
+| id | title | group | iconRef | Requires | CodeRef target | Source |
+| --- | --- | --- | --- | --- | --- | --- |
+| `"core-bff"` | `"Core Bff"` | `"7_core_bff_studio"` | distributions/core-bff/frontend/src/odh/CoreBffNavIcon.ts#[CoreBffNavIcon](../frontend/src/odh/CoreBffNavIcon.ts#L3-L11) | `CORE_BFF` (`"core-bff-module"`) | distributions/core-bff/frontend/src/odh/CoreBffNavIcon.ts#[CoreBffNavIcon](../frontend/src/odh/CoreBffNavIcon.ts#L3-L11) | [app.navigation/section](../frontend/src/odh/extensions.ts#L17-L28) |
 
 #### app.route
 
-| component | path | Requires | Disallows | CodeRef target | Included in | Source |
-| --- | --- | --- | --- | --- | --- | --- |
-| distributions/core-bff/frontend/src/odh/CoreBffWrapper.tsx#[CoreBffWrapper](../frontend/src/odh/CoreBffWrapper.tsx#L18-L26) | `"/core-bff/main-view/*"` |  |  | distributions/core-bff/frontend/src/odh/CoreBffWrapper.tsx#[CoreBffWrapper](../frontend/src/odh/CoreBffWrapper.tsx#L18-L26) |  | [app.route](../frontend/src/odh/extensions.ts#L43-L52) |
+| component | path | CodeRef target | Source |
+| --- | --- | --- | --- |
+| distributions/core-bff/frontend/src/odh/CoreBffWrapper.tsx#[CoreBffWrapper](../frontend/src/odh/CoreBffWrapper.tsx#L18-L26) | `"/core-bff/main-view/*"` | distributions/core-bff/frontend/src/odh/CoreBffWrapper.tsx#[CoreBffWrapper](../frontend/src/odh/CoreBffWrapper.tsx#L18-L26) | [app.route](../frontend/src/odh/extensions.ts#L43-L52) |
