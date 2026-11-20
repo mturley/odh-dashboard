@@ -189,6 +189,65 @@ const brokenDiagrams = (): string[] =>
     }),
   );
 
+const page = (relPath: string): string => {
+  const found = files.find((file) => file.path === relPath);
+  if (!found) {
+    throw new Error(`No generated page ${relPath}`);
+  }
+  return found.content;
+};
+
+/** The body of one `### <point id>` section of a page, up to the next heading of that level. */
+const pointSection = (content: string, pointId: string): string => {
+  const start = content.indexOf(`\n### ${pointId}\n`);
+  if (start === -1) {
+    throw new Error(`No section for ${pointId}`);
+  }
+  const rest = content.slice(start + 1);
+  const end = rest.indexOf('\n### ', 1);
+  return end === -1 ? rest : rest.slice(0, end);
+};
+
+describe('generated page layout', () => {
+  it('opens every page with the nav line and the table of contents', () => {
+    files.forEach((file) => {
+      const headings = [...file.content.matchAll(/^## (.+)$/gm)].map(([, heading]) => heading);
+      expect(`${file.path}: ${headings[0]}`).toBe(`${file.path}: On this page`);
+      const head = file.content.slice(0, file.content.indexOf('## On this page')).trimEnd();
+      expect(`${file.path}: ${head.split('\n').at(-1) ?? ''}`).toMatch(
+        /: \[[^\]]+\]\(#[a-z-]+\)( · \[[^\]]+\]\(#[a-z-]+\))*$/,
+      );
+    });
+  });
+
+  it('draws no diagram on a page that only contributes', () => {
+    expect(mermaidBlocks(page('packages/nim-serving/docs/extensions.md'))).toEqual([]);
+  });
+
+  it('draws the big flows and writes the small ones as a sentence', () => {
+    const modelServing = page('packages/model-serving/docs/extensions.md');
+    expect(mermaidBlocks(pointSection(modelServing, 'model-serving.platform'))).not.toHaveLength(0);
+    expect(
+      mermaidBlocks(pointSection(modelServing, 'model-serving.deployments/banner')),
+    ).not.toHaveLength(0);
+    const small = pointSection(modelServing, 'model-serving.platform/exclude-deployment');
+    expect(mermaidBlocks(small)).toEqual([]);
+    expect(small).toContain('**Flow:** ');
+  });
+
+  it('puts no source-code link in any table of contents', () => {
+    const bad = files.flatMap((file) => {
+      const start = file.content.indexOf('## On this page');
+      const next = file.content.indexOf('\n## ', start + 1);
+      const toc = file.content.slice(start, next === -1 ? undefined : next);
+      return [...toc.matchAll(LINK)].flatMap(([, text, href]) =>
+        href.startsWith('#') || /extensions\.md#/.test(href) ? [] : [`${file.path}: ${text}`],
+      );
+    });
+    expect(bad).toEqual([]);
+  });
+});
+
 describe('generated links', () => {
   it('generates a page for every package that defines or contributes', () => {
     expect(files.length).toBeGreaterThan(20);

@@ -99,9 +99,12 @@ describe('extensions on the real repo', () => {
     );
     expect(extension.binding).toBe('nimKServeFormDataExtension');
     const { content } = renderPackagePage(getRepoModel(), pkg('@odh-dashboard/nim-serving'));
-    expect(content).toContain('["nimKServeFormDataExtension"]');
-    expect(content).toContain('| nimKServeFormDataExtension | extension of model-serving.');
-    expect(content).not.toContain('| extractDeploymentStrategy |');
+    expect(content).toContain(
+      '[nimKServeFormDataExtension](#contributes-to-model-servingdeploymentform-data)',
+    );
+    expect(content).toContain('| nimKServeFormDataExtension | hardwareProfilePaths →');
+    // The binding, not the first CodeRef export, names the contribution.
+    expect(content).not.toContain('[extractDeploymentStrategy](#contributes-to');
   });
 
   it('names the declaring file of a re-exported CodeRef target, and the module it imports', () => {

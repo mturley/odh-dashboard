@@ -18,8 +18,9 @@ export const renderDiagnostics = (
   }
   return joinBlocks([
     '## Diagnostics',
-    oneLine(`What the analysis could not prove, or thought worth reporting, about this package.
-       Warnings are gaps in the generated map; info entries are observations.`),
+    oneLine(`What the analysis could not prove, or thought worth reporting, about this package:
+       warnings are things the analysis could not prove, which are gaps in the map; info entries
+       are findings about the code, which the map reports in full.`),
     table(
       ['Code', 'Severity', 'Message', 'Source'],
       diagnostics.map((diagnostic) => [

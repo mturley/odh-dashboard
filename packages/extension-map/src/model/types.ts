@@ -536,7 +536,11 @@ export type DiagnosticCode =
 export type Diagnostic = {
   /** What kind of finding it is. */
   code: DiagnosticCode;
-  /** `info` for findings that are not problems (an unused point), else `warning`. */
+  /**
+   * `warning` for something the analysis could not prove, which is a gap in the generated map;
+   * `info` for a finding about the analyzed code itself, which the map reports in full (an unused
+   * point, an override the plugin store does nothing with).
+   */
   severity: 'warning' | 'info';
   /** The finding in words. */
   message: string;

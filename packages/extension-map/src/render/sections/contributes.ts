@@ -1,9 +1,15 @@
 import path from 'path';
-import { INCLUDED_IN, hasApps, includedInCell, overrideNotes } from '../appNotes';
-import { contributesHeading, fileLink, pointLink, relLink, sourceLink } from '../links';
-import { defList, githubAnchor, joinBlocks, oneLine, table } from '../markdown';
-import { flowchart, mermaidId } from '../mermaid';
-import type { EdgeStyle } from '../mermaid';
+import {
+  EFFECT,
+  INCLUDED_IN,
+  effectCell,
+  hasApps,
+  hasOverrideEffects,
+  includedInCell,
+  overrideNotes,
+} from '../appNotes';
+import { contributesHeading, pointLink, relLink, sourceLink } from '../links';
+import { defList, joinBlocks, oneLine, table } from '../markdown';
 import {
   codeRefCell,
   codeRefName,
@@ -14,16 +20,7 @@ import {
   valueCell,
 } from '../values';
 import type { CellCtx } from '../values';
-import type {
-  Entry,
-  ExtensionMapModel,
-  ExtensionPoint,
-  ExtensionRecord,
-  Pkg,
-} from '../../model/types';
-
-/** Extensions of one point from one package collapse into a single node at this count. */
-const COLLAPSE_AT = 5;
+import type { ExtensionMapModel, ExtensionPoint, ExtensionRecord, Pkg } from '../../model/types';
 
 /** Above this many columns a contribution is rendered as a definition list (spec §5.10). */
 const MAX_COLUMNS = 7;
@@ -33,30 +30,12 @@ const DISALLOWS = 'Disallows';
 const CODEREF = 'CodeRef target';
 const SOURCE = 'Source';
 
-/** How an extension reaches an app, in words, per entry kind. */
-const PATH_WORDS: Record<Entry['path'], string> = {
-  static: 'bundled',
-  federated: 'federated',
-  'distribution-static': 'bundled by a distribution',
-  'distribution-local': 'local to a distribution',
-};
-
 /** How many extensions one record stands for, as far as the analysis could count them. */
 const countOf = (record: ExtensionRecord): number =>
   typeof record.multiplicity === 'number' ? record.multiplicity : 1;
 
-const hasUnknownCount = (records: ExtensionRecord[]): boolean =>
-  records.some((record) => record.multiplicity === 'unknown');
-
-const groupCount = (records: ExtensionRecord[]): number =>
-  records.reduce((total, record) => total + countOf(record), 0);
-
-/** `×7`, or `×7+` when one of the records stands for an uncounted number of extensions. */
-const countLabel = (records: ExtensionRecord[]): string =>
-  `×${groupCount(records)}${hasUnknownCount(records) ? '+' : ''}`;
-
 /** The mark on a row that stands for more than one extension. */
-const rowMark = (record: ExtensionRecord): string | undefined => {
+export const rowMark = (record: ExtensionRecord): string | undefined => {
   if (record.multiplicity === 'unknown') {
     return '×?';
   }
@@ -101,7 +80,7 @@ const selfName = (record: ExtensionRecord): string | undefined => {
  * last segment and its position among this package's contributions to that point. Names repeated
  * within the group are numbered so that each label identifies exactly one contribution.
  */
-const identityLabels = (type: string, records: ExtensionRecord[]): Map<string, string> => {
+export const identityLabels = (type: string, records: ExtensionRecord[]): Map<string, string> => {
   const bases = records.map(
     (record, index) => selfName(record) ?? `${pointTail(type)} #${index + 1}`,
   );
@@ -120,8 +99,6 @@ const identityLabels = (type: string, records: ExtensionRecord[]): Map<string, s
     }),
   );
 };
-
-const shorten = (s: string, max = 44): string => (s.length > max ? `${s.slice(0, max - 1)}…` : s);
 
 /** The properties some contribution to this point sets as a code reference. */
 const codeRefColumns = (records: ExtensionRecord[]): string[] => {
@@ -210,6 +187,7 @@ const renderPointTable = (
   const labels = identityLabels(type, records);
   const refKeys = codeRefColumns(records);
   const dataKeys = dataColumns(records, point, refKeys);
+  const hasEffect = hasApps(model) && hasOverrideEffects(records, model);
   const hasRequires = records.some((record) => record.flags.required.length > 0);
   const hasDisallows = records.some((record) => record.flags.disallowed.length > 0);
   const headers = [
@@ -217,6 +195,7 @@ const renderPointTable = (
     ...(hasRequires ? [REQUIRES] : []),
     ...(hasDisallows ? [DISALLOWS] : []),
     ...(refKeys.length > 0 ? [CODEREF] : []),
+    ...(hasEffect ? [EFFECT] : []),
     ...(hasApps(model) ? [INCLUDED_IN] : []),
     SOURCE,
   ];
@@ -235,6 +214,9 @@ const renderPointTable = (
     }
     if (refKeys.length > 0) {
       entries.push([CODEREF, codeRefTargetCell(record, refKeys, docPath)]);
+    }
+    if (hasEffect) {
+      entries.push([EFFECT, effectCell(record, model, docPath)]);
     }
     if (hasApps(model)) {
       entries.push([INCLUDED_IN, includedInCell(record)]);
@@ -312,139 +294,47 @@ const groupBy = <T>(items: T[], key: (item: T) => string): Map<string, T[]> => {
   return groups;
 };
 
-/** The one diagram of a namespace, plus the node table that carries its links. */
-const renderNamespaceDiagram = (
-  ns: string,
-  byType: Map<string, ExtensionRecord[]>,
-  model: ExtensionMapModel,
-  pkg: Pkg,
-  docPath: string,
-  entriesById: Map<string, Entry>,
-): string | undefined => {
-  const chart = flowchart('LR');
-  const rows: string[][] = [];
-  const pkgNode = mermaidId(pkg.name);
-  const pkgLabel = `${pkg.name.replace(/^@odh-dashboard\//, '')} (${pkg.kind})`;
-  const drawn = [...byType.entries()].filter(([type]) =>
-    model.points.some((point) => point.id === type),
-  );
-  if (drawn.length === 0) {
-    return undefined;
-  }
-  chart.node(pkgNode, pkgLabel, 'box', 'pkg');
-  rows.push([pkgLabel, 'this package', fileLink(docPath, pkg.dir, pkg.dir)]);
+/** One namespace of a package's contributions: its points, each with its records, both sorted. */
+export type ContributionGroup = { ns: string; byType: Map<string, ExtensionRecord[]> };
 
-  const pathsOf = (record: ExtensionRecord): Entry['path'][] => [
-    ...new Set(
-      record.entries.flatMap((id) => {
-        const entry = entriesById.get(id);
-        return entry ? [entry.path] : [];
-      }),
-    ),
-  ];
-
-  /** Dashed only when every entry that carries the extension is a federated one. */
-  const styleOf = (record: ExtensionRecord): EdgeStyle => {
-    const paths = pathsOf(record);
-    return paths.length > 0 && paths.every((entryPath) => entryPath === 'federated')
-      ? 'federated'
-      : 'solid';
-  };
-
-  const loadingWords = (record: ExtensionRecord): string => {
-    const words = pathsOf(record)
-      .map((entryPath) => PATH_WORDS[entryPath])
-      .toSorted();
-    return words.length === 0 ? '' : ` — ${words.join(' and ')}`;
-  };
-
-  const pointNodes: [string, string, string][] = [];
-  drawn.forEach(([type, records]) => {
-    const pointNode = mermaidId(type);
-    const pointLabel = type.startsWith(`${ns}.`) ? type.slice(ns.length + 1) : type;
-    const labels = identityLabels(type, records);
-    pointNodes.push([pointNode, pointLabel, type]);
-    if (groupCount(records) >= COLLAPSE_AT) {
-      const collapsed = mermaidId(`${type}#collapsed`);
-      chart.node(collapsed, countLabel(records), 'rounded', 'collapsed');
-      rows.push([
-        countLabel(records),
-        `${hasUnknownCount(records) ? 'at least ' : ''}${groupCount(
-          records,
-        )} extensions of ${type}`,
-        `[see the table below](#${githubAnchor(contributesHeading(type))})`,
-      ]);
-      chart.edge(
-        pkgNode,
-        collapsed,
-        records.every((record) => styleOf(record) === 'federated') ? 'federated' : 'solid',
-      );
-    } else {
-      records.forEach((record) => {
-        const node = mermaidId(record.key);
-        const label = shorten(labels.get(record.key) ?? '');
-        chart.node(node, label, 'box');
-        rows.push([
-          label,
-          `extension of ${type}${loadingWords(record)}`,
-          relLink(docPath, record.loc, path.posix.basename(record.loc.file)),
-        ]);
-        chart.edge(pkgNode, node, styleOf(record));
-      });
-    }
-  });
-
-  // The point nodes are declared last so they sit inside the namespace subgraph.
-  chart.subgraph(mermaidId(`ns:${ns}`), ns, () => {
-    pointNodes.forEach(([node, label]) => {
-      chart.node(node, label, 'point', 'point');
-    });
-  });
-  drawn.forEach(([type, records]) => {
-    const pointNode = mermaidId(type);
-    if (groupCount(records) >= COLLAPSE_AT) {
-      chart.edge(mermaidId(`${type}#collapsed`), pointNode, 'solid');
-    } else {
-      records.forEach((record) => {
-        chart.edge(mermaidId(record.key), pointNode, 'solid');
-      });
-    }
-  });
-  pointNodes.forEach(([, label, type]) => {
-    const point = model.points.find((candidate) => candidate.id === type);
-    rows.push([label, 'extension point', point ? pointLink(docPath, point, model) : `\`${type}\``]);
-  });
-
-  return joinBlocks([chart.toString(), table(['Node', 'What', 'Link'], rows)]);
-};
+/**
+ * This package's contributions grouped exactly as the `## Contributes` section renders them:
+ * namespaces sorted, points sorted within each. The table of contents follows this order.
+ */
+export const contributionGroups = (model: ExtensionMapModel, pkg: Pkg): ContributionGroup[] =>
+  [
+    ...groupBy(
+      model.extensions.filter((record) => record.pkg === pkg.name),
+      (record) => namespaceOf(record.type),
+    ).entries(),
+  ]
+    .toSorted(([a], [b]) => (a < b ? -1 : 1))
+    .map(([ns, nsRecords]) => ({
+      ns,
+      byType: new Map(
+        [...groupBy(nsRecords, (record) => record.type).entries()].toSorted(([a], [b]) =>
+          a < b ? -1 : 1,
+        ),
+      ),
+    }));
 
 /** The `## Contributes` section: what this package adds to other packages' extension points. */
 export const renderContributes = (
   model: ExtensionMapModel,
   pkg: Pkg,
   docPath: string,
-): { markdown: string; hasDiagram: boolean } | undefined => {
-  const records = model.extensions.filter((record) => record.pkg === pkg.name);
-  if (records.length === 0) {
+): string | undefined => {
+  const groups = contributionGroups(model, pkg);
+  if (groups.length === 0) {
     return undefined;
   }
-  const entriesById = new Map(model.entries.map((entry) => [entry.id, entry]));
-  const byNamespace = groupBy(records, (record) => namespaceOf(record.type));
-  let hasDiagram = false;
-
-  const namespaces = [...byNamespace.entries()]
-    .toSorted(([a], [b]) => (a < b ? -1 : 1))
-    .map(([ns, nsRecords]) => {
-      const byType = new Map(
-        [...groupBy(nsRecords, (record) => record.type).entries()].toSorted(([a], [b]) =>
-          a < b ? -1 : 1,
-        ),
-      );
-      const diagram = renderNamespaceDiagram(ns, byType, model, pkg, docPath, entriesById);
-      hasDiagram = hasDiagram || diagram !== undefined;
-      return joinBlocks([
+  return joinBlocks([
+    '## Contributes',
+    oneLine(`The extensions this package declares, grouped by the namespace of the extension
+       point they target.`),
+    ...groups.map(({ ns, byType }) =>
+      joinBlocks([
         `### Namespace \`${ns}\``,
-        diagram,
         ...[...byType.entries()].map(([type, typeRecords]) =>
           joinBlocks([
             `#### ${contributesHeading(type)}`,
@@ -457,16 +347,7 @@ export const renderContributes = (
             ),
           ]),
         ),
-      ]);
-    });
-
-  return {
-    markdown: joinBlocks([
-      '## Contributes',
-      oneLine(`The extensions this package declares, grouped by the namespace of the extension
-         point they target.`),
-      ...namespaces,
-    ]),
-    hasDiagram,
-  };
+      ]),
+    ),
+  ]);
 };
