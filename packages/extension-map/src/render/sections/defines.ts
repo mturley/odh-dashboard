@@ -1,4 +1,5 @@
-import { consumerLink, consumersOf } from './consumes';
+import { consumersOf } from './consumes';
+import { pointLegendKeys, renderPointFlow } from './pointFlow';
 import {
   consumesLink,
   contributesLink,
@@ -8,17 +9,14 @@ import {
   relLink,
   sourceLink,
 } from '../links';
-import { githubAnchor, joinBlocks, oneLine, table } from '../markdown';
-import { flowchart, mermaidId } from '../mermaid';
-import type { EdgeStyle } from '../mermaid';
+import { joinBlocks, oneLine, table } from '../markdown';
+import type { LegendKey } from '../mermaid';
 import type {
-  Consumer,
   Diagnostic,
   DiagnosticCode,
   ExtensionMapModel,
   ExtensionPoint,
   Pkg,
-  UseSite,
 } from '../../model/types';
 
 /**
@@ -141,164 +139,7 @@ const notResolvedFor = (point: ExtensionPoint, model: ExtensionMapModel): Diagno
   });
 };
 
-/** Use kinds in edge labels and node tables, the most telling first. */
-const KIND_ORDER: readonly UseSite['kind'][] = [
-  'lazy-render',
-  'jsx-render',
-  'hook-run',
-  'call',
-  'filter',
-  'type-check',
-  'read',
-];
-
-/** Shortens a label for a diagram node; the node table always carries the full name. */
-const shorten = (s: string, max = 44): string => (s.length > max ? `${s.slice(0, max - 1)}…` : s);
-
-/**
- * One point's flow: contributor packages → the point → the consumers that query or use it → where
- * each consumer is rendered or called (one hop up). Only proven edges are drawn; the node table
- * after it carries a link for every node.
- */
-const renderFlow = (
-  point: ExtensionPoint,
-  model: ExtensionMapModel,
-  docPath: string,
-): string | undefined => {
-  const records = model.extensions.filter((record) => record.type === point.id);
-  const consumers = consumersOf(model, point.id);
-  if (records.length === 0 && consumers.length === 0) {
-    return undefined;
-  }
-  const entries = new Map(model.entries.map((entry) => [entry.id, entry]));
-  const chart = flowchart('LR');
-  const rows: string[][] = [];
-  const pointNode = mermaidId(point.id);
-
-  const contributors = [...new Set(records.map((record) => record.pkg))].toSorted();
-  contributors.forEach((name) => {
-    const contributor = model.packages.find((candidate) => candidate.name === name);
-    const label = contributor ? `${pkgDisplayName(contributor)} (${contributor.kind})` : name;
-    chart.node(mermaidId(`pkg:${name}`), label, 'box', 'pkg');
-    rows.push([
-      label,
-      'contributes extensions of this point',
-      contributor
-        ? contributesLink(docPath, point.id, contributor, pkgDisplayName(contributor))
-        : `\`${name}\``,
-    ]);
-  });
-  chart.node(pointNode, point.id, 'point', 'point');
-  rows.push([point.id, 'this extension point', `[${point.id}](#${githubAnchor(point.id)})`]);
-
-  contributors.forEach((name) => {
-    const own = records.filter((record) => record.pkg === name);
-    // Dashed only when every entry that carries every one of the package's extensions is federated.
-    const federated = own.every((record) => {
-      const paths = record.entries.flatMap((id) => {
-        const entry = entries.get(id);
-        return entry ? [entry.path] : [];
-      });
-      return paths.length > 0 && paths.every((entryPath) => entryPath === 'federated');
-    });
-    const style: EdgeStyle = federated ? 'federated' : 'solid';
-    chart.edge(mermaidId(`pkg:${name}`), pointNode, style);
-  });
-
-  /**
-   * One node per symbol (`<file>#<symbol>`, the consumer id scheme), so a consumer that also
-   * renders or calls another consumer of this point is drawn once. Every edge is still one hop.
-   */
-  type SymbolNode = {
-    symbol: string;
-    consumer?: (typeof consumers)[number];
-    refs: { target: string; ref: Consumer['renderedIn'][number] }[];
-  };
-  const nodes = new Map<string, SymbolNode>();
-  consumers.forEach((entry) =>
-    nodes.set(entry.consumer.id, { symbol: entry.consumer.symbol, consumer: entry, refs: [] }),
-  );
-  consumers.forEach(({ consumer }) =>
-    consumer.renderedIn.forEach((ref) => {
-      const key = `${ref.loc.file}#${ref.symbol}`;
-      const found = nodes.get(key) ?? { symbol: ref.symbol, refs: [] };
-      found.refs.push({ target: consumer.symbol, ref });
-      nodes.set(key, found);
-    }),
-  );
-  const nodeId = (key: string): string => mermaidId(`symbol:${key}`);
-
-  /** What a consumer does with the point: its query hook or wrapper, then its use kinds. */
-  const kindsOf = ({ querySites, uses }: (typeof consumers)[number]): string[] => [
-    ...new Set([
-      ...querySites.map((site) => site.wrapper ?? site.hook),
-      ...KIND_ORDER.filter((kind) => uses.some((use) => use.kind === kind)),
-    ]),
-  ];
-
-  consumers.forEach((entry) => {
-    const key = entry.consumer.id;
-    chart.node(nodeId(key), shorten(entry.consumer.symbol), 'box');
-    chart.edge(pointNode, nodeId(key), 'solid', shorten(kindsOf(entry).join(', '), 60));
-  });
-  nodes.forEach((node, key) => {
-    if (!node.consumer) {
-      chart.node(nodeId(key), shorten(node.symbol), 'rounded');
-    }
-  });
-  // One edge per (consumer, renderer, how); the node table keeps every reference line.
-  const drawn = new Set<string>();
-  consumers.forEach(({ consumer }) =>
-    consumer.renderedIn.forEach((ref) => {
-      const to = nodeId(`${ref.loc.file}#${ref.symbol}`);
-      const edgeKey = `${consumer.id}\0${to}\0${ref.how}`;
-      if (drawn.has(edgeKey)) {
-        return;
-      }
-      drawn.add(edgeKey);
-      chart.edge(
-        nodeId(consumer.id),
-        to,
-        'renderedIn',
-        ref.how === 'call' ? 'called in' : 'rendered in',
-      );
-    }),
-  );
-
-  nodes.forEach((node) => {
-    const what: string[] = [];
-    const links: string[] = [];
-    if (node.consumer) {
-      const { consumer, uses } = node.consumer;
-      const oneOf = [...new Set(uses.flatMap((use) => (use.oneOf ? [use.oneOf.join(', ')] : [])))];
-      what.push(
-        `consumer in ${consumer.pkg} — ${kindsOf(node.consumer).join(', ')}${oneOf
-          .map((ids) => ` (one of: ${ids})`)
-          .join('')}`,
-      );
-      links.push(consumerLink(consumer, docPath));
-    }
-    const targets = (how: 'jsx' | 'call'): string[] => [
-      ...new Set(node.refs.filter(({ ref }) => ref.how === how).map(({ target }) => target)),
-    ];
-    if (targets('jsx').length > 0) {
-      what.push(`renders ${targets('jsx').join(', ')} (one hop up)`);
-    }
-    if (targets('call').length > 0) {
-      what.push(`calls ${targets('call').join(', ')} (one hop up)`);
-    }
-    node.refs.forEach(({ target, ref }) =>
-      links.push(
-        `${ref.how === 'call' ? 'calls' : 'renders'} ${target} at ${sourceLink(docPath, ref.loc)}`,
-      ),
-    );
-    rows.push([shorten(node.symbol), what.join('; '), links.join('<br>')]);
-  });
-
-  return joinBlocks([chart.toString(), table(['Node', 'What', 'Link'], rows)]);
-};
-
-/** The point's "Not resolved" table, next to its flow diagram. */
+/** The point's "Not resolved" table, next to its flow. */
 const renderNotResolved = (
   point: ExtensionPoint,
   model: ExtensionMapModel,
@@ -378,19 +219,19 @@ const renderPoint = (point: ExtensionPoint, model: ExtensionMapModel, docPath: s
     implementedBy(point, model, docPath),
     consumedIn(point, model, docPath),
     usageMarker(point, model),
-    renderFlow(point, model, docPath),
+    renderPointFlow(point, model, docPath),
     renderNotResolved(point, model, docPath),
   ]);
 };
 
-/** Whether any point this package declares gets a flow diagram. */
-export const definesHasDiagram = (model: ExtensionMapModel, pkg: Pkg): boolean =>
-  model.points.some(
-    (point) =>
-      point.pkg === pkg.name &&
-      (model.extensions.some((record) => record.type === point.id) ||
-        consumersOf(model, point.id).length > 0),
-  );
+/** The legend rows the diagrams of this package's own points need, across every one of them. */
+export const definesLegendKeys = (model: ExtensionMapModel, pkg: Pkg): LegendKey[] => [
+  ...new Set(
+    model.points
+      .filter((point) => point.pkg === pkg.name)
+      .flatMap((point) => pointLegendKeys(point, model)),
+  ),
+];
 
 /** The `## Defines` section: the extension points this package declares. */
 export const renderDefines = (model: ExtensionMapModel, pkg: Pkg): string | undefined => {

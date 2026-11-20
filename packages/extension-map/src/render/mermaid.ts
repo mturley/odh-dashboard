@@ -111,23 +111,45 @@ export const flowchart = (dir: 'LR' | 'TB'): Flowchart => {
   };
 };
 
-/** The edge styles a reader needs to know, for every page that has a diagram. */
-export const LEGEND_MD = [
-  '## Legend',
-  '',
-  '| Edge | What it means in these diagrams |',
-  '| --- | --- |',
-  "| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |",
-  '| `A -- "how" --> B` | In a point\'s flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |',
-  '| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |',
-  '| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |',
-  '| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |',
-  '| `A -. "called in" .-> B` | B calls A (one hop up). |',
-  '| `A --x B` | A suppresses B. |',
-  '| `A -- "patch" --> B` | A patches B. |',
-  '',
-  'A node with a dashed border stands for several extensions of the same point; its `×N` label is',
-  'the number of extensions, and the table beside the diagram always lists every one of them.',
-  'Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table',
-  'instead.',
-].join('\n');
+/** One row of the legend: an edge style some diagram on the page actually draws. */
+export type LegendKey = 'solid' | 'renderedIn' | 'calledIn' | 'federated';
+
+/** The legend rows, in the order they are listed, each explaining one edge style. */
+const LEGEND_ROWS: readonly (readonly [LegendKey, string])[] = [
+  [
+    'solid',
+    '| `A --> B` | Proven use: package A contributes extensions of point B, or consumer B queries or uses point A. |',
+  ],
+  ['renderedIn', '| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |'],
+  ['calledIn', '| `A -. "called in" .-> B` | B calls A (one hop up). |'],
+  [
+    'federated',
+    '| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |',
+  ],
+];
+
+/**
+ * The `## Legend` section of a page, describing only the edge styles its diagrams draw. Nothing at
+ * all for a page with no diagram.
+ */
+export const legendMd = (keys: Iterable<LegendKey>): string | undefined => {
+  const used = new Set(keys);
+  const rows = LEGEND_ROWS.filter(([key]) => used.has(key)).map(([, row]) => row);
+  if (rows.length === 0) {
+    return undefined;
+  }
+  return [
+    '## Legend',
+    '',
+    "Every diagram on this page is one extension point's flow: the packages that contribute",
+    'extensions of it, the point, the code that queries or uses it, and where that code is itself',
+    'rendered or called. The Consumers table above each diagram carries a link for every node.',
+    '',
+    '| Edge | What it means in these diagrams |',
+    '| --- | --- |',
+    ...rows,
+    '',
+    'Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table',
+    'instead.',
+  ].join('\n');
+};

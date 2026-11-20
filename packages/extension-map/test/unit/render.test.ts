@@ -110,17 +110,6 @@ const fixtureModel = (): ExtensionMapModel => ({
   ],
 });
 
-/** Mermaid blocks on a page that are not followed by a table carrying a link per node. */
-const diagramsWithoutNodeTable = (content: string): string[] => {
-  const blocks = content.split('```mermaid').slice(1);
-  return blocks
-    .filter((block) => {
-      const after = block.slice(block.indexOf('```') + 3).split(/^#/m)[0];
-      return !after.includes('| Node | What | Link |');
-    })
-    .map((block) => block.split('\n')[1]);
-};
-
 describe('markdown primitives', () => {
   it('computes GitHub anchors', () => {
     expect(githubAnchor('model-serving.platform/exclude-deployment')).toBe(
@@ -225,18 +214,12 @@ describe('mermaid flowchart', () => {
 });
 
 describe('renderPackagePage', () => {
-  it('labels the package node with its kind, so an extension cannot share its label', () => {
+  it('draws nothing on a page that only contributes', () => {
     const model = fixtureModel();
     model.extensions = [record('contributor')];
     const { content } = renderPackagePage(model, contributor);
-    expect(content).toContain('["contributor (package)"]:::pkg');
-    expect(content).toContain('| contributor (package) | this package |');
-  });
-
-  it('follows every diagram with a node link table', () => {
-    expect(
-      diagramsWithoutNodeTable(renderPackagePage(fixtureModel(), contributor).content),
-    ).toEqual([]);
+    expect(content).not.toContain('```mermaid');
+    expect(content).not.toContain('| Node | What | Link |');
   });
 
   it('emits no ts or js fences', () => {
@@ -304,21 +287,20 @@ describe('renderPackagePage', () => {
     expect(content).toContain('| `unresolved-value` | warning |');
   });
 
-  it('collapses five or more extensions of one point into one node', () => {
+  it('lists every extension of one point in its table, however many there are', () => {
     const model = fixtureModel();
     model.extensions = ['a', 'b', 'c', 'd', 'e'].map((id) => record(id));
     const { content } = renderPackagePage(model, contributor);
-    expect(content).toContain('("×5"):::collapsed');
-    expect(content).toContain('| ×5 | 5 extensions of demo.thing/slot |');
-    // The adjacent table is still complete.
-    ['a', 'b', 'c', 'd', 'e'].forEach((id) => expect(content).toContain(`\`'${id}'\``));
+    ['a', 'b', 'c', 'd', 'e'].forEach((id) => {
+      expect(content).toContain(`\`'${id}'\``);
+      expect(content).toContain(`[${id}](#contributes-to-demothingslot)`);
+    });
   });
 
-  it('draws a federated contribution with the federated edge style', () => {
+  it('names the loading path of a federated entry', () => {
     const model = fixtureModel();
     model.entries = [{ ...model.entries[0], path: 'federated' }];
     const { content } = renderPackagePage(model, contributor);
-    expect(content).toContain('-. "federated" .->');
     expect(content).toContain('loaded at runtime by the host as a Module Federation remote');
   });
 
@@ -329,10 +311,11 @@ describe('renderPackagePage', () => {
     expect(page.content).not.toContain('## Loading paths');
     expect(page.content).not.toContain('## Diagnostics');
     expect(page.content).not.toContain('## Legend');
-    expect(renderPackagePage(fixtureModel(), contributor).content).toContain('## Legend');
+    // A page that only contributes has no diagram at all, so it never carries the legend.
+    expect(renderPackagePage(fixtureModel(), contributor).content).not.toContain('## Legend');
   });
 
-  it('counts the extensions a mapped record stands for in the collapse label', () => {
+  it('marks the number of extensions a mapped record stands for on its row', () => {
     const model = fixtureModel();
     model.extensions = [
       record('a'),
@@ -349,12 +332,11 @@ describe('renderPackagePage', () => {
       }),
     ];
     const { content } = renderPackagePage(model, contributor);
-    expect(content).toContain('("×7"):::collapsed');
-    expect(content).toContain('| ×7 | 7 extensions of demo.thing/slot |');
     expect(content).toContain("| `×3` `'e'` |");
+    expect(content).toContain('[e ×3](#contributes-to-demothingslot)');
   });
 
-  it('marks an uncounted record with a plus and says "at least"', () => {
+  it('marks an uncounted record with a question mark', () => {
     const model = fixtureModel();
     model.extensions = [
       record('a'),
@@ -364,8 +346,8 @@ describe('renderPackagePage', () => {
       record('e', { multiplicity: 'unknown' }),
     ];
     const { content } = renderPackagePage(model, contributor);
-    expect(content).toContain('("×5+"):::collapsed');
-    expect(content).toContain('| ×5+ | at least 5 extensions of demo.thing/slot |');
+    expect(content).toContain("| `×?` `'e'` |");
+    expect(content).toContain('[e ×?](#contributes-to-demothingslot)');
   });
 
   it('gives each contribution its own heading in the definition-list path', () => {
@@ -390,46 +372,6 @@ describe('renderPackagePage', () => {
     expect(content.match(/^##### /gm)).toHaveLength(2);
   });
 
-  it('draws exactly one edge per extension, dashed only when every entry is federated', () => {
-    const model = fixtureModel();
-    model.entries = [
-      model.entries[0],
-      {
-        id: '@odh-dashboard/contributor#mf:./extensions',
-        pkg: contributor.name,
-        file: 'packages/contributor/frontend/src/odh/extensions.ts',
-        path: 'federated',
-        key: 'mf:./extensions',
-      },
-    ];
-    model.extensions = [
-      record('both', {
-        entries: [
-          '@odh-dashboard/contributor#./extensions',
-          '@odh-dashboard/contributor#mf:./extensions',
-        ],
-      }),
-      record('remote-only', { entries: ['@odh-dashboard/contributor#mf:./extensions'] }),
-    ];
-    const { content } = renderPackagePage(model, contributor);
-    const pkgNode = mermaidId(contributor.name);
-    const edges = content
-      .split('\n')
-      .filter((line) => line.trim().startsWith(`${pkgNode} `))
-      .map((line) => line.trim());
-    expect(edges).toHaveLength(2);
-    expect(edges[0]).toContain(
-      `${pkgNode} --> ${mermaidId('packages/contributor/extensions.ts:both')}`,
-    );
-    expect(edges[1]).toContain(
-      `${pkgNode} -. "federated" .-> ${mermaidId(
-        'packages/contributor/extensions.ts:remote-only',
-      )}`,
-    );
-    expect(content).toContain('| both | extension of demo.thing/slot — bundled and federated |');
-    expect(content).toContain('| remote-only | extension of demo.thing/slot — federated |');
-  });
-
   it('names a contribution that names itself nowhere after the point and its position', () => {
     const model = fixtureModel();
     model.extensions = [
@@ -437,9 +379,9 @@ describe('renderPackagePage', () => {
       record('y', { properties: { step: { kind: 'literal', value: 'second' } } }),
     ];
     const { content } = renderPackagePage(model, contributor);
-    expect(content).toContain('["slot #1"]');
-    expect(content).toContain('["slot #2"]');
-    expect(content).not.toMatch(/\["line \d+"\]/);
+    expect(content).toContain('[slot #1](#contributes-to-demothingslot)');
+    expect(content).toContain('[slot #2](#contributes-to-demothingslot)');
+    expect(content).not.toMatch(/\[line \d+\]/);
   });
 
   it('renders a page only for packages that define or contribute', () => {
@@ -473,10 +415,11 @@ describe('renderPackagePage', () => {
       record('d', { properties: { step: { kind: 'literal', value: 'x' } } }),
     ];
     const { content } = renderPackagePage(model, contributor);
-    expect(content).toContain('["a"]');
-    expect(content).toContain('["bindingWins"]');
-    expect(content).toContain('["Thing"]');
-    expect(content).toContain('["slot #4"]');
+    const anchor = '(#contributes-to-demothingslot)';
+    expect(content).toContain(`[a]${anchor}`);
+    expect(content).toContain(`[bindingWins]${anchor}`);
+    expect(content).toContain(`[Thing]${anchor}`);
+    expect(content).toContain(`[slot #4]${anchor}`);
     expect(content).not.toContain('idWins');
   });
 
@@ -708,29 +651,16 @@ describe('consumer side', () => {
     );
   });
 
-  it('draws contributors, the point, consumers and where they are rendered, with a node table', () => {
+  it('tabulates every consumer of a point, with the package, query, uses and parents', () => {
     const { content } = renderPackagePage(consumerModel(), definer);
-    const flow = content.slice(content.indexOf('```mermaid'));
-    expect(flow).toContain(`${mermaidId(`pkg:${contributor.name}`)} --> ${mermaidId(POINT_ID)}`);
-    expect(flow).toContain(
-      `${mermaidId(POINT_ID)} -- "useExtensions, lazy-render" --> ${mermaidId(
-        `symbol:${SLOT_ID}`,
-      )}`,
-    );
-    expect(flow).toContain(
-      `${mermaidId(`symbol:${SLOT_ID}`)} -. "rendered in" .-> ${mermaidId(
-        'symbol:packages/user/src/Page.tsx#Page',
-      )}`,
-    );
-    expect(flow).not.toContain('click ');
-    expect(diagramsWithoutNodeTable(content)).toEqual([]);
+    expect(content).toContain('| Consumer | Package | Query | Uses | Rendered or called in |');
     expect(content).toContain(
-      '| Slot | consumer in @odh-dashboard/user — useExtensions, lazy-render | [Slot](../../user/src/Slot.tsx#L5-L20) |',
+      '| [Slot](../../user/src/Slot.tsx#L5-L20) | user | [useExtensions](../../user/src/Slot.tsx#L6) | `properties.component` — lazy-render, direct ([Slot.tsx:14](../../user/src/Slot.tsx#L14)) | Page ([Page.tsx:12](../../user/src/Page.tsx#L12)) |',
     );
-    expect(content).toContain(
-      '| Page | renders Slot (one hop up) | renders Slot at [Page.tsx:12](../../user/src/Page.tsx#L12) |',
-    );
-    expect(content).toContain('## Legend');
+    // Two flow nodes is below the threshold, so the flow is a sentence and there is no legend.
+    expect(content).not.toContain('```mermaid');
+    expect(content).toContain('**Flow:** contributor → demo.thing/slot → user · Slot');
+    expect(content).not.toContain('## Legend');
   });
 
   it('lists what the analysis could not resolve about a point next to its diagram', () => {
@@ -823,6 +753,16 @@ describe('consumer side', () => {
     const model = twoConsumers([
       { symbol: 'Slot', loc: { file: 'packages/user/src/Slot.tsx', line: 9 }, how: 'call' },
     ]);
+    model.consumers = model.consumers.map((c) =>
+      c.id === SLOT_ID
+        ? {
+            ...c,
+            renderedIn: [
+              { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 12 }, how: 'jsx' },
+            ],
+          }
+        : c,
+    );
     const { content } = renderPackagePage(model, definer);
     const flow = mermaidOf(content);
     expect(
@@ -834,19 +774,26 @@ describe('consumer side', () => {
       )}`,
     );
     expect(content).toContain(
-      '| Slot | consumer in @odh-dashboard/user — useExtensions, lazy-render; calls useThing (one hop up) | [Slot](../../user/src/Slot.tsx#L5-L20)<br>calls useThing at [Slot.tsx:9](../../user/src/Slot.tsx#L9) |',
+      '| [Slot](../../user/src/Slot.tsx#L5-L20) | user | [useExtensions](../../user/src/Slot.tsx#L6) | `properties.component` — lazy-render, direct ([Slot.tsx:14](../../user/src/Slot.tsx#L14)) | Page ([Page.tsx:12](../../user/src/Page.tsx#L12)) |',
+    );
+    expect(content).toContain(
+      '| [useThing](../../user/src/useThing.ts#L3) | user | — | `properties.id` — read, direct, one of: demo.thing/slot, demo.other ([useThing.ts:5](../../user/src/useThing.ts#L5)) | Slot (called at [Slot.tsx:9](../../user/src/Slot.tsx#L9)) |',
     );
   });
 
   it('draws one edge for two references from the same renderer, and links both', () => {
-    const model = consumerModel();
-    model.consumers = model.consumers.map((c) => ({
-      ...c,
-      renderedIn: [
-        { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 12 }, how: 'jsx' },
-        { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 18 }, how: 'jsx' },
-      ],
-    }));
+    const model = twoConsumers([]);
+    model.consumers = model.consumers.map((c) =>
+      c.id === SLOT_ID
+        ? {
+            ...c,
+            renderedIn: [
+              { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 12 }, how: 'jsx' },
+              { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 18 }, how: 'jsx' },
+            ],
+          }
+        : c,
+    );
     const { content } = renderPackagePage(model, definer);
     expect(
       mermaidOf(content)
@@ -854,11 +801,11 @@ describe('consumer side', () => {
         .filter((line) => line.includes('rendered in')),
     ).toHaveLength(1);
     expect(content).toContain(
-      '| Page | renders Slot (one hop up) | renders Slot at [Page.tsx:12](../../user/src/Page.tsx#L12)<br>renders Slot at [Page.tsx:18](../../user/src/Page.tsx#L18) |',
+      '| Page ([Page.tsx:12](../../user/src/Page.tsx#L12))<br>Page ([Page.tsx:18](../../user/src/Page.tsx#L18)) |',
     );
   });
 
-  it('gives a renderer of two consumers one row naming both, and marks one-of uses', () => {
+  it('names each consumer of a shared renderer in its own row, and marks one-of uses', () => {
     const model = twoConsumers([
       { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 20 }, how: 'call' },
     ]);
@@ -873,11 +820,8 @@ describe('consumer side', () => {
         : c,
     );
     const { content } = renderPackagePage(model, definer);
-    expect(content).toContain(
-      '| Page | renders Slot (one hop up); calls useThing (one hop up) | renders Slot at [Page.tsx:12](../../user/src/Page.tsx#L12)<br>calls useThing at [Page.tsx:20](../../user/src/Page.tsx#L20) |',
-    );
-    expect(content).toContain(
-      '| useThing | consumer in @odh-dashboard/user — read (one of: demo.thing/slot, demo.other) |',
-    );
+    expect(content).toContain('| Page ([Page.tsx:12](../../user/src/Page.tsx#L12)) |');
+    expect(content).toContain('| Page (called at [Page.tsx:20](../../user/src/Page.tsx#L20)) |');
+    expect(content).toContain('read, direct, one of: demo.thing/slot, demo.other');
   });
 });

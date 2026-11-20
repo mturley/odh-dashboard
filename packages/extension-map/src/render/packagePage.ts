@@ -1,11 +1,12 @@
 import path from 'path';
 import { docPathFor, fileLink, pkgDisplayName } from './links';
 import { HEADER, joinBlocks, oneLine } from './markdown';
-import { LEGEND_MD } from './mermaid';
+import { legendMd } from './mermaid';
 import { renderContributes } from './sections/contributes';
 import { renderConsumes } from './sections/consumes';
-import { definesHasDiagram, renderDefines } from './sections/defines';
+import { definesLegendKeys, renderDefines } from './sections/defines';
 import { renderDiagnostics } from './sections/diagnostics';
+import { renderToc } from './sections/toc';
 import type { Entry, ExtensionMapModel, Pkg } from '../model/types';
 
 export type GeneratedFile = { path: string; content: string };
@@ -51,18 +52,31 @@ const renderLoadingPaths = (
 /** The whole generated page for one package. Empty sections are omitted. */
 export const renderPackagePage = (model: ExtensionMapModel, pkg: Pkg): GeneratedFile => {
   const docPath = docPathFor(pkg);
+  const loadingPaths = renderLoadingPaths(model, pkg, docPath);
+  const defines = renderDefines(model, pkg);
   const contributes = renderContributes(model, pkg, docPath);
+  const consumes = renderConsumes(model, pkg, docPath);
+  const diagnostics = renderDiagnostics(model, pkg, docPath);
+  const legend = legendMd(definesLegendKeys(model, pkg));
   const content = joinBlocks([
     HEADER,
     `# Extensions in ${pkgDisplayName(pkg)}`,
     oneLine(`Package \`${pkg.name}\` (${pkg.kind}) at \`${pkg.dir}\`. Everything below is read
        out of this repository's sources by static analysis.`),
-    renderLoadingPaths(model, pkg, docPath),
-    renderDefines(model, pkg),
-    contributes?.markdown,
-    renderConsumes(model, pkg, docPath),
-    renderDiagnostics(model, pkg, docPath),
-    contributes?.hasDiagram || definesHasDiagram(model, pkg) ? LEGEND_MD : undefined,
+    renderToc(model, pkg, docPath, {
+      loadingPaths: loadingPaths !== undefined,
+      defines: defines !== undefined,
+      contributes: contributes !== undefined,
+      consumes: consumes !== undefined,
+      diagnostics: diagnostics !== undefined,
+      legend: legend !== undefined,
+    }),
+    loadingPaths,
+    defines,
+    contributes,
+    consumes,
+    diagnostics,
+    legend,
   ]);
   return { path: docPath, content: `${content}\n` };
 };

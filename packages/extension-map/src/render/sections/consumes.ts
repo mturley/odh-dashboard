@@ -55,7 +55,7 @@ export const refText = (ref: Consumer['renderedIn'][number], docPath: string): s
   )})`;
 
 /** Where a query happens: the hook, or the wrapper it goes through and the hook behind it. */
-const queryCell = (sites: QuerySite[], docPath: string): string =>
+export const queryCell = (sites: QuerySite[], docPath: string): string =>
   sites.length === 0
     ? '—'
     : sites
@@ -67,7 +67,7 @@ const queryCell = (sites: QuerySite[], docPath: string): string =>
         .join('<br>');
 
 /** The kinds of use, one entry per property path and kind, linking where it first happens. */
-const usesCell = (uses: UseSite[], docPath: string): string => {
+export const usesCell = (uses: UseSite[], docPath: string): string => {
   const groups = new Map<string, UseSite[]>();
   uses.forEach((use) => {
     const key = `${use.path}\0${use.kind}\0${String(use.direct)}`;
@@ -94,21 +94,26 @@ export const renderedInCell = (consumer: Consumer, docPath: string): string =>
     ? '—'
     : consumer.renderedIn.map((ref) => refText(ref, docPath)).join('<br>');
 
+/** The points this package's code queries or uses, in the order their sections appear; sorted. */
+export const consumedPointIds = (model: ExtensionMapModel, pkg: Pkg): string[] => {
+  const own = new Set(
+    model.consumers.filter((consumer) => consumer.pkg === pkg.name).map((c) => c.id),
+  );
+  return [
+    ...new Set([
+      ...model.querySites.filter((site) => own.has(site.consumer)).flatMap((s) => s.pointIds),
+      ...model.useSites.filter((use) => own.has(use.consumer)).map((use) => use.pointId),
+    ]),
+  ].toSorted();
+};
+
 /** The `## Consumes` section: the extension points this package's code queries or uses. */
 export const renderConsumes = (
   model: ExtensionMapModel,
   pkg: Pkg,
   docPath: string,
 ): string | undefined => {
-  const own = new Set(
-    model.consumers.filter((consumer) => consumer.pkg === pkg.name).map((c) => c.id),
-  );
-  const pointIds = [
-    ...new Set([
-      ...model.querySites.filter((site) => own.has(site.consumer)).flatMap((s) => s.pointIds),
-      ...model.useSites.filter((use) => own.has(use.consumer)).map((use) => use.pointId),
-    ]),
-  ].toSorted();
+  const pointIds = consumedPointIds(model, pkg);
   if (pointIds.length === 0) {
     return undefined;
   }
