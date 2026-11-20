@@ -29,7 +29,7 @@ Active project data into the federated agent-ops UI.
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_agent_ops_232eca["@odh-dashboard/agent-ops"]
-  point_n_agent_ops_projects_bridge_provider_e5b4cf(("agent-ops.projects/bridge-provider"))
+  point_n_agent_ops_projects_bridge_provider_e5b4cf("agent-ops.projects/bridge-provider")
   pkg_n__odh_dashboard_agent_ops_232eca --> point_n_agent_ops_projects_bridge_provider_e5b4cf
 ```
 
@@ -50,11 +50,11 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_agent_ops_232eca["@odh-dashboard/agent-ops"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_agent_ops_232eca -. "federated" .-> point_n_app_area_bcfe23
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_agent_ops_232eca -. "federated" .-> point_n_app_route_2735df
-  point_n_app_tab_route_tab_10b1cd(("app.tab-route/tab"))
+  point_n_app_tab_route_tab_10b1cd("app.tab-route/tab")
   pkg_n__odh_dashboard_agent_ops_232eca -. "federated" .-> point_n_app_tab_route_tab_10b1cd
 ```
 

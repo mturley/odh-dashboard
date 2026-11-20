@@ -15,13 +15,13 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_training_d94360["@odh-dashboard/model-training"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_model_training_d94360 --> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_model_training_d94360 --> point_n_app_navigation_href_67179c
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_model_training_d94360 --> point_n_app_route_2735df
-  point_n_app_task_item_001b33(("app.task/item"))
+  point_n_app_task_item_001b33("app.task/item")
   pkg_n__odh_dashboard_model_training_d94360 --> point_n_app_task_item_001b33
 ```
 

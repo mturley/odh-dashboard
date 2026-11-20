@@ -15,13 +15,13 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_kserve_e30286["@odh-dashboard/kserve"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_app_area_bcfe23
-  point_n_app_cluster_storage_connected_resources_77ac0c(("app.cluster-storage/connected-resources"))
+  point_n_app_cluster_storage_connected_resources_77ac0c("app.cluster-storage/connected-resources")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_app_cluster_storage_connected_resources_77ac0c
-  point_n_app_route_2735df(("app.route ×7"))
+  point_n_app_route_2735df("app.route ×7")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_app_route_2735df
-  point_n_app_tab_route_tab_10b1cd(("app.tab-route/tab"))
+  point_n_app_tab_route_tab_10b1cd("app.tab-route/tab")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_app_tab_route_tab_10b1cd
 ```
 
@@ -45,33 +45,33 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_kserve_e30286["@odh-dashboard/kserve"]
-  point_n_model_serving_deployed_model_serving_runtime_a806c7(("model-serving.deployed-model/serving-runtime"))
+  point_n_model_serving_deployed_model_serving_runtime_a806c7("model-serving.deployed-model/serving-runtime")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployed_model_serving_runtime_a806c7
-  point_n_model_serving_deployment_deploy_35423a(("model-serving.deployment/deploy"))
+  point_n_model_serving_deployment_deploy_35423a("model-serving.deployment/deploy")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployment_deploy_35423a
-  point_n_model_serving_deployment_form_data_a37ab2(("model-serving.deployment/form-data"))
+  point_n_model_serving_deployment_form_data_a37ab2("model-serving.deployment/form-data")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployment_form_data_a37ab2
-  point_n_model_serving_deployment_wizard_field_19398b(("model-serving.deployment/wizard-field"))
+  point_n_model_serving_deployment_wizard_field_19398b("model-serving.deployment/wizard-field")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployment_wizard_field_19398b
-  point_n_model_serving_deployment_wizard_field_apply_b7659a(("model-serving.deployment/wizard-field-apply"))
+  point_n_model_serving_deployment_wizard_field_apply_b7659a("model-serving.deployment/wizard-field-apply")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployment_wizard_field_apply_b7659a
-  point_n_model_serving_deployment_wizard_field_extractor_877f9e(("model-serving.deployment/wizard-field-extractor"))
+  point_n_model_serving_deployment_wizard_field_extractor_877f9e("model-serving.deployment/wizard-field-extractor")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployment_wizard_field_extractor_877f9e
-  point_n_model_serving_deployment_wizard_field_override_756caa(("model-serving.deployment/wizard-field-override"))
+  point_n_model_serving_deployment_wizard_field_override_756caa("model-serving.deployment/wizard-field-override")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployment_wizard_field_override_756caa
-  point_n_model_serving_deployments_table_start_stop_action_ea2e4f(("model-serving.deployments-table/start-stop-action"))
+  point_n_model_serving_deployments_table_start_stop_action_ea2e4f("model-serving.deployments-table/start-stop-action")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_deployments_table_start_stop_action_ea2e4f
-  point_n_model_serving_metrics_8c16bc(("model-serving.metrics"))
+  point_n_model_serving_metrics_8c16bc("model-serving.metrics")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_metrics_8c16bc
-  point_n_model_serving_platform_1d1e44(("model-serving.platform"))
+  point_n_model_serving_platform_1d1e44("model-serving.platform")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_platform_1d1e44
-  point_n_model_serving_platform_delete_deployment_259f2a(("model-serving.platform/delete-deployment"))
+  point_n_model_serving_platform_delete_deployment_259f2a("model-serving.platform/delete-deployment")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_platform_delete_deployment_259f2a
-  point_n_model_serving_platform_fetch_deployment_status_63d9c2(("model-serving.platform/fetch-deployment-status"))
+  point_n_model_serving_platform_fetch_deployment_status_63d9c2("model-serving.platform/fetch-deployment-status")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_platform_fetch_deployment_status_63d9c2
-  point_n_model_serving_platform_watch_deployments_cf294d(("model-serving.platform/watch-deployments"))
+  point_n_model_serving_platform_watch_deployments_cf294d("model-serving.platform/watch-deployments")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_platform_watch_deployments_cf294d
-  point_n_model_serving_runtime_image_install_target_e22ef9(("model-serving.runtime-image/install-target"))
+  point_n_model_serving_runtime_image_install_target_e22ef9("model-serving.runtime-image/install-target")
   pkg_n__odh_dashboard_kserve_e30286 --> point_n_model_serving_runtime_image_install_target_e22ef9
 ```
 

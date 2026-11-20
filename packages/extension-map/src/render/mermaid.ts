@@ -40,12 +40,7 @@ export const flowchart = (direction: 'LR' | 'TB'): Flowchart => {
     node: (id, label, shape, cls) => {
       const safeId = id.replace(/[^A-Za-z0-9_]/gu, '_');
       const escaped = mermaidLabel(label);
-      const shaped =
-        shape === 'box'
-          ? `["${escaped}"]`
-          : shape === 'point'
-          ? `(("${escaped}"))`
-          : `("${escaped}")`;
+      const shaped = shape === 'box' ? `["${escaped}"]` : `("${escaped}")`;
       lines.push(
         `  ${safeId}${shaped}${
           cls === undefined ? '' : `:::${cls.replace(/[^A-Za-z0-9_]/gu, '_')}`

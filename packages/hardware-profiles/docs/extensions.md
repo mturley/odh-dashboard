@@ -15,11 +15,11 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_hardware_profiles_e0986f["@odh-dashboard/hardware-profiles"]
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_hardware_profiles_e0986f --> point_n_app_navigation_href_67179c
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_hardware_profiles_e0986f --> point_n_app_route_2735df
-  point_n_app_status_provider_94dc4e(("app.status-provider"))
+  point_n_app_status_provider_94dc4e("app.status-provider")
   pkg_n__odh_dashboard_hardware_profiles_e0986f --> point_n_app_status_provider_94dc4e
 ```
 

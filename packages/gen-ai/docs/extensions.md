@@ -29,17 +29,17 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_gen_ai_84b665["@odh-dashboard/gen-ai"]
-  point_n_app_area_bcfe23(("app.area ×15"))
+  point_n_app_area_bcfe23("app.area ×15")
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_app_navigation_href_67179c
-  point_n_app_navigation_section_34ff18(("app.navigation/section"))
+  point_n_app_navigation_section_34ff18("app.navigation/section")
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_app_navigation_section_34ff18
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_app_route_2735df
-  point_n_app_task_group_64e4cf(("app.task/group"))
+  point_n_app_task_group_64e4cf("app.task/group")
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_app_task_group_64e4cf
-  point_n_app_task_item_001b33(("app.task/item"))
+  point_n_app_task_item_001b33("app.task/item")
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_app_task_item_001b33
 ```
 
@@ -65,7 +65,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_gen_ai_84b665["@odh-dashboard/gen-ai"]
-  point_n_gen_ai_ai_assets_tab_775728(("gen-ai.ai-assets/tab"))
+  point_n_gen_ai_ai_assets_tab_775728("gen-ai.ai-assets/tab")
   pkg_n__odh_dashboard_gen_ai_84b665 -. "federated" .-> point_n_gen_ai_ai_assets_tab_775728
 ```
 

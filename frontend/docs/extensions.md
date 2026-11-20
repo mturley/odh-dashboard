@@ -15,27 +15,27 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_internal_b20f2b["@odh-dashboard/internal"]
-  point_n_app_connection_types_default_value_renderer_01627c(("app.connection-types/default-value-renderer"))
+  point_n_app_connection_types_default_value_renderer_01627c("app.connection-types/default-value-renderer")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_connection_types_default_value_renderer_01627c
-  point_n_app_connection_types_details_helper_f68622(("app.connection-types/details-helper"))
+  point_n_app_connection_types_details_helper_f68622("app.connection-types/details-helper")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_connection_types_details_helper_f68622
-  point_n_app_connection_types_form_81f66d(("app.connection-types/form"))
+  point_n_app_connection_types_form_81f66d("app.connection-types/form")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_connection_types_form_81f66d
-  point_n_app_connection_types_form_fields_cb02ad(("app.connection-types/form-fields"))
+  point_n_app_connection_types_form_fields_cb02ad("app.connection-types/form-fields")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_connection_types_form_fields_cb02ad
-  point_n_app_connection_types_service_2eb1aa(("app.connection-types/service"))
+  point_n_app_connection_types_service_2eb1aa("app.connection-types/service")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_connection_types_service_2eb1aa
-  point_n_app_navigation_href_67179c(("app.navigation/href ×17"))
+  point_n_app_navigation_href_67179c("app.navigation/href ×17")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_navigation_href_67179c
-  point_n_app_navigation_section_34ff18(("app.navigation/section ×10"))
+  point_n_app_navigation_section_34ff18("app.navigation/section ×10")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_navigation_section_34ff18
-  point_n_app_route_2735df(("app.route ×41"))
+  point_n_app_route_2735df("app.route ×41")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_route_2735df
-  point_n_app_tab_route_page_976575(("app.tab-route/page"))
+  point_n_app_tab_route_page_976575("app.tab-route/page")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_tab_route_page_976575
-  point_n_app_task_group_64e4cf(("app.task/group"))
+  point_n_app_task_group_64e4cf("app.task/group")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_task_group_64e4cf
-  point_n_app_task_item_001b33(("app.task/item"))
+  point_n_app_task_item_001b33("app.task/item")
   pkg_n__odh_dashboard_internal_b20f2b --> point_n_app_task_item_001b33
 ```
 

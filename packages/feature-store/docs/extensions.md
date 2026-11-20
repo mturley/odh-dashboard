@@ -15,15 +15,15 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_feature_store_e1f958["@odh-dashboard/feature-store"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_feature_store_e1f958 --> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href ×8"))
+  point_n_app_navigation_href_67179c("app.navigation/href ×8")
   pkg_n__odh_dashboard_feature_store_e1f958 --> point_n_app_navigation_href_67179c
-  point_n_app_navigation_section_34ff18(("app.navigation/section"))
+  point_n_app_navigation_section_34ff18("app.navigation/section")
   pkg_n__odh_dashboard_feature_store_e1f958 --> point_n_app_navigation_section_34ff18
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_feature_store_e1f958 --> point_n_app_route_2735df
-  point_n_app_task_item_001b33(("app.task/item"))
+  point_n_app_task_item_001b33("app.task/item")
   pkg_n__odh_dashboard_feature_store_e1f958 --> point_n_app_task_item_001b33
 ```
 

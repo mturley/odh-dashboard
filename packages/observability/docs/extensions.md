@@ -18,11 +18,11 @@ _Federation declared but not loaded by the host._
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_observability_eea447["@odh-dashboard/observability"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_observability_eea447 --> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_observability_eea447 --> point_n_app_navigation_href_67179c
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_observability_eea447 --> point_n_app_route_2735df
 ```
 

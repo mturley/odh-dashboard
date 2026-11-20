@@ -17,15 +17,15 @@ _Federation declared but not loaded by the host._
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_mlflow_embedded_684930["@odh-dashboard/mlflow-embedded"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_mlflow_embedded_684930 --> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_mlflow_embedded_684930 --> point_n_app_navigation_href_67179c
-  point_n_app_route_2735df(("app.route ×5"))
+  point_n_app_route_2735df("app.route ×5")
   pkg_n__odh_dashboard_mlflow_embedded_684930 --> point_n_app_route_2735df
-  point_n_app_tab_route_tab_10b1cd(("app.tab-route/tab"))
+  point_n_app_tab_route_tab_10b1cd("app.tab-route/tab")
   pkg_n__odh_dashboard_mlflow_embedded_684930 --> point_n_app_tab_route_tab_10b1cd
-  point_n_app_task_item_001b33(("app.task/item"))
+  point_n_app_task_item_001b33("app.task/item")
   pkg_n__odh_dashboard_mlflow_embedded_684930 --> point_n_app_task_item_001b33
 ```
 

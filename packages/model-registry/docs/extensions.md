@@ -159,13 +159,13 @@ without hardcoding the path in the model registry package.
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_registry_92e561["@odh-dashboard/model-registry"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_model_registry_92e561 -. "federated" .-> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_model_registry_92e561 -. "federated" .-> point_n_app_navigation_href_67179c
-  point_n_app_route_2735df(("app.route ×9"))
+  point_n_app_route_2735df("app.route ×9")
   pkg_n__odh_dashboard_model_registry_92e561 -. "federated" .-> point_n_app_route_2735df
-  point_n_app_tab_route_tab_10b1cd(("app.tab-route/tab ×6"))
+  point_n_app_tab_route_tab_10b1cd("app.tab-route/tab ×6")
   pkg_n__odh_dashboard_model_registry_92e561 -. "federated" .-> point_n_app_tab_route_tab_10b1cd
 ```
 
@@ -189,7 +189,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_registry_92e561["@odh-dashboard/model-registry"]
-  point_n_core_detail_tab_1d8ba9(("core.detail/tab"))
+  point_n_core_detail_tab_1d8ba9("core.detail/tab")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_core_detail_tab_1d8ba9
 ```
 
@@ -210,9 +210,9 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_registry_92e561["@odh-dashboard/model-registry"]
-  point_n_mcp_catalog_card_label_e5432e(("mcp-catalog.card/label"))
+  point_n_mcp_catalog_card_label_e5432e("mcp-catalog.card/label")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_mcp_catalog_card_label_e5432e
-  point_n_mcp_catalog_settings_url_2e25fe(("mcp-catalog.settings/url"))
+  point_n_mcp_catalog_settings_url_2e25fe("mcp-catalog.settings/url")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_mcp_catalog_settings_url_2e25fe
 ```
 
@@ -234,9 +234,9 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_registry_92e561["@odh-dashboard/model-registry"]
-  point_n_model_catalog_page_banner_e21b48(("model-catalog.page/banner"))
+  point_n_model_catalog_page_banner_e21b48("model-catalog.page/banner")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_model_catalog_page_banner_e21b48
-  point_n_model_catalog_settings_url_c9f659(("model-catalog.settings/url"))
+  point_n_model_catalog_settings_url_c9f659("model-catalog.settings/url")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_model_catalog_settings_url_c9f659
 ```
 
@@ -258,15 +258,15 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_registry_92e561["@odh-dashboard/model-registry"]
-  point_n_model_registry_namespace_selector_0244e5(("model-registry.namespace/selector"))
+  point_n_model_registry_namespace_selector_0244e5("model-registry.namespace/selector")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_model_registry_namespace_selector_0244e5
-  point_n_model_registry_projects_bridge_provider_6948d8(("model-registry.projects/bridge-provider"))
+  point_n_model_registry_projects_bridge_provider_6948d8("model-registry.projects/bridge-provider")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_model_registry_projects_bridge_provider_6948d8
-  point_n_model_registry_register_autofill_connection_d7b1cf(("model-registry.register/autofill-connection"))
+  point_n_model_registry_register_autofill_connection_d7b1cf("model-registry.register/autofill-connection")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_model_registry_register_autofill_connection_d7b1cf
-  point_n_model_registry_settings_url_26ee47(("model-registry.settings/url"))
+  point_n_model_registry_settings_url_26ee47("model-registry.settings/url")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_model_registry_settings_url_26ee47
-  point_n_model_registry_tracking_provider_6dfde7(("model-registry.tracking/provider"))
+  point_n_model_registry_tracking_provider_6dfde7("model-registry.tracking/provider")
   pkg_n__odh_dashboard_model_registry_92e561 --> point_n_model_registry_tracking_provider_6dfde7
 ```
 

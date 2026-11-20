@@ -30,7 +30,7 @@ otherwise reads a second (empty) ProjectsContext instance.
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_mlflow_1dd153["@odh-dashboard/mlflow"]
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_mlflow_1dd153 -. "federated" .-> point_n_app_route_2735df
 ```
 
@@ -51,7 +51,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_mlflow_1dd153["@odh-dashboard/mlflow"]
-  point_n_core_action_c380ca(("core.action"))
+  point_n_core_action_c380ca("core.action")
   pkg_n__odh_dashboard_mlflow_1dd153 -. "federated" .-> point_n_core_action_c380ca
 ```
 
@@ -72,7 +72,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_mlflow_1dd153["@odh-dashboard/mlflow"]
-  point_n_mlflow_project_selector_073795(("mlflow.project/selector"))
+  point_n_mlflow_project_selector_073795("mlflow.project/selector")
   pkg_n__odh_dashboard_mlflow_1dd153 --> point_n_mlflow_project_selector_073795
 ```
 

@@ -118,7 +118,7 @@ describe('render helpers', () => {
   it('builds Mermaid nodes and each edge style', () => {
     const diagram = flowchart('LR')
       .node('a', 'A <B>', 'box')
-      .node('b', 'Point', 'point')
+      .node('b', 'Point <"label">', 'point')
       .node('c', 'Rounded', 'rounded')
       .edge('a', 'b', 'solid')
       .edge('a', 'b', 'derived')
@@ -129,7 +129,8 @@ describe('render helpers', () => {
       .toString();
     expect(diagram).toContain('flowchart LR');
     expect(diagram).toContain('#lt;');
-    expect(diagram).toContain('b(("Point"))');
+    expect(diagram).toContain('b("Point #lt;#quot;label#quot;#gt;")');
+    expect(diagram).not.toContain('b(("Point #lt;#quot;label#quot;#gt;"))');
     expect(diagram).toContain('-. "federated" .->');
     expect(diagram).toContain('-- "patch" -->');
     expect(diagram).toContain('==>');
@@ -177,7 +178,7 @@ describe('package pages', () => {
     }));
     const { content } = renderPackagePage({ ...model, extensions }, packagePage);
     expect(content).toContain('fx.route ×5');
-    expect(content.match(/^ {2}point_n_fx_route_[a-f0-9]{6}\(\(/gmu)).toHaveLength(1);
+    expect(content.match(/^ {2}point_n_fx_route_[a-f0-9]{6}\("/gmu)).toHaveLength(1);
   });
 
   it('sums known multiplicities and defaults missing multiplicity to one', () => {

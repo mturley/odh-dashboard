@@ -16,15 +16,15 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_maas_4903a0["@odh-dashboard/maas"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_app_navigation_href_67179c
-  point_n_app_navigation_section_34ff18(("app.navigation/section"))
+  point_n_app_navigation_section_34ff18("app.navigation/section")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_app_navigation_section_34ff18
-  point_n_app_route_2735df(("app.route ×7"))
+  point_n_app_route_2735df("app.route ×7")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_app_route_2735df
-  point_n_app_task_item_001b33(("app.task/item"))
+  point_n_app_task_item_001b33("app.task/item")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_app_task_item_001b33
 ```
 
@@ -49,7 +49,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_maas_4903a0["@odh-dashboard/maas"]
-  point_n_core_detail_tab_1d8ba9(("core.detail/tab"))
+  point_n_core_detail_tab_1d8ba9("core.detail/tab")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_core_detail_tab_1d8ba9
 ```
 
@@ -70,15 +70,15 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_maas_4903a0["@odh-dashboard/maas"]
-  point_n_model_serving_deployment_wizard_field_19398b(("model-serving.deployment/wizard-field"))
+  point_n_model_serving_deployment_wizard_field_19398b("model-serving.deployment/wizard-field")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_model_serving_deployment_wizard_field_19398b
-  point_n_model_serving_deployment_wizard_field_apply_b7659a(("model-serving.deployment/wizard-field-apply"))
+  point_n_model_serving_deployment_wizard_field_apply_b7659a("model-serving.deployment/wizard-field-apply")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_model_serving_deployment_wizard_field_apply_b7659a
-  point_n_model_serving_deployment_wizard_field_deployment_functions_dd7c85(("model-serving.deployment/wizard-field-deployment-functions"))
+  point_n_model_serving_deployment_wizard_field_deployment_functions_dd7c85("model-serving.deployment/wizard-field-deployment-functions")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_model_serving_deployment_wizard_field_deployment_functions_dd7c85
-  point_n_model_serving_deployment_wizard_field_extractor_877f9e(("model-serving.deployment/wizard-field-extractor"))
+  point_n_model_serving_deployment_wizard_field_extractor_877f9e("model-serving.deployment/wizard-field-extractor")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_model_serving_deployment_wizard_field_extractor_877f9e
-  point_n_model_serving_deployments_banner_1a4c0c(("model-serving.deployments/banner"))
+  point_n_model_serving_deployments_banner_1a4c0c("model-serving.deployments/banner")
   pkg_n__odh_dashboard_maas_4903a0 -. "federated" .-> point_n_model_serving_deployments_banner_1a4c0c
 ```
 

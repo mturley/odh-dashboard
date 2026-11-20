@@ -319,17 +319,17 @@ Extension point for a `watch` hook to watch deployments for a given platform.
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_serving_548436["@odh-dashboard/model-serving"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_app_area_bcfe23
-  point_n_app_project_details_overview_section_fbdb30(("app.project-details/overview-section"))
+  point_n_app_project_details_overview_section_fbdb30("app.project-details/overview-section")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_app_project_details_overview_section_fbdb30
-  point_n_app_project_details_tab_621c38(("app.project-details/tab"))
+  point_n_app_project_details_tab_621c38("app.project-details/tab")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_app_project_details_tab_621c38
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_app_route_2735df
-  point_n_app_tab_route_page_976575(("app.tab-route/page"))
+  point_n_app_tab_route_page_976575("app.tab-route/page")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_app_tab_route_page_976575
-  point_n_app_tab_route_tab_10b1cd(("app.tab-route/tab"))
+  point_n_app_tab_route_tab_10b1cd("app.tab-route/tab")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_app_tab_route_tab_10b1cd
 ```
 
@@ -355,7 +355,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_serving_548436["@odh-dashboard/model-serving"]
-  point_n_core_action_c380ca(("core.action"))
+  point_n_core_action_c380ca("core.action")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_core_action_c380ca
 ```
 
@@ -376,9 +376,9 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_serving_548436["@odh-dashboard/model-serving"]
-  point_n_model_registry_model_version_deploy_modal_74d1d6(("model-registry.model-version/deploy-modal"))
+  point_n_model_registry_model_version_deploy_modal_74d1d6("model-registry.model-version/deploy-modal")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_model_registry_model_version_deploy_modal_74d1d6
-  point_n_model_registry_model_version_deployments_context_5e3005(("model-registry.model-version/deployments-context"))
+  point_n_model_registry_model_version_deployments_context_5e3005("model-registry.model-version/deployments-context")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_model_registry_model_version_deployments_context_5e3005
 ```
 
@@ -400,11 +400,11 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_model_serving_548436["@odh-dashboard/model-serving"]
-  point_n_model_serving_deployment_wizard_field_19398b(("model-serving.deployment/wizard-field"))
+  point_n_model_serving_deployment_wizard_field_19398b("model-serving.deployment/wizard-field")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_model_serving_deployment_wizard_field_19398b
-  point_n_model_serving_deployment_wizard_field_apply_b7659a(("model-serving.deployment/wizard-field-apply"))
+  point_n_model_serving_deployment_wizard_field_apply_b7659a("model-serving.deployment/wizard-field-apply")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_model_serving_deployment_wizard_field_apply_b7659a
-  point_n_model_serving_deployment_wizard_field_extractor_877f9e(("model-serving.deployment/wizard-field-extractor"))
+  point_n_model_serving_deployment_wizard_field_extractor_877f9e("model-serving.deployment/wizard-field-extractor")
   pkg_n__odh_dashboard_model_serving_548436 -. "federated" .-> point_n_model_serving_deployment_wizard_field_extractor_877f9e
 ```
 

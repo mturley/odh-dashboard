@@ -15,11 +15,11 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_nim_serving_974017["@odh-dashboard/nim-serving"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_app_area_bcfe23
-  point_n_app_cluster_storage_storage_context_e68734(("app.cluster-storage/storage-context"))
+  point_n_app_cluster_storage_storage_context_e68734("app.cluster-storage/storage-context")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_app_cluster_storage_storage_context_e68734
-  point_n_app_project_details_settings_card_bc8e85(("app.project-details/settings-card"))
+  point_n_app_project_details_settings_card_bc8e85("app.project-details/settings-card")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_app_project_details_settings_card_bc8e85
 ```
 
@@ -42,43 +42,43 @@ flowchart LR
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_nim_serving_974017["@odh-dashboard/nim-serving"]
-  point_n_model_serving_auth_5d7b65(("model-serving.auth"))
+  point_n_model_serving_auth_5d7b65("model-serving.auth")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_auth_5d7b65
-  point_n_model_serving_deployed_model_serving_runtime_a806c7(("model-serving.deployed-model/serving-runtime"))
+  point_n_model_serving_deployed_model_serving_runtime_a806c7("model-serving.deployed-model/serving-runtime")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployed_model_serving_runtime_a806c7
-  point_n_model_serving_deployment_assemble_model_resource_5b5fd4(("model-serving.deployment/assemble-model-resource"))
+  point_n_model_serving_deployment_assemble_model_resource_5b5fd4("model-serving.deployment/assemble-model-resource")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_assemble_model_resource_5b5fd4
-  point_n_model_serving_deployment_deploy_35423a(("model-serving.deployment/deploy"))
+  point_n_model_serving_deployment_deploy_35423a("model-serving.deployment/deploy")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_deploy_35423a
-  point_n_model_serving_deployment_form_data_a37ab2(("model-serving.deployment/form-data"))
+  point_n_model_serving_deployment_form_data_a37ab2("model-serving.deployment/form-data")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_form_data_a37ab2
-  point_n_model_serving_deployment_tracking_properties_2845ae(("model-serving.deployment/tracking-properties"))
+  point_n_model_serving_deployment_tracking_properties_2845ae("model-serving.deployment/tracking-properties")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_tracking_properties_2845ae
-  point_n_model_serving_deployment_wizard_field_19398b(("model-serving.deployment/wizard-field"))
+  point_n_model_serving_deployment_wizard_field_19398b("model-serving.deployment/wizard-field")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_wizard_field_19398b
-  point_n_model_serving_deployment_wizard_field_apply_b7659a(("model-serving.deployment/wizard-field-apply"))
+  point_n_model_serving_deployment_wizard_field_apply_b7659a("model-serving.deployment/wizard-field-apply")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_wizard_field_apply_b7659a
-  point_n_model_serving_deployment_wizard_field_deployment_functions_dd7c85(("model-serving.deployment/wizard-field-deployment-functions"))
+  point_n_model_serving_deployment_wizard_field_deployment_functions_dd7c85("model-serving.deployment/wizard-field-deployment-functions")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_wizard_field_deployment_functions_dd7c85
-  point_n_model_serving_deployment_wizard_field_extractor_877f9e(("model-serving.deployment/wizard-field-extractor"))
+  point_n_model_serving_deployment_wizard_field_extractor_877f9e("model-serving.deployment/wizard-field-extractor")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_wizard_field_extractor_877f9e
-  point_n_model_serving_deployment_wizard_field_override_756caa(("model-serving.deployment/wizard-field-override"))
+  point_n_model_serving_deployment_wizard_field_override_756caa("model-serving.deployment/wizard-field-override")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployment_wizard_field_override_756caa
-  point_n_model_serving_deployments_table_start_stop_action_ea2e4f(("model-serving.deployments-table/start-stop-action"))
+  point_n_model_serving_deployments_table_start_stop_action_ea2e4f("model-serving.deployments-table/start-stop-action")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_deployments_table_start_stop_action_ea2e4f
-  point_n_model_serving_platform_1d1e44(("model-serving.platform"))
+  point_n_model_serving_platform_1d1e44("model-serving.platform")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_1d1e44
-  point_n_model_serving_platform_delete_deployment_259f2a(("model-serving.platform/delete-deployment"))
+  point_n_model_serving_platform_delete_deployment_259f2a("model-serving.platform/delete-deployment")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_delete_deployment_259f2a
-  point_n_model_serving_platform_exclude_deployment_af339f(("model-serving.platform/exclude-deployment"))
+  point_n_model_serving_platform_exclude_deployment_af339f("model-serving.platform/exclude-deployment")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_exclude_deployment_af339f
-  point_n_model_serving_platform_global_models_page_508e89(("model-serving.platform/global-models-page"))
+  point_n_model_serving_platform_global_models_page_508e89("model-serving.platform/global-models-page")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_global_models_page_508e89
-  point_n_model_serving_platform_overview_section_7dcf20(("model-serving.platform/overview-section"))
+  point_n_model_serving_platform_overview_section_7dcf20("model-serving.platform/overview-section")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_overview_section_7dcf20
-  point_n_model_serving_platform_project_details_tab_fce2f7(("model-serving.platform/project-details-tab"))
+  point_n_model_serving_platform_project_details_tab_fce2f7("model-serving.platform/project-details-tab")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_project_details_tab_fce2f7
-  point_n_model_serving_platform_watch_deployments_cf294d(("model-serving.platform/watch-deployments"))
+  point_n_model_serving_platform_watch_deployments_cf294d("model-serving.platform/watch-deployments")
   pkg_n__odh_dashboard_nim_serving_974017 --> point_n_model_serving_platform_watch_deployments_cf294d
 ```
 

@@ -15,13 +15,13 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_ai_safety_1ccc3d["@odh-dashboard/ai-safety"]
-  point_n_app_area_bcfe23(("app.area"))
+  point_n_app_area_bcfe23("app.area")
   pkg_n__odh_dashboard_ai_safety_1ccc3d -. "federated" .-> point_n_app_area_bcfe23
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_ai_safety_1ccc3d -. "federated" .-> point_n_app_navigation_href_67179c
-  point_n_app_navigation_section_34ff18(("app.navigation/section"))
+  point_n_app_navigation_section_34ff18("app.navigation/section")
   pkg_n__odh_dashboard_ai_safety_1ccc3d -. "federated" .-> point_n_app_navigation_section_34ff18
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_ai_safety_1ccc3d -. "federated" .-> point_n_app_route_2735df
 ```
 

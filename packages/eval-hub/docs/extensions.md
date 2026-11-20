@@ -15,11 +15,11 @@
 ```mermaid
 flowchart LR
   pkg_n__odh_dashboard_eval_hub_b5b956["@odh-dashboard/eval-hub"]
-  point_n_app_navigation_href_67179c(("app.navigation/href"))
+  point_n_app_navigation_href_67179c("app.navigation/href")
   pkg_n__odh_dashboard_eval_hub_b5b956 -. "federated" .-> point_n_app_navigation_href_67179c
-  point_n_app_route_2735df(("app.route"))
+  point_n_app_route_2735df("app.route")
   pkg_n__odh_dashboard_eval_hub_b5b956 -. "federated" .-> point_n_app_route_2735df
-  point_n_app_task_item_001b33(("app.task/item"))
+  point_n_app_task_item_001b33("app.task/item")
   pkg_n__odh_dashboard_eval_hub_b5b956 -. "federated" .-> point_n_app_task_item_001b33
 ```
 
