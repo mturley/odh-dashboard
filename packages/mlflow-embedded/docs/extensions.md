@@ -6,6 +6,37 @@
 
 Package `@odh-dashboard/mlflow-embedded` (package) at `packages/mlflow-embedded`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes) · [Consumes](#consumes) · [Diagnostics](#diagnostics)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [mlflow-embedded](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host |
+| [experiments-mlflow](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [prompt-management](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [agent-observability](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [skill-registry](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [GlobalMLflowExperimentsRoutes](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [GlobalMLflowPromptManagementRoutes](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [GlobalMLflowAgentObservabilityRoutes](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [MlflowMcpRegistryDetailPage](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [GlobalMLflowSkillRegistryRoutes](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [registry](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host |
+| [develop-experiments](#contributes-to-apptaskitem) | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | host |
+| [genai-prompts](#contributes-to-apptaskitem) | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | host |
+| [ai-hub-skills](#contributes-to-apptaskitem) | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | host |
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [MlflowMcpRegistryDetailPage](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+
 ## Loading paths
 
 - [extensions.ts](../extensions.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -17,70 +48,6 @@ Package `@odh-dashboard/mlflow-embedded` (package) at `packages/mlflow-embedded`
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef collapsed stroke-dasharray: 5 5
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_mlflow_embedded_684930["mlflow-embedded (package)"]:::pkg
-  n_packages_mlflow_embedded_extensions_ts_1218_0f4a6d["mlflow-embedded"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_1218_0f4a6d
-  n_packages_mlflow_embedded_extensions_ts_1303_a3940a["experiments-mlflow"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_1303_a3940a
-  n_packages_mlflow_embedded_extensions_ts_1859_1bb57c["prompt-management"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_1859_1bb57c
-  n_packages_mlflow_embedded_extensions_ts_2545_a360b5["agent-observability"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_2545_a360b5
-  n_packages_mlflow_embedded_extensions_ts_4268_8d9e43["skill-registry"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_4268_8d9e43
-  n_app_route_collapsed_a2cd4d("×5"):::collapsed
-  n__odh_dashboard_mlflow_embedded_684930 --> n_app_route_collapsed_a2cd4d
-  n_packages_mlflow_embedded_extensions_ts_3171_29c687["registry"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_3171_29c687
-  n_packages_mlflow_embedded_extensions_ts_5193_de9a59["develop-experiments"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_5193_de9a59
-  n_packages_mlflow_embedded_extensions_ts_5525_451df0["genai-prompts"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_5525_451df0
-  n_packages_mlflow_embedded_extensions_ts_5842_3a0ff4["ai-hub-skills"]
-  n__odh_dashboard_mlflow_embedded_684930 --> n_packages_mlflow_embedded_extensions_ts_5842_3a0ff4
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_tab_route_tab_10b1cd(["tab-route/tab"]):::point
-    n_app_task_item_001b33(["task/item"]):::point
-  end
-  n_packages_mlflow_embedded_extensions_ts_1218_0f4a6d --> n_app_area_bcfe23
-  n_packages_mlflow_embedded_extensions_ts_1303_a3940a --> n_app_navigation_href_67179c
-  n_packages_mlflow_embedded_extensions_ts_1859_1bb57c --> n_app_navigation_href_67179c
-  n_packages_mlflow_embedded_extensions_ts_2545_a360b5 --> n_app_navigation_href_67179c
-  n_packages_mlflow_embedded_extensions_ts_4268_8d9e43 --> n_app_navigation_href_67179c
-  n_app_route_collapsed_a2cd4d --> n_app_route_2735df
-  n_packages_mlflow_embedded_extensions_ts_3171_29c687 --> n_app_tab_route_tab_10b1cd
-  n_packages_mlflow_embedded_extensions_ts_5193_de9a59 --> n_app_task_item_001b33
-  n_packages_mlflow_embedded_extensions_ts_5525_451df0 --> n_app_task_item_001b33
-  n_packages_mlflow_embedded_extensions_ts_5842_3a0ff4 --> n_app_task_item_001b33
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| mlflow-embedded (package) | this package | [packages/mlflow-embedded](..) |
-| mlflow-embedded | extension of app.area — bundled | [extensions.ts](../extensions.ts#L45-L50) |
-| experiments-mlflow | extension of app.navigation/href — bundled | [extensions.ts](../extensions.ts#L51-L64) |
-| prompt-management | extension of app.navigation/href — bundled | [extensions.ts](../extensions.ts#L72-L85) |
-| agent-observability | extension of app.navigation/href — bundled | [extensions.ts](../extensions.ts#L95-L109) |
-| skill-registry | extension of app.navigation/href — bundled | [extensions.ts](../extensions.ts#L147-L165) |
-| ×5 | 5 extensions of app.route | [see the table below](#contributes-to-approute) |
-| registry | extension of app.tab-route/tab — bundled | [extensions.ts](../extensions.ts#L117-L131) |
-| develop-experiments | extension of app.task/item — bundled | [extensions.ts](../extensions.ts#L178-L190) |
-| genai-prompts | extension of app.task/item — bundled | [extensions.ts](../extensions.ts#L191-L203) |
-| ai-hub-skills | extension of app.task/item — bundled | [extensions.ts](../extensions.ts#L204-L216) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
-| tab-route/tab | extension point | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) |
-| task/item | extension point | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) |
 
 #### Contributes to app.area
 
@@ -230,26 +197,8 @@ Defined in [core.action](../../plugin-core/docs/extensions.md#coreaction).
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
 | `federation-not-loaded` | info | @odh-dashboard/mlflow-embedded declares module federation but the host does not load it as a remote: its moduleFederation.js has no ./extensions expose. | — |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

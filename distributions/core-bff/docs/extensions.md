@@ -6,6 +6,21 @@
 
 Package `@odh-dashboard/core-bff` (distribution) at `distributions/core-bff`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [core-bff-module](#contributes-to-apparea) | [app.area](../../../packages/plugin-core/docs/extensions.md#apparea) | host |
+| [core-bff-view](#contributes-to-appnavigationhref) | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [core-bff](#contributes-to-appnavigationsection) | [app.navigation/section](../../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [CoreBffWrapper](#contributes-to-approute) | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) | host |
+
 ## Loading paths
 
 - [extensions.ts](../frontend/src/odh/extensions.ts) (`mf:./extensions`) — loaded at runtime by the host as a Module Federation remote
@@ -15,43 +30,6 @@ Package `@odh-dashboard/core-bff` (distribution) at `distributions/core-bff`. Ev
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_core_bff_b8a0c6["core-bff (distribution)"]:::pkg
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_231_eb0f37["core-bff-module"]
-  n__odh_dashboard_core_bff_b8a0c6 -. "federated" .-> n_distributions_core_bff_frontend_src_odh_extensions_ts_231_eb0f37
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_583_2ac083["core-bff-view"]
-  n__odh_dashboard_core_bff_b8a0c6 -. "federated" .-> n_distributions_core_bff_frontend_src_odh_extensions_ts_583_2ac083
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_335_62b070["core-bff"]
-  n__odh_dashboard_core_bff_b8a0c6 -. "federated" .-> n_distributions_core_bff_frontend_src_odh_extensions_ts_335_62b070
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_878_33cbba["CoreBffWrapper"]
-  n__odh_dashboard_core_bff_b8a0c6 -. "federated" .-> n_distributions_core_bff_frontend_src_odh_extensions_ts_878_33cbba
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_navigation_section_34ff18(["navigation/section"]):::point
-    n_app_route_2735df(["route"]):::point
-  end
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_231_eb0f37 --> n_app_area_bcfe23
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_583_2ac083 --> n_app_navigation_href_67179c
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_335_62b070 --> n_app_navigation_section_34ff18
-  n_distributions_core_bff_frontend_src_odh_extensions_ts_878_33cbba --> n_app_route_2735df
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| core-bff (distribution) | this package | [distributions/core-bff](..) |
-| core-bff-module | extension of app.area — federated | [extensions.ts](../frontend/src/odh/extensions.ts#L10-L16) |
-| core-bff-view | extension of app.navigation/href — federated | [extensions.ts](../frontend/src/odh/extensions.ts#L29-L42) |
-| core-bff | extension of app.navigation/section — federated | [extensions.ts](../frontend/src/odh/extensions.ts#L17-L28) |
-| CoreBffWrapper | extension of app.route — federated | [extensions.ts](../frontend/src/odh/extensions.ts#L43-L52) |
-| area | extension point | [app.area](../../../packages/plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
-| navigation/section | extension point | [app.navigation/section](../../../packages/plugin-core/docs/extensions.md#appnavigationsection) |
-| route | extension point | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) |
 
 #### Contributes to app.area
 
@@ -92,21 +70,3 @@ Defined in [app.route](../../../packages/plugin-core/docs/extensions.md#approute
 | path | CodeRef target | Included in | Source |
 | --- | --- | --- | --- |
 | `'/core-bff/main-view/*'` | [CoreBffWrapper#default](../frontend/src/odh/CoreBffWrapper.tsx#L18-L26) | host | [extensions.ts](../frontend/src/odh/extensions.ts#L43-L52) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

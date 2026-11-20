@@ -6,6 +6,32 @@
 
 Package `@odh-dashboard/mlflow` (package) at `packages/mlflow`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Defines](#defines) · [Contributes](#contributes) · [Consumes](#consumes)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Defines**
+
+| Extension point | Implemented by | Consumed in |
+| --- | --- | --- |
+| [mlflow.project/selector](#mlflowprojectselector) | [mlflow](#contributes-to-mlflowprojectselector) | [mlflow](#consumes-mlflowprojectselector) |
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [MlflowWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [register-mcp-server](#contributes-to-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) | host |
+| [ProjectSelectorField](#contributes-to-mlflowprojectselector) | [mlflow.project/selector](#mlflowprojectselector) | host |
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [ProjectSelectorFieldWrapper](#consumes-mlflowprojectselector) | [mlflow.project/selector](#mlflowprojectselector) |
+
 ## Loading paths
 
 - [extensions.ts](../extensions.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -33,50 +59,19 @@ Declared as [ProjectSelectorExtension](../frontend/src/odh/extension-points/name
 
 **Consumed in:** [mlflow](#consumes-mlflowprojectselector)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_mlflow_cae65f["mlflow (package)"]:::pkg
-  n_mlflow_project_selector_073795(["mlflow.project/selector"]):::point
-  n_pkg__odh_dashboard_mlflow_cae65f --> n_mlflow_project_selector_073795
-  n_symbol_packages_mlflow_frontend_src_odh_components_ProjectSelectorFieldWrapper_tsx_ProjectSelectorFieldWrapper_026126["ProjectSelectorFieldWrapper"]
-  n_mlflow_project_selector_073795 -- "useResolvedExtensions, jsx-render" --> n_symbol_packages_mlflow_frontend_src_odh_components_ProjectSelectorFieldWrapper_tsx_ProjectSelectorFieldWrapper_026126
-  n_symbol_packages_mlflow_frontend_src_odh_components_McpRegisterModal_tsx_McpRegisterModal_b4762a("McpRegisterModal")
-  n_symbol_packages_mlflow_frontend_src_odh_components_ProjectSelectorFieldWrapper_tsx_ProjectSelectorFieldWrapper_026126 -. "rendered in" .-> n_symbol_packages_mlflow_frontend_src_odh_components_McpRegisterModal_tsx_McpRegisterModal_b4762a
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| mlflow (package) | contributes extensions of this point | [mlflow](#contributes-to-mlflowprojectselector) |
-| mlflow.project/selector | this extension point | [mlflow.project/selector](#mlflowprojectselector) |
-| ProjectSelectorFieldWrapper | consumer in @odh-dashboard/mlflow — useResolvedExtensions, jsx-render | [ProjectSelectorFieldWrapper](../frontend/src/odh/components/ProjectSelectorFieldWrapper.tsx#L11-L24) |
-| McpRegisterModal | renders ProjectSelectorFieldWrapper (one hop up) | renders ProjectSelectorFieldWrapper at [McpRegisterModal.tsx:227](../frontend/src/odh/components/McpRegisterModal.tsx#L227-L233) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ProjectSelectorFieldWrapper](../frontend/src/odh/components/ProjectSelectorFieldWrapper.tsx#L11-L24) | mlflow | [useResolvedExtensions](../frontend/src/odh/components/ProjectSelectorFieldWrapper.tsx#L12) | `properties.component.default` — jsx-render, direct ([ProjectSelectorFieldWrapper.tsx:19](../frontend/src/odh/components/ProjectSelectorFieldWrapper.tsx#L19)) | McpRegisterModal ([McpRegisterModal.tsx:227](../frontend/src/odh/components/McpRegisterModal.tsx#L227-L233)) |
+
+**Flow:** mlflow → mlflow.project/selector → mlflow · ProjectSelectorFieldWrapper → rendered in McpRegisterModal
 
 ## Contributes
 
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_mlflow_1dd153["mlflow (package)"]:::pkg
-  n_packages_mlflow_frontend_src_odh_extensions_ts_940_b9f109["MlflowWrapper"]
-  n__odh_dashboard_mlflow_1dd153 -. "federated" .-> n_packages_mlflow_frontend_src_odh_extensions_ts_940_b9f109
-  subgraph n_ns_app_679587 ["app"]
-    n_app_route_2735df(["route"]):::point
-  end
-  n_packages_mlflow_frontend_src_odh_extensions_ts_940_b9f109 --> n_app_route_2735df
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| mlflow (package) | this package | [packages/mlflow](..) |
-| MlflowWrapper | extension of app.route — federated | [extensions.ts](../frontend/src/odh/extensions.ts#L36-L45) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
 
 #### Contributes to app.route
 
@@ -88,25 +83,6 @@ Defined in [app.route](../../plugin-core/docs/extensions.md#approute).
 
 ### Namespace `core`
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_mlflow_1dd153["mlflow (package)"]:::pkg
-  n_packages_mlflow_frontend_src_odh_extensions_ts_1126_5c5ebc["register-mcp-server"]
-  n__odh_dashboard_mlflow_1dd153 -. "federated" .-> n_packages_mlflow_frontend_src_odh_extensions_ts_1126_5c5ebc
-  subgraph n_ns_core_be1303 ["core"]
-    n_core_action_c380ca(["action"]):::point
-  end
-  n_packages_mlflow_frontend_src_odh_extensions_ts_1126_5c5ebc --> n_core_action_c380ca
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| mlflow (package) | this package | [packages/mlflow](..) |
-| register-mcp-server | extension of core.action — federated | [extensions.ts](../frontend/src/odh/extensions.ts#L46-L57) |
-| action | extension point | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
-
 #### Contributes to core.action
 
 Defined in [core.action](../../plugin-core/docs/extensions.md#coreaction).
@@ -116,25 +92,6 @@ Defined in [core.action](../../plugin-core/docs/extensions.md#coreaction).
 | `'register-mcp-server'` | `'Register MCP server'` | `'mcp-catalog.server-actions'` | `SupportedArea.MCP_CATALOG` (`'mcp-catalog'`), `SupportedArea.MCP_REGISTRY` (`'mcp-registry'`) | [McpServerRegisterAction#default](../frontend/src/odh/components/McpServerRegisterAction.tsx#L91-L96) | host | [extensions.ts](../frontend/src/odh/extensions.ts#L46-L57) |
 
 ### Namespace `mlflow`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_mlflow_1dd153["mlflow (package)"]:::pkg
-  n_packages_mlflow_extensions_ts_137_b384f5["ProjectSelectorField"]
-  n__odh_dashboard_mlflow_1dd153 --> n_packages_mlflow_extensions_ts_137_b384f5
-  subgraph n_ns_mlflow_5c2ca5 ["mlflow"]
-    n_mlflow_project_selector_073795(["project/selector"]):::point
-  end
-  n_packages_mlflow_extensions_ts_137_b384f5 --> n_mlflow_project_selector_073795
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| mlflow (package) | this package | [packages/mlflow](..) |
-| ProjectSelectorField | extension of mlflow.project/selector — bundled | [extensions.ts](../extensions.ts#L4-L9) |
-| project/selector | extension point | [mlflow.project/selector](#mlflowprojectselector) |
 
 #### Contributes to mlflow.project/selector
 
@@ -155,21 +112,3 @@ Defined in [mlflow.project/selector](#mlflowprojectselector).
 | Consumer | Query | Uses | Rendered in |
 | --- | --- | --- | --- |
 | [ProjectSelectorFieldWrapper](../frontend/src/odh/components/ProjectSelectorFieldWrapper.tsx#L11-L24) | [useResolvedExtensions](../frontend/src/odh/components/ProjectSelectorFieldWrapper.tsx#L12) | `properties.component.default` — jsx-render, direct ([ProjectSelectorFieldWrapper.tsx:19](../frontend/src/odh/components/ProjectSelectorFieldWrapper.tsx#L19)) | McpRegisterModal ([McpRegisterModal.tsx:227](../frontend/src/odh/components/McpRegisterModal.tsx#L227-L233)) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

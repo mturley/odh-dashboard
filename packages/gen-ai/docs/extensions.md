@@ -6,6 +6,57 @@
 
 Package `@odh-dashboard/gen-ai` (package) at `packages/gen-ai`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Defines](#defines) · [Contributes](#contributes) · [Consumes](#consumes) · [Diagnostics](#diagnostics)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Defines**
+
+| Extension point | Implemented by | Consumed in |
+| --- | --- | --- |
+| [gen-ai.ai-assets/tab](#gen-aiai-assetstab) | [gen-ai](#contributes-to-gen-aiai-assetstab) | [gen-ai](#consumes-gen-aiai-assetstab) |
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [plugin-gen-ai](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [chatPlayground](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [genAiImageUpload](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [genAiAudioUpload](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [guardrails](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [aiAssetCustomEndpoints](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [promptManagement](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [promptModelAssociations](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [externalVectorStores](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [agentConfigManagement](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [genAiAgentDeployment](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [mcpRegistry](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [genAiMcpRegistryServers](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [genAiTracing](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [modelAsService](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [chat-playground](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host, maas-portal |
+| [ai-assets](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host, maas-portal |
+| [gen-ai-studio](#contributes-to-appnavigationsection) | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) | host, maas-portal |
+| [gen-ai-routes](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [gen-ai-studio](#contributes-to-apptaskgroup) | [app.task/group](../../plugin-core/docs/extensions.md#apptaskgroup) | host, maas-portal |
+| [genai-playground](#contributes-to-apptaskitem) | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | host, maas-portal |
+| [genai-ai-assets](#contributes-to-apptaskitem) | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | host, maas-portal |
+| [models](#contributes-to-gen-aiai-assetstab) | [gen-ai.ai-assets/tab](#gen-aiai-assetstab) | host, maas-portal |
+| [mcpservers](#contributes-to-gen-aiai-assetstab) | [gen-ai.ai-assets/tab](#gen-aiai-assetstab) | host, maas-portal |
+| [vectorstores](#contributes-to-gen-aiai-assetstab) | [gen-ai.ai-assets/tab](#gen-aiai-assetstab) | host, maas-portal |
+| [agentprofile](#contributes-to-gen-aiai-assetstab) | [gen-ai.ai-assets/tab](#gen-aiai-assetstab) | host, maas-portal |
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [TranscriptionModelSection](#consumes-apptab-routepage) | [app.tab-route/page](../../plugin-core/docs/extensions.md#apptab-routepage) |
+| [TranscriptionModelSection](#consumes-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) |
+| [AIAssetsPage](#consumes-gen-aiai-assetstab) | [gen-ai.ai-assets/tab](#gen-aiai-assetstab) |
+
 ## Loading paths
 
 - [extensions.ts](../frontend/src/odh/extensions.ts) (`./extensions/static`) — bundled by a distribution that imports this export
@@ -32,89 +83,19 @@ Declared as [AIAssetsTabExtension](../frontend/src/odh/extension-points/ai-asset
 
 **Consumed in:** [gen-ai](#consumes-gen-aiai-assetstab)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_gen_ai_f11571["gen-ai (package)"]:::pkg
-  n_gen_ai_ai_assets_tab_775728(["gen-ai.ai-assets/tab"]):::point
-  n_pkg__odh_dashboard_gen_ai_f11571 --> n_gen_ai_ai_assets_tab_775728
-  n_symbol_packages_gen_ai_frontend_src_app_AIAssets_AIAssetsPage_tsx_AIAssetsPage_59d8f1["AIAssetsPage"]
-  n_gen_ai_ai_assets_tab_775728 -- "useExtensions, lazy-render, read" --> n_symbol_packages_gen_ai_frontend_src_app_AIAssets_AIAssetsPage_tsx_AIAssetsPage_59d8f1
-  n_symbol_packages_gen_ai_frontend_src_app_AppRoutes_tsx_AppRoutes_957e8f("AppRoutes")
-  n_symbol_packages_gen_ai_frontend_src_app_AIAssets_AIAssetsPage_tsx_AIAssetsPage_59d8f1 -. "rendered in" .-> n_symbol_packages_gen_ai_frontend_src_app_AppRoutes_tsx_AppRoutes_957e8f
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| gen-ai (package) | contributes extensions of this point | [gen-ai](#contributes-to-gen-aiai-assetstab) |
-| gen-ai.ai-assets/tab | this extension point | [gen-ai.ai-assets/tab](#gen-aiai-assetstab) |
-| AIAssetsPage | consumer in @odh-dashboard/gen-ai — useExtensions, lazy-render, read | [AIAssetsPage](../frontend/src/app/AIAssets/AIAssetsPage.tsx#L24-L117) |
-| AppRoutes | renders AIAssetsPage (one hop up) | renders AIAssetsPage at [AppRoutes.tsx:80](../frontend/src/app/AppRoutes.tsx#L80)<br>renders AIAssetsPage at [AppRoutes.tsx:81](../frontend/src/app/AppRoutes.tsx#L81)<br>renders AIAssetsPage at [AppRoutes.tsx:82](../frontend/src/app/AppRoutes.tsx#L82) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [AIAssetsPage](../frontend/src/app/AIAssets/AIAssetsPage.tsx#L24-L117) | gen-ai | [useExtensions](../frontend/src/app/AIAssets/AIAssetsPage.tsx#L25) | `properties.id` — read, direct ([AIAssetsPage.tsx:31](../frontend/src/app/AIAssets/AIAssetsPage.tsx#L31) (+11 more))<br>`properties.label` — read, direct ([AIAssetsPage.tsx:69](../frontend/src/app/AIAssets/AIAssetsPage.tsx#L69) (+1 more))<br>`properties.title` — read, direct ([AIAssetsPage.tsx:71](../frontend/src/app/AIAssets/AIAssetsPage.tsx#L71) (+2 more))<br>`properties.component` — lazy-render, direct ([AIAssetsPage.tsx:103](../frontend/src/app/AIAssets/AIAssetsPage.tsx#L103)) | AppRoutes ([AppRoutes.tsx:80](../frontend/src/app/AppRoutes.tsx#L80))<br>AppRoutes ([AppRoutes.tsx:81](../frontend/src/app/AppRoutes.tsx#L81))<br>AppRoutes ([AppRoutes.tsx:82](../frontend/src/app/AppRoutes.tsx#L82)) |
+
+**Flow:** gen-ai → gen-ai.ai-assets/tab → gen-ai · AIAssetsPage → rendered in AppRoutes
 
 ## Contributes
 
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef collapsed stroke-dasharray: 5 5
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_gen_ai_84b665["gen-ai (package)"]:::pkg
-  n_app_area_collapsed_7ff839("×15"):::collapsed
-  n__odh_dashboard_gen_ai_84b665 --> n_app_area_collapsed_7ff839
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5114_dc82f3["chat-playground"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_5114_dc82f3
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5395_84606a["ai-assets"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_5395_84606a
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_4849_0be457["gen-ai-studio"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_4849_0be457
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5664_9136cd["gen-ai-routes"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_5664_9136cd
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_7041_d7edb4["gen-ai-studio"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_7041_d7edb4
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_7385_510945["genai-playground"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_7385_510945
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_7676_7ddb78["genai-ai-assets"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_7676_7ddb78
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_navigation_section_34ff18(["navigation/section"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_task_group_64e4cf(["task/group"]):::point
-    n_app_task_item_001b33(["task/item"]):::point
-  end
-  n_app_area_collapsed_7ff839 --> n_app_area_bcfe23
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5114_dc82f3 --> n_app_navigation_href_67179c
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5395_84606a --> n_app_navigation_href_67179c
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_4849_0be457 --> n_app_navigation_section_34ff18
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5664_9136cd --> n_app_route_2735df
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_7041_d7edb4 --> n_app_task_group_64e4cf
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_7385_510945 --> n_app_task_item_001b33
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_7676_7ddb78 --> n_app_task_item_001b33
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| gen-ai (package) | this package | [packages/gen-ai](..) |
-| ×15 | 15 extensions of app.area | [see the table below](#contributes-to-apparea) |
-| chat-playground | extension of app.navigation/href — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L192-L204) |
-| ai-assets | extension of app.navigation/href — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L205-L217) |
-| gen-ai-studio | extension of app.navigation/section — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L180-L191) |
-| gen-ai-routes | extension of app.route — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L218-L228) |
-| gen-ai-studio | extension of app.task/group — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L277-L288) |
-| genai-playground | extension of app.task/item — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L289-L301) |
-| genai-ai-assets | extension of app.task/item — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L302-L314) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) |
-| navigation/section | extension point | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
-| task/group | extension point | [app.task/group](../../plugin-core/docs/extensions.md#apptaskgroup) |
-| task/item | extension point | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) |
 
 #### Contributes to app.area
 
@@ -391,37 +372,6 @@ Defined in [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem).
 
 ### Namespace `gen-ai`
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_gen_ai_84b665["gen-ai (package)"]:::pkg
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5906_c02cd4["models"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_5906_c02cd4
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_6161_0a0898["mcpservers"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_6161_0a0898
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_6422_27597a["vectorstores"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_6422_27597a
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_6720_8ff029["agentprofile"]
-  n__odh_dashboard_gen_ai_84b665 --> n_packages_gen_ai_frontend_src_odh_extensions_ts_6720_8ff029
-  subgraph n_ns_gen_ai_b76443 ["gen-ai"]
-    n_gen_ai_ai_assets_tab_775728(["ai-assets/tab"]):::point
-  end
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_5906_c02cd4 --> n_gen_ai_ai_assets_tab_775728
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_6161_0a0898 --> n_gen_ai_ai_assets_tab_775728
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_6422_27597a --> n_gen_ai_ai_assets_tab_775728
-  n_packages_gen_ai_frontend_src_odh_extensions_ts_6720_8ff029 --> n_gen_ai_ai_assets_tab_775728
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| gen-ai (package) | this package | [packages/gen-ai](..) |
-| models | extension of gen-ai.ai-assets/tab — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L230-L240) |
-| mcpservers | extension of gen-ai.ai-assets/tab — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L241-L251) |
-| vectorstores | extension of gen-ai.ai-assets/tab — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L252-L262) |
-| agentprofile | extension of gen-ai.ai-assets/tab — bundled by a distribution and federated | [extensions.ts](../frontend/src/odh/extensions.ts#L263-L273) |
-| ai-assets/tab | extension point | [gen-ai.ai-assets/tab](#gen-aiai-assetstab) |
-
 #### Contributes to gen-ai.ai-assets/tab
 
 Defined in [gen-ai.ai-assets/tab](#gen-aiai-assetstab).
@@ -469,26 +419,8 @@ Defined in [gen-ai.ai-assets/tab](#gen-aiai-assetstab).
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
 | `point-no-jsdoc` | warning | Extension point 'gen-ai.ai-assets/tab' (AIAssetsTabExtension) has no JSDoc. | [ai-assets.ts:4](../frontend/src/odh/extension-points/ai-assets.ts#L4-L12) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

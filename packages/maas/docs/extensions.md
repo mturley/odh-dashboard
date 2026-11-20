@@ -6,6 +6,36 @@
 
 Package `@odh-dashboard/maas` (package) at `packages/maas`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [modelAsService](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [maas-tokens-view](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host, maas-portal |
+| [maas-tokens-subscriptions-view](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host, maas-portal |
+| [maas-governance-view](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host, maas-portal |
+| [gen-ai-studio](#contributes-to-appnavigationsection) | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) | host, maas-portal |
+| [MaaSWrapper #1](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [ExternalProvidersWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [ExternalModelsCreateWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [ExternalModelsEditWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [MaaSWrapper #2](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [MaaSWrapper #3](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [MaaSRedirect](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, maas-portal |
+| [genai-api-keys](#contributes-to-apptaskitem) | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | host, maas-portal |
+| [external-models](#contributes-to-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) | host, maas-portal |
+| [MaaSEndpointFieldWizardField](#contributes-to-model-servingdeploymentwizard-field) | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | host |
+| [applyMaaSEndpointData](#contributes-to-model-servingdeploymentwizard-field-apply) | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | host |
+| [postDeployMaaSModelRef](#contributes-to-model-servingdeploymentwizard-field-deployment-functions) | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) | host |
+| [extractMaaSEndpointData](#contributes-to-model-servingdeploymentwizard-field-extractor) | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | host |
+| [maas-published-post-deploy-alert](#contributes-to-model-servingdeploymentsbanner) | [model-serving.deployments/banner](../../model-serving/docs/extensions.md#model-servingdeploymentsbanner) | host |
+
 ## Loading paths
 
 - [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts) (`./extensions/static`) — bundled by a distribution that imports this export
@@ -16,58 +46,6 @@ Package `@odh-dashboard/maas` (package) at `packages/maas`. Everything below is 
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef collapsed stroke-dasharray: 5 5
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_maas_4903a0["maas (package)"]:::pkg
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_697_c77b72["modelAsService"]
-  n__odh_dashboard_maas_4903a0 --> n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_697_c77b72
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1571_10356a["maas-tokens-view"]
-  n__odh_dashboard_maas_4903a0 --> n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1571_10356a
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1885_3cecda["maas-tokens-subscriptions-view"]
-  n__odh_dashboard_maas_4903a0 --> n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1885_3cecda
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_993_9e3d9f["maas-governance-view"]
-  n__odh_dashboard_maas_4903a0 --> n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_993_9e3d9f
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1300_8e7b60["gen-ai-studio"]
-  n__odh_dashboard_maas_4903a0 --> n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1300_8e7b60
-  n_app_route_collapsed_a2cd4d("×7"):::collapsed
-  n__odh_dashboard_maas_4903a0 --> n_app_route_collapsed_a2cd4d
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_4058_46a751["genai-api-keys"]
-  n__odh_dashboard_maas_4903a0 --> n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_4058_46a751
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_navigation_section_34ff18(["navigation/section"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_task_item_001b33(["task/item"]):::point
-  end
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_697_c77b72 --> n_app_area_bcfe23
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1571_10356a --> n_app_navigation_href_67179c
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1885_3cecda --> n_app_navigation_href_67179c
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_993_9e3d9f --> n_app_navigation_href_67179c
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_1300_8e7b60 --> n_app_navigation_section_34ff18
-  n_app_route_collapsed_a2cd4d --> n_app_route_2735df
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_4058_46a751 --> n_app_task_item_001b33
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| maas (package) | this package | [packages/maas](..) |
-| modelAsService | extension of app.area — bundled by a distribution and federated | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L21-L31) |
-| maas-tokens-view | extension of app.navigation/href — bundled by a distribution and federated | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L57-L70) |
-| maas-tokens-subscriptions-view | extension of app.navigation/href — bundled by a distribution and federated | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L71-L83) |
-| maas-governance-view | extension of app.navigation/href — bundled by a distribution and federated | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L32-L44) |
-| gen-ai-studio | extension of app.navigation/section — bundled by a distribution and federated | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L45-L56) |
-| ×7 | 7 extensions of app.route | [see the table below](#contributes-to-approute) |
-| genai-api-keys | extension of app.task/item — bundled by a distribution and federated | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L167-L179) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) |
-| navigation/section | extension point | [app.navigation/section](../../plugin-core/docs/extensions.md#appnavigationsection) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
-| task/item | extension point | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) |
 
 #### Contributes to app.area
 
@@ -170,25 +148,6 @@ Defined in [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem).
 
 ### Namespace `core`
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_maas_4903a0["maas (package)"]:::pkg
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_2399_565101["external-models"]
-  n__odh_dashboard_maas_4903a0 --> n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_2399_565101
-  subgraph n_ns_core_be1303 ["core"]
-    n_core_detail_tab_1d8ba9(["detail/tab"]):::point
-  end
-  n_packages_maas_frontend_src_odh_odhExtensions_odhExtensions_ts_2399_565101 --> n_core_detail_tab_1d8ba9
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| maas (package) | this package | [packages/maas](..) |
-| external-models | extension of core.detail/tab — bundled by a distribution and federated | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L94-L106) |
-| detail/tab | extension point | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) |
-
 #### Contributes to core.detail/tab
 
 Defined in [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab).
@@ -198,49 +157,6 @@ Defined in [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab)
 | `'external-models'` | `'External models'` | `GLOBAL_DEPLOYMENTS_DETAIL_TAB_GROUP` (`'model-serving.global-deployments'`) | `MODEL_AS_SERVICE_ID` (`'modelAsService'`) | [ExternalModelsWrapper#default](../frontend/src/odh/odhExtensions/ExternalModelsWrapper.tsx#L5-L9) | host, maas-portal | [odhExtensions.ts](../frontend/src/odh/odhExtensions/odhExtensions.ts#L94-L106) |
 
 ### Namespace `model-serving`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_maas_4903a0["maas (package)"]:::pkg
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1103_13ad4b["MaaSEndpointFieldWizardField"]
-  n__odh_dashboard_maas_4903a0 -. "federated" .-> n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1103_13ad4b
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1432_f8a798["applyMaaSEndpointData"]
-  n__odh_dashboard_maas_4903a0 -. "federated" .-> n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1432_f8a798
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_2210_85194d["postDeployMaaSModelRef"]
-  n__odh_dashboard_maas_4903a0 -. "federated" .-> n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_2210_85194d
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1817_c2260d["extractMaaSEndpointData"]
-  n__odh_dashboard_maas_4903a0 -. "federated" .-> n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1817_c2260d
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_2702_ce8829["maas-published-post-deploy-alert"]
-  n__odh_dashboard_maas_4903a0 -. "federated" .-> n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_2702_ce8829
-  subgraph n_ns_model_serving_eced18 ["model-serving"]
-    n_model_serving_deployment_wizard_field_19398b(["deployment/wizard-field"]):::point
-    n_model_serving_deployment_wizard_field_apply_b7659a(["deployment/wizard-field-apply"]):::point
-    n_model_serving_deployment_wizard_field_deployment_functions_dd7c85(["deployment/wizard-field-deployment-functions"]):::point
-    n_model_serving_deployment_wizard_field_extractor_877f9e(["deployment/wizard-field-extractor"]):::point
-    n_model_serving_deployments_banner_1a4c0c(["deployments/banner"]):::point
-  end
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1103_13ad4b --> n_model_serving_deployment_wizard_field_19398b
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1432_f8a798 --> n_model_serving_deployment_wizard_field_apply_b7659a
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_2210_85194d --> n_model_serving_deployment_wizard_field_deployment_functions_dd7c85
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_1817_c2260d --> n_model_serving_deployment_wizard_field_extractor_877f9e
-  n_packages_maas_frontend_src_odh_modelServingExtensions_modelServingExtensions_ts_2702_ce8829 --> n_model_serving_deployments_banner_1a4c0c
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| maas (package) | this package | [packages/maas](..) |
-| MaaSEndpointFieldWizardField | extension of model-serving.deployment/wizard-field — federated | [modelServingExtensions.ts](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L23-L35) |
-| applyMaaSEndpointData | extension of model-serving.deployment/wizard-field-apply — federated | [modelServingExtensions.ts](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L36-L49) |
-| postDeployMaaSModelRef | extension of model-serving.deployment/wizard-field-deployment-functions — federated | [modelServingExtensions.ts](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L64-L77) |
-| extractMaaSEndpointData | extension of model-serving.deployment/wizard-field-extractor — federated | [modelServingExtensions.ts](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L50-L63) |
-| maas-published-post-deploy-alert | extension of model-serving.deployments/banner — federated | [modelServingExtensions.ts](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L78-L90) |
-| deployment/wizard-field | extension point | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) |
-| deployment/wizard-field-apply | extension point | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) |
-| deployment/wizard-field-deployment-functions | extension point | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) |
-| deployment/wizard-field-extractor | extension point | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) |
-| deployments/banner | extension point | [model-serving.deployments/banner](../../model-serving/docs/extensions.md#model-servingdeploymentsbanner) |
 
 #### Contributes to model-serving.deployment/wizard-field
 
@@ -295,21 +211,3 @@ Defined in [model-serving.deployments/banner](../../model-serving/docs/extension
 | id | Requires | CodeRef target | Included in | Source |
 | --- | --- | --- | --- | --- |
 | `'maas-published-post-deploy-alert'` | `MODEL_AS_SERVICE_ID` (`'modelAsService'`) | [MaaSPublishedPostDeployAlert#MaaSPublishedInternalPostDeployAlert](../frontend/src/odh/modelServingExtensions/MaaSPublishedPostDeployAlert.tsx#L83-L94) | host | [modelServingExtensions.ts](../frontend/src/odh/modelServingExtensions/modelServingExtensions.ts#L78-L90) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

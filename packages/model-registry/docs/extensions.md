@@ -6,6 +6,113 @@
 
 Package `@odh-dashboard/model-registry` (package) at `packages/model-registry`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Defines](#defines) · [Contributes](#contributes) · [Consumes](#consumes) · [Diagnostics](#diagnostics) · [Legend](#legend)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Defines**
+
+| Extension point | Implemented by | Consumed in |
+| --- | --- | --- |
+| [mcp-catalog.card/label](#mcp-catalogcardlabel) | [model-registry](#contributes-to-mcp-catalogcardlabel) | [model-registry](#consumes-mcp-catalogcardlabel) |
+| [mcp-catalog.settings/url](#mcp-catalogsettingsurl) | [model-registry](#contributes-to-mcp-catalogsettingsurl) | [model-registry](#consumes-mcp-catalogsettingsurl) |
+| [model-catalog.page/banner](#model-catalogpagebanner) | [model-registry](#contributes-to-model-catalogpagebanner) | [model-registry](#consumes-model-catalogpagebanner) |
+| [model-catalog.settings/url](#model-catalogsettingsurl) | [model-registry](#contributes-to-model-catalogsettingsurl) | [model-registry](#consumes-model-catalogsettingsurl) |
+| [model-registry.admin/check](#model-registryadmincheck) | [model-registry](#contributes-to-model-registryadmincheck) | [model-registry](#consumes-model-registryadmincheck) |
+| [model-registry.feature-flag-overrides/provider](#model-registryfeature-flag-overridesprovider) | unused | unused |
+| [model-registry.model-version/deploy-modal](#model-registrymodel-versiondeploy-modal) | [model-serving](../../model-serving/docs/extensions.md#contributes-to-model-registrymodel-versiondeploy-modal) | [model-registry](#consumes-model-registrymodel-versiondeploy-modal) |
+| [model-registry.model-version/deployments-context](#model-registrymodel-versiondeployments-context) | [model-serving](../../model-serving/docs/extensions.md#contributes-to-model-registrymodel-versiondeployments-context) | [model-registry](#consumes-model-registrymodel-versiondeployments-context) |
+| [model-registry.namespace/selector](#model-registrynamespaceselector) | [model-registry](#contributes-to-model-registrynamespaceselector) | [model-registry](#consumes-model-registrynamespaceselector) |
+| [model-registry.projects/bridge-provider](#model-registryprojectsbridge-provider) | [model-registry](#contributes-to-model-registryprojectsbridge-provider) | [model-registry](#consumes-model-registryprojectsbridge-provider) |
+| [model-registry.register/autofill-connection](#model-registryregisterautofill-connection) | [model-registry](#contributes-to-model-registryregisterautofill-connection) | [model-registry](#consumes-model-registryregisterautofill-connection) |
+| [model-registry.settings/url](#model-registrysettingsurl) | [model-registry](#contributes-to-model-registrysettingsurl) | [model-registry](#consumes-model-registrysettingsurl) |
+| [model-registry.tracking/provider](#model-registrytrackingprovider) | [model-registry](#contributes-to-model-registrytrackingprovider) | [model-registry](#consumes-model-registrytrackingprovider) |
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [model-registry-plugin](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host |
+| [modelRegistry-kf](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-model-registry](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-model-catalog](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-mcp-catalog](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [RuntimeCatalogDetailsWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [ModelRegistrySettingsRoutesWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [route #3](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [route #4](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [route #5](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [route #6](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [ModelCatalogSettingsRoutesWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [McpCatalogSettingsRoutesWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [route #9](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [catalog #1](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host |
+| [registry](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host |
+| [catalog #2](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host |
+| [catalog #3](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host |
+| [serving-runtime-catalog](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host |
+| [deployments](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host |
+| [deploy-model-version](#contributes-to-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) | host |
+| [deploy-mcp-server](#contributes-to-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) | host |
+| [deploy-mcp-registry-server](#contributes-to-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) | host |
+| [security-insights](#contributes-to-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) | host |
+| [quality-insights](#contributes-to-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) | host |
+| [mcp-support-tier-label](#contributes-to-mcp-catalogcardlabel) | [mcp-catalog.card/label](#mcp-catalogcardlabel) | host |
+| [MCP catalog sources](#contributes-to-mcp-catalogsettingsurl) | [mcp-catalog.settings/url](#mcp-catalogsettingsurl) | host |
+| [validated-models-banner](#contributes-to-model-catalogpagebanner) | [model-catalog.page/banner](#model-catalogpagebanner) | host |
+| [Model catalog settings](#contributes-to-model-catalogsettingsurl) | [model-catalog.settings/url](#model-catalogsettingsurl) | host |
+| [AdminCheck](#contributes-to-model-registryadmincheck) | [model-registry.admin/check](#model-registryadmincheck) | host |
+| [ProjectSelectorField](#contributes-to-model-registrynamespaceselector) | [model-registry.namespace/selector](#model-registrynamespaceselector) | host |
+| [ProjectsBridgeProvider](#contributes-to-model-registryprojectsbridge-provider) | [model-registry.projects/bridge-provider](#model-registryprojectsbridge-provider) | host |
+| [AutofillConnectionButton](#contributes-to-model-registryregisterautofill-connection) | [model-registry.register/autofill-connection](#model-registryregisterautofill-connection) | host |
+| [Model registry settings](#contributes-to-model-registrysettingsurl) | [model-registry.settings/url](#model-registrysettingsurl) | host |
+| [SegmentUserInteractionProvider](#contributes-to-model-registrytrackingprovider) | [model-registry.tracking/provider](#model-registrytrackingprovider) | host |
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [RuntimeCatalogDetailsRoutes](#consumes-apptab-routepage) | [app.tab-route/page](../../plugin-core/docs/extensions.md#apptab-routepage) |
+| [McpDeploymentsTable](#consumes-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) |
+| [RuntimeCatalogDetailsRoutes](#consumes-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) |
+| [McpServerDetailsPage](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [ModelDetailsPage](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [ModelVersionsDetailsContent](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [ModelVersionsHeaderActions](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [ModelVersionsTableRow](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [RegisteredModelTableRow](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [ExtendedRegisteredModelTableRow](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [RuntimeCatalogDetailsView](#consumes-coreaction) | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
+| [ModelDetailsView](#consumes-coredetail-card) | [core.detail-card](../../plugin-core/docs/extensions.md#coredetail-card) |
+| [ModelCatalogRoutes](#consumes-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) |
+| [ModelDetailsTabs](#consumes-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) |
+| [ModelRegistryRoutes](#consumes-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) |
+| [ModelVersionDetailsTabs](#consumes-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) |
+| [ModelVersionsTabs](#consumes-coredetailtab) | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) |
+| [ExtendedRegisteredModelTable](#consumes-coretable-column) | [core.table-column](../../plugin-core/docs/extensions.md#coretable-column) |
+| [ExtendedRegisteredModelTableRow](#consumes-coretable-column) | [core.table-column](../../plugin-core/docs/extensions.md#coretable-column) |
+| [renderExtensionColumns](#consumes-coretable-column) | [core.table-column](../../plugin-core/docs/extensions.md#coretable-column) |
+| [McpCatalogCard](#consumes-mcp-catalogcardlabel) | [mcp-catalog.card/label](#mcp-catalogcardlabel) |
+| [OdhMcpCatalogCoreLoader](#consumes-mcp-catalogsettingsurl) | [mcp-catalog.settings/url](#mcp-catalogsettingsurl) |
+| [getMcpCatalogSettingsUrl](#consumes-mcp-catalogsettingsurl) | [mcp-catalog.settings/url](#mcp-catalogsettingsurl) |
+| [ModelCatalog](#consumes-model-catalogpagebanner) | [model-catalog.page/banner](#model-catalogpagebanner) |
+| [OdhModelCatalogCoreLoader](#consumes-model-catalogsettingsurl) | [model-catalog.settings/url](#model-catalogsettingsurl) |
+| [getCatalogSettingsUrl](#consumes-model-catalogsettingsurl) | [model-catalog.settings/url](#model-catalogsettingsurl) |
+| [OdhMcpCatalogCoreLoader](#consumes-model-registryadmincheck) | [model-registry.admin/check](#model-registryadmincheck) |
+| [OdhModelCatalogCoreLoader](#consumes-model-registryadmincheck) | [model-registry.admin/check](#model-registryadmincheck) |
+| [OdhModelRegistryCoreLoader](#consumes-model-registryadmincheck) | [model-registry.admin/check](#model-registryadmincheck) |
+| [ModelVersionDeployAction](#consumes-model-registrymodel-versiondeploy-modal) | [model-registry.model-version/deploy-modal](#model-registrymodel-versiondeploy-modal) |
+| [createModal](#consumes-model-registrymodel-versiondeploy-modal) | [model-registry.model-version/deploy-modal](#model-registrymodel-versiondeploy-modal) |
+| [MRDeploymentsContextProvider](#consumes-model-registrymodel-versiondeployments-context) | [model-registry.model-version/deployments-context](#model-registrymodel-versiondeployments-context) |
+| [NamespaceSelectorFieldWrapper](#consumes-model-registrynamespaceselector) | [model-registry.namespace/selector](#model-registrynamespaceselector) |
+| [ProjectsBridgeProviderWrapper](#consumes-model-registryprojectsbridge-provider) | [model-registry.projects/bridge-provider](#model-registryprojectsbridge-provider) |
+| [RegistrationModelLocationFields](#consumes-model-registryregisterautofill-connection) | [model-registry.register/autofill-connection](#model-registryregisterautofill-connection) |
+| [OdhModelCatalogCoreLoader](#consumes-model-registrysettingsurl) | [model-registry.settings/url](#model-registrysettingsurl) |
+| [OdhModelRegistryCoreLoader](#consumes-model-registrysettingsurl) | [model-registry.settings/url](#model-registrysettingsurl) |
+| [UserInteractionProviderWrapper](#consumes-model-registrytrackingprovider) | [model-registry.tracking/provider](#model-registrytrackingprovider) |
+
 ## Loading paths
 
 - [extensions.ts](../extensions.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -30,6 +137,12 @@ Declared as [McpCatalogCardLabelExtension](../upstream/frontend/src/odh/extensio
 
 **Consumed in:** [model-registry](#consumes-mcp-catalogcardlabel)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [McpCatalogCard](../upstream/frontend/src/app/pages/mcpCatalog/components/McpCatalogCard.tsx#L43-L136) | model-registry | [useExtensions](../upstream/frontend/src/app/pages/mcpCatalog/components/McpCatalogCard.tsx#L46) | `properties.id` — read, direct ([McpCatalogCard.tsx:78](../upstream/frontend/src/app/pages/mcpCatalog/components/McpCatalogCard.tsx#L78))<br>`properties.component` — lazy-render, direct ([McpCatalogCard.tsx:80](../upstream/frontend/src/app/pages/mcpCatalog/components/McpCatalogCard.tsx#L80)) | McpCatalogCategorySection ([McpCatalogCategorySection.tsx:71](../upstream/frontend/src/app/pages/mcpCatalog/screens/McpCatalogCategorySection.tsx#L71))<br>McpCatalogGalleryView ([McpCatalogGalleryView.tsx:72](../upstream/frontend/src/app/pages/mcpCatalog/screens/McpCatalogGalleryView.tsx#L72)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -38,20 +151,12 @@ flowchart LR
   n_mcp_catalog_card_label_e5432e(["mcp-catalog.card/label"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_mcp_catalog_card_label_e5432e
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_components_McpCatalogCard_tsx_McpCatalogCard_9d5aed["McpCatalogCard"]
-  n_mcp_catalog_card_label_e5432e -- "useExtensions, lazy-render, read" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_components_McpCatalogCard_tsx_McpCatalogCard_9d5aed
+  n_mcp_catalog_card_label_e5432e --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_components_McpCatalogCard_tsx_McpCatalogCard_9d5aed
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpCatalogCategorySection_tsx_McpCatalogCategorySection_83e312("McpCatalogCategorySection")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpCatalogGalleryView_tsx_McpCatalogGalleryView_505e82("McpCatalogGalleryView")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_components_McpCatalogCard_tsx_McpCatalogCard_9d5aed -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpCatalogCategorySection_tsx_McpCatalogCategorySection_83e312
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_components_McpCatalogCard_tsx_McpCatalogCard_9d5aed -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpCatalogGalleryView_tsx_McpCatalogGalleryView_505e82
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-mcp-catalogcardlabel) |
-| mcp-catalog.card/label | this extension point | [mcp-catalog.card/label](#mcp-catalogcardlabel) |
-| McpCatalogCard | consumer in @odh-dashboard/model-registry — useExtensions, lazy-render, read | [McpCatalogCard](../upstream/frontend/src/app/pages/mcpCatalog/components/McpCatalogCard.tsx#L43-L136) |
-| McpCatalogCategorySection | renders McpCatalogCard (one hop up) | renders McpCatalogCard at [McpCatalogCategorySection.tsx:71](../upstream/frontend/src/app/pages/mcpCatalog/screens/McpCatalogCategorySection.tsx#L71) |
-| McpCatalogGalleryView | renders McpCatalogCard (one hop up) | renders McpCatalogCard at [McpCatalogGalleryView.tsx:72](../upstream/frontend/src/app/pages/mcpCatalog/screens/McpCatalogGalleryView.tsx#L72) |
 
 ### mcp-catalog.settings/url
 
@@ -72,6 +177,13 @@ Declared as [McpCatalogSettingsUrlExtension](../upstream/frontend/src/odh/extens
 
 **Consumed in:** [model-registry](#consumes-mcp-catalogsettingsurl)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [OdhMcpCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L17-L76) | model-registry | [useExtensions](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L20) | `properties.title` — read, direct ([OdhMcpCatalogCoreLoader.tsx:31](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L31)) | McpCatalogRoutes ([McpCatalogRoutes.tsx:11](../upstream/frontend/src/app/pages/mcpCatalog/McpCatalogRoutes.tsx#L11)) |
+| [getMcpCatalogSettingsUrl](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L22-L27) | model-registry | — | `properties.url` — read, direct ([OdhMcpCatalogCoreLoader.tsx:24](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L24)) | OdhMcpCatalogCoreLoader (called at [OdhMcpCatalogCoreLoader.tsx:43](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L43)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -80,21 +192,13 @@ flowchart LR
   n_mcp_catalog_settings_url_2e25fe(["mcp-catalog.settings/url"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_mcp_catalog_settings_url_2e25fe
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018["OdhMcpCatalogCoreLoader"]
-  n_mcp_catalog_settings_url_2e25fe -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018
+  n_mcp_catalog_settings_url_2e25fe --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_getMcpCatalogSettingsUrl_a739bd["getMcpCatalogSettingsUrl"]
-  n_mcp_catalog_settings_url_2e25fe -- "read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_getMcpCatalogSettingsUrl_a739bd
+  n_mcp_catalog_settings_url_2e25fe --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_getMcpCatalogSettingsUrl_a739bd
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_McpCatalogRoutes_tsx_McpCatalogRoutes_71c3a2("McpCatalogRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_McpCatalogRoutes_tsx_McpCatalogRoutes_71c3a2
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_getMcpCatalogSettingsUrl_a739bd -. "called in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-mcp-catalogsettingsurl) |
-| mcp-catalog.settings/url | this extension point | [mcp-catalog.settings/url](#mcp-catalogsettingsurl) |
-| OdhMcpCatalogCoreLoader | consumer in @odh-dashboard/model-registry — useExtensions, read; calls getMcpCatalogSettingsUrl (one hop up) | [OdhMcpCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L17-L76)<br>calls getMcpCatalogSettingsUrl at [OdhMcpCatalogCoreLoader.tsx:43](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L43) |
-| getMcpCatalogSettingsUrl | consumer in @odh-dashboard/model-registry — read | [getMcpCatalogSettingsUrl](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L22-L27) |
-| McpCatalogRoutes | renders OdhMcpCatalogCoreLoader (one hop up) | renders OdhMcpCatalogCoreLoader at [McpCatalogRoutes.tsx:11](../upstream/frontend/src/app/pages/mcpCatalog/McpCatalogRoutes.tsx#L11) |
 
 ### model-catalog.page/banner
 
@@ -111,25 +215,13 @@ Declared as [ModelCatalogBannerExtension](../upstream/frontend/src/odh/extension
 
 **Consumed in:** [model-registry](#consumes-model-catalogpagebanner)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_model_registry_1fc815["model-registry (package)"]:::pkg
-  n_model_catalog_page_banner_e21b48(["model-catalog.page/banner"]):::point
-  n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_catalog_page_banner_e21b48
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelCatalog_tsx_ModelCatalog_98ef71["ModelCatalog"]
-  n_model_catalog_page_banner_e21b48 -- "useExtensions, lazy-render, read" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelCatalog_tsx_ModelCatalog_98ef71
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db("ModelCatalogRoutes")
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelCatalog_tsx_ModelCatalog_98ef71 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-catalogpagebanner) |
-| model-catalog.page/banner | this extension point | [model-catalog.page/banner](#model-catalogpagebanner) |
-| ModelCatalog | consumer in @odh-dashboard/model-registry — useExtensions, lazy-render, read | [ModelCatalog](../upstream/frontend/src/app/pages/modelCatalog/screens/ModelCatalog.tsx#L17-L114) |
-| ModelCatalogRoutes | renders ModelCatalog (one hop up) | renders ModelCatalog at [ModelCatalogRoutes.tsx:20](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L20) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ModelCatalog](../upstream/frontend/src/app/pages/modelCatalog/screens/ModelCatalog.tsx#L17-L114) | model-registry | [useExtensions](../upstream/frontend/src/app/pages/modelCatalog/screens/ModelCatalog.tsx#L34) | `properties.id` — read, direct ([ModelCatalog.tsx:72](../upstream/frontend/src/app/pages/modelCatalog/screens/ModelCatalog.tsx#L72))<br>`properties.component` — lazy-render, direct ([ModelCatalog.tsx:73](../upstream/frontend/src/app/pages/modelCatalog/screens/ModelCatalog.tsx#L73)) | ModelCatalogRoutes ([ModelCatalogRoutes.tsx:20](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L20)) |
+
+**Flow:** model-registry → model-catalog.page/banner → model-registry · ModelCatalog → rendered in ModelCatalogRoutes
 
 ### model-catalog.settings/url
 
@@ -150,6 +242,13 @@ Declared as [CatalogSettingsUrlExtension](../upstream/frontend/src/odh/extension
 
 **Consumed in:** [model-registry](#consumes-model-catalogsettingsurl)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [OdhModelCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L23-L96) | model-registry | [useExtensions](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L26) | `properties.title` — read, direct ([OdhModelCatalogCoreLoader.tsx:37](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L37)) | ModelCatalogRoutes ([ModelCatalogRoutes.tsx:19](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L19)) |
+| [getCatalogSettingsUrl](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L29-L34) | model-registry | — | `properties.url` — read, direct ([OdhModelCatalogCoreLoader.tsx:31](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L31)) | OdhModelCatalogCoreLoader (called at [OdhModelCatalogCoreLoader.tsx:57](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L57)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -158,21 +257,13 @@ flowchart LR
   n_model_catalog_settings_url_c9f659(["model-catalog.settings/url"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_catalog_settings_url_c9f659
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324["OdhModelCatalogCoreLoader"]
-  n_model_catalog_settings_url_c9f659 -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324
+  n_model_catalog_settings_url_c9f659 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_getCatalogSettingsUrl_d73fd6["getCatalogSettingsUrl"]
-  n_model_catalog_settings_url_c9f659 -- "read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_getCatalogSettingsUrl_d73fd6
+  n_model_catalog_settings_url_c9f659 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_getCatalogSettingsUrl_d73fd6
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db("ModelCatalogRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_getCatalogSettingsUrl_d73fd6 -. "called in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-catalogsettingsurl) |
-| model-catalog.settings/url | this extension point | [model-catalog.settings/url](#model-catalogsettingsurl) |
-| OdhModelCatalogCoreLoader | consumer in @odh-dashboard/model-registry — useExtensions, read; calls getCatalogSettingsUrl (one hop up) | [OdhModelCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L23-L96)<br>calls getCatalogSettingsUrl at [OdhModelCatalogCoreLoader.tsx:57](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L57) |
-| getCatalogSettingsUrl | consumer in @odh-dashboard/model-registry — read | [getCatalogSettingsUrl](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L29-L34) |
-| ModelCatalogRoutes | renders OdhModelCatalogCoreLoader (one hop up) | renders OdhModelCatalogCoreLoader at [ModelCatalogRoutes.tsx:19](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L19) |
 
 ### model-registry.admin/check
 
@@ -192,6 +283,14 @@ Declared as [AdminCheckExtension](../upstream/frontend/src/odh/extension-points/
 
 **Consumed in:** [model-registry](#consumes-model-registryadmincheck)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [OdhMcpCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L17-L76) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L19) | `properties.component.default` — jsx-render, direct ([OdhMcpCatalogCoreLoader.tsx:53](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L53)) | McpCatalogRoutes ([McpCatalogRoutes.tsx:11](../upstream/frontend/src/app/pages/mcpCatalog/McpCatalogRoutes.tsx#L11)) |
+| [OdhModelCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L23-L96) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L25) | `properties.component.default` — jsx-render, direct ([OdhModelCatalogCoreLoader.tsx:67](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L67)) | ModelCatalogRoutes ([ModelCatalogRoutes.tsx:19](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L19)) |
+| [OdhModelRegistryCoreLoader](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L22-L123) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L26) | `properties.component.default` — jsx-render, direct ([OdhModelRegistryCoreLoader.tsx:89](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L89)) | ModelRegistryRoutes ([ModelRegistryRoutes.tsx:30](../upstream/frontend/src/app/pages/modelRegistry/ModelRegistryRoutes.tsx#L30-L32)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -200,11 +299,11 @@ flowchart LR
   n_model_registry_admin_check_d55a30(["model-registry.admin/check"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_registry_admin_check_d55a30
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018["OdhMcpCatalogCoreLoader"]
-  n_model_registry_admin_check_d55a30 -- "useResolvedExtensions, jsx-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018
+  n_model_registry_admin_check_d55a30 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhMcpCatalogCoreLoader_tsx_OdhMcpCatalogCoreLoader_2d2018
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324["OdhModelCatalogCoreLoader"]
-  n_model_registry_admin_check_d55a30 -- "useResolvedExtensions, jsx-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324
+  n_model_registry_admin_check_d55a30 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726["OdhModelRegistryCoreLoader"]
-  n_model_registry_admin_check_d55a30 -- "useResolvedExtensions, jsx-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726
+  n_model_registry_admin_check_d55a30 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_McpCatalogRoutes_tsx_McpCatalogRoutes_71c3a2("McpCatalogRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db("ModelCatalogRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_ModelRegistryRoutes_tsx_ModelRegistryRoutes_7a9291("ModelRegistryRoutes")
@@ -212,17 +311,6 @@ flowchart LR
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_ModelRegistryRoutes_tsx_ModelRegistryRoutes_7a9291
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-registryadmincheck) |
-| model-registry.admin/check | this extension point | [model-registry.admin/check](#model-registryadmincheck) |
-| OdhMcpCatalogCoreLoader | consumer in @odh-dashboard/model-registry — useResolvedExtensions, jsx-render | [OdhMcpCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhMcpCatalogCoreLoader.tsx#L17-L76) |
-| OdhModelCatalogCoreLoader | consumer in @odh-dashboard/model-registry — useResolvedExtensions, jsx-render | [OdhModelCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L23-L96) |
-| OdhModelRegistryCoreLoader | consumer in @odh-dashboard/model-registry — useResolvedExtensions, jsx-render | [OdhModelRegistryCoreLoader](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L22-L123) |
-| McpCatalogRoutes | renders OdhMcpCatalogCoreLoader (one hop up) | renders OdhMcpCatalogCoreLoader at [McpCatalogRoutes.tsx:11](../upstream/frontend/src/app/pages/mcpCatalog/McpCatalogRoutes.tsx#L11) |
-| ModelCatalogRoutes | renders OdhModelCatalogCoreLoader (one hop up) | renders OdhModelCatalogCoreLoader at [ModelCatalogRoutes.tsx:19](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L19) |
-| ModelRegistryRoutes | renders OdhModelRegistryCoreLoader (one hop up) | renders OdhModelRegistryCoreLoader at [ModelRegistryRoutes.tsx:30](../upstream/frontend/src/app/pages/modelRegistry/ModelRegistryRoutes.tsx#L30-L32) |
 
 ### model-registry.feature-flag-overrides/provider
 
@@ -255,6 +343,13 @@ Declared as [ModelRegistryDeployModalExtension](../upstream/frontend/src/odh/ext
 
 **Consumed in:** [model-registry](#consumes-model-registrymodel-versiondeploy-modal)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ModelVersionDeployAction](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L26-L117) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L31) | `properties.useAvailablePlatformIds` — hook-run, direct ([ModelVersionDeployAction.tsx:45](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L45)) | — |
+| [createModal](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L50-L62) | model-registry | — | `properties.modalComponent` — jsx-render, direct ([ModelVersionDeployAction.tsx:56](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L56)) | ModelVersionDeployAction (called at [ModelVersionDeployAction.tsx:64](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L64))<br>handleDropdownClick (called at [ModelVersionDeployAction.tsx:69](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L69)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -263,21 +358,13 @@ flowchart LR
   n_model_registry_model_version_deploy_modal_74d1d6(["model-registry.model-version/deploy-modal"]):::point
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_model_registry_model_version_deploy_modal_74d1d6
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_ModelVersionDeployAction_2ff9c8["ModelVersionDeployAction"]
-  n_model_registry_model_version_deploy_modal_74d1d6 -- "useResolvedExtensions, hook-run" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_ModelVersionDeployAction_2ff9c8
+  n_model_registry_model_version_deploy_modal_74d1d6 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_ModelVersionDeployAction_2ff9c8
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_createModal_035947["createModal"]
-  n_model_registry_model_version_deploy_modal_74d1d6 -- "jsx-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_createModal_035947
+  n_model_registry_model_version_deploy_modal_74d1d6 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_createModal_035947
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_handleDropdownClick_6c0253("handleDropdownClick")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_createModal_035947 -. "called in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_ModelVersionDeployAction_2ff9c8
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_createModal_035947 -. "called in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ModelVersionDeployAction_tsx_handleDropdownClick_6c0253
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-model-registrymodel-versiondeploy-modal) |
-| model-registry.model-version/deploy-modal | this extension point | [model-registry.model-version/deploy-modal](#model-registrymodel-versiondeploy-modal) |
-| ModelVersionDeployAction | consumer in @odh-dashboard/model-registry — useResolvedExtensions, hook-run; calls createModal (one hop up) | [ModelVersionDeployAction](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L26-L117)<br>calls createModal at [ModelVersionDeployAction.tsx:64](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L64) |
-| createModal | consumer in @odh-dashboard/model-registry — jsx-render | [createModal](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L50-L62) |
-| handleDropdownClick | calls createModal (one hop up) | calls createModal at [ModelVersionDeployAction.tsx:69](../upstream/frontend/src/odh/components/ModelVersionDeployAction.tsx#L69) |
 
 ### model-registry.model-version/deployments-context
 
@@ -293,6 +380,12 @@ Declared as [ModelRegistryVersionDeploymentsContextExtension](../upstream/fronte
 
 **Consumed in:** [model-registry](#consumes-model-registrymodel-versiondeployments-context)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [MRDeploymentsContextProvider](../upstream/frontend/src/odh/components/MRDeploymentsContextProvider.tsx#L16-L51) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/MRDeploymentsContextProvider.tsx#L21-L23) | `properties.DeploymentsProvider` — read, direct ([MRDeploymentsContextProvider.tsx:27](../upstream/frontend/src/odh/components/MRDeploymentsContextProvider.tsx#L27)) | ModelVersionsDetails ([ModelVersionDetails.tsx:176](../upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L176-L179))<br>ModelVersions ([ModelVersions.tsx:98](../upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersions.tsx#L98-L101))<br>RegisteredModelListView ([RegisteredModelListView.tsx:132](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModels/RegisteredModelListView.tsx#L132))<br>ExtendedRegisteredModelListView ([ExtendedRegisteredModelListView.tsx:109](../upstream/frontend/src/odh/components/ExtendedRegisteredModelListView.tsx#L109))<br>OdhModelVersionsTable ([OdhModelVersionsTable.tsx:82](../upstream/frontend/src/odh/components/OdhModelVersionsTable.tsx#L82-L85)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -301,7 +394,7 @@ flowchart LR
   n_model_registry_model_version_deployments_context_5e3005(["model-registry.model-version/deployments-context"]):::point
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_model_registry_model_version_deployments_context_5e3005
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_MRDeploymentsContextProvider_tsx_MRDeploymentsContextProvider_328872["MRDeploymentsContextProvider"]
-  n_model_registry_model_version_deployments_context_5e3005 -- "useResolvedExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_MRDeploymentsContextProvider_tsx_MRDeploymentsContextProvider_328872
+  n_model_registry_model_version_deployments_context_5e3005 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_MRDeploymentsContextProvider_tsx_MRDeploymentsContextProvider_328872
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetails_2b487a("ModelVersionsDetails")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersions_tsx_ModelVersions_80e998("ModelVersions")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModels_RegisteredModelListView_tsx_RegisteredModelListView_605424("RegisteredModelListView")
@@ -313,17 +406,6 @@ flowchart LR
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_MRDeploymentsContextProvider_tsx_MRDeploymentsContextProvider_328872 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelListView_tsx_ExtendedRegisteredModelListView_072a6c
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_MRDeploymentsContextProvider_tsx_MRDeploymentsContextProvider_328872 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelVersionsTable_tsx_OdhModelVersionsTable_9235a0
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-model-registrymodel-versiondeployments-context) |
-| model-registry.model-version/deployments-context | this extension point | [model-registry.model-version/deployments-context](#model-registrymodel-versiondeployments-context) |
-| MRDeploymentsContextProvider | consumer in @odh-dashboard/model-registry — useResolvedExtensions, read | [MRDeploymentsContextProvider](../upstream/frontend/src/odh/components/MRDeploymentsContextProvider.tsx#L16-L51) |
-| ModelVersionsDetails | renders MRDeploymentsContextProvider (one hop up) | renders MRDeploymentsContextProvider at [ModelVersionDetails.tsx:176](../upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L176-L179) |
-| ModelVersions | renders MRDeploymentsContextProvider (one hop up) | renders MRDeploymentsContextProvider at [ModelVersions.tsx:98](../upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersions.tsx#L98-L101) |
-| RegisteredModelListView | renders MRDeploymentsContextProvider (one hop up) | renders MRDeploymentsContextProvider at [RegisteredModelListView.tsx:132](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModels/RegisteredModelListView.tsx#L132) |
-| ExtendedRegisteredModelListView | renders MRDeploymentsContextProvider (one hop up) | renders MRDeploymentsContextProvider at [ExtendedRegisteredModelListView.tsx:109](../upstream/frontend/src/odh/components/ExtendedRegisteredModelListView.tsx#L109) |
-| OdhModelVersionsTable | renders MRDeploymentsContextProvider (one hop up) | renders MRDeploymentsContextProvider at [OdhModelVersionsTable.tsx:82](../upstream/frontend/src/odh/components/OdhModelVersionsTable.tsx#L82-L85) |
 
 ### model-registry.namespace/selector
 
@@ -344,6 +426,12 @@ Declared as [NamespaceSelectorExtension](../upstream/frontend/src/odh/extension-
 
 **Consumed in:** [model-registry](#consumes-model-registrynamespaceselector)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [NamespaceSelectorFieldWrapper](../upstream/frontend/src/odh/components/NamespaceSelectorFieldWrapper.tsx#L9-L18) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/NamespaceSelectorFieldWrapper.tsx#L10) | `properties.component.default` — jsx-render, direct ([NamespaceSelectorFieldWrapper.tsx:13](../upstream/frontend/src/odh/components/NamespaceSelectorFieldWrapper.tsx#L13)) | RegisterAndStoreFields ([RegisterAndStoreFields.tsx:90](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegisterAndStoreFields.tsx#L90-L98))<br>McpDeployModal ([McpDeployModal.tsx:288](../upstream/frontend/src/odh/components/McpDeployModal.tsx#L288-L294))<br>McpDeploymentsPage ([McpDeploymentsPage.tsx:88](../upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsPage.tsx#L88-L92)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -352,7 +440,7 @@ flowchart LR
   n_model_registry_namespace_selector_0244e5(["model-registry.namespace/selector"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_registry_namespace_selector_0244e5
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_NamespaceSelectorFieldWrapper_tsx_NamespaceSelectorFieldWrapper_2fd56c["NamespaceSelectorFieldWrapper"]
-  n_model_registry_namespace_selector_0244e5 -- "useResolvedExtensions, jsx-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_NamespaceSelectorFieldWrapper_tsx_NamespaceSelectorFieldWrapper_2fd56c
+  n_model_registry_namespace_selector_0244e5 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_NamespaceSelectorFieldWrapper_tsx_NamespaceSelectorFieldWrapper_2fd56c
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegisterAndStoreFields_tsx_RegisterAndStoreFields_c0182a("RegisterAndStoreFields")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_McpDeployModal_tsx_McpDeployModal_da9660("McpDeployModal")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsPage_tsx_McpDeploymentsPage_f02293("McpDeploymentsPage")
@@ -360,15 +448,6 @@ flowchart LR
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_NamespaceSelectorFieldWrapper_tsx_NamespaceSelectorFieldWrapper_2fd56c -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_McpDeployModal_tsx_McpDeployModal_da9660
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_NamespaceSelectorFieldWrapper_tsx_NamespaceSelectorFieldWrapper_2fd56c -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsPage_tsx_McpDeploymentsPage_f02293
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-registrynamespaceselector) |
-| model-registry.namespace/selector | this extension point | [model-registry.namespace/selector](#model-registrynamespaceselector) |
-| NamespaceSelectorFieldWrapper | consumer in @odh-dashboard/model-registry — useResolvedExtensions, jsx-render | [NamespaceSelectorFieldWrapper](../upstream/frontend/src/odh/components/NamespaceSelectorFieldWrapper.tsx#L9-L18) |
-| RegisterAndStoreFields | renders NamespaceSelectorFieldWrapper (one hop up) | renders NamespaceSelectorFieldWrapper at [RegisterAndStoreFields.tsx:90](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegisterAndStoreFields.tsx#L90-L98) |
-| McpDeployModal | renders NamespaceSelectorFieldWrapper (one hop up) | renders NamespaceSelectorFieldWrapper at [McpDeployModal.tsx:288](../upstream/frontend/src/odh/components/McpDeployModal.tsx#L288-L294) |
-| McpDeploymentsPage | renders NamespaceSelectorFieldWrapper (one hop up) | renders NamespaceSelectorFieldWrapper at [McpDeploymentsPage.tsx:88](../upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsPage.tsx#L88-L92) |
 
 ### model-registry.projects/bridge-provider
 
@@ -390,25 +469,13 @@ Declared as [ProjectsBridgeProviderExtension](../upstream/frontend/src/odh/exten
 
 **Consumed in:** [model-registry](#consumes-model-registryprojectsbridge-provider)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_model_registry_1fc815["model-registry (package)"]:::pkg
-  n_model_registry_projects_bridge_provider_6948d8(["model-registry.projects/bridge-provider"]):::point
-  n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_registry_projects_bridge_provider_6948d8
-  n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ProjectsBridgeProviderWrapper_tsx_ProjectsBridgeProviderWrapper_7d32b8["ProjectsBridgeProviderWrapper"]
-  n_model_registry_projects_bridge_provider_6948d8 -- "useResolvedExtensions, jsx-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ProjectsBridgeProviderWrapper_tsx_ProjectsBridgeProviderWrapper_7d32b8
-  n_symbol_packages_model_registry_upstream_frontend_src_odh_McpDeploymentsWrapper_tsx_McpDeploymentsWrapperContent_c8ba0e("McpDeploymentsWrapperContent")
-  n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ProjectsBridgeProviderWrapper_tsx_ProjectsBridgeProviderWrapper_7d32b8 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_McpDeploymentsWrapper_tsx_McpDeploymentsWrapperContent_c8ba0e
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-registryprojectsbridge-provider) |
-| model-registry.projects/bridge-provider | this extension point | [model-registry.projects/bridge-provider](#model-registryprojectsbridge-provider) |
-| ProjectsBridgeProviderWrapper | consumer in @odh-dashboard/model-registry — useResolvedExtensions, jsx-render | [ProjectsBridgeProviderWrapper](../upstream/frontend/src/odh/components/ProjectsBridgeProviderWrapper.tsx#L10-L27) |
-| McpDeploymentsWrapperContent | renders ProjectsBridgeProviderWrapper (one hop up) | renders ProjectsBridgeProviderWrapper at [McpDeploymentsWrapper.tsx:40](../upstream/frontend/src/odh/McpDeploymentsWrapper.tsx#L40) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ProjectsBridgeProviderWrapper](../upstream/frontend/src/odh/components/ProjectsBridgeProviderWrapper.tsx#L10-L27) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/ProjectsBridgeProviderWrapper.tsx#L13) | `properties.component.default` — jsx-render, direct ([ProjectsBridgeProviderWrapper.tsx:16](../upstream/frontend/src/odh/components/ProjectsBridgeProviderWrapper.tsx#L16)) | McpDeploymentsWrapperContent ([McpDeploymentsWrapper.tsx:40](../upstream/frontend/src/odh/McpDeploymentsWrapper.tsx#L40)) |
+
+**Flow:** model-registry → model-registry.projects/bridge-provider → model-registry · ProjectsBridgeProviderWrapper → rendered in McpDeploymentsWrapperContent
 
 ### model-registry.register/autofill-connection
 
@@ -424,6 +491,12 @@ Declared as [AutofillConnectionButtonExtension](../upstream/frontend/src/odh/ext
 
 **Consumed in:** [model-registry](#consumes-model-registryregisterautofill-connection)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [RegistrationModelLocationFields](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegistrationModelLocationFields.tsx#L27-L249) | model-registry | [useExtensions](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegistrationModelLocationFields.tsx#L122) | `properties.component` — lazy-render, direct ([RegistrationModelLocationFields.tsx:126](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegistrationModelLocationFields.tsx#L126)) | RegisterAndStoreFields ([RegisterAndStoreFields.tsx:106](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegisterAndStoreFields.tsx#L106-L111))<br>RegistrationCommonFormSections ([RegistrationCommonFormSections.tsx:214](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegistrationCommonFormSections.tsx#L214-L218)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -432,20 +505,12 @@ flowchart LR
   n_model_registry_register_autofill_connection_d7b1cf(["model-registry.register/autofill-connection"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_registry_register_autofill_connection_d7b1cf
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegistrationModelLocationFields_tsx_RegistrationModelLocationFields_1fd466["RegistrationModelLocationFields"]
-  n_model_registry_register_autofill_connection_d7b1cf -- "useExtensions, lazy-render" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegistrationModelLocationFields_tsx_RegistrationModelLocationFields_1fd466
+  n_model_registry_register_autofill_connection_d7b1cf --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegistrationModelLocationFields_tsx_RegistrationModelLocationFields_1fd466
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegisterAndStoreFields_tsx_RegisterAndStoreFields_c0182a("RegisterAndStoreFields")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegistrationCommonFormSections_tsx_RegistrationCommonFormSections_d8067a("RegistrationCommonFormSections")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegistrationModelLocationFields_tsx_RegistrationModelLocationFields_1fd466 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegisterAndStoreFields_tsx_RegisterAndStoreFields_c0182a
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegistrationModelLocationFields_tsx_RegistrationModelLocationFields_1fd466 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisterModel_RegistrationCommonFormSections_tsx_RegistrationCommonFormSections_d8067a
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-registryregisterautofill-connection) |
-| model-registry.register/autofill-connection | this extension point | [model-registry.register/autofill-connection](#model-registryregisterautofill-connection) |
-| RegistrationModelLocationFields | consumer in @odh-dashboard/model-registry — useExtensions, lazy-render | [RegistrationModelLocationFields](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegistrationModelLocationFields.tsx#L27-L249) |
-| RegisterAndStoreFields | renders RegistrationModelLocationFields (one hop up) | renders RegistrationModelLocationFields at [RegisterAndStoreFields.tsx:106](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegisterAndStoreFields.tsx#L106-L111) |
-| RegistrationCommonFormSections | renders RegistrationModelLocationFields (one hop up) | renders RegistrationModelLocationFields at [RegistrationCommonFormSections.tsx:214](../upstream/frontend/src/app/pages/modelRegistry/screens/RegisterModel/RegistrationCommonFormSections.tsx#L214-L218) |
 
 ### model-registry.settings/url
 
@@ -466,6 +531,13 @@ Declared as [RegistrySettingsUrlExtension](../upstream/frontend/src/odh/extensio
 
 **Consumed in:** [model-registry](#consumes-model-registrysettingsurl)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [OdhModelCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L23-L96) | model-registry | [useExtensions](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L27) | `properties.url` — read, direct ([OdhModelCatalogCoreLoader.tsx:41](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L41))<br>`properties.title` — read, direct ([OdhModelCatalogCoreLoader.tsx:45](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L45)) | ModelCatalogRoutes ([ModelCatalogRoutes.tsx:19](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L19)) |
+| [OdhModelRegistryCoreLoader](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L22-L123) | model-registry | [useExtensions](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L27) | `properties.url` — read, direct ([OdhModelRegistryCoreLoader.tsx:30](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L30))<br>`properties.title` — read, direct ([OdhModelRegistryCoreLoader.tsx:34](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L34)) | ModelRegistryRoutes ([ModelRegistryRoutes.tsx:30](../upstream/frontend/src/app/pages/modelRegistry/ModelRegistryRoutes.tsx#L30-L32)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -474,23 +546,14 @@ flowchart LR
   n_model_registry_settings_url_26ee47(["model-registry.settings/url"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_registry_settings_url_26ee47
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324["OdhModelCatalogCoreLoader"]
-  n_model_registry_settings_url_26ee47 -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324
+  n_model_registry_settings_url_26ee47 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726["OdhModelRegistryCoreLoader"]
-  n_model_registry_settings_url_26ee47 -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726
+  n_model_registry_settings_url_26ee47 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db("ModelCatalogRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_ModelRegistryRoutes_tsx_ModelRegistryRoutes_7a9291("ModelRegistryRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelCatalogCoreLoader_tsx_OdhModelCatalogCoreLoader_caa324 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelRegistryCoreLoader_tsx_OdhModelRegistryCoreLoader_048726 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_ModelRegistryRoutes_tsx_ModelRegistryRoutes_7a9291
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-registrysettingsurl) |
-| model-registry.settings/url | this extension point | [model-registry.settings/url](#model-registrysettingsurl) |
-| OdhModelCatalogCoreLoader | consumer in @odh-dashboard/model-registry — useExtensions, read | [OdhModelCatalogCoreLoader](../upstream/frontend/src/odh/components/OdhModelCatalogCoreLoader.tsx#L23-L96) |
-| OdhModelRegistryCoreLoader | consumer in @odh-dashboard/model-registry — useExtensions, read | [OdhModelRegistryCoreLoader](../upstream/frontend/src/odh/components/OdhModelRegistryCoreLoader.tsx#L22-L123) |
-| ModelCatalogRoutes | renders OdhModelCatalogCoreLoader (one hop up) | renders OdhModelCatalogCoreLoader at [ModelCatalogRoutes.tsx:19](../upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L19) |
-| ModelRegistryRoutes | renders OdhModelRegistryCoreLoader (one hop up) | renders OdhModelRegistryCoreLoader at [ModelRegistryRoutes.tsx:30](../upstream/frontend/src/app/pages/modelRegistry/ModelRegistryRoutes.tsx#L30-L32) |
 
 ### model-registry.tracking/provider
 
@@ -506,6 +569,12 @@ Declared as [UserInteractionProviderExtension](../upstream/frontend/src/odh/exte
 
 **Consumed in:** [model-registry](#consumes-model-registrytrackingprovider)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [UserInteractionProviderWrapper](../upstream/frontend/src/odh/components/UserInteractionProviderWrapper.tsx#L10-L27) | model-registry | [useResolvedExtensions](../upstream/frontend/src/odh/components/UserInteractionProviderWrapper.tsx#L13) | `properties.component.default` — jsx-render, direct ([UserInteractionProviderWrapper.tsx:16](../upstream/frontend/src/odh/components/UserInteractionProviderWrapper.tsx#L16)) | AgentsCatalogWrapperContent ([AgentsCatalogWrapper.tsx:35](../upstream/frontend/src/odh/AgentsCatalogWrapper.tsx#L35))<br>McpCatalogSettingsRoutesWrapperContent ([McpCatalogSettingsRoutesWrapper.tsx:31](../upstream/frontend/src/odh/McpCatalogSettingsRoutesWrapper.tsx#L31))<br>McpCatalogWrapperContent ([McpCatalogWrapper.tsx:35](../upstream/frontend/src/odh/McpCatalogWrapper.tsx#L35))<br>McpDeploymentsWrapperContent ([McpDeploymentsWrapper.tsx:39](../upstream/frontend/src/odh/McpDeploymentsWrapper.tsx#L39))<br>ModelCatalogSettingsRoutesWrapperContent ([ModelCatalogSettingsRoutesWrapper.tsx:31](../upstream/frontend/src/odh/ModelCatalogSettingsRoutesWrapper.tsx#L31))<br>ModelCatalogWrapperContent ([ModelCatalogWrapper.tsx:37](../upstream/frontend/src/odh/ModelCatalogWrapper.tsx#L37))<br>ModelRegistryWrapper ([ModelRegistrySettingsRoutesWrapper.tsx:14](../upstream/frontend/src/odh/ModelRegistrySettingsRoutesWrapper.tsx#L14))<br>ModelRegistryWrapperContent ([ModelRegistryWrapper.tsx:38](../upstream/frontend/src/odh/ModelRegistryWrapper.tsx#L38))<br>RuntimeCatalogWrapperContent ([RuntimeCatalogWrapper.tsx:37](../upstream/frontend/src/odh/RuntimeCatalogWrapper.tsx#L37)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -514,7 +583,7 @@ flowchart LR
   n_model_registry_tracking_provider_6dfde7(["model-registry.tracking/provider"]):::point
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_model_registry_tracking_provider_6dfde7
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_UserInteractionProviderWrapper_tsx_UserInteractionProviderWrapper_4fdd6a["UserInteractionProviderWrapper"]
-  n_model_registry_tracking_provider_6dfde7 -- "useResolvedExtensions, jsx-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_UserInteractionProviderWrapper_tsx_UserInteractionProviderWrapper_4fdd6a
+  n_model_registry_tracking_provider_6dfde7 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_UserInteractionProviderWrapper_tsx_UserInteractionProviderWrapper_4fdd6a
   n_symbol_packages_model_registry_upstream_frontend_src_odh_AgentsCatalogWrapper_tsx_AgentsCatalogWrapperContent_ca266e("AgentsCatalogWrapperContent")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_McpCatalogSettingsRoutesWrapper_tsx_McpCatalogSettingsRoutesWrapperContent_7b5032("McpCatalogSettingsRoutesWrapperContent")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_McpCatalogWrapper_tsx_McpCatalogWrapperContent_7f647e("McpCatalogWrapperContent")
@@ -535,76 +604,11 @@ flowchart LR
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_UserInteractionProviderWrapper_tsx_UserInteractionProviderWrapper_4fdd6a -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_RuntimeCatalogWrapper_tsx_RuntimeCatalogWrapperContent_a9894e
 ```
 
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | contributes extensions of this point | [model-registry](#contributes-to-model-registrytrackingprovider) |
-| model-registry.tracking/provider | this extension point | [model-registry.tracking/provider](#model-registrytrackingprovider) |
-| UserInteractionProviderWrapper | consumer in @odh-dashboard/model-registry — useResolvedExtensions, jsx-render | [UserInteractionProviderWrapper](../upstream/frontend/src/odh/components/UserInteractionProviderWrapper.tsx#L10-L27) |
-| AgentsCatalogWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [AgentsCatalogWrapper.tsx:35](../upstream/frontend/src/odh/AgentsCatalogWrapper.tsx#L35) |
-| McpCatalogSettingsRoutesWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [McpCatalogSettingsRoutesWrapper.tsx:31](../upstream/frontend/src/odh/McpCatalogSettingsRoutesWrapper.tsx#L31) |
-| McpCatalogWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [McpCatalogWrapper.tsx:35](../upstream/frontend/src/odh/McpCatalogWrapper.tsx#L35) |
-| McpDeploymentsWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [McpDeploymentsWrapper.tsx:39](../upstream/frontend/src/odh/McpDeploymentsWrapper.tsx#L39) |
-| ModelCatalogSettingsRoutesWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [ModelCatalogSettingsRoutesWrapper.tsx:31](../upstream/frontend/src/odh/ModelCatalogSettingsRoutesWrapper.tsx#L31) |
-| ModelCatalogWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [ModelCatalogWrapper.tsx:37](../upstream/frontend/src/odh/ModelCatalogWrapper.tsx#L37) |
-| ModelRegistryWrapper | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [ModelRegistrySettingsRoutesWrapper.tsx:14](../upstream/frontend/src/odh/ModelRegistrySettingsRoutesWrapper.tsx#L14) |
-| ModelRegistryWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [ModelRegistryWrapper.tsx:38](../upstream/frontend/src/odh/ModelRegistryWrapper.tsx#L38) |
-| RuntimeCatalogWrapperContent | renders UserInteractionProviderWrapper (one hop up) | renders UserInteractionProviderWrapper at [RuntimeCatalogWrapper.tsx:37](../upstream/frontend/src/odh/RuntimeCatalogWrapper.tsx#L37) |
-
 ## Contributes
 
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef collapsed stroke-dasharray: 5 5
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_model_registry_92e561["model-registry (package)"]:::pkg
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_1168_c7bde4["model-registry-plugin"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_1168_c7bde4
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_3979_d5cd60["modelRegistry-kf"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_3979_d5cd60
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_4278_145fd1["settings-model-registry"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_4278_145fd1
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_6683_0445d1["settings-model-catalog"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_6683_0445d1
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_7347_8b9dcb["settings-mcp-catalog"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_7347_8b9dcb
-  n_app_route_collapsed_a2cd4d("×9"):::collapsed
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_app_route_collapsed_a2cd4d
-  n_app_tab_route_tab_collapsed_d3e01b("×6"):::collapsed
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_app_tab_route_tab_collapsed_d3e01b
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_tab_route_tab_10b1cd(["tab-route/tab"]):::point
-  end
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_1168_c7bde4 --> n_app_area_bcfe23
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_3979_d5cd60 --> n_app_navigation_href_67179c
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_4278_145fd1 --> n_app_navigation_href_67179c
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_6683_0445d1 --> n_app_navigation_href_67179c
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_7347_8b9dcb --> n_app_navigation_href_67179c
-  n_app_route_collapsed_a2cd4d --> n_app_route_2735df
-  n_app_tab_route_tab_collapsed_d3e01b --> n_app_tab_route_tab_10b1cd
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | this package | [packages/model-registry](..) |
-| model-registry-plugin | extension of app.area — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L37-L47) |
-| modelRegistry-kf | extension of app.navigation/href — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L141-L153) |
-| settings-model-registry | extension of app.navigation/href — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L154-L168) |
-| settings-model-catalog | extension of app.navigation/href — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L249-L262) |
-| settings-mcp-catalog | extension of app.navigation/href — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L274-L287) |
-| ×9 | 9 extensions of app.route | [see the table below](#contributes-to-approute) |
-| ×6 | 6 extensions of app.tab-route/tab | [see the table below](#contributes-to-apptab-routetab) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
-| tab-route/tab | extension point | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) |
 
 #### Contributes to app.area
 
@@ -787,43 +791,6 @@ Defined in [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-route
 
 ### Namespace `core`
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_model_registry_92e561["model-registry (package)"]:::pkg
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8320_cc594f["deploy-model-version"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8320_cc594f
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8622_a2bcda["deploy-mcp-server"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8622_a2bcda
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8923_79ebd4["deploy-mcp-registry-server"]
-  n__odh_dashboard_model_registry_92e561 -. "federated" .-> n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8923_79ebd4
-  n_packages_model_registry_extensions_ts_4729_8525c2["security-insights"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_4729_8525c2
-  n_packages_model_registry_extensions_ts_5159_3dcd0e["quality-insights"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_5159_3dcd0e
-  subgraph n_ns_core_be1303 ["core"]
-    n_core_action_c380ca(["action"]):::point
-    n_core_detail_tab_1d8ba9(["detail/tab"]):::point
-  end
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8320_cc594f --> n_core_action_c380ca
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8622_a2bcda --> n_core_action_c380ca
-  n_packages_model_registry_upstream_frontend_src_odh_extensions_ts_8923_79ebd4 --> n_core_action_c380ca
-  n_packages_model_registry_extensions_ts_4729_8525c2 --> n_core_detail_tab_1d8ba9
-  n_packages_model_registry_extensions_ts_5159_3dcd0e --> n_core_detail_tab_1d8ba9
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | this package | [packages/model-registry](..) |
-| deploy-model-version | extension of core.action — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L312-L323) |
-| deploy-mcp-server | extension of core.action — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L324-L335) |
-| deploy-mcp-registry-server | extension of core.action — federated | [extensions.ts](../upstream/frontend/src/odh/extensions.ts#L336-L347) |
-| security-insights | extension of core.detail/tab — bundled | [extensions.ts](../extensions.ts#L116-L127) |
-| quality-insights | extension of core.detail/tab — bundled | [extensions.ts](../extensions.ts#L128-L139) |
-| action | extension point | [core.action](../../plugin-core/docs/extensions.md#coreaction) |
-| detail/tab | extension point | [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab) |
-
 #### Contributes to core.action
 
 Defined in [core.action](../../plugin-core/docs/extensions.md#coreaction).
@@ -862,31 +829,6 @@ Defined in [core.detail/tab](../../plugin-core/docs/extensions.md#coredetailtab)
 
 ### Namespace `mcp-catalog`
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_model_registry_92e561["model-registry (package)"]:::pkg
-  n_packages_model_registry_extensions_ts_5573_0a748a["mcp-support-tier-label"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_5573_0a748a
-  n_packages_model_registry_extensions_ts_6232_938203["MCP catalog sources"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_6232_938203
-  subgraph n_ns_mcp_catalog_3350a2 ["mcp-catalog"]
-    n_mcp_catalog_card_label_e5432e(["card/label"]):::point
-    n_mcp_catalog_settings_url_2e25fe(["settings/url"]):::point
-  end
-  n_packages_model_registry_extensions_ts_5573_0a748a --> n_mcp_catalog_card_label_e5432e
-  n_packages_model_registry_extensions_ts_6232_938203 --> n_mcp_catalog_settings_url_2e25fe
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | this package | [packages/model-registry](..) |
-| mcp-support-tier-label | extension of mcp-catalog.card/label — bundled | [extensions.ts](../extensions.ts#L140-L146) |
-| MCP catalog sources | extension of mcp-catalog.settings/url — bundled | [extensions.ts](../extensions.ts#L167-L173) |
-| card/label | extension point | [mcp-catalog.card/label](#mcp-catalogcardlabel) |
-| settings/url | extension point | [mcp-catalog.settings/url](#mcp-catalogsettingsurl) |
-
 #### Contributes to mcp-catalog.card/label
 
 Defined in [mcp-catalog.card/label](#mcp-catalogcardlabel).
@@ -905,31 +847,6 @@ Defined in [mcp-catalog.settings/url](#mcp-catalogsettingsurl).
 
 ### Namespace `model-catalog`
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_model_registry_92e561["model-registry (package)"]:::pkg
-  n_packages_model_registry_extensions_ts_4521_fab814["validated-models-banner"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_4521_fab814
-  n_packages_model_registry_extensions_ts_5931_b53a14["Model catalog settings"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_5931_b53a14
-  subgraph n_ns_model_catalog_d586db ["model-catalog"]
-    n_model_catalog_page_banner_e21b48(["page/banner"]):::point
-    n_model_catalog_settings_url_c9f659(["settings/url"]):::point
-  end
-  n_packages_model_registry_extensions_ts_4521_fab814 --> n_model_catalog_page_banner_e21b48
-  n_packages_model_registry_extensions_ts_5931_b53a14 --> n_model_catalog_settings_url_c9f659
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | this package | [packages/model-registry](..) |
-| validated-models-banner | extension of model-catalog.page/banner — bundled | [extensions.ts](../extensions.ts#L109-L115) |
-| Model catalog settings | extension of model-catalog.settings/url — bundled | [extensions.ts](../extensions.ts#L153-L159) |
-| page/banner | extension point | [model-catalog.page/banner](#model-catalogpagebanner) |
-| settings/url | extension point | [model-catalog.settings/url](#model-catalogsettingsurl) |
-
 #### Contributes to model-catalog.page/banner
 
 Defined in [model-catalog.page/banner](#model-catalogpagebanner).
@@ -947,55 +864,6 @@ Defined in [model-catalog.settings/url](#model-catalogsettingsurl).
 | `CATALOG_SETTINGS_URL` (`'/settings/model-resources-operations/model-catalog'`) | `CATALOG_SETTINGS_PAGE_TITLE` (`'Model catalog settings'`) | host | [extensions.ts](../extensions.ts#L153-L159) |
 
 ### Namespace `model-registry`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_model_registry_92e561["model-registry (package)"]:::pkg
-  n_packages_model_registry_extensions_ts_5773_1bb008["AdminCheck"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_5773_1bb008
-  n_packages_model_registry_extensions_ts_6386_4161f3["ProjectSelectorField"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_6386_4161f3
-  n_packages_model_registry_extensions_ts_6544_7f95d3["ProjectsBridgeProvider"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_6544_7f95d3
-  n_packages_model_registry_extensions_ts_4354_45b97a["AutofillConnectionButton"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_4354_45b97a
-  n_packages_model_registry_extensions_ts_6080_657894["Model registry settings"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_6080_657894
-  n_packages_model_registry_extensions_ts_6710_df6b48["SegmentUserInteractionProvider"]
-  n__odh_dashboard_model_registry_92e561 --> n_packages_model_registry_extensions_ts_6710_df6b48
-  subgraph n_ns_model_registry_703d53 ["model-registry"]
-    n_model_registry_admin_check_d55a30(["admin/check"]):::point
-    n_model_registry_namespace_selector_0244e5(["namespace/selector"]):::point
-    n_model_registry_projects_bridge_provider_6948d8(["projects/bridge-provider"]):::point
-    n_model_registry_register_autofill_connection_d7b1cf(["register/autofill-connection"]):::point
-    n_model_registry_settings_url_26ee47(["settings/url"]):::point
-    n_model_registry_tracking_provider_6dfde7(["tracking/provider"]):::point
-  end
-  n_packages_model_registry_extensions_ts_5773_1bb008 --> n_model_registry_admin_check_d55a30
-  n_packages_model_registry_extensions_ts_6386_4161f3 --> n_model_registry_namespace_selector_0244e5
-  n_packages_model_registry_extensions_ts_6544_7f95d3 --> n_model_registry_projects_bridge_provider_6948d8
-  n_packages_model_registry_extensions_ts_4354_45b97a --> n_model_registry_register_autofill_connection_d7b1cf
-  n_packages_model_registry_extensions_ts_6080_657894 --> n_model_registry_settings_url_26ee47
-  n_packages_model_registry_extensions_ts_6710_df6b48 --> n_model_registry_tracking_provider_6dfde7
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-registry (package) | this package | [packages/model-registry](..) |
-| AdminCheck | extension of model-registry.admin/check — bundled | [extensions.ts](../extensions.ts#L147-L152) |
-| ProjectSelectorField | extension of model-registry.namespace/selector — bundled | [extensions.ts](../extensions.ts#L174-L179) |
-| ProjectsBridgeProvider | extension of model-registry.projects/bridge-provider — bundled | [extensions.ts](../extensions.ts#L180-L185) |
-| AutofillConnectionButton | extension of model-registry.register/autofill-connection — bundled | [extensions.ts](../extensions.ts#L103-L108) |
-| Model registry settings | extension of model-registry.settings/url — bundled | [extensions.ts](../extensions.ts#L160-L166) |
-| SegmentUserInteractionProvider | extension of model-registry.tracking/provider — bundled | [extensions.ts](../extensions.ts#L186-L191) |
-| admin/check | extension point | [model-registry.admin/check](#model-registryadmincheck) |
-| namespace/selector | extension point | [model-registry.namespace/selector](#model-registrynamespaceselector) |
-| projects/bridge-provider | extension point | [model-registry.projects/bridge-provider](#model-registryprojectsbridge-provider) |
-| register/autofill-connection | extension point | [model-registry.register/autofill-connection](#model-registryregisterautofill-connection) |
-| settings/url | extension point | [model-registry.settings/url](#model-registrysettingsurl) |
-| tracking/provider | extension point | [model-registry.tracking/provider](#model-registrytrackingprovider) |
 
 #### Contributes to model-registry.admin/check
 
@@ -1215,7 +1083,7 @@ Defined in [model-registry.tracking/provider](#model-registrytrackingprovider).
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
@@ -1240,18 +1108,15 @@ What the analysis could not prove, or thought worth reporting, about this packag
 
 ## Legend
 
+Every diagram on this page is one extension point's flow: the packages that contribute
+extensions of it, the point, the code that queries or uses it, and where that code is itself
+rendered or called. The Consumers table above each diagram carries a link for every node.
+
 | Edge | What it means in these diagrams |
 | --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
+| `A --> B` | Proven use: package A contributes extensions of point B, or consumer B queries or uses point A. |
 | `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
 | `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
 
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
 Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
 instead.

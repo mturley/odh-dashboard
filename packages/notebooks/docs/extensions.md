@@ -6,6 +6,21 @@
 
 Package `@odh-dashboard/notebooks` (package) at `packages/notebooks`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [plugin-notebooks](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host |
+| [notebooks-kf-workspacekinds](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [workbenches-v2](#contributes-to-appproject-detailstab) | [app.project-details/tab](../../plugin-core/docs/extensions.md#appproject-detailstab) | host |
+| [NotebooksWrapper](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+
 ## Loading paths
 
 - [extensions.ts](../upstream/workspaces/frontend/src/odh/extensions.ts) (`mf:./extensions`) — loaded at runtime by the host as a Module Federation remote
@@ -15,43 +30,6 @@ Package `@odh-dashboard/notebooks` (package) at `packages/notebooks`. Everything
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_notebooks_1cd74c["notebooks (package)"]:::pkg
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_409_64e2c7["plugin-notebooks"]
-  n__odh_dashboard_notebooks_1cd74c -. "federated" .-> n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_409_64e2c7
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_532_f49c52["notebooks-kf-workspacekinds"]
-  n__odh_dashboard_notebooks_1cd74c -. "federated" .-> n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_532_f49c52
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_1205_9274b4["workbenches-v2"]
-  n__odh_dashboard_notebooks_1cd74c -. "federated" .-> n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_1205_9274b4
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_1011_bec37b["NotebooksWrapper"]
-  n__odh_dashboard_notebooks_1cd74c -. "federated" .-> n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_1011_bec37b
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_project_details_tab_621c38(["project-details/tab"]):::point
-    n_app_route_2735df(["route"]):::point
-  end
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_409_64e2c7 --> n_app_area_bcfe23
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_532_f49c52 --> n_app_navigation_href_67179c
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_1205_9274b4 --> n_app_project_details_tab_621c38
-  n_packages_notebooks_upstream_workspaces_frontend_src_odh_extensions_ts_1011_bec37b --> n_app_route_2735df
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| notebooks (package) | this package | [packages/notebooks](..) |
-| plugin-notebooks | extension of app.area — federated | [extensions.ts](../upstream/workspaces/frontend/src/odh/extensions.ts#L13-L19) |
-| notebooks-kf-workspacekinds | extension of app.navigation/href — federated | [extensions.ts](../upstream/workspaces/frontend/src/odh/extensions.ts#L20-L38) |
-| workbenches-v2 | extension of app.project-details/tab — federated | [extensions.ts](../upstream/workspaces/frontend/src/odh/extensions.ts#L49-L59) |
-| NotebooksWrapper | extension of app.route — federated | [extensions.ts](../upstream/workspaces/frontend/src/odh/extensions.ts#L39-L48) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) |
-| project-details/tab | extension point | [app.project-details/tab](../../plugin-core/docs/extensions.md#appproject-detailstab) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
 
 #### Contributes to app.area
 
@@ -93,21 +71,3 @@ Defined in [app.route](../../plugin-core/docs/extensions.md#approute).
 | path | Requires | CodeRef target | Included in | Source |
 | --- | --- | --- | --- | --- |
 | `'/notebooks/*'` | `PLUGIN_NOTEBOOKS` (`'plugin-notebooks'`) | [NotebooksWrapper#default](../upstream/workspaces/frontend/src/odh/NotebooksWrapper.tsx#L72-L85) | host | [extensions.ts](../upstream/workspaces/frontend/src/odh/extensions.ts#L39-L48) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

@@ -6,6 +6,20 @@
 
 Package `@odh-dashboard/observability` (package) at `packages/observability`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes) · [Diagnostics](#diagnostics)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [plugin-observability](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, maas-portal |
+| [observability-dashboard](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [DashboardPage](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+
 ## Loading paths
 
 - [extensions.ts](../extensions.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -18,37 +32,6 @@ Package `@odh-dashboard/observability` (package) at `packages/observability`. Ev
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_observability_eea447["observability (package)"]:::pkg
-  n_packages_observability_extensions_area_ts_371_80597d["plugin-observability"]
-  n__odh_dashboard_observability_eea447 --> n_packages_observability_extensions_area_ts_371_80597d
-  n_packages_observability_extensions_ts_422_356036["observability-dashboard"]
-  n__odh_dashboard_observability_eea447 --> n_packages_observability_extensions_ts_422_356036
-  n_packages_observability_extensions_ts_764_e360ad["DashboardPage"]
-  n__odh_dashboard_observability_eea447 --> n_packages_observability_extensions_ts_764_e360ad
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_route_2735df(["route"]):::point
-  end
-  n_packages_observability_extensions_area_ts_371_80597d --> n_app_area_bcfe23
-  n_packages_observability_extensions_ts_422_356036 --> n_app_navigation_href_67179c
-  n_packages_observability_extensions_ts_764_e360ad --> n_app_route_2735df
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| observability (package) | this package | [packages/observability](..) |
-| plugin-observability | extension of app.area — bundled and bundled by a distribution | [area.ts](../extensions/area.ts#L7-L14) |
-| observability-dashboard | extension of app.navigation/href — bundled | [extensions.ts](../extensions.ts#L11-L24) |
-| DashboardPage | extension of app.route — bundled | [extensions.ts](../extensions.ts#L25-L34) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
 
 #### Contributes to app.area
 
@@ -84,26 +67,8 @@ Defined in [app.route](../../plugin-core/docs/extensions.md#approute).
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
 | `federation-not-loaded` | info | @odh-dashboard/observability declares module federation but the host does not load it as a remote: its module-federation config has no remoteEntry. | — |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

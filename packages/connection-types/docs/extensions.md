@@ -6,6 +6,19 @@
 
 Package `@odh-dashboard/connection-types` (package) at `packages/connection-types`. Everything below is read out of this repository's sources by static analysis.
 
+[Consumes](#consumes)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [useServingConnections](#consumes-appconnection-typesservice) | [app.connection-types/service](../../plugin-core/docs/extensions.md#appconnection-typesservice) |
+| [useWatchConnectionTypes](#consumes-appconnection-typesservice) | [app.connection-types/service](../../plugin-core/docs/extensions.md#appconnection-typesservice) |
+
 ## Consumes
 
 The extension points this package's code queries or uses, one table per point. A use is a property read from an extension, followed wherever the extension is passed; "rendered in" is one hop up: where the consumer itself is rendered or called.

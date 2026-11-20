@@ -6,6 +6,54 @@
 
 Package `@odh-dashboard/plugin-core` (package) at `packages/plugin-core`. Everything below is read out of this repository's sources by static analysis.
 
+[Defines](#defines) · [Consumes](#consumes) · [Diagnostics](#diagnostics) · [Legend](#legend)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Defines**
+
+| Extension point | Implemented by | Consumed in |
+| --- | --- | --- |
+| [app.area](#apparea) | [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-apparea), [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-apparea), [automl](../../automl/docs/extensions.md#contributes-to-apparea), [autorag](../../autorag/docs/extensions.md#contributes-to-apparea), [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-apparea), [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-apparea), [data-registry](../../data-registry/docs/extensions.md#contributes-to-apparea), [feature-store](../../feature-store/docs/extensions.md#contributes-to-apparea), [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-apparea), [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-apparea), [kserve](../../kserve/docs/extensions.md#contributes-to-apparea), [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-apparea), [maas](../../maas/docs/extensions.md#contributes-to-apparea), [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-apparea), [model-registry](../../model-registry/docs/extensions.md#contributes-to-apparea), [model-serving](../../model-serving/docs/extensions.md#contributes-to-apparea), [model-training](../../model-training/docs/extensions.md#contributes-to-apparea), [nim-serving](../../nim-serving/docs/extensions.md#contributes-to-apparea), [notebooks](../../notebooks/docs/extensions.md#contributes-to-apparea), [observability](../../observability/docs/extensions.md#contributes-to-apparea) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apparea) |
+| [app.cluster-storage/connected-resources](#appcluster-storageconnected-resources) | [kserve](../../kserve/docs/extensions.md#contributes-to-appcluster-storageconnected-resources) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appcluster-storageconnected-resources) |
+| [app.cluster-storage/storage-context](#appcluster-storagestorage-context) | [nim-serving](../../nim-serving/docs/extensions.md#contributes-to-appcluster-storagestorage-context) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appcluster-storagestorage-context) |
+| [app.connection-types/default-value-renderer](#appconnection-typesdefault-value-renderer) | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesdefault-value-renderer) | — |
+| [app.connection-types/details-helper](#appconnection-typesdetails-helper) | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesdetails-helper) | — |
+| [app.connection-types/form](#appconnection-typesform) | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesform) | — |
+| [app.connection-types/form-fields](#appconnection-typesform-fields) | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesform-fields) | — |
+| [app.connection-types/service](#appconnection-typesservice) | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesservice) | [connection-types](../../connection-types/docs/extensions.md#consumes-appconnection-typesservice) |
+| [app.masthead/about](#appmastheadabout) | unused | unused |
+| [app.masthead/brand](#appmastheadbrand) | — | [base-distribution](../../../distributions/base/docs/extensions.md#consumes-appmastheadbrand) |
+| [app.masthead/toolbar-item](#appmastheadtoolbar-item) | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-appmastheadtoolbar-item), [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-appmastheadtoolbar-item) | [base-distribution](../../../distributions/base/docs/extensions.md#consumes-appmastheadtoolbar-item) |
+| [app.masthead/user-menu](#appmastheaduser-menu) | unused | unused |
+| [app.navigation/href](#appnavigationhref) | [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-appnavigationhref), [automl](../../automl/docs/extensions.md#contributes-to-appnavigationhref), [autorag](../../autorag/docs/extensions.md#contributes-to-appnavigationhref), [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-appnavigationhref), [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-appnavigationhref), [eval-hub](../../eval-hub/docs/extensions.md#contributes-to-appnavigationhref), [feature-store](../../feature-store/docs/extensions.md#contributes-to-appnavigationhref), [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-appnavigationhref), [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-appnavigationhref), [hardware-profiles](../../hardware-profiles/docs/extensions.md#contributes-to-appnavigationhref), [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appnavigationhref), [maas](../../maas/docs/extensions.md#contributes-to-appnavigationhref), [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-appnavigationhref), [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-appnavigationhref), [model-registry](../../model-registry/docs/extensions.md#contributes-to-appnavigationhref), [model-training](../../model-training/docs/extensions.md#contributes-to-appnavigationhref), [notebooks](../../notebooks/docs/extensions.md#contributes-to-appnavigationhref), [observability](../../observability/docs/extensions.md#contributes-to-appnavigationhref) | [base-distribution](../../../distributions/base/docs/extensions.md#consumes-appnavigationhref), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appnavigationhref) |
+| [app.navigation/section](#appnavigationsection) | [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-appnavigationsection), [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-appnavigationsection), [feature-store](../../feature-store/docs/extensions.md#contributes-to-appnavigationsection), [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-appnavigationsection), [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appnavigationsection), [maas](../../maas/docs/extensions.md#contributes-to-appnavigationsection), [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-appnavigationsection) | [base-distribution](../../../distributions/base/docs/extensions.md#consumes-appnavigationsection), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appnavigationsection), [plugin-core](#consumes-appnavigationsection) |
+| [app.patch](#apppatch) | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-apppatch) | [plugin-core](#consumes-apppatch) |
+| [app.project-details/overview-section](#appproject-detailsoverview-section) | [model-serving](../../model-serving/docs/extensions.md#contributes-to-appproject-detailsoverview-section) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appproject-detailsoverview-section) |
+| [app.project-details/settings-card](#appproject-detailssettings-card) | [nim-serving](../../nim-serving/docs/extensions.md#contributes-to-appproject-detailssettings-card) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appproject-detailssettings-card) |
+| [app.project-details/tab](#appproject-detailstab) | [model-serving](../../model-serving/docs/extensions.md#contributes-to-appproject-detailstab), [notebooks](../../notebooks/docs/extensions.md#contributes-to-appproject-detailstab) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appproject-detailstab) |
+| [app.route](#approute) | [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-approute), [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-approute), [automl](../../automl/docs/extensions.md#contributes-to-approute), [autorag](../../autorag/docs/extensions.md#contributes-to-approute), [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-approute), [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-approute), [eval-hub](../../eval-hub/docs/extensions.md#contributes-to-approute), [feature-store](../../feature-store/docs/extensions.md#contributes-to-approute), [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-approute), [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-approute), [hardware-profiles](../../hardware-profiles/docs/extensions.md#contributes-to-approute), [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-approute), [kserve](../../kserve/docs/extensions.md#contributes-to-approute), [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-approute), [maas](../../maas/docs/extensions.md#contributes-to-approute), [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-approute), [mlflow](../../mlflow/docs/extensions.md#contributes-to-approute), [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-approute), [model-registry](../../model-registry/docs/extensions.md#contributes-to-approute), [model-serving](../../model-serving/docs/extensions.md#contributes-to-approute), [model-training](../../model-training/docs/extensions.md#contributes-to-approute), [notebooks](../../notebooks/docs/extensions.md#contributes-to-approute), [observability](../../observability/docs/extensions.md#contributes-to-approute), [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-approute) | [base-distribution](../../../distributions/base/docs/extensions.md#consumes-approute), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-approute) |
+| [app.status-provider](#appstatus-provider) | [hardware-profiles](../../hardware-profiles/docs/extensions.md#contributes-to-appstatus-provider) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appstatus-provider) |
+| [app.suppress](#appsuppress) | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-appsuppress) | [plugin-core](#consumes-appsuppress) |
+| [app.tab-route/page](#apptab-routepage) | [data-registry](../../data-registry/docs/extensions.md#contributes-to-apptab-routepage), [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-apptab-routepage), [model-serving](../../model-serving/docs/extensions.md#contributes-to-apptab-routepage), [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-apptab-routepage) | [base-distribution](../../../distributions/base/docs/extensions.md#consumes-apptab-routepage), [gen-ai](../../gen-ai/docs/extensions.md#consumes-apptab-routepage), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptab-routepage), [model-registry](../../model-registry/docs/extensions.md#consumes-apptab-routepage) |
+| [app.tab-route/tab](#apptab-routetab) | [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-apptab-routetab), [data-registry](../../data-registry/docs/extensions.md#contributes-to-apptab-routetab), [kserve](../../kserve/docs/extensions.md#contributes-to-apptab-routetab), [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-apptab-routetab), [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-apptab-routetab), [model-registry](../../model-registry/docs/extensions.md#contributes-to-apptab-routetab), [model-serving](../../model-serving/docs/extensions.md#contributes-to-apptab-routetab) | [base-distribution](../../../distributions/base/docs/extensions.md#consumes-apptab-routetab), [gen-ai](../../gen-ai/docs/extensions.md#consumes-apptab-routetab), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptab-routetab), [model-registry](../../model-registry/docs/extensions.md#consumes-apptab-routetab) |
+| [app.task/group](#apptaskgroup) | [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-apptaskgroup), [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-apptaskgroup) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptaskgroup) |
+| [app.task/item](#apptaskitem) | [autorag](../../autorag/docs/extensions.md#contributes-to-apptaskitem), [eval-hub](../../eval-hub/docs/extensions.md#contributes-to-apptaskitem), [feature-store](../../feature-store/docs/extensions.md#contributes-to-apptaskitem), [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-apptaskitem), [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-apptaskitem), [maas](../../maas/docs/extensions.md#contributes-to-apptaskitem), [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-apptaskitem), [model-training](../../model-training/docs/extensions.md#contributes-to-apptaskitem) | [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptaskitem) |
+| [core.action](#coreaction) | [mlflow](../../mlflow/docs/extensions.md#contributes-to-coreaction), [model-registry](../../model-registry/docs/extensions.md#contributes-to-coreaction), [model-serving](../../model-serving/docs/extensions.md#contributes-to-coreaction) | [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#consumes-coreaction), [model-registry](../../model-registry/docs/extensions.md#consumes-coreaction) |
+| [core.detail-card](#coredetail-card) | [model-serving](../../model-serving/docs/extensions.md#contributes-to-coredetail-card) | [model-registry](../../model-registry/docs/extensions.md#consumes-coredetail-card) |
+| [core.detail/tab](#coredetailtab) | [maas](../../maas/docs/extensions.md#contributes-to-coredetailtab), [model-registry](../../model-registry/docs/extensions.md#contributes-to-coredetailtab), [model-serving](../../model-serving/docs/extensions.md#contributes-to-coredetailtab) | [model-registry](../../model-registry/docs/extensions.md#consumes-coredetailtab), [model-serving](../../model-serving/docs/extensions.md#consumes-coredetailtab) |
+| [core.table-column](#coretable-column) | [model-serving](../../model-serving/docs/extensions.md#contributes-to-coretable-column) | [model-registry](../../model-registry/docs/extensions.md#consumes-coretable-column) |
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [getTopLevelExtensions](#consumes-appnavigationsection) | [app.navigation/section](#appnavigationsection) |
+| [extractPatches](#consumes-apppatch) | [app.patch](#apppatch) |
+| [applySuppress](#consumes-appsuppress) | [app.suppress](#appsuppress) |
+
 ## Defines
 
 The extension points this package declares. Each heading is the point ID other packages use as an extension's `type`.
@@ -31,6 +79,13 @@ Declared as [AreaExtension](../src/extension-points/areas.ts#L7-L15).
 **Implemented by:** [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-apparea), [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-apparea), [automl](../../automl/docs/extensions.md#contributes-to-apparea), [autorag](../../autorag/docs/extensions.md#contributes-to-apparea), [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-apparea), [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-apparea), [data-registry](../../data-registry/docs/extensions.md#contributes-to-apparea), [feature-store](../../feature-store/docs/extensions.md#contributes-to-apparea), [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-apparea), [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-apparea), [kserve](../../kserve/docs/extensions.md#contributes-to-apparea), [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-apparea), [maas](../../maas/docs/extensions.md#contributes-to-apparea), [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-apparea), [model-registry](../../model-registry/docs/extensions.md#contributes-to-apparea), [model-serving](../../model-serving/docs/extensions.md#contributes-to-apparea), [model-training](../../model-training/docs/extensions.md#contributes-to-apparea), [nim-serving](../../nim-serving/docs/extensions.md#contributes-to-apparea), [notebooks](../../notebooks/docs/extensions.md#contributes-to-apparea), [observability](../../observability/docs/extensions.md#contributes-to-apparea)
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apparea)
+
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [Inner](../../../frontend/src/concepts/areas/AreaContext.tsx#L36-L102) | frontend (core app) | [useExtensions](../../../frontend/src/concepts/areas/AreaContext.tsx#L48) | `properties` — read, direct ([AreaContext.tsx:67](../../../frontend/src/concepts/areas/AreaContext.tsx#L67))<br>`properties.id` — read, direct ([AreaContext.tsx:67](../../../frontend/src/concepts/areas/AreaContext.tsx#L67)) | AreaContextProvider ([AreaContext.tsx:141](../../../frontend/src/concepts/areas/AreaContext.tsx#L141-L147)) |
+| [useDevFlags](../../../frontend/src/app/featureFlags/useDevFeatureFlags.ts#L19-L35) | frontend (core app) | [useExtensions](../../../frontend/src/app/featureFlags/useDevFeatureFlags.ts#L20) | `properties.devFlags` — read, direct ([useDevFeatureFlags.ts:27](../../../frontend/src/app/featureFlags/useDevFeatureFlags.ts#L27)) | FeatureFlagModal (called at [FeatureFlagModal.tsx:25](../../../frontend/src/app/featureFlags/FeatureFlagModal.tsx#L25))<br>useDevFeatureFlags (called at [useDevFeatureFlags.ts:67](../../../frontend/src/app/featureFlags/useDevFeatureFlags.ts#L67)) |
 
 ```mermaid
 flowchart LR
@@ -77,46 +132,17 @@ flowchart LR
   n_pkg__odh_dashboard_nim_serving_241793 --> n_app_area_bcfe23
   n_pkg__odh_dashboard_notebooks_458f10 -. "federated" .-> n_app_area_bcfe23
   n_pkg__odh_dashboard_observability_38a333 --> n_app_area_bcfe23
-  n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFlags_5a74ff["useDevFlags"]
-  n_app_area_bcfe23 -- "useExtensions, read" --> n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFlags_5a74ff
   n_symbol_frontend_src_concepts_areas_AreaContext_tsx_Inner_7e3788["Inner"]
-  n_app_area_bcfe23 -- "useExtensions, read" --> n_symbol_frontend_src_concepts_areas_AreaContext_tsx_Inner_7e3788
+  n_app_area_bcfe23 --> n_symbol_frontend_src_concepts_areas_AreaContext_tsx_Inner_7e3788
+  n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFlags_5a74ff["useDevFlags"]
+  n_app_area_bcfe23 --> n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFlags_5a74ff
+  n_symbol_frontend_src_concepts_areas_AreaContext_tsx_AreaContextProvider_dbb2e5("AreaContextProvider")
   n_symbol_frontend_src_app_featureFlags_FeatureFlagModal_tsx_FeatureFlagModal_fc0ad3("FeatureFlagModal")
   n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFeatureFlags_3fb015("useDevFeatureFlags")
-  n_symbol_frontend_src_concepts_areas_AreaContext_tsx_AreaContextProvider_dbb2e5("AreaContextProvider")
+  n_symbol_frontend_src_concepts_areas_AreaContext_tsx_Inner_7e3788 -. "rendered in" .-> n_symbol_frontend_src_concepts_areas_AreaContext_tsx_AreaContextProvider_dbb2e5
   n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFlags_5a74ff -. "called in" .-> n_symbol_frontend_src_app_featureFlags_FeatureFlagModal_tsx_FeatureFlagModal_fc0ad3
   n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFlags_5a74ff -. "called in" .-> n_symbol_frontend_src_app_featureFlags_useDevFeatureFlags_ts_useDevFeatureFlags_3fb015
-  n_symbol_frontend_src_concepts_areas_AreaContext_tsx_Inner_7e3788 -. "rendered in" .-> n_symbol_frontend_src_concepts_areas_AreaContext_tsx_AreaContextProvider_dbb2e5
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| agent-ops (package) | contributes extensions of this point | [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-apparea) |
-| ai-safety (package) | contributes extensions of this point | [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-apparea) |
-| automl (package) | contributes extensions of this point | [automl](../../automl/docs/extensions.md#contributes-to-apparea) |
-| autorag (package) | contributes extensions of this point | [autorag](../../autorag/docs/extensions.md#contributes-to-apparea) |
-| core-bff (distribution) | contributes extensions of this point | [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-apparea) |
-| data-connect-hub (package) | contributes extensions of this point | [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-apparea) |
-| data-registry (package) | contributes extensions of this point | [data-registry](../../data-registry/docs/extensions.md#contributes-to-apparea) |
-| feature-store (package) | contributes extensions of this point | [feature-store](../../feature-store/docs/extensions.md#contributes-to-apparea) |
-| gen-ai (package) | contributes extensions of this point | [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-apparea) |
-| gpuaas (package) | contributes extensions of this point | [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-apparea) |
-| kserve (package) | contributes extensions of this point | [kserve](../../kserve/docs/extensions.md#contributes-to-apparea) |
-| llmd-serving (package) | contributes extensions of this point | [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-apparea) |
-| maas (package) | contributes extensions of this point | [maas](../../maas/docs/extensions.md#contributes-to-apparea) |
-| mlflow-embedded (package) | contributes extensions of this point | [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-apparea) |
-| model-registry (package) | contributes extensions of this point | [model-registry](../../model-registry/docs/extensions.md#contributes-to-apparea) |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-apparea) |
-| model-training (package) | contributes extensions of this point | [model-training](../../model-training/docs/extensions.md#contributes-to-apparea) |
-| nim-serving (package) | contributes extensions of this point | [nim-serving](../../nim-serving/docs/extensions.md#contributes-to-apparea) |
-| notebooks (package) | contributes extensions of this point | [notebooks](../../notebooks/docs/extensions.md#contributes-to-apparea) |
-| observability (package) | contributes extensions of this point | [observability](../../observability/docs/extensions.md#contributes-to-apparea) |
-| app.area | this extension point | [app.area](#apparea) |
-| useDevFlags | consumer in @odh-dashboard/internal — useExtensions, read | [useDevFlags](../../../frontend/src/app/featureFlags/useDevFeatureFlags.ts#L19-L35) |
-| Inner | consumer in @odh-dashboard/internal — useExtensions, read | [Inner](../../../frontend/src/concepts/areas/AreaContext.tsx#L36-L102) |
-| FeatureFlagModal | calls useDevFlags (one hop up) | calls useDevFlags at [FeatureFlagModal.tsx:25](../../../frontend/src/app/featureFlags/FeatureFlagModal.tsx#L25) |
-| useDevFeatureFlags | calls useDevFlags (one hop up) | calls useDevFlags at [useDevFeatureFlags.ts:67](../../../frontend/src/app/featureFlags/useDevFeatureFlags.ts#L67) |
-| AreaContextProvider | renders Inner (one hop up) | renders Inner at [AreaContext.tsx:141](../../../frontend/src/concepts/areas/AreaContext.tsx#L141-L147) |
 
 ### app.cluster-storage/connected-resources
 
@@ -137,6 +163,13 @@ Declared as [ClusterStorageConnectedResourcesExtension](../src/extension-points/
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appcluster-storageconnected-resources)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [getConnectedResourceLabels](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L45-L52) | frontend (core app) | — | `properties.getConnectedResources` — call, direct ([useClusterStorageConnectedResources.tsx:49](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L49)) | — |
+| [useClusterStorageConnectedResources](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L26-L69) | frontend (core app) | [useExtensions](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L29)<br>[useResolvedExtensions](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L30-L32) | `properties.useConnectedResources` — hook-run, direct ([useClusterStorageConnectedResources.tsx:57](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L57)) | StorageTable (called at [StorageTable.tsx:61](../../../frontend/src/pages/projects/screens/detail/storage/StorageTable.tsx#L61)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -145,20 +178,12 @@ flowchart LR
   n_app_cluster_storage_connected_resources_77ac0c(["app.cluster-storage/connected-resources"]):::point
   n_pkg__odh_dashboard_kserve_5ec96a --> n_app_cluster_storage_connected_resources_77ac0c
   n_symbol_frontend_src_pages_projects_screens_detail_storage_useClusterStorageConnectedResources_tsx_getConnectedResourceLabels_442025["getConnectedResourceLabels"]
-  n_app_cluster_storage_connected_resources_77ac0c -- "call" --> n_symbol_frontend_src_pages_projects_screens_detail_storage_useClusterStorageConnectedResources_tsx_getConnectedResourceLabels_442025
+  n_app_cluster_storage_connected_resources_77ac0c --> n_symbol_frontend_src_pages_projects_screens_detail_storage_useClusterStorageConnectedResources_tsx_getConnectedResourceLabels_442025
   n_symbol_frontend_src_pages_projects_screens_detail_storage_useClusterStorageConnectedResources_tsx_useClusterStorageConnectedResources_f0ea6b["useClusterStorageConnectedResources"]
-  n_app_cluster_storage_connected_resources_77ac0c -- "useExtensions, useResolvedExtensions, hook-run" --> n_symbol_frontend_src_pages_projects_screens_detail_storage_useClusterStorageConnectedResources_tsx_useClusterStorageConnectedResources_f0ea6b
+  n_app_cluster_storage_connected_resources_77ac0c --> n_symbol_frontend_src_pages_projects_screens_detail_storage_useClusterStorageConnectedResources_tsx_useClusterStorageConnectedResources_f0ea6b
   n_symbol_frontend_src_pages_projects_screens_detail_storage_StorageTable_tsx_StorageTable_8b7ed5("StorageTable")
   n_symbol_frontend_src_pages_projects_screens_detail_storage_useClusterStorageConnectedResources_tsx_useClusterStorageConnectedResources_f0ea6b -. "called in" .-> n_symbol_frontend_src_pages_projects_screens_detail_storage_StorageTable_tsx_StorageTable_8b7ed5
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| kserve (package) | contributes extensions of this point | [kserve](../../kserve/docs/extensions.md#contributes-to-appcluster-storageconnected-resources) |
-| app.cluster-storage/connected-resources | this extension point | [app.cluster-storage/connected-resources](#appcluster-storageconnected-resources) |
-| getConnectedResourceLabels | consumer in @odh-dashboard/internal — call | [getConnectedResourceLabels](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L45-L52) |
-| useClusterStorageConnectedResources | consumer in @odh-dashboard/internal — useExtensions, useResolvedExtensions, hook-run | [useClusterStorageConnectedResources](../../../frontend/src/pages/projects/screens/detail/storage/useClusterStorageConnectedResources.tsx#L26-L69) |
-| StorageTable | calls useClusterStorageConnectedResources (one hop up) | calls useClusterStorageConnectedResources at [StorageTable.tsx:61](../../../frontend/src/pages/projects/screens/detail/storage/StorageTable.tsx#L61) |
 
 ### app.cluster-storage/storage-context
 
@@ -181,25 +206,13 @@ Declared as [ClusterStorageContextExtension](../src/extension-points/cluster-sto
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appcluster-storagestorage-context)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_nim_serving_241793["nim-serving (package)"]:::pkg
-  n_app_cluster_storage_storage_context_e68734(["app.cluster-storage/storage-context"]):::point
-  n_pkg__odh_dashboard_nim_serving_241793 --> n_app_cluster_storage_storage_context_e68734
-  n_symbol_frontend_src_pages_projects_screens_detail_storage_useStorageContextType_tsx_useStorageContextType_2eda53["useStorageContextType"]
-  n_app_cluster_storage_storage_context_e68734 -- "useResolvedExtensions" --> n_symbol_frontend_src_pages_projects_screens_detail_storage_useStorageContextType_tsx_useStorageContextType_2eda53
-  n_symbol_frontend_src_pages_projects_screens_detail_storage_StorageList_tsx_StorageList_56489f("StorageList")
-  n_symbol_frontend_src_pages_projects_screens_detail_storage_useStorageContextType_tsx_useStorageContextType_2eda53 -. "called in" .-> n_symbol_frontend_src_pages_projects_screens_detail_storage_StorageList_tsx_StorageList_56489f
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| nim-serving (package) | contributes extensions of this point | [nim-serving](../../nim-serving/docs/extensions.md#contributes-to-appcluster-storagestorage-context) |
-| app.cluster-storage/storage-context | this extension point | [app.cluster-storage/storage-context](#appcluster-storagestorage-context) |
-| useStorageContextType | consumer in @odh-dashboard/internal — useResolvedExtensions | [useStorageContextType](../../../frontend/src/pages/projects/screens/detail/storage/useStorageContextType.tsx#L33-L60) |
-| StorageList | calls useStorageContextType (one hop up) | calls useStorageContextType at [StorageList.tsx:22](../../../frontend/src/pages/projects/screens/detail/storage/StorageList.tsx#L22) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [useStorageContextType](../../../frontend/src/pages/projects/screens/detail/storage/useStorageContextType.tsx#L33-L60) | frontend (core app) | [useResolvedExtensions](../../../frontend/src/pages/projects/screens/detail/storage/useStorageContextType.tsx#L37-L39) | — | StorageList (called at [StorageList.tsx:22](../../../frontend/src/pages/projects/screens/detail/storage/StorageList.tsx#L22)) |
+
+**Flow:** nim-serving → app.cluster-storage/storage-context → frontend (core app) · useStorageContextType → called in StorageList
 
 ### app.connection-types/default-value-renderer
 
@@ -215,19 +228,7 @@ Declared as [DefaultValueTextRendererExtension](../src/extension-points/connecti
 
 > **No consumers.** No code in this repository queries or uses this point.
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_internal_143c2f["frontend (core app) (host)"]:::pkg
-  n_app_connection_types_default_value_renderer_01627c(["app.connection-types/default-value-renderer"]):::point
-  n_pkg__odh_dashboard_internal_143c2f --> n_app_connection_types_default_value_renderer_01627c
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesdefault-value-renderer) |
-| app.connection-types/default-value-renderer | this extension point | [app.connection-types/default-value-renderer](#appconnection-typesdefault-value-renderer) |
+**Flow:** frontend (core app) → app.connection-types/default-value-renderer → (no consumers)
 
 ### app.connection-types/details-helper
 
@@ -243,19 +244,7 @@ Declared as [ConnectionDetailsHelperTextExtension](../src/extension-points/conne
 
 > **No consumers.** No code in this repository queries or uses this point.
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_internal_143c2f["frontend (core app) (host)"]:::pkg
-  n_app_connection_types_details_helper_f68622(["app.connection-types/details-helper"]):::point
-  n_pkg__odh_dashboard_internal_143c2f --> n_app_connection_types_details_helper_f68622
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesdetails-helper) |
-| app.connection-types/details-helper | this extension point | [app.connection-types/details-helper](#appconnection-typesdetails-helper) |
+**Flow:** frontend (core app) → app.connection-types/details-helper → (no consumers)
 
 ### app.connection-types/form
 
@@ -271,19 +260,7 @@ Declared as [ConnectionTypeFormExtension](../src/extension-points/connection-typ
 
 > **No consumers.** No code in this repository queries or uses this point.
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_internal_143c2f["frontend (core app) (host)"]:::pkg
-  n_app_connection_types_form_81f66d(["app.connection-types/form"]):::point
-  n_pkg__odh_dashboard_internal_143c2f --> n_app_connection_types_form_81f66d
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesform) |
-| app.connection-types/form | this extension point | [app.connection-types/form](#appconnection-typesform) |
+**Flow:** frontend (core app) → app.connection-types/form → (no consumers)
 
 ### app.connection-types/form-fields
 
@@ -299,19 +276,7 @@ Declared as [ConnectionTypeFormFieldsExtension](../src/extension-points/connecti
 
 > **No consumers.** No code in this repository queries or uses this point.
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_internal_143c2f["frontend (core app) (host)"]:::pkg
-  n_app_connection_types_form_fields_cb02ad(["app.connection-types/form-fields"]):::point
-  n_pkg__odh_dashboard_internal_143c2f --> n_app_connection_types_form_fields_cb02ad
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesform-fields) |
-| app.connection-types/form-fields | this extension point | [app.connection-types/form-fields](#appconnection-typesform-fields) |
+**Flow:** frontend (core app) → app.connection-types/form-fields → (no consumers)
 
 ### app.connection-types/service
 
@@ -328,6 +293,13 @@ Declared as [ConnectionTypesServiceExtension](../src/extension-points/connection
 
 **Consumed in:** [connection-types](../../connection-types/docs/extensions.md#consumes-appconnection-typesservice)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [useServingConnections](../../connection-types/src/useServingConnections.ts#L15-L49) | connection-types | [useResolvedExtensions](../../connection-types/src/useServingConnections.ts#L20-L22) | `properties.fetchConnections` — read, direct ([useServingConnections.ts:24](../../connection-types/src/useServingConnections.ts#L24)) | ConnectionDropdown (called at [ConnectionDropdown.tsx:29](../../../frontend/src/concepts/modelRegistry/content/ConnectionDropdown.tsx#L29))<br>DeployPrefilledModelModalContents (called at [DeployPrefilledModelModal.tsx:68](../../../frontend/src/pages/modelServing/screens/projects/DeployPrefilledModelModal.tsx#L68))<br>usePrefillModelDeployModal (called at [usePrefillModelDeployModal.ts:40](../../../frontend/src/pages/modelServing/screens/projects/usePrefillModelDeployModal.ts#L40-L42)) |
+| [useWatchConnectionTypes](../../connection-types/src/useWatchConnectionTypes.ts#L15-L42) | connection-types | [useResolvedExtensions](../../connection-types/src/useWatchConnectionTypes.ts#L18-L20) | `properties.fetchConnectionTypes` — read, direct ([useWatchConnectionTypes.ts:22](../../connection-types/src/useWatchConnectionTypes.ts#L22)) | ConnectionTypesPage (called at [ConnectionTypesPage.tsx:11](../../../frontend/src/pages/connectionTypes/ConnectionTypesPage.tsx#L11))<br>ManageConnectionTypePage (called at [ManageConnectionTypePage.tsx:63](../../../frontend/src/pages/connectionTypes/manage/ManageConnectionTypePage.tsx#L63))<br>ConnectionSection (called at [ConnectionSection.tsx:268](../../../frontend/src/pages/modelServing/screens/projects/InferenceServiceModal/ConnectionSection.tsx#L268))<br>usePrefillModelDeployModal (called at [usePrefillModelDeployModal.ts:48](../../../frontend/src/pages/modelServing/screens/projects/usePrefillModelDeployModal.ts#L48))<br>FineTunePage (called at [FineTunePage.tsx:63](../../../frontend/src/pages/pipelines/global/modelCustomization/FineTunePage.tsx#L63))<br>ConnectionsList (called at [ConnectionsList.tsx:25](../../../frontend/src/pages/projects/screens/detail/connections/ConnectionsList.tsx#L25))<br>ConnectionsFormSection (called at [ConnectionsFormSection.tsx:82](../../../frontend/src/pages/projects/screens/spawner/connections/ConnectionsFormSection.tsx#L82))<br>AutomlConfigure (called at [AutomlConfigure.tsx:137](../../automl/frontend/src/app/components/configure/AutomlConfigure.tsx#L137))<br>AutoragConfigure (called at [AutoragConfigure.tsx:184](../../autorag/frontend/src/app/components/configure/AutoragConfigure.tsx#L184)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -336,9 +308,9 @@ flowchart LR
   n_app_connection_types_service_2eb1aa(["app.connection-types/service"]):::point
   n_pkg__odh_dashboard_internal_143c2f --> n_app_connection_types_service_2eb1aa
   n_symbol_packages_connection_types_src_useServingConnections_ts_useServingConnections_3be4cd["useServingConnections"]
-  n_app_connection_types_service_2eb1aa -- "useResolvedExtensions, read" --> n_symbol_packages_connection_types_src_useServingConnections_ts_useServingConnections_3be4cd
+  n_app_connection_types_service_2eb1aa --> n_symbol_packages_connection_types_src_useServingConnections_ts_useServingConnections_3be4cd
   n_symbol_packages_connection_types_src_useWatchConnectionTypes_ts_useWatchConnectionTypes_6ef553["useWatchConnectionTypes"]
-  n_app_connection_types_service_2eb1aa -- "useResolvedExtensions, read" --> n_symbol_packages_connection_types_src_useWatchConnectionTypes_ts_useWatchConnectionTypes_6ef553
+  n_app_connection_types_service_2eb1aa --> n_symbol_packages_connection_types_src_useWatchConnectionTypes_ts_useWatchConnectionTypes_6ef553
   n_symbol_frontend_src_concepts_modelRegistry_content_ConnectionDropdown_tsx_ConnectionDropdown_00b6b0("ConnectionDropdown")
   n_symbol_frontend_src_pages_modelServing_screens_projects_DeployPrefilledModelModal_tsx_DeployPrefilledModelModalContents_ff6d17("DeployPrefilledModelModalContents")
   n_symbol_frontend_src_pages_modelServing_screens_projects_usePrefillModelDeployModal_ts_usePrefillModelDeployModal_5f1391("usePrefillModelDeployModal")
@@ -363,24 +335,6 @@ flowchart LR
   n_symbol_packages_connection_types_src_useWatchConnectionTypes_ts_useWatchConnectionTypes_6ef553 -. "called in" .-> n_symbol_packages_automl_frontend_src_app_components_configure_AutomlConfigure_tsx_AutomlConfigure_a876c8
   n_symbol_packages_connection_types_src_useWatchConnectionTypes_ts_useWatchConnectionTypes_6ef553 -. "called in" .-> n_symbol_packages_autorag_frontend_src_app_components_configure_AutoragConfigure_tsx_AutoragConfigure_98611d
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appconnection-typesservice) |
-| app.connection-types/service | this extension point | [app.connection-types/service](#appconnection-typesservice) |
-| useServingConnections | consumer in @odh-dashboard/connection-types — useResolvedExtensions, read | [useServingConnections](../../connection-types/src/useServingConnections.ts#L15-L49) |
-| useWatchConnectionTypes | consumer in @odh-dashboard/connection-types — useResolvedExtensions, read | [useWatchConnectionTypes](../../connection-types/src/useWatchConnectionTypes.ts#L15-L42) |
-| ConnectionDropdown | calls useServingConnections (one hop up) | calls useServingConnections at [ConnectionDropdown.tsx:29](../../../frontend/src/concepts/modelRegistry/content/ConnectionDropdown.tsx#L29) |
-| DeployPrefilledModelModalContents | calls useServingConnections (one hop up) | calls useServingConnections at [DeployPrefilledModelModal.tsx:68](../../../frontend/src/pages/modelServing/screens/projects/DeployPrefilledModelModal.tsx#L68) |
-| usePrefillModelDeployModal | calls useServingConnections, useWatchConnectionTypes (one hop up) | calls useServingConnections at [usePrefillModelDeployModal.ts:40](../../../frontend/src/pages/modelServing/screens/projects/usePrefillModelDeployModal.ts#L40-L42)<br>calls useWatchConnectionTypes at [usePrefillModelDeployModal.ts:48](../../../frontend/src/pages/modelServing/screens/projects/usePrefillModelDeployModal.ts#L48) |
-| ConnectionTypesPage | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [ConnectionTypesPage.tsx:11](../../../frontend/src/pages/connectionTypes/ConnectionTypesPage.tsx#L11) |
-| ManageConnectionTypePage | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [ManageConnectionTypePage.tsx:63](../../../frontend/src/pages/connectionTypes/manage/ManageConnectionTypePage.tsx#L63) |
-| ConnectionSection | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [ConnectionSection.tsx:268](../../../frontend/src/pages/modelServing/screens/projects/InferenceServiceModal/ConnectionSection.tsx#L268) |
-| FineTunePage | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [FineTunePage.tsx:63](../../../frontend/src/pages/pipelines/global/modelCustomization/FineTunePage.tsx#L63) |
-| ConnectionsList | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [ConnectionsList.tsx:25](../../../frontend/src/pages/projects/screens/detail/connections/ConnectionsList.tsx#L25) |
-| ConnectionsFormSection | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [ConnectionsFormSection.tsx:82](../../../frontend/src/pages/projects/screens/spawner/connections/ConnectionsFormSection.tsx#L82) |
-| AutomlConfigure | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [AutomlConfigure.tsx:137](../../automl/frontend/src/app/components/configure/AutomlConfigure.tsx#L137) |
-| AutoragConfigure | calls useWatchConnectionTypes (one hop up) | calls useWatchConnectionTypes at [AutoragConfigure.tsx:184](../../autorag/frontend/src/app/components/configure/AutoragConfigure.tsx#L184) |
 
 ### app.masthead/about
 
@@ -416,21 +370,13 @@ Declared as [MastheadBrandExtension](../src/extension-points/masthead.ts#L17-L27
 
 > **No contributors.** No package in this repository contributes an extension of this point.
 
-```mermaid
-flowchart LR
-  classDef point stroke-width:1px
-  n_app_masthead_brand_43971b(["app.masthead/brand"]):::point
-  n_symbol_distributions_base_src_ShellHeader_tsx_ShellBrand_3b3b62["ShellBrand"]
-  n_app_masthead_brand_43971b -- "useExtensions, lazy-render, read" --> n_symbol_distributions_base_src_ShellHeader_tsx_ShellBrand_3b3b62
-  n_symbol_distributions_base_src_ShellHeader_tsx_ShellHeader_1645dc("ShellHeader")
-  n_symbol_distributions_base_src_ShellHeader_tsx_ShellBrand_3b3b62 -. "rendered in" .-> n_symbol_distributions_base_src_ShellHeader_tsx_ShellHeader_1645dc
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| app.masthead/brand | this extension point | [app.masthead/brand](#appmastheadbrand) |
-| ShellBrand | consumer in @odh-dashboard/base-distribution — useExtensions, lazy-render, read | [ShellBrand](../../../distributions/base/src/ShellHeader.tsx#L27-L55) |
-| ShellHeader | renders ShellBrand (one hop up) | renders ShellBrand at [ShellHeader.tsx:93](../../../distributions/base/src/ShellHeader.tsx#L93) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ShellBrand](../../../distributions/base/src/ShellHeader.tsx#L27-L55) | base-distribution | [useExtensions](../../../distributions/base/src/ShellHeader.tsx#L28) | `properties.href` — read, direct ([ShellHeader.tsx:32](../../../distributions/base/src/ShellHeader.tsx#L32))<br>`properties.logoComponent` — lazy-render, direct ([ShellHeader.tsx:32](../../../distributions/base/src/ShellHeader.tsx#L32)) | ShellHeader ([ShellHeader.tsx:93](../../../distributions/base/src/ShellHeader.tsx#L93)) |
+
+**Flow:** (no contributors) → app.masthead/brand → base-distribution · ShellBrand → rendered in ShellHeader
 
 ### app.masthead/toolbar-item
 
@@ -451,6 +397,13 @@ Declared as [MastheadToolbarItemExtension](../src/extension-points/masthead.ts#L
 
 **Consumed in:** [base-distribution](../../../distributions/base/docs/extensions.md#consumes-appmastheadtoolbar-item)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ToolbarItems](../../../distributions/base/src/ShellHeader.tsx#L66-L76) | base-distribution | — | `properties.component` — lazy-render, direct ([ShellHeader.tsx:72](../../../distributions/base/src/ShellHeader.tsx#L72)) | ShellHeader ([ShellHeader.tsx:99](../../../distributions/base/src/ShellHeader.tsx#L99))<br>ShellHeader ([ShellHeader.tsx:116](../../../distributions/base/src/ShellHeader.tsx#L116)) |
+| [useToolbarExtensions](../../../distributions/base/src/ShellHeader.tsx#L57-L64) | base-distribution | [useExtensions](../../../distributions/base/src/ShellHeader.tsx#L58) | `properties.position` — read, direct ([ShellHeader.tsx:60](../../../distributions/base/src/ShellHeader.tsx#L60) (+1 more)) | ShellHeader (called at [ShellHeader.tsx:80](../../../distributions/base/src/ShellHeader.tsx#L80)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -461,22 +414,13 @@ flowchart LR
   n_pkg__odh_dashboard_maas_portal_distribution_5c89ae --> n_app_masthead_toolbar_item_2a7e87
   n_pkg__odh_dashboard_rhaii_distribution_c06492 --> n_app_masthead_toolbar_item_2a7e87
   n_symbol_distributions_base_src_ShellHeader_tsx_ToolbarItems_a3d094["ToolbarItems"]
-  n_app_masthead_toolbar_item_2a7e87 -- "lazy-render" --> n_symbol_distributions_base_src_ShellHeader_tsx_ToolbarItems_a3d094
+  n_app_masthead_toolbar_item_2a7e87 --> n_symbol_distributions_base_src_ShellHeader_tsx_ToolbarItems_a3d094
   n_symbol_distributions_base_src_ShellHeader_tsx_useToolbarExtensions_46a7b1["useToolbarExtensions"]
-  n_app_masthead_toolbar_item_2a7e87 -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellHeader_tsx_useToolbarExtensions_46a7b1
+  n_app_masthead_toolbar_item_2a7e87 --> n_symbol_distributions_base_src_ShellHeader_tsx_useToolbarExtensions_46a7b1
   n_symbol_distributions_base_src_ShellHeader_tsx_ShellHeader_1645dc("ShellHeader")
   n_symbol_distributions_base_src_ShellHeader_tsx_ToolbarItems_a3d094 -. "rendered in" .-> n_symbol_distributions_base_src_ShellHeader_tsx_ShellHeader_1645dc
   n_symbol_distributions_base_src_ShellHeader_tsx_useToolbarExtensions_46a7b1 -. "called in" .-> n_symbol_distributions_base_src_ShellHeader_tsx_ShellHeader_1645dc
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| maas-portal-distribution (distribution) | contributes extensions of this point | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-appmastheadtoolbar-item) |
-| rhaii-distribution (distribution) | contributes extensions of this point | [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-appmastheadtoolbar-item) |
-| app.masthead/toolbar-item | this extension point | [app.masthead/toolbar-item](#appmastheadtoolbar-item) |
-| ToolbarItems | consumer in @odh-dashboard/base-distribution — lazy-render | [ToolbarItems](../../../distributions/base/src/ShellHeader.tsx#L66-L76) |
-| useToolbarExtensions | consumer in @odh-dashboard/base-distribution — useExtensions, read | [useToolbarExtensions](../../../distributions/base/src/ShellHeader.tsx#L57-L64) |
-| ShellHeader | renders ToolbarItems (one hop up); calls useToolbarExtensions (one hop up) | renders ToolbarItems at [ShellHeader.tsx:99](../../../distributions/base/src/ShellHeader.tsx#L99)<br>renders ToolbarItems at [ShellHeader.tsx:116](../../../distributions/base/src/ShellHeader.tsx#L116)<br>calls useToolbarExtensions at [ShellHeader.tsx:80](../../../distributions/base/src/ShellHeader.tsx#L80) |
 
 ### app.masthead/user-menu
 
@@ -525,6 +469,18 @@ Declared as [HrefNavItemExtension](../src/extension-points/navigation.ts#L15-L34
 
 **Consumed in:** [base-distribution](../../../distributions/base/docs/extensions.md#consumes-appnavigationhref), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appnavigationhref)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L106) | `properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([ShellNav.tsx:124](../../../distributions/base/src/ShellNav.tsx#L124))<br>`properties.href` — read, direct ([ShellNav.tsx:131](../../../distributions/base/src/ShellNav.tsx#L131))<br>`properties.path` — read, direct ([ShellNav.tsx:131](../../../distributions/base/src/ShellNav.tsx#L131)) | ShellNavItem ([ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172)) |
+| [ShellNav](../../../distributions/base/src/ShellNav.tsx#L183-L203) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L184) | — | `<module>` ([bootstrap.tsx:19](../../../distributions/base/src/bootstrap.tsx#L19))<br>DistributionApp ([createDistribution.tsx:58](../../../distributions/base/src/createDistribution.tsx#L58)) |
+| [ExtensibleNav](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L18-L35) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L19) | `properties.id` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([ExtensibleNav.tsx:30](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L30)) | NavSidebar ([NavSidebar.tsx:8](../../../frontend/src/app/NavSidebar.tsx#L8)) |
+| [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/NavSection.tsx#L64) | `properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:83](../../../frontend/src/app/navigation/NavSection.tsx#L83))<br>`properties.id` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:90](../../../frontend/src/app/navigation/NavSection.tsx#L90) (+2 more)) | NavItem ([NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20)) |
+| [collectDescendants](../../../frontend/src/app/navigation/NavSection.tsx#L92-L105) | frontend (core app) | — | `properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:99](../../../frontend/src/app/navigation/NavSection.tsx#L99))<br>`properties.id` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:101](../../../frontend/src/app/navigation/NavSection.tsx#L101)) | collectDescendants (called at [NavSection.tsx:102](../../../frontend/src/app/navigation/NavSection.tsx#L102))<br>NavSection (called at [NavSection.tsx:108](../../../frontend/src/app/navigation/NavSection.tsx#L108)) |
+| [getLeafAccessReview](../../../frontend/src/app/navigation/NavSection.tsx#L43-L51) | frontend (core app) | — | `properties.accessReview` — read, direct ([NavSection.tsx:45](../../../frontend/src/app/navigation/NavSection.tsx#L45)) | NavSection (called at [NavSection.tsx:115](../../../frontend/src/app/navigation/NavSection.tsx#L115)) |
+| [getLeafPath](../../../frontend/src/app/navigation/NavSection.tsx#L32-L40) | frontend (core app) | — | `properties.href` — read, direct ([NavSection.tsx:34](../../../frontend/src/app/navigation/NavSection.tsx#L34))<br>`properties.path` — read, direct ([NavSection.tsx:34](../../../frontend/src/app/navigation/NavSection.tsx#L34)) | NavSection (called at [NavSection.tsx:159](../../../frontend/src/app/navigation/NavSection.tsx#L159)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -567,19 +523,19 @@ flowchart LR
   n_pkg__odh_dashboard_notebooks_458f10 -. "federated" .-> n_app_navigation_href_67179c
   n_pkg__odh_dashboard_observability_38a333 --> n_app_navigation_href_67179c
   n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6["NavSectionItem"]
-  n_app_navigation_href_67179c -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
+  n_app_navigation_href_67179c --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce["ShellNav"]
-  n_app_navigation_href_67179c -- "useExtensions" --> n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce
+  n_app_navigation_href_67179c --> n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce
   n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a["ExtensibleNav"]
-  n_app_navigation_href_67179c -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a
+  n_app_navigation_href_67179c --> n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a
   n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86["NavSection"]
-  n_app_navigation_href_67179c -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
+  n_app_navigation_href_67179c --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
   n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0["collectDescendants"]
-  n_app_navigation_href_67179c -- "read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0
+  n_app_navigation_href_67179c --> n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0
   n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68["getLeafAccessReview"]
-  n_app_navigation_href_67179c -- "read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68
+  n_app_navigation_href_67179c --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68
   n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1["getLeafPath"]
-  n_app_navigation_href_67179c -- "read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1
+  n_app_navigation_href_67179c --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNavItem_395dcd("ShellNavItem")
   n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0("#lt;module#gt;")
   n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf("DistributionApp")
@@ -595,40 +551,6 @@ flowchart LR
   n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68 -. "called in" .-> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
   n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1 -. "called in" .-> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| ai-safety (package) | contributes extensions of this point | [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-appnavigationhref) |
-| automl (package) | contributes extensions of this point | [automl](../../automl/docs/extensions.md#contributes-to-appnavigationhref) |
-| autorag (package) | contributes extensions of this point | [autorag](../../autorag/docs/extensions.md#contributes-to-appnavigationhref) |
-| core-bff (distribution) | contributes extensions of this point | [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-appnavigationhref) |
-| data-connect-hub (package) | contributes extensions of this point | [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-appnavigationhref) |
-| eval-hub (package) | contributes extensions of this point | [eval-hub](../../eval-hub/docs/extensions.md#contributes-to-appnavigationhref) |
-| feature-store (package) | contributes extensions of this point | [feature-store](../../feature-store/docs/extensions.md#contributes-to-appnavigationhref) |
-| gen-ai (package) | contributes extensions of this point | [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-appnavigationhref) |
-| gpuaas (package) | contributes extensions of this point | [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-appnavigationhref) |
-| hardware-profiles (package) | contributes extensions of this point | [hardware-profiles](../../hardware-profiles/docs/extensions.md#contributes-to-appnavigationhref) |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appnavigationhref) |
-| maas (package) | contributes extensions of this point | [maas](../../maas/docs/extensions.md#contributes-to-appnavigationhref) |
-| maas-portal-distribution (distribution) | contributes extensions of this point | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-appnavigationhref) |
-| mlflow-embedded (package) | contributes extensions of this point | [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-appnavigationhref) |
-| model-registry (package) | contributes extensions of this point | [model-registry](../../model-registry/docs/extensions.md#contributes-to-appnavigationhref) |
-| model-training (package) | contributes extensions of this point | [model-training](../../model-training/docs/extensions.md#contributes-to-appnavigationhref) |
-| notebooks (package) | contributes extensions of this point | [notebooks](../../notebooks/docs/extensions.md#contributes-to-appnavigationhref) |
-| observability (package) | contributes extensions of this point | [observability](../../observability/docs/extensions.md#contributes-to-appnavigationhref) |
-| app.navigation/href | this extension point | [app.navigation/href](#appnavigationhref) |
-| NavSectionItem | consumer in @odh-dashboard/base-distribution — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page) | [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) |
-| ShellNav | consumer in @odh-dashboard/base-distribution — useExtensions | [ShellNav](../../../distributions/base/src/ShellNav.tsx#L183-L203) |
-| ExtensibleNav | consumer in @odh-dashboard/internal — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page) | [ExtensibleNav](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L18-L35) |
-| NavSection | consumer in @odh-dashboard/internal — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page); calls collectDescendants, getLeafAccessReview, getLeafPath (one hop up) | [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214)<br>calls collectDescendants at [NavSection.tsx:108](../../../frontend/src/app/navigation/NavSection.tsx#L108)<br>calls getLeafAccessReview at [NavSection.tsx:115](../../../frontend/src/app/navigation/NavSection.tsx#L115)<br>calls getLeafPath at [NavSection.tsx:159](../../../frontend/src/app/navigation/NavSection.tsx#L159) |
-| collectDescendants | consumer in @odh-dashboard/internal — read (one of: app.navigation/href, app.navigation/section, app.tab-route/page); calls collectDescendants (one hop up) | [collectDescendants](../../../frontend/src/app/navigation/NavSection.tsx#L92-L105)<br>calls collectDescendants at [NavSection.tsx:102](../../../frontend/src/app/navigation/NavSection.tsx#L102) |
-| getLeafAccessReview | consumer in @odh-dashboard/internal — read | [getLeafAccessReview](../../../frontend/src/app/navigation/NavSection.tsx#L43-L51) |
-| getLeafPath | consumer in @odh-dashboard/internal — read | [getLeafPath](../../../frontend/src/app/navigation/NavSection.tsx#L32-L40) |
-| ShellNavItem | renders NavSectionItem (one hop up) | renders NavSectionItem at [ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172) |
-| <module> | renders ShellNav (one hop up) | renders ShellNav at [bootstrap.tsx:19](../../../distributions/base/src/bootstrap.tsx#L19) |
-| DistributionApp | renders ShellNav (one hop up) | renders ShellNav at [createDistribution.tsx:58](../../../distributions/base/src/createDistribution.tsx#L58) |
-| NavSidebar | renders ExtensibleNav (one hop up) | renders ExtensibleNav at [NavSidebar.tsx:8](../../../frontend/src/app/NavSidebar.tsx#L8) |
-| NavItem | renders NavSection (one hop up) | renders NavSection at [NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20) |
 
 **Not resolved** (never drawn in a diagram):
 
@@ -662,6 +584,17 @@ Declared as [NavSectionExtension](../src/extension-points/navigation.ts#L39).
 
 **Consumed in:** [base-distribution](../../../distributions/base/docs/extensions.md#consumes-appnavigationsection), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appnavigationsection), [plugin-core](#consumes-appnavigationsection)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L106) | `properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([ShellNav.tsx:124](../../../distributions/base/src/ShellNav.tsx#L124)) | ShellNavItem ([ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172)) |
+| [ShellNav](../../../distributions/base/src/ShellNav.tsx#L183-L203) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L184) | — | `<module>` ([bootstrap.tsx:19](../../../distributions/base/src/bootstrap.tsx#L19))<br>DistributionApp ([createDistribution.tsx:58](../../../distributions/base/src/createDistribution.tsx#L58)) |
+| [ExtensibleNav](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L18-L35) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L19) | `properties.id` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([ExtensibleNav.tsx:30](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L30)) | NavSidebar ([NavSidebar.tsx:8](../../../frontend/src/app/NavSidebar.tsx#L8)) |
+| [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/NavSection.tsx#L64) | `properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:83](../../../frontend/src/app/navigation/NavSection.tsx#L83))<br>`properties.id` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:90](../../../frontend/src/app/navigation/NavSection.tsx#L90) (+3 more)) | NavItem ([NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20)) |
+| [collectDescendants](../../../frontend/src/app/navigation/NavSection.tsx#L92-L105) | frontend (core app) | — | `properties.id` — read, direct ([NavSection.tsx:97](../../../frontend/src/app/navigation/NavSection.tsx#L97) (+1 more))<br>`properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:99](../../../frontend/src/app/navigation/NavSection.tsx#L99)) | collectDescendants (called at [NavSection.tsx:102](../../../frontend/src/app/navigation/NavSection.tsx#L102))<br>NavSection (called at [NavSection.tsx:108](../../../frontend/src/app/navigation/NavSection.tsx#L108)) |
+| [getTopLevelExtensions](../src/core/navigation.ts#L13-L60) | plugin-core | — | `properties.id` — read, direct ([navigation.ts:16](../src/core/navigation.ts#L16) (+2 more))<br>`type` — filter, direct ([navigation.ts:16](../src/core/navigation.ts#L16)) | ShellNav (called at [ShellNav.tsx:187](../../../distributions/base/src/ShellNav.tsx#L187))<br>ExtensibleNav (called at [ExtensibleNav.tsx:22](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L22)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -682,17 +615,17 @@ flowchart LR
   n_pkg__odh_dashboard_maas_87d494 --> n_app_navigation_section_34ff18
   n_pkg__odh_dashboard_rhaii_distribution_c06492 --> n_app_navigation_section_34ff18
   n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6["NavSectionItem"]
-  n_app_navigation_section_34ff18 -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
+  n_app_navigation_section_34ff18 --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce["ShellNav"]
-  n_app_navigation_section_34ff18 -- "useExtensions" --> n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce
+  n_app_navigation_section_34ff18 --> n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce
   n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a["ExtensibleNav"]
-  n_app_navigation_section_34ff18 -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a
+  n_app_navigation_section_34ff18 --> n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a
   n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86["NavSection"]
-  n_app_navigation_section_34ff18 -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
+  n_app_navigation_section_34ff18 --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
   n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0["collectDescendants"]
-  n_app_navigation_section_34ff18 -- "read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0
+  n_app_navigation_section_34ff18 --> n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0
   n_symbol_packages_plugin_core_src_core_navigation_ts_getTopLevelExtensions_a58a47["getTopLevelExtensions"]
-  n_app_navigation_section_34ff18 -- "filter, read" --> n_symbol_packages_plugin_core_src_core_navigation_ts_getTopLevelExtensions_a58a47
+  n_app_navigation_section_34ff18 --> n_symbol_packages_plugin_core_src_core_navigation_ts_getTopLevelExtensions_a58a47
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNavItem_395dcd("ShellNavItem")
   n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0("#lt;module#gt;")
   n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf("DistributionApp")
@@ -708,28 +641,6 @@ flowchart LR
   n_symbol_packages_plugin_core_src_core_navigation_ts_getTopLevelExtensions_a58a47 -. "called in" .-> n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce
   n_symbol_packages_plugin_core_src_core_navigation_ts_getTopLevelExtensions_a58a47 -. "called in" .-> n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| ai-safety (package) | contributes extensions of this point | [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-appnavigationsection) |
-| core-bff (distribution) | contributes extensions of this point | [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-appnavigationsection) |
-| feature-store (package) | contributes extensions of this point | [feature-store](../../feature-store/docs/extensions.md#contributes-to-appnavigationsection) |
-| gen-ai (package) | contributes extensions of this point | [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-appnavigationsection) |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-appnavigationsection) |
-| maas (package) | contributes extensions of this point | [maas](../../maas/docs/extensions.md#contributes-to-appnavigationsection) |
-| rhaii-distribution (distribution) | contributes extensions of this point | [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-appnavigationsection) |
-| app.navigation/section | this extension point | [app.navigation/section](#appnavigationsection) |
-| NavSectionItem | consumer in @odh-dashboard/base-distribution — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page) | [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) |
-| ShellNav | consumer in @odh-dashboard/base-distribution — useExtensions; calls getTopLevelExtensions (one hop up) | [ShellNav](../../../distributions/base/src/ShellNav.tsx#L183-L203)<br>calls getTopLevelExtensions at [ShellNav.tsx:187](../../../distributions/base/src/ShellNav.tsx#L187) |
-| ExtensibleNav | consumer in @odh-dashboard/internal — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page); calls getTopLevelExtensions (one hop up) | [ExtensibleNav](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L18-L35)<br>calls getTopLevelExtensions at [ExtensibleNav.tsx:22](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L22) |
-| NavSection | consumer in @odh-dashboard/internal — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page); calls collectDescendants (one hop up) | [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214)<br>calls collectDescendants at [NavSection.tsx:108](../../../frontend/src/app/navigation/NavSection.tsx#L108) |
-| collectDescendants | consumer in @odh-dashboard/internal — read (one of: app.navigation/href, app.navigation/section, app.tab-route/page); calls collectDescendants (one hop up) | [collectDescendants](../../../frontend/src/app/navigation/NavSection.tsx#L92-L105)<br>calls collectDescendants at [NavSection.tsx:102](../../../frontend/src/app/navigation/NavSection.tsx#L102) |
-| getTopLevelExtensions | consumer in @odh-dashboard/plugin-core — filter, read | [getTopLevelExtensions](../src/core/navigation.ts#L13-L60) |
-| ShellNavItem | renders NavSectionItem (one hop up) | renders NavSectionItem at [ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172) |
-| <module> | renders ShellNav (one hop up) | renders ShellNav at [bootstrap.tsx:19](../../../distributions/base/src/bootstrap.tsx#L19) |
-| DistributionApp | renders ShellNav (one hop up) | renders ShellNav at [createDistribution.tsx:58](../../../distributions/base/src/createDistribution.tsx#L58) |
-| NavSidebar | renders ExtensibleNav (one hop up) | renders ExtensibleNav at [NavSidebar.tsx:8](../../../frontend/src/app/NavSidebar.tsx#L8) |
-| NavItem | renders NavSection (one hop up) | renders NavSection at [NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20) |
 
 **Not resolved** (never drawn in a diagram):
 
@@ -753,25 +664,13 @@ Declared as [PatchExtension](../src/extension-points/patch.ts#L17-L24), with typ
 
 **Consumed in:** [plugin-core](#consumes-apppatch)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_maas_portal_distribution_5c89ae["maas-portal-distribution (distribution)"]:::pkg
-  n_app_patch_ea6dbc(["app.patch"]):::point
-  n_pkg__odh_dashboard_maas_portal_distribution_5c89ae --> n_app_patch_ea6dbc
-  n_symbol_packages_plugin_core_src_core_extensionResolution_ts_extractPatches_77b52a["extractPatches"]
-  n_app_patch_ea6dbc -- "type-check" --> n_symbol_packages_plugin_core_src_core_extensionResolution_ts_extractPatches_77b52a
-  n_symbol_packages_plugin_core_src_core_plugin_store_ts_PluginStore_d8bb79("PluginStore")
-  n_symbol_packages_plugin_core_src_core_extensionResolution_ts_extractPatches_77b52a -. "called in" .-> n_symbol_packages_plugin_core_src_core_plugin_store_ts_PluginStore_d8bb79
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| maas-portal-distribution (distribution) | contributes extensions of this point | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-apppatch) |
-| app.patch | this extension point | [app.patch](#apppatch) |
-| extractPatches | consumer in @odh-dashboard/plugin-core — type-check | [extractPatches](../src/core/extensionResolution.ts#L66-L93) |
-| PluginStore | calls extractPatches (one hop up) | calls extractPatches at [plugin-store.ts:51](../src/core/plugin-store.ts#L51) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [extractPatches](../src/core/extensionResolution.ts#L66-L93) | plugin-core | — | `type` — type-check, direct ([extensionResolution.ts:73](../src/core/extensionResolution.ts#L73)) | PluginStore (called at [plugin-store.ts:51](../src/core/plugin-store.ts#L51)) |
+
+**Flow:** maas-portal-distribution → app.patch → plugin-core · extractPatches → called in PluginStore
 
 ### app.project-details/overview-section
 
@@ -789,25 +688,13 @@ Declared as [OverviewSectionExtension](../src/extension-points/overview-card.ts#
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appproject-detailsoverview-section)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_model_serving_d0bfea["model-serving (package)"]:::pkg
-  n_app_project_details_overview_section_fbdb30(["app.project-details/overview-section"]):::point
-  n_pkg__odh_dashboard_model_serving_d0bfea --> n_app_project_details_overview_section_fbdb30
-  n_symbol_frontend_src_concepts_projects_overviewTab_ServeModels_tsx_OverviewModelsSection_fa46de["OverviewModelsSection"]
-  n_app_project_details_overview_section_fbdb30 -- "useExtensions, lazy-render, read" --> n_symbol_frontend_src_concepts_projects_overviewTab_ServeModels_tsx_OverviewModelsSection_fa46de
-  n_symbol_frontend_src_pages_projects_screens_detail_overview_ProjectOverview_tsx_ProjectOverview_3fb60b("ProjectOverview")
-  n_symbol_frontend_src_concepts_projects_overviewTab_ServeModels_tsx_OverviewModelsSection_fa46de -. "rendered in" .-> n_symbol_frontend_src_pages_projects_screens_detail_overview_ProjectOverview_tsx_ProjectOverview_3fb60b
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-appproject-detailsoverview-section) |
-| app.project-details/overview-section | this extension point | [app.project-details/overview-section](#appproject-detailsoverview-section) |
-| OverviewModelsSection | consumer in @odh-dashboard/internal — useExtensions, lazy-render, read | [OverviewModelsSection](../../../frontend/src/concepts/projects/overviewTab/ServeModels.tsx#L7-L18) |
-| ProjectOverview | renders OverviewModelsSection (one hop up) | renders OverviewModelsSection at [ProjectOverview.tsx:21](../../../frontend/src/pages/projects/screens/detail/overview/ProjectOverview.tsx#L21) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [OverviewModelsSection](../../../frontend/src/concepts/projects/overviewTab/ServeModels.tsx#L7-L18) | frontend (core app) | [useExtensions](../../../frontend/src/concepts/projects/overviewTab/ServeModels.tsx#L8) | `properties.component` — lazy-render, direct ([ServeModels.tsx:9](../../../frontend/src/concepts/projects/overviewTab/ServeModels.tsx#L9-L11))<br>`properties.id` — read, direct ([ServeModels.tsx:10](../../../frontend/src/concepts/projects/overviewTab/ServeModels.tsx#L10)) | ProjectOverview ([ProjectOverview.tsx:21](../../../frontend/src/pages/projects/screens/detail/overview/ProjectOverview.tsx#L21)) |
+
+**Flow:** model-serving → app.project-details/overview-section → frontend (core app) · OverviewModelsSection → rendered in ProjectOverview
 
 ### app.project-details/settings-card
 
@@ -825,6 +712,13 @@ Declared as [ProjectDetailsSettingsCardExtension](../src/extension-points/projec
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appproject-detailssettings-card)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ProjectDetails](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L53-L312) | frontend (core app) | [useExtensions](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L67) | — | ProjectViewRoutes ([ProjectViewRoutes.tsx:29](../../../frontend/src/pages/projects/ProjectViewRoutes.tsx#L29)) |
+| [ProjectSettingsPage](../../../frontend/src/pages/projects/projectSettings/ProjectSettingsPage.tsx#L10-L39) | frontend (core app) | [useExtensions](../../../frontend/src/pages/projects/projectSettings/ProjectSettingsPage.tsx#L13) | `properties.id` — read, direct ([ProjectSettingsPage.tsx:29](../../../frontend/src/pages/projects/projectSettings/ProjectSettingsPage.tsx#L29))<br>`properties.component` — lazy-render, direct ([ProjectSettingsPage.tsx:31](../../../frontend/src/pages/projects/projectSettings/ProjectSettingsPage.tsx#L31)) | ProjectDetails ([ProjectDetails.tsx:290](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L290)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -832,22 +726,14 @@ flowchart LR
   n_pkg__odh_dashboard_nim_serving_241793["nim-serving (package)"]:::pkg
   n_app_project_details_settings_card_bc8e85(["app.project-details/settings-card"]):::point
   n_pkg__odh_dashboard_nim_serving_241793 --> n_app_project_details_settings_card_bc8e85
-  n_symbol_frontend_src_pages_projects_projectSettings_ProjectSettingsPage_tsx_ProjectSettingsPage_113f30["ProjectSettingsPage"]
-  n_app_project_details_settings_card_bc8e85 -- "useExtensions, lazy-render, read" --> n_symbol_frontend_src_pages_projects_projectSettings_ProjectSettingsPage_tsx_ProjectSettingsPage_113f30
   n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef["ProjectDetails"]
-  n_app_project_details_settings_card_bc8e85 -- "useExtensions" --> n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef
+  n_app_project_details_settings_card_bc8e85 --> n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef
+  n_symbol_frontend_src_pages_projects_projectSettings_ProjectSettingsPage_tsx_ProjectSettingsPage_113f30["ProjectSettingsPage"]
+  n_app_project_details_settings_card_bc8e85 --> n_symbol_frontend_src_pages_projects_projectSettings_ProjectSettingsPage_tsx_ProjectSettingsPage_113f30
   n_symbol_frontend_src_pages_projects_ProjectViewRoutes_tsx_ProjectViewRoutes_9ce9ef("ProjectViewRoutes")
-  n_symbol_frontend_src_pages_projects_projectSettings_ProjectSettingsPage_tsx_ProjectSettingsPage_113f30 -. "rendered in" .-> n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef
   n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef -. "rendered in" .-> n_symbol_frontend_src_pages_projects_ProjectViewRoutes_tsx_ProjectViewRoutes_9ce9ef
+  n_symbol_frontend_src_pages_projects_projectSettings_ProjectSettingsPage_tsx_ProjectSettingsPage_113f30 -. "rendered in" .-> n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| nim-serving (package) | contributes extensions of this point | [nim-serving](../../nim-serving/docs/extensions.md#contributes-to-appproject-detailssettings-card) |
-| app.project-details/settings-card | this extension point | [app.project-details/settings-card](#appproject-detailssettings-card) |
-| ProjectSettingsPage | consumer in @odh-dashboard/internal — useExtensions, lazy-render, read | [ProjectSettingsPage](../../../frontend/src/pages/projects/projectSettings/ProjectSettingsPage.tsx#L10-L39) |
-| ProjectDetails | consumer in @odh-dashboard/internal — useExtensions; renders ProjectSettingsPage (one hop up) | [ProjectDetails](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L53-L312)<br>renders ProjectSettingsPage at [ProjectDetails.tsx:290](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L290) |
-| ProjectViewRoutes | renders ProjectDetails (one hop up) | renders ProjectDetails at [ProjectViewRoutes.tsx:29](../../../frontend/src/pages/projects/ProjectViewRoutes.tsx#L29) |
 
 ### app.project-details/tab
 
@@ -865,6 +751,13 @@ Declared as [ProjectDetailsTab](../src/extension-points/project-details.ts#L4-L1
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appproject-detailstab)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [useDeploymentsTab](../../../frontend/src/concepts/projects/projectDetails/useDeploymentsTab.tsx#L9-L32) | frontend (core app) | [useExtensions](../../../frontend/src/concepts/projects/projectDetails/useDeploymentsTab.tsx#L12) | `properties.component` — lazy-render, direct ([useDeploymentsTab.tsx:13](../../../frontend/src/concepts/projects/projectDetails/useDeploymentsTab.tsx#L13-L15))<br>`properties.id` — read, direct ([useDeploymentsTab.tsx:14](../../../frontend/src/concepts/projects/projectDetails/useDeploymentsTab.tsx#L14)) | ProjectDetails (called at [ProjectDetails.tsx:69](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L69)) |
+| [useWorkbenchesV2Tab](../../../frontend/src/concepts/projects/projectDetails/useWorkbenchesV2Tab.tsx#L9-L37) | frontend (core app) | [useExtensions](../../../frontend/src/concepts/projects/projectDetails/useWorkbenchesV2Tab.tsx#L11) | `properties.component` — lazy-render, direct ([useWorkbenchesV2Tab.tsx:12](../../../frontend/src/concepts/projects/projectDetails/useWorkbenchesV2Tab.tsx#L12-L14))<br>`properties.id` — read, direct ([useWorkbenchesV2Tab.tsx:13](../../../frontend/src/concepts/projects/projectDetails/useWorkbenchesV2Tab.tsx#L13)) | ProjectDetails (called at [ProjectDetails.tsx:70](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L70)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -875,22 +768,13 @@ flowchart LR
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_app_project_details_tab_621c38
   n_pkg__odh_dashboard_notebooks_458f10 -. "federated" .-> n_app_project_details_tab_621c38
   n_symbol_frontend_src_concepts_projects_projectDetails_useDeploymentsTab_tsx_useDeploymentsTab_9fb59c["useDeploymentsTab"]
-  n_app_project_details_tab_621c38 -- "useExtensions, lazy-render, read" --> n_symbol_frontend_src_concepts_projects_projectDetails_useDeploymentsTab_tsx_useDeploymentsTab_9fb59c
+  n_app_project_details_tab_621c38 --> n_symbol_frontend_src_concepts_projects_projectDetails_useDeploymentsTab_tsx_useDeploymentsTab_9fb59c
   n_symbol_frontend_src_concepts_projects_projectDetails_useWorkbenchesV2Tab_tsx_useWorkbenchesV2Tab_e5f590["useWorkbenchesV2Tab"]
-  n_app_project_details_tab_621c38 -- "useExtensions, lazy-render, read" --> n_symbol_frontend_src_concepts_projects_projectDetails_useWorkbenchesV2Tab_tsx_useWorkbenchesV2Tab_e5f590
+  n_app_project_details_tab_621c38 --> n_symbol_frontend_src_concepts_projects_projectDetails_useWorkbenchesV2Tab_tsx_useWorkbenchesV2Tab_e5f590
   n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef("ProjectDetails")
   n_symbol_frontend_src_concepts_projects_projectDetails_useDeploymentsTab_tsx_useDeploymentsTab_9fb59c -. "called in" .-> n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef
   n_symbol_frontend_src_concepts_projects_projectDetails_useWorkbenchesV2Tab_tsx_useWorkbenchesV2Tab_e5f590 -. "called in" .-> n_symbol_frontend_src_pages_projects_screens_detail_ProjectDetails_tsx_ProjectDetails_2a7cef
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-appproject-detailstab) |
-| notebooks (package) | contributes extensions of this point | [notebooks](../../notebooks/docs/extensions.md#contributes-to-appproject-detailstab) |
-| app.project-details/tab | this extension point | [app.project-details/tab](#appproject-detailstab) |
-| useDeploymentsTab | consumer in @odh-dashboard/internal — useExtensions, lazy-render, read | [useDeploymentsTab](../../../frontend/src/concepts/projects/projectDetails/useDeploymentsTab.tsx#L9-L32) |
-| useWorkbenchesV2Tab | consumer in @odh-dashboard/internal — useExtensions, lazy-render, read | [useWorkbenchesV2Tab](../../../frontend/src/concepts/projects/projectDetails/useWorkbenchesV2Tab.tsx#L9-L37) |
-| ProjectDetails | calls useDeploymentsTab, useWorkbenchesV2Tab (one hop up) | calls useDeploymentsTab at [ProjectDetails.tsx:69](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L69)<br>calls useWorkbenchesV2Tab at [ProjectDetails.tsx:70](../../../frontend/src/pages/projects/screens/detail/ProjectDetails.tsx#L70) |
 
 ### app.route
 
@@ -909,6 +793,13 @@ Declared as [RouteExtension](../src/extension-points/routes.ts#L7-L17).
 **Implemented by:** [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-approute), [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-approute), [automl](../../automl/docs/extensions.md#contributes-to-approute), [autorag](../../autorag/docs/extensions.md#contributes-to-approute), [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-approute), [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-approute), [eval-hub](../../eval-hub/docs/extensions.md#contributes-to-approute), [feature-store](../../feature-store/docs/extensions.md#contributes-to-approute), [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-approute), [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-approute), [hardware-profiles](../../hardware-profiles/docs/extensions.md#contributes-to-approute), [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-approute), [kserve](../../kserve/docs/extensions.md#contributes-to-approute), [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-approute), [maas](../../maas/docs/extensions.md#contributes-to-approute), [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-approute), [mlflow](../../mlflow/docs/extensions.md#contributes-to-approute), [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-approute), [model-registry](../../model-registry/docs/extensions.md#contributes-to-approute), [model-serving](../../model-serving/docs/extensions.md#contributes-to-approute), [model-training](../../model-training/docs/extensions.md#contributes-to-approute), [notebooks](../../notebooks/docs/extensions.md#contributes-to-approute), [observability](../../observability/docs/extensions.md#contributes-to-approute), [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-approute)
 
 **Consumed in:** [base-distribution](../../../distributions/base/docs/extensions.md#consumes-approute), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-approute)
+
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ShellRoutes](../../../distributions/base/src/ShellRoutes.tsx#L22-L81) | base-distribution | [useExtensions](../../../distributions/base/src/ShellRoutes.tsx#L23) | `properties.path` — read, direct ([ShellRoutes.tsx:39](../../../distributions/base/src/ShellRoutes.tsx#L39))<br>`properties.component` — lazy-render, direct ([ShellRoutes.tsx:44](../../../distributions/base/src/ShellRoutes.tsx#L44)) | `<module>` ([bootstrap.tsx:20](../../../distributions/base/src/bootstrap.tsx#L20))<br>DistributionApp ([createDistribution.tsx:59](../../../distributions/base/src/createDistribution.tsx#L59)) |
+| [AppRoutes](../../../frontend/src/app/AppRoutes.tsx#L23-L77) | frontend (core app) | [useExtensions](../../../frontend/src/app/AppRoutes.tsx#L25) | `properties.path` — read, direct ([AppRoutes.tsx:33](../../../frontend/src/app/AppRoutes.tsx#L33))<br>`properties.component` — lazy-render, direct ([AppRoutes.tsx:37](../../../frontend/src/app/AppRoutes.tsx#L37)) | App ([App.tsx:191](../../../frontend/src/app/App.tsx#L191)) |
 
 ```mermaid
 flowchart LR
@@ -964,9 +855,9 @@ flowchart LR
   n_pkg__odh_dashboard_observability_38a333 --> n_app_route_2735df
   n_pkg__odh_dashboard_rhaii_distribution_c06492 --> n_app_route_2735df
   n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0["ShellRoutes"]
-  n_app_route_2735df -- "useExtensions, lazy-render, read" --> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
+  n_app_route_2735df --> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
   n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1["AppRoutes"]
-  n_app_route_2735df -- "useExtensions, lazy-render, read" --> n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1
+  n_app_route_2735df --> n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1
   n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0("#lt;module#gt;")
   n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf("DistributionApp")
   n_symbol_frontend_src_app_App_tsx_App_bc56cd("App")
@@ -974,39 +865,6 @@ flowchart LR
   n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0 -. "rendered in" .-> n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf
   n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1 -. "rendered in" .-> n_symbol_frontend_src_app_App_tsx_App_bc56cd
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| agent-ops (package) | contributes extensions of this point | [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-approute) |
-| ai-safety (package) | contributes extensions of this point | [ai-safety](../../ai-safety/docs/extensions.md#contributes-to-approute) |
-| automl (package) | contributes extensions of this point | [automl](../../automl/docs/extensions.md#contributes-to-approute) |
-| autorag (package) | contributes extensions of this point | [autorag](../../autorag/docs/extensions.md#contributes-to-approute) |
-| core-bff (distribution) | contributes extensions of this point | [core-bff](../../../distributions/core-bff/docs/extensions.md#contributes-to-approute) |
-| data-connect-hub (package) | contributes extensions of this point | [data-connect-hub](../../data-connect-hub/docs/extensions.md#contributes-to-approute) |
-| eval-hub (package) | contributes extensions of this point | [eval-hub](../../eval-hub/docs/extensions.md#contributes-to-approute) |
-| feature-store (package) | contributes extensions of this point | [feature-store](../../feature-store/docs/extensions.md#contributes-to-approute) |
-| gen-ai (package) | contributes extensions of this point | [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-approute) |
-| gpuaas (package) | contributes extensions of this point | [gpuaas](../../gpuaas/docs/extensions.md#contributes-to-approute) |
-| hardware-profiles (package) | contributes extensions of this point | [hardware-profiles](../../hardware-profiles/docs/extensions.md#contributes-to-approute) |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-approute) |
-| kserve (package) | contributes extensions of this point | [kserve](../../kserve/docs/extensions.md#contributes-to-approute) |
-| llmd-serving (package) | contributes extensions of this point | [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-approute) |
-| maas (package) | contributes extensions of this point | [maas](../../maas/docs/extensions.md#contributes-to-approute) |
-| maas-portal-distribution (distribution) | contributes extensions of this point | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-approute) |
-| mlflow (package) | contributes extensions of this point | [mlflow](../../mlflow/docs/extensions.md#contributes-to-approute) |
-| mlflow-embedded (package) | contributes extensions of this point | [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-approute) |
-| model-registry (package) | contributes extensions of this point | [model-registry](../../model-registry/docs/extensions.md#contributes-to-approute) |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-approute) |
-| model-training (package) | contributes extensions of this point | [model-training](../../model-training/docs/extensions.md#contributes-to-approute) |
-| notebooks (package) | contributes extensions of this point | [notebooks](../../notebooks/docs/extensions.md#contributes-to-approute) |
-| observability (package) | contributes extensions of this point | [observability](../../observability/docs/extensions.md#contributes-to-approute) |
-| rhaii-distribution (distribution) | contributes extensions of this point | [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-approute) |
-| app.route | this extension point | [app.route](#approute) |
-| ShellRoutes | consumer in @odh-dashboard/base-distribution — useExtensions, lazy-render, read | [ShellRoutes](../../../distributions/base/src/ShellRoutes.tsx#L22-L81) |
-| AppRoutes | consumer in @odh-dashboard/internal — useExtensions, lazy-render, read | [AppRoutes](../../../frontend/src/app/AppRoutes.tsx#L23-L77) |
-| <module> | renders ShellRoutes (one hop up) | renders ShellRoutes at [bootstrap.tsx:20](../../../distributions/base/src/bootstrap.tsx#L20) |
-| DistributionApp | renders ShellRoutes (one hop up) | renders ShellRoutes at [createDistribution.tsx:59](../../../distributions/base/src/createDistribution.tsx#L59) |
-| App | renders AppRoutes (one hop up) | renders AppRoutes at [App.tsx:191](../../../frontend/src/app/App.tsx#L191) |
 
 **Not resolved** (never drawn in a diagram):
 
@@ -1065,25 +923,13 @@ Declared as [StatusProviderExtension](../src/extension-points/status-provider.ts
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-appstatus-provider)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_hardware_profiles_48b483["hardware-profiles (package)"]:::pkg
-  n_app_status_provider_94dc4e(["app.status-provider"]):::point
-  n_pkg__odh_dashboard_hardware_profiles_48b483 --> n_app_status_provider_94dc4e
-  n_symbol_frontend_src_app_status_provider_StatusReportLoader_tsx_StatusReportLoader_e66998["StatusReportLoader"]
-  n_app_status_provider_94dc4e -- "useResolvedExtensions, hook-run, read" --> n_symbol_frontend_src_app_status_provider_StatusReportLoader_tsx_StatusReportLoader_e66998
-  n_symbol_frontend_src_app_navigation_NavItemHref_tsx_NavItemHref_dfff1e("NavItemHref")
-  n_symbol_frontend_src_app_status_provider_StatusReportLoader_tsx_StatusReportLoader_e66998 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_NavItemHref_tsx_NavItemHref_dfff1e
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| hardware-profiles (package) | contributes extensions of this point | [hardware-profiles](../../hardware-profiles/docs/extensions.md#contributes-to-appstatus-provider) |
-| app.status-provider | this extension point | [app.status-provider](#appstatus-provider) |
-| StatusReportLoader | consumer in @odh-dashboard/internal — useResolvedExtensions, hook-run, read | [StatusReportLoader](../../../frontend/src/app/status-provider/StatusReportLoader.tsx#L14-L57) |
-| NavItemHref | renders StatusReportLoader (one hop up) | renders StatusReportLoader at [NavItemHref.tsx:68](../../../frontend/src/app/navigation/NavItemHref.tsx#L68-L74) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [StatusReportLoader](../../../frontend/src/app/status-provider/StatusReportLoader.tsx#L14-L57) | frontend (core app) | [useResolvedExtensions](../../../frontend/src/app/status-provider/StatusReportLoader.tsx#L15) | `properties.id` — read, direct ([StatusReportLoader.tsx:19](../../../frontend/src/app/status-provider/StatusReportLoader.tsx#L19))<br>`properties.statusProviderHook` — hook-run, direct ([StatusReportLoader.tsx:52](../../../frontend/src/app/status-provider/StatusReportLoader.tsx#L52)) | NavItemHref ([NavItemHref.tsx:68](../../../frontend/src/app/navigation/NavItemHref.tsx#L68-L74)) |
+
+**Flow:** hardware-profiles → app.status-provider → frontend (core app) · StatusReportLoader → rendered in NavItemHref
 
 ### app.suppress
 
@@ -1100,25 +946,13 @@ Declared as [SuppressExtension](../src/extension-points/suppress.ts#L5-L11).
 
 **Consumed in:** [plugin-core](#consumes-appsuppress)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_maas_portal_distribution_5c89ae["maas-portal-distribution (distribution)"]:::pkg
-  n_app_suppress_678209(["app.suppress"]):::point
-  n_pkg__odh_dashboard_maas_portal_distribution_5c89ae --> n_app_suppress_678209
-  n_symbol_packages_plugin_core_src_core_extensionResolution_ts_applySuppress_271dd2["applySuppress"]
-  n_app_suppress_678209 -- "type-check" --> n_symbol_packages_plugin_core_src_core_extensionResolution_ts_applySuppress_271dd2
-  n_symbol_packages_plugin_core_src_core_plugin_store_ts_PluginStore_d8bb79("PluginStore")
-  n_symbol_packages_plugin_core_src_core_extensionResolution_ts_applySuppress_271dd2 -. "called in" .-> n_symbol_packages_plugin_core_src_core_plugin_store_ts_PluginStore_d8bb79
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| maas-portal-distribution (distribution) | contributes extensions of this point | [maas-portal-distribution](../../../distributions/maas-portal/docs/extensions.md#contributes-to-appsuppress) |
-| app.suppress | this extension point | [app.suppress](#appsuppress) |
-| applySuppress | consumer in @odh-dashboard/plugin-core — type-check | [applySuppress](../src/core/extensionResolution.ts#L103-L154) |
-| PluginStore | calls applySuppress (one hop up) | calls applySuppress at [plugin-store.ts:53](../src/core/plugin-store.ts#L53) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [applySuppress](../src/core/extensionResolution.ts#L103-L154) | plugin-core | — | `type` — type-check, direct ([extensionResolution.ts:107](../src/core/extensionResolution.ts#L107) (+1 more)) | PluginStore (called at [plugin-store.ts:53](../src/core/plugin-store.ts#L53)) |
+
+**Flow:** maas-portal-distribution → app.suppress → plugin-core · applySuppress → called in PluginStore
 
 ### app.tab-route/page
 
@@ -1161,6 +995,27 @@ Declared as [TabRoutePageExtension](../src/extension-points/tab-route.ts#L20-L46
 
 **Consumed in:** [base-distribution](../../../distributions/base/docs/extensions.md#consumes-apptab-routepage), [gen-ai](../../gen-ai/docs/extensions.md#consumes-apptab-routepage), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptab-routepage), [model-registry](../../model-registry/docs/extensions.md#consumes-apptab-routepage)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [MultiTabContent](../../../distributions/base/src/TabRoutePage.tsx#L63-L119) | base-distribution | — | `properties.href` — read, direct ([TabRoutePage.tsx:86](../../../distributions/base/src/TabRoutePage.tsx#L86)) | TabRoutePage ([TabRoutePage.tsx:198](../../../distributions/base/src/TabRoutePage.tsx#L198-L204)) |
+| [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L107) | `properties.id` — read, direct ([ShellNav.tsx:113](../../../distributions/base/src/ShellNav.tsx#L113))<br>`properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([ShellNav.tsx:124](../../../distributions/base/src/ShellNav.tsx#L124))<br>`properties.path` — read, direct ([ShellNav.tsx:135](../../../distributions/base/src/ShellNav.tsx#L135)) | ShellNavItem ([ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172)) |
+| [ShellNav](../../../distributions/base/src/ShellNav.tsx#L183-L203) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L185) | — | `<module>` ([bootstrap.tsx:19](../../../distributions/base/src/bootstrap.tsx#L19))<br>DistributionApp ([createDistribution.tsx:58](../../../distributions/base/src/createDistribution.tsx#L58)) |
+| [ShellRoutes](../../../distributions/base/src/ShellRoutes.tsx#L22-L81) | base-distribution | [useExtensions](../../../distributions/base/src/ShellRoutes.tsx#L24) | `properties.id` — read, direct ([ShellRoutes.tsx:30](../../../distributions/base/src/ShellRoutes.tsx#L30))<br>`properties.path` — read, direct ([ShellRoutes.tsx:59](../../../distributions/base/src/ShellRoutes.tsx#L59)) | `<module>` ([bootstrap.tsx:20](../../../distributions/base/src/bootstrap.tsx#L20))<br>DistributionApp ([createDistribution.tsx:59](../../../distributions/base/src/createDistribution.tsx#L59)) |
+| [TabRoutePage](../../../distributions/base/src/TabRoutePage.tsx#L121-L213) | base-distribution | — | `properties.id` — read, direct ([TabRoutePage.tsx:122](../../../distributions/base/src/TabRoutePage.tsx#L122))<br>`properties.href` — read, direct ([TabRoutePage.tsx:135](../../../distributions/base/src/TabRoutePage.tsx#L135) (+3 more))<br>`properties.title` — read, direct ([TabRoutePage.tsx:152](../../../distributions/base/src/TabRoutePage.tsx#L152))<br>`properties.alwaysShowTabBar` — read, direct ([TabRoutePage.tsx:165](../../../distributions/base/src/TabRoutePage.tsx#L165)) | ShellRoutes ([ShellRoutes.tsx:62](../../../distributions/base/src/ShellRoutes.tsx#L62)) |
+| [AppRoutes](../../../frontend/src/app/AppRoutes.tsx#L23-L77) | frontend (core app) | [useExtensions](../../../frontend/src/app/AppRoutes.tsx#L26) | `properties.path` — read, direct ([AppRoutes.tsx:51](../../../frontend/src/app/AppRoutes.tsx#L51)) | App ([App.tsx:191](../../../frontend/src/app/App.tsx#L191)) |
+| [ExtensibleNav](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L18-L35) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L20) | `properties.id` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([ExtensibleNav.tsx:30](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L30)) | NavSidebar ([NavSidebar.tsx:8](../../../frontend/src/app/NavSidebar.tsx#L8)) |
+| [MultiTabContent](../../../frontend/src/app/navigation/TabRoutePage.tsx#L92-L146) | frontend (core app) | — | `properties.href` — read, direct ([TabRoutePage.tsx:115](../../../frontend/src/app/navigation/TabRoutePage.tsx#L115)) | TabRoutePage ([TabRoutePage.tsx:263](../../../frontend/src/app/navigation/TabRoutePage.tsx#L263-L269)) |
+| [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/NavSection.tsx#L65) | `properties.id` — read, direct ([NavSection.tsx:71](../../../frontend/src/app/navigation/NavSection.tsx#L71) (+3 more))<br>`properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:83](../../../frontend/src/app/navigation/NavSection.tsx#L83)) | NavItem ([NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20)) |
+| [TabRoutePage](../../../frontend/src/app/navigation/TabRoutePage.tsx#L148-L278) | frontend (core app) | — | `properties.id` — read, direct ([TabRoutePage.tsx:149](../../../frontend/src/app/navigation/TabRoutePage.tsx#L149))<br>`properties.objectType` — read, direct ([TabRoutePage.tsx:150](../../../frontend/src/app/navigation/TabRoutePage.tsx#L150))<br>`properties.href` — read, direct ([TabRoutePage.tsx:166](../../../frontend/src/app/navigation/TabRoutePage.tsx#L166) (+4 more))<br>`properties.alwaysShowTabBar` — read, direct ([TabRoutePage.tsx:188](../../../frontend/src/app/navigation/TabRoutePage.tsx#L188))<br>`properties.title` — read, direct ([TabRoutePage.tsx:196](../../../frontend/src/app/navigation/TabRoutePage.tsx#L196))<br>`properties.hidePageTitleOnPaths` — read, direct ([TabRoutePage.tsx:204](../../../frontend/src/app/navigation/TabRoutePage.tsx#L204))<br>`properties.description` — read, direct ([TabRoutePage.tsx:220](../../../frontend/src/app/navigation/TabRoutePage.tsx#L220) (+1 more)) | AppRoutes ([AppRoutes.tsx:52](../../../frontend/src/app/AppRoutes.tsx#L52)) |
+| [collectDescendants](../../../frontend/src/app/navigation/NavSection.tsx#L92-L105) | frontend (core app) | — | `properties.section` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:99](../../../frontend/src/app/navigation/NavSection.tsx#L99))<br>`properties.id` — read, direct, one of: app.navigation/href, app.navigation/section, app.tab-route/page ([NavSection.tsx:101](../../../frontend/src/app/navigation/NavSection.tsx#L101)) | collectDescendants (called at [NavSection.tsx:102](../../../frontend/src/app/navigation/NavSection.tsx#L102))<br>NavSection (called at [NavSection.tsx:108](../../../frontend/src/app/navigation/NavSection.tsx#L108)) |
+| [getLeafAccessReview](../../../frontend/src/app/navigation/NavSection.tsx#L43-L51) | frontend (core app) | — | `properties.accessReview` — read, direct ([NavSection.tsx:48](../../../frontend/src/app/navigation/NavSection.tsx#L48)) | NavSection (called at [NavSection.tsx:115](../../../frontend/src/app/navigation/NavSection.tsx#L115)) |
+| [getLeafPath](../../../frontend/src/app/navigation/NavSection.tsx#L32-L40) | frontend (core app) | — | `properties.path` — read, direct ([NavSection.tsx:37](../../../frontend/src/app/navigation/NavSection.tsx#L37)) | NavSection (called at [NavSection.tsx:159](../../../frontend/src/app/navigation/NavSection.tsx#L159)) |
+| [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) | frontend (core app) | [useExtensions](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L24) | `properties.href` — read, direct ([useTaskAssistantData.ts:35](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L35))<br>`properties.id` — read, direct ([useTaskAssistantData.ts:35](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L35)) | TaskAssistantSection (called at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32)) |
+| [TranscriptionModelSection](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L58-L370) | gen-ai | [useExtensions](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L68) | `properties.href` — read, direct ([TranscriptionModelSection.tsx:265](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L265)) | ModelTabContent ([ModelTabContent.tsx:85](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/ModelTabContent.tsx#L85)) |
+| [RuntimeCatalogDetailsRoutes](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L13-L53) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L23) | `properties.id` — read, direct ([RuntimeCatalogDetailsRoutes.tsx:25](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L25) (+1 more))<br>`properties.breadcrumbTabId` — read, direct ([RuntimeCatalogDetailsRoutes.tsx:29](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L29))<br>`properties.title` — read, direct ([RuntimeCatalogDetailsRoutes.tsx:41](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L41))<br>`properties.href` — read, direct ([RuntimeCatalogDetailsRoutes.tsx:43](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L43) (+2 more)) | RuntimeCatalogDetailsWrapper ([RuntimeCatalogWrapper.tsx:63](../../model-registry/upstream/frontend/src/odh/RuntimeCatalogWrapper.tsx#L63)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -1174,38 +1029,38 @@ flowchart LR
   n_pkg__odh_dashboard_internal_143c2f --> n_app_tab_route_page_976575
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_app_tab_route_page_976575
   n_pkg__odh_dashboard_rhaii_distribution_c06492 --> n_app_tab_route_page_976575
-  n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6["NavSectionItem"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
-  n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce["ShellNav"]
-  n_app_tab_route_page_976575 -- "useExtensions" --> n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce
-  n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0["ShellRoutes"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
   n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6["MultiTabContent"]
-  n_app_tab_route_page_976575 -- "read" --> n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6
+  n_app_tab_route_page_976575 --> n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6
+  n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6["NavSectionItem"]
+  n_app_tab_route_page_976575 --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
+  n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce["ShellNav"]
+  n_app_tab_route_page_976575 --> n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce
+  n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0["ShellRoutes"]
+  n_app_tab_route_page_976575 --> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
   n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2["TabRoutePage"]
-  n_app_tab_route_page_976575 -- "read" --> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
+  n_app_tab_route_page_976575 --> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
   n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1["AppRoutes"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1
   n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a["ExtensibleNav"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a
-  n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86["NavSection"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
-  n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0["collectDescendants"]
-  n_app_tab_route_page_976575 -- "read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0
-  n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68["getLeafAccessReview"]
-  n_app_tab_route_page_976575 -- "read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68
-  n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1["getLeafPath"]
-  n_app_tab_route_page_976575 -- "read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80["MultiTabContent"]
-  n_app_tab_route_page_976575 -- "read" --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80
+  n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86["NavSection"]
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44["TabRoutePage"]
-  n_app_tab_route_page_976575 -- "read" --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
+  n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0["collectDescendants"]
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0
+  n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68["getLeafAccessReview"]
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68
+  n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1["getLeafPath"]
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc["useTaskAssistantData"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
+  n_app_tab_route_page_976575 --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
   n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_TranscriptionModelSection_tsx_TranscriptionModelSection_d0e53c["TranscriptionModelSection"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_TranscriptionModelSection_tsx_TranscriptionModelSection_d0e53c
+  n_app_tab_route_page_976575 --> n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_TranscriptionModelSection_tsx_TranscriptionModelSection_d0e53c
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2["RuntimeCatalogDetailsRoutes"]
-  n_app_tab_route_page_976575 -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2
+  n_app_tab_route_page_976575 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNavItem_395dcd("ShellNavItem")
   n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0("#lt;module#gt;")
   n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf("DistributionApp")
@@ -1215,59 +1070,26 @@ flowchart LR
   n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2("TaskAssistantSection")
   n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_ModelTabContent_tsx_ModelTabContent_0b9f0c("ModelTabContent")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_RuntimeCatalogWrapper_tsx_RuntimeCatalogDetailsWrapper_25a237("RuntimeCatalogDetailsWrapper")
+  n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6 -. "rendered in" .-> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
   n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6 -. "rendered in" .-> n_symbol_distributions_base_src_ShellNav_tsx_ShellNavItem_395dcd
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce -. "rendered in" .-> n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNav_9643ce -. "rendered in" .-> n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf
   n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0 -. "rendered in" .-> n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0
   n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0 -. "rendered in" .-> n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf
-  n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6 -. "rendered in" .-> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
   n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2 -. "rendered in" .-> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
   n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1 -. "rendered in" .-> n_symbol_frontend_src_app_App_tsx_App_bc56cd
   n_symbol_frontend_src_app_navigation_ExtensibleNav_tsx_ExtensibleNav_a7766a -. "rendered in" .-> n_symbol_frontend_src_app_NavSidebar_tsx_NavSidebar_1bfab7
+  n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
   n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_NavItem_tsx_NavItem_76250a
+  n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44 -. "rendered in" .-> n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1
   n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0 -. "called in" .-> n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0
   n_symbol_frontend_src_app_navigation_NavSection_tsx_collectDescendants_c1c0b0 -. "called in" .-> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
   n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafAccessReview_4e6a68 -. "called in" .-> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
   n_symbol_frontend_src_app_navigation_NavSection_tsx_getLeafPath_b7fab1 -. "called in" .-> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
-  n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
-  n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44 -. "rendered in" .-> n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc -. "called in" .-> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
   n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_TranscriptionModelSection_tsx_TranscriptionModelSection_d0e53c -. "rendered in" .-> n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_ModelTabContent_tsx_ModelTabContent_0b9f0c
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_RuntimeCatalogWrapper_tsx_RuntimeCatalogDetailsWrapper_25a237
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| data-registry (package) | contributes extensions of this point | [data-registry](../../data-registry/docs/extensions.md#contributes-to-apptab-routepage) |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-apptab-routepage) |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-apptab-routepage) |
-| rhaii-distribution (distribution) | contributes extensions of this point | [rhaii-distribution](../../../distributions/rhaii/docs/extensions.md#contributes-to-apptab-routepage) |
-| app.tab-route/page | this extension point | [app.tab-route/page](#apptab-routepage) |
-| NavSectionItem | consumer in @odh-dashboard/base-distribution — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page) | [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) |
-| ShellNav | consumer in @odh-dashboard/base-distribution — useExtensions | [ShellNav](../../../distributions/base/src/ShellNav.tsx#L183-L203) |
-| ShellRoutes | consumer in @odh-dashboard/base-distribution — useExtensions, read; renders TabRoutePage (one hop up) | [ShellRoutes](../../../distributions/base/src/ShellRoutes.tsx#L22-L81)<br>renders TabRoutePage at [ShellRoutes.tsx:62](../../../distributions/base/src/ShellRoutes.tsx#L62) |
-| MultiTabContent | consumer in @odh-dashboard/base-distribution — read | [MultiTabContent](../../../distributions/base/src/TabRoutePage.tsx#L63-L119) |
-| TabRoutePage | consumer in @odh-dashboard/base-distribution — read; renders MultiTabContent (one hop up) | [TabRoutePage](../../../distributions/base/src/TabRoutePage.tsx#L121-L213)<br>renders MultiTabContent at [TabRoutePage.tsx:198](../../../distributions/base/src/TabRoutePage.tsx#L198-L204) |
-| AppRoutes | consumer in @odh-dashboard/internal — useExtensions, read; renders TabRoutePage (one hop up) | [AppRoutes](../../../frontend/src/app/AppRoutes.tsx#L23-L77)<br>renders TabRoutePage at [AppRoutes.tsx:52](../../../frontend/src/app/AppRoutes.tsx#L52) |
-| ExtensibleNav | consumer in @odh-dashboard/internal — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page) | [ExtensibleNav](../../../frontend/src/app/navigation/ExtensibleNav.tsx#L18-L35) |
-| NavSection | consumer in @odh-dashboard/internal — useExtensions, read (one of: app.navigation/href, app.navigation/section, app.tab-route/page); calls collectDescendants, getLeafAccessReview, getLeafPath (one hop up) | [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214)<br>calls collectDescendants at [NavSection.tsx:108](../../../frontend/src/app/navigation/NavSection.tsx#L108)<br>calls getLeafAccessReview at [NavSection.tsx:115](../../../frontend/src/app/navigation/NavSection.tsx#L115)<br>calls getLeafPath at [NavSection.tsx:159](../../../frontend/src/app/navigation/NavSection.tsx#L159) |
-| collectDescendants | consumer in @odh-dashboard/internal — read (one of: app.navigation/href, app.navigation/section, app.tab-route/page); calls collectDescendants (one hop up) | [collectDescendants](../../../frontend/src/app/navigation/NavSection.tsx#L92-L105)<br>calls collectDescendants at [NavSection.tsx:102](../../../frontend/src/app/navigation/NavSection.tsx#L102) |
-| getLeafAccessReview | consumer in @odh-dashboard/internal — read | [getLeafAccessReview](../../../frontend/src/app/navigation/NavSection.tsx#L43-L51) |
-| getLeafPath | consumer in @odh-dashboard/internal — read | [getLeafPath](../../../frontend/src/app/navigation/NavSection.tsx#L32-L40) |
-| MultiTabContent | consumer in @odh-dashboard/internal — read | [MultiTabContent](../../../frontend/src/app/navigation/TabRoutePage.tsx#L92-L146) |
-| TabRoutePage | consumer in @odh-dashboard/internal — read; renders MultiTabContent (one hop up) | [TabRoutePage](../../../frontend/src/app/navigation/TabRoutePage.tsx#L148-L278)<br>renders MultiTabContent at [TabRoutePage.tsx:263](../../../frontend/src/app/navigation/TabRoutePage.tsx#L263-L269) |
-| useTaskAssistantData | consumer in @odh-dashboard/internal — useExtensions, read | [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) |
-| TranscriptionModelSection | consumer in @odh-dashboard/gen-ai — useExtensions, read | [TranscriptionModelSection](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L58-L370) |
-| RuntimeCatalogDetailsRoutes | consumer in @odh-dashboard/model-registry — useExtensions, read | [RuntimeCatalogDetailsRoutes](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L13-L53) |
-| ShellNavItem | renders NavSectionItem (one hop up) | renders NavSectionItem at [ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172) |
-| <module> | renders ShellNav, ShellRoutes (one hop up) | renders ShellNav at [bootstrap.tsx:19](../../../distributions/base/src/bootstrap.tsx#L19)<br>renders ShellRoutes at [bootstrap.tsx:20](../../../distributions/base/src/bootstrap.tsx#L20) |
-| DistributionApp | renders ShellNav, ShellRoutes (one hop up) | renders ShellNav at [createDistribution.tsx:58](../../../distributions/base/src/createDistribution.tsx#L58)<br>renders ShellRoutes at [createDistribution.tsx:59](../../../distributions/base/src/createDistribution.tsx#L59) |
-| App | renders AppRoutes (one hop up) | renders AppRoutes at [App.tsx:191](../../../frontend/src/app/App.tsx#L191) |
-| NavSidebar | renders ExtensibleNav (one hop up) | renders ExtensibleNav at [NavSidebar.tsx:8](../../../frontend/src/app/NavSidebar.tsx#L8) |
-| NavItem | renders NavSection (one hop up) | renders NavSection at [NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20) |
-| TaskAssistantSection | calls useTaskAssistantData (one hop up) | calls useTaskAssistantData at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32) |
-| ModelTabContent | renders TranscriptionModelSection (one hop up) | renders TranscriptionModelSection at [ModelTabContent.tsx:85](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/ModelTabContent.tsx#L85) |
-| RuntimeCatalogDetailsWrapper | renders RuntimeCatalogDetailsRoutes (one hop up) | renders RuntimeCatalogDetailsRoutes at [RuntimeCatalogWrapper.tsx:63](../../model-registry/upstream/frontend/src/odh/RuntimeCatalogWrapper.tsx#L63) |
 
 **Not resolved** (never drawn in a diagram):
 
@@ -1300,6 +1122,28 @@ Declared as [TabRouteTabExtension](../src/extension-points/tab-route.ts#L54-L80)
 
 **Consumed in:** [base-distribution](../../../distributions/base/docs/extensions.md#consumes-apptab-routetab), [gen-ai](../../gen-ai/docs/extensions.md#consumes-apptab-routetab), [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptab-routetab), [model-registry](../../model-registry/docs/extensions.md#consumes-apptab-routetab)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [MultiTabContent](../../../distributions/base/src/TabRoutePage.tsx#L63-L119) | base-distribution | — | `properties.id` — read, direct ([TabRoutePage.tsx:73](../../../distributions/base/src/TabRoutePage.tsx#L73) (+10 more))<br>`properties.title` — read, direct ([TabRoutePage.tsx:93](../../../distributions/base/src/TabRoutePage.tsx#L93))<br>`properties.component` — lazy-render, direct ([TabRoutePage.tsx:110](../../../distributions/base/src/TabRoutePage.tsx#L110)) | TabRoutePage ([TabRoutePage.tsx:198](../../../distributions/base/src/TabRoutePage.tsx#L198-L204)) |
+| [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L108) | `properties.pageId` — read, direct ([ShellNav.tsx:113](../../../distributions/base/src/ShellNav.tsx#L113)) | ShellNavItem ([ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172)) |
+| [NavTabRouteItem](../../../distributions/base/src/ShellNav.tsx#L75-L98) | base-distribution | [useExtensions](../../../distributions/base/src/ShellNav.tsx#L80) | `properties.pageId` — read, direct ([ShellNav.tsx:82](../../../distributions/base/src/ShellNav.tsx#L82)) | ShellNavItem ([ShellNav.tsx:175](../../../distributions/base/src/ShellNav.tsx#L175)) |
+| [ShellRoutes](../../../distributions/base/src/ShellRoutes.tsx#L22-L81) | base-distribution | [useExtensions](../../../distributions/base/src/ShellRoutes.tsx#L25) | `properties.pageId` — read, direct ([ShellRoutes.tsx:30](../../../distributions/base/src/ShellRoutes.tsx#L30)) | `<module>` ([bootstrap.tsx:20](../../../distributions/base/src/bootstrap.tsx#L20))<br>DistributionApp ([createDistribution.tsx:59](../../../distributions/base/src/createDistribution.tsx#L59)) |
+| [TabRoutePage](../../../distributions/base/src/TabRoutePage.tsx#L121-L213) | base-distribution | [useExtensions](../../../distributions/base/src/TabRoutePage.tsx#L123) | `properties.pageId` — read, direct ([TabRoutePage.tsx:129](../../../distributions/base/src/TabRoutePage.tsx#L129))<br>`properties.id` — read, direct ([TabRoutePage.tsx:140](../../../distributions/base/src/TabRoutePage.tsx#L140) (+2 more))<br>`properties.component` — lazy-render, direct ([TabRoutePage.tsx:176](../../../distributions/base/src/TabRoutePage.tsx#L176)) | ShellRoutes ([ShellRoutes.tsx:62](../../../distributions/base/src/ShellRoutes.tsx#L62)) |
+| [getDefaultTab](../../../distributions/base/src/TabRoutePage.tsx#L44-L53) | base-distribution | — | `properties.id` — read, direct ([TabRoutePage.tsx:49](../../../distributions/base/src/TabRoutePage.tsx#L49) (+1 more)) | TabRoutePage (called at [TabRoutePage.tsx:163](../../../distributions/base/src/TabRoutePage.tsx#L163)) |
+| [tabSortComparator](../../../distributions/base/src/TabRoutePage.tsx#L18-L24) | base-distribution | — | `properties.group` — read, direct ([TabRoutePage.tsx:23](../../../distributions/base/src/TabRoutePage.tsx#L23) (+1 more)) | — |
+| [MultiTabContent](../../../frontend/src/app/navigation/TabRoutePage.tsx#L92-L146) | frontend (core app) | — | `properties.id` — read, direct ([TabRoutePage.tsx:102](../../../frontend/src/app/navigation/TabRoutePage.tsx#L102) (+10 more))<br>`properties.title` — read, direct ([TabRoutePage.tsx:122](../../../frontend/src/app/navigation/TabRoutePage.tsx#L122))<br>`properties.component` — lazy-render, direct ([TabRoutePage.tsx:138](../../../frontend/src/app/navigation/TabRoutePage.tsx#L138)) | TabRoutePage ([TabRoutePage.tsx:263](../../../frontend/src/app/navigation/TabRoutePage.tsx#L263-L269)) |
+| [NavItemTabRoute](../../../frontend/src/app/navigation/NavItemTabRoute.tsx#L17-L46) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/NavItemTabRoute.tsx#L22) | `properties.pageId` — read, direct ([NavItemTabRoute.tsx:24](../../../frontend/src/app/navigation/NavItemTabRoute.tsx#L24)) | NavItem ([NavItem.tsx:23](../../../frontend/src/app/navigation/NavItem.tsx#L23)) |
+| [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/NavSection.tsx#L66) | `properties.pageId` — read, direct ([NavSection.tsx:71](../../../frontend/src/app/navigation/NavSection.tsx#L71)) | NavItem ([NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20)) |
+| [TabRoutePage](../../../frontend/src/app/navigation/TabRoutePage.tsx#L148-L278) | frontend (core app) | [useExtensions](../../../frontend/src/app/navigation/TabRoutePage.tsx#L153) | `properties.pageId` — read, direct ([TabRoutePage.tsx:159](../../../frontend/src/app/navigation/TabRoutePage.tsx#L159))<br>`properties.id` — read, direct ([TabRoutePage.tsx:171](../../../frontend/src/app/navigation/TabRoutePage.tsx#L171) (+2 more))<br>`properties.singleTabTitle` — read, direct ([TabRoutePage.tsx:196](../../../frontend/src/app/navigation/TabRoutePage.tsx#L196))<br>`properties.objectType` — read, direct ([TabRoutePage.tsx:197](../../../frontend/src/app/navigation/TabRoutePage.tsx#L197))<br>`properties.component` — lazy-render, direct ([TabRoutePage.tsx:241](../../../frontend/src/app/navigation/TabRoutePage.tsx#L241)) | AppRoutes ([AppRoutes.tsx:52](../../../frontend/src/app/AppRoutes.tsx#L52)) |
+| [getDefaultTab](../../../frontend/src/app/navigation/TabRoutePage.tsx#L70-L79) | frontend (core app) | — | `properties.id` — read, direct ([TabRoutePage.tsx:75](../../../frontend/src/app/navigation/TabRoutePage.tsx#L75) (+1 more)) | TabRoutePage (called at [TabRoutePage.tsx:186](../../../frontend/src/app/navigation/TabRoutePage.tsx#L186)) |
+| [tabSortComparator](../../../frontend/src/app/navigation/TabRoutePage.tsx#L20-L26) | frontend (core app) | — | `properties.group` — read, direct ([TabRoutePage.tsx:25](../../../frontend/src/app/navigation/TabRoutePage.tsx#L25) (+1 more)) | — |
+| [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) | frontend (core app) | [useExtensions](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L25) | `properties.pageId` — read, direct ([useTaskAssistantData.ts:28](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L28)) | TaskAssistantSection (called at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32)) |
+| [TranscriptionModelSection](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L58-L370) | gen-ai | [useExtensions](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L71) | `properties.id` — read, direct ([TranscriptionModelSection.tsx:265](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L265)) | ModelTabContent ([ModelTabContent.tsx:85](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/ModelTabContent.tsx#L85)) |
+| [McpDeploymentsTable](../../model-registry/upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsTable.tsx#L19-L60) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsTable.tsx#L26) | `properties.id` — read, direct ([McpDeploymentsTable.tsx:29](../../model-registry/upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsTable.tsx#L29))<br>`properties.pageId` — read, direct ([McpDeploymentsTable.tsx:29](../../model-registry/upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsTable.tsx#L29)) | McpDeploymentsPage ([McpDeploymentsPage.tsx:122](../../model-registry/upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsPage.tsx#L122-L134)) |
+| [RuntimeCatalogDetailsRoutes](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L13-L53) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L22) | `properties.id` — read, direct ([RuntimeCatalogDetailsRoutes.tsx:24](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L24) (+3 more))<br>`properties.pageId` — read, direct ([RuntimeCatalogDetailsRoutes.tsx:25](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L25) (+1 more))<br>`properties.title` — read, direct ([RuntimeCatalogDetailsRoutes.tsx:47](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L47)) | RuntimeCatalogDetailsWrapper ([RuntimeCatalogWrapper.tsx:63](../../model-registry/upstream/frontend/src/odh/RuntimeCatalogWrapper.tsx#L63)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -1319,40 +1163,40 @@ flowchart LR
   n_pkg__odh_dashboard_mlflow_embedded_412d14 --> n_app_tab_route_tab_10b1cd
   n_pkg__odh_dashboard_model_registry_1fc815 -. "federated" .-> n_app_tab_route_tab_10b1cd
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_app_tab_route_tab_10b1cd
-  n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6["NavSectionItem"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
-  n_symbol_distributions_base_src_ShellNav_tsx_NavTabRouteItem_bca611["NavTabRouteItem"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellNav_tsx_NavTabRouteItem_bca611
-  n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0["ShellRoutes"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
   n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6["MultiTabContent"]
-  n_app_tab_route_tab_10b1cd -- "lazy-render, read" --> n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6
+  n_app_tab_route_tab_10b1cd --> n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6
+  n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6["NavSectionItem"]
+  n_app_tab_route_tab_10b1cd --> n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6
+  n_symbol_distributions_base_src_ShellNav_tsx_NavTabRouteItem_bca611["NavTabRouteItem"]
+  n_app_tab_route_tab_10b1cd --> n_symbol_distributions_base_src_ShellNav_tsx_NavTabRouteItem_bca611
+  n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0["ShellRoutes"]
+  n_app_tab_route_tab_10b1cd --> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
   n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2["TabRoutePage"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, lazy-render, read" --> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
+  n_app_tab_route_tab_10b1cd --> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
   n_symbol_distributions_base_src_TabRoutePage_tsx_getDefaultTab_939d6f["getDefaultTab"]
-  n_app_tab_route_tab_10b1cd -- "read" --> n_symbol_distributions_base_src_TabRoutePage_tsx_getDefaultTab_939d6f
+  n_app_tab_route_tab_10b1cd --> n_symbol_distributions_base_src_TabRoutePage_tsx_getDefaultTab_939d6f
   n_symbol_distributions_base_src_TabRoutePage_tsx_tabSortComparator_f9cdcc["tabSortComparator"]
-  n_app_tab_route_tab_10b1cd -- "read" --> n_symbol_distributions_base_src_TabRoutePage_tsx_tabSortComparator_f9cdcc
-  n_symbol_frontend_src_app_navigation_NavItemTabRoute_tsx_NavItemTabRoute_abd682["NavItemTabRoute"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_NavItemTabRoute_tsx_NavItemTabRoute_abd682
-  n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86["NavSection"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
+  n_app_tab_route_tab_10b1cd --> n_symbol_distributions_base_src_TabRoutePage_tsx_tabSortComparator_f9cdcc
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80["MultiTabContent"]
-  n_app_tab_route_tab_10b1cd -- "lazy-render, read" --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80
+  n_app_tab_route_tab_10b1cd --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80
+  n_symbol_frontend_src_app_navigation_NavItemTabRoute_tsx_NavItemTabRoute_abd682["NavItemTabRoute"]
+  n_app_tab_route_tab_10b1cd --> n_symbol_frontend_src_app_navigation_NavItemTabRoute_tsx_NavItemTabRoute_abd682
+  n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86["NavSection"]
+  n_app_tab_route_tab_10b1cd --> n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44["TabRoutePage"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, lazy-render, read" --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
+  n_app_tab_route_tab_10b1cd --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_getDefaultTab_c714c9["getDefaultTab"]
-  n_app_tab_route_tab_10b1cd -- "read" --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_getDefaultTab_c714c9
+  n_app_tab_route_tab_10b1cd --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_getDefaultTab_c714c9
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_tabSortComparator_31a126["tabSortComparator"]
-  n_app_tab_route_tab_10b1cd -- "read" --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_tabSortComparator_31a126
+  n_app_tab_route_tab_10b1cd --> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_tabSortComparator_31a126
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc["useTaskAssistantData"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
+  n_app_tab_route_tab_10b1cd --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
   n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_TranscriptionModelSection_tsx_TranscriptionModelSection_d0e53c["TranscriptionModelSection"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_TranscriptionModelSection_tsx_TranscriptionModelSection_d0e53c
+  n_app_tab_route_tab_10b1cd --> n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_TranscriptionModelSection_tsx_TranscriptionModelSection_d0e53c
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsTable_tsx_McpDeploymentsTable_387665["McpDeploymentsTable"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsTable_tsx_McpDeploymentsTable_387665
+  n_app_tab_route_tab_10b1cd --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsTable_tsx_McpDeploymentsTable_387665
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2["RuntimeCatalogDetailsRoutes"]
-  n_app_tab_route_tab_10b1cd -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2
+  n_app_tab_route_tab_10b1cd --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2
   n_symbol_distributions_base_src_ShellNav_tsx_ShellNavItem_395dcd("ShellNavItem")
   n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0("#lt;module#gt;")
   n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf("DistributionApp")
@@ -1362,16 +1206,16 @@ flowchart LR
   n_symbol_packages_gen_ai_frontend_src_app_Chatbot_components_settingsPanelTabs_ModelTabContent_tsx_ModelTabContent_0b9f0c("ModelTabContent")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsPage_tsx_McpDeploymentsPage_f02293("McpDeploymentsPage")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_RuntimeCatalogWrapper_tsx_RuntimeCatalogDetailsWrapper_25a237("RuntimeCatalogDetailsWrapper")
+  n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6 -. "rendered in" .-> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
   n_symbol_distributions_base_src_ShellNav_tsx_NavSectionItem_5f99f6 -. "rendered in" .-> n_symbol_distributions_base_src_ShellNav_tsx_ShellNavItem_395dcd
   n_symbol_distributions_base_src_ShellNav_tsx_NavTabRouteItem_bca611 -. "rendered in" .-> n_symbol_distributions_base_src_ShellNav_tsx_ShellNavItem_395dcd
   n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0 -. "rendered in" .-> n_symbol_distributions_base_src_bootstrap_tsx__module__846cb0
   n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0 -. "rendered in" .-> n_symbol_distributions_base_src_createDistribution_tsx_DistributionApp_e5fabf
-  n_symbol_distributions_base_src_TabRoutePage_tsx_MultiTabContent_ec42e6 -. "rendered in" .-> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
   n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2 -. "rendered in" .-> n_symbol_distributions_base_src_ShellRoutes_tsx_ShellRoutes_82f0a0
   n_symbol_distributions_base_src_TabRoutePage_tsx_getDefaultTab_939d6f -. "called in" .-> n_symbol_distributions_base_src_TabRoutePage_tsx_TabRoutePage_a7ade2
+  n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
   n_symbol_frontend_src_app_navigation_NavItemTabRoute_tsx_NavItemTabRoute_abd682 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_NavItem_tsx_NavItem_76250a
   n_symbol_frontend_src_app_navigation_NavSection_tsx_NavSection_4fbf86 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_NavItem_tsx_NavItem_76250a
-  n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_MultiTabContent_6acf80 -. "rendered in" .-> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44 -. "rendered in" .-> n_symbol_frontend_src_app_AppRoutes_tsx_AppRoutes_2da7a1
   n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_getDefaultTab_c714c9 -. "called in" .-> n_symbol_frontend_src_app_navigation_TabRoutePage_tsx_TabRoutePage_b15e44
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc -. "called in" .-> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
@@ -1379,43 +1223,6 @@ flowchart LR
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsTable_tsx_McpDeploymentsTable_387665 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_mcpDeployments_McpDeploymentsPage_tsx_McpDeploymentsPage_f02293
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_RuntimeCatalogWrapper_tsx_RuntimeCatalogDetailsWrapper_25a237
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| agent-ops (package) | contributes extensions of this point | [agent-ops](../../agent-ops/docs/extensions.md#contributes-to-apptab-routetab) |
-| data-registry (package) | contributes extensions of this point | [data-registry](../../data-registry/docs/extensions.md#contributes-to-apptab-routetab) |
-| kserve (package) | contributes extensions of this point | [kserve](../../kserve/docs/extensions.md#contributes-to-apptab-routetab) |
-| llmd-serving (package) | contributes extensions of this point | [llmd-serving](../../llmd-serving/docs/extensions.md#contributes-to-apptab-routetab) |
-| mlflow-embedded (package) | contributes extensions of this point | [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-apptab-routetab) |
-| model-registry (package) | contributes extensions of this point | [model-registry](../../model-registry/docs/extensions.md#contributes-to-apptab-routetab) |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-apptab-routetab) |
-| app.tab-route/tab | this extension point | [app.tab-route/tab](#apptab-routetab) |
-| NavSectionItem | consumer in @odh-dashboard/base-distribution — useExtensions, read | [NavSectionItem](../../../distributions/base/src/ShellNav.tsx#L100-L166) |
-| NavTabRouteItem | consumer in @odh-dashboard/base-distribution — useExtensions, read | [NavTabRouteItem](../../../distributions/base/src/ShellNav.tsx#L75-L98) |
-| ShellRoutes | consumer in @odh-dashboard/base-distribution — useExtensions, read; renders TabRoutePage (one hop up) | [ShellRoutes](../../../distributions/base/src/ShellRoutes.tsx#L22-L81)<br>renders TabRoutePage at [ShellRoutes.tsx:62](../../../distributions/base/src/ShellRoutes.tsx#L62) |
-| MultiTabContent | consumer in @odh-dashboard/base-distribution — lazy-render, read | [MultiTabContent](../../../distributions/base/src/TabRoutePage.tsx#L63-L119) |
-| TabRoutePage | consumer in @odh-dashboard/base-distribution — useExtensions, lazy-render, read; renders MultiTabContent (one hop up); calls getDefaultTab (one hop up) | [TabRoutePage](../../../distributions/base/src/TabRoutePage.tsx#L121-L213)<br>renders MultiTabContent at [TabRoutePage.tsx:198](../../../distributions/base/src/TabRoutePage.tsx#L198-L204)<br>calls getDefaultTab at [TabRoutePage.tsx:163](../../../distributions/base/src/TabRoutePage.tsx#L163) |
-| getDefaultTab | consumer in @odh-dashboard/base-distribution — read | [getDefaultTab](../../../distributions/base/src/TabRoutePage.tsx#L44-L53) |
-| tabSortComparator | consumer in @odh-dashboard/base-distribution — read | [tabSortComparator](../../../distributions/base/src/TabRoutePage.tsx#L18-L24) |
-| NavItemTabRoute | consumer in @odh-dashboard/internal — useExtensions, read | [NavItemTabRoute](../../../frontend/src/app/navigation/NavItemTabRoute.tsx#L17-L46) |
-| NavSection | consumer in @odh-dashboard/internal — useExtensions, read | [NavSection](../../../frontend/src/app/navigation/NavSection.tsx#L57-L214) |
-| MultiTabContent | consumer in @odh-dashboard/internal — lazy-render, read | [MultiTabContent](../../../frontend/src/app/navigation/TabRoutePage.tsx#L92-L146) |
-| TabRoutePage | consumer in @odh-dashboard/internal — useExtensions, lazy-render, read; renders MultiTabContent (one hop up); calls getDefaultTab (one hop up) | [TabRoutePage](../../../frontend/src/app/navigation/TabRoutePage.tsx#L148-L278)<br>renders MultiTabContent at [TabRoutePage.tsx:263](../../../frontend/src/app/navigation/TabRoutePage.tsx#L263-L269)<br>calls getDefaultTab at [TabRoutePage.tsx:186](../../../frontend/src/app/navigation/TabRoutePage.tsx#L186) |
-| getDefaultTab | consumer in @odh-dashboard/internal — read | [getDefaultTab](../../../frontend/src/app/navigation/TabRoutePage.tsx#L70-L79) |
-| tabSortComparator | consumer in @odh-dashboard/internal — read | [tabSortComparator](../../../frontend/src/app/navigation/TabRoutePage.tsx#L20-L26) |
-| useTaskAssistantData | consumer in @odh-dashboard/internal — useExtensions, read | [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) |
-| TranscriptionModelSection | consumer in @odh-dashboard/gen-ai — useExtensions, read | [TranscriptionModelSection](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/TranscriptionModelSection.tsx#L58-L370) |
-| McpDeploymentsTable | consumer in @odh-dashboard/model-registry — useExtensions, read | [McpDeploymentsTable](../../model-registry/upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsTable.tsx#L19-L60) |
-| RuntimeCatalogDetailsRoutes | consumer in @odh-dashboard/model-registry — useExtensions, read | [RuntimeCatalogDetailsRoutes](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L13-L53) |
-| ShellNavItem | renders NavSectionItem, NavTabRouteItem (one hop up) | renders NavSectionItem at [ShellNav.tsx:172](../../../distributions/base/src/ShellNav.tsx#L172)<br>renders NavTabRouteItem at [ShellNav.tsx:175](../../../distributions/base/src/ShellNav.tsx#L175) |
-| <module> | renders ShellRoutes (one hop up) | renders ShellRoutes at [bootstrap.tsx:20](../../../distributions/base/src/bootstrap.tsx#L20) |
-| DistributionApp | renders ShellRoutes (one hop up) | renders ShellRoutes at [createDistribution.tsx:59](../../../distributions/base/src/createDistribution.tsx#L59) |
-| NavItem | renders NavItemTabRoute, NavSection (one hop up) | renders NavItemTabRoute at [NavItem.tsx:23](../../../frontend/src/app/navigation/NavItem.tsx#L23)<br>renders NavSection at [NavItem.tsx:20](../../../frontend/src/app/navigation/NavItem.tsx#L20) |
-| AppRoutes | renders TabRoutePage (one hop up) | renders TabRoutePage at [AppRoutes.tsx:52](../../../frontend/src/app/AppRoutes.tsx#L52) |
-| TaskAssistantSection | calls useTaskAssistantData (one hop up) | calls useTaskAssistantData at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32) |
-| ModelTabContent | renders TranscriptionModelSection (one hop up) | renders TranscriptionModelSection at [ModelTabContent.tsx:85](../../gen-ai/frontend/src/app/Chatbot/components/settingsPanelTabs/ModelTabContent.tsx#L85) |
-| McpDeploymentsPage | renders McpDeploymentsTable (one hop up) | renders McpDeploymentsTable at [McpDeploymentsPage.tsx:122](../../model-registry/upstream/frontend/src/odh/pages/mcpDeployments/McpDeploymentsPage.tsx#L122-L134) |
-| RuntimeCatalogDetailsWrapper | renders RuntimeCatalogDetailsRoutes (one hop up) | renders RuntimeCatalogDetailsRoutes at [RuntimeCatalogWrapper.tsx:63](../../model-registry/upstream/frontend/src/odh/RuntimeCatalogWrapper.tsx#L63) |
 
 ### app.task/group
 
@@ -1441,6 +1248,13 @@ Declared as [TaskGroupExtension](../src/extension-points/tasks.ts#L9).
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptaskgroup)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [TaskAssistantSection](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L30-L156) | frontend (core app) | — | `properties` — read, direct ([TaskAssistantSection.tsx:105](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L105) (+2 more))<br>`properties.id` — read, direct ([TaskAssistantSection.tsx:129](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L129) (+3 more)) | Home ([Home.tsx:37](../../../frontend/src/pages/home/Home.tsx#L37)) |
+| [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) | frontend (core app) | [useResolvedExtensions](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L21) | `properties.id` — read, direct ([useTaskAssistantData.ts:78](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L78))<br>`properties.order` — read, direct ([useTaskAssistantData.ts:79](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L79) (+1 more)) | TaskAssistantSection (called at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -1451,22 +1265,13 @@ flowchart LR
   n_pkg__odh_dashboard_gen_ai_f11571 --> n_app_task_group_64e4cf
   n_pkg__odh_dashboard_internal_143c2f --> n_app_task_group_64e4cf
   n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2["TaskAssistantSection"]
-  n_app_task_group_64e4cf -- "read" --> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
+  n_app_task_group_64e4cf --> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc["useTaskAssistantData"]
-  n_app_task_group_64e4cf -- "useResolvedExtensions, read" --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
+  n_app_task_group_64e4cf --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
   n_symbol_frontend_src_pages_home_Home_tsx_Home_0f157c("Home")
   n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2 -. "rendered in" .-> n_symbol_frontend_src_pages_home_Home_tsx_Home_0f157c
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc -. "called in" .-> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| gen-ai (package) | contributes extensions of this point | [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-apptaskgroup) |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-apptaskgroup) |
-| app.task/group | this extension point | [app.task/group](#apptaskgroup) |
-| TaskAssistantSection | consumer in @odh-dashboard/internal — read; calls useTaskAssistantData (one hop up) | [TaskAssistantSection](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L30-L156)<br>calls useTaskAssistantData at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32) |
-| useTaskAssistantData | consumer in @odh-dashboard/internal — useResolvedExtensions, read | [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) |
-| Home | renders TaskAssistantSection (one hop up) | renders TaskAssistantSection at [Home.tsx:37](../../../frontend/src/pages/home/Home.tsx#L37) |
 
 ### app.task/item
 
@@ -1491,6 +1296,13 @@ Declared as [TaskItemExtension](../src/extension-points/tasks.ts#L34).
 
 **Consumed in:** [frontend (core app)](../../../frontend/docs/extensions.md#consumes-apptaskitem)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [TaskAssistantSection](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L30-L156) | frontend (core app) | — | `properties` — read, direct ([TaskAssistantSection.tsx:129](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L129) (+1 more)) | Home ([Home.tsx:37](../../../frontend/src/pages/home/Home.tsx#L37)) |
+| [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) | frontend (core app) | [useResolvedExtensions](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L23) | `properties.destination` — read, direct ([useTaskAssistantData.ts:47](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L47))<br>`properties.group` — read, direct ([useTaskAssistantData.ts:61](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L61))<br>`properties.order` — read, direct ([useTaskAssistantData.ts:72](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L72) (+1 more)) | TaskAssistantSection (called at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -1513,28 +1325,13 @@ flowchart LR
   n_pkg__odh_dashboard_mlflow_embedded_412d14 --> n_app_task_item_001b33
   n_pkg__odh_dashboard_model_training_ee058c --> n_app_task_item_001b33
   n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2["TaskAssistantSection"]
-  n_app_task_item_001b33 -- "read" --> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
+  n_app_task_item_001b33 --> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc["useTaskAssistantData"]
-  n_app_task_item_001b33 -- "useResolvedExtensions, read" --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
+  n_app_task_item_001b33 --> n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc
   n_symbol_frontend_src_pages_home_Home_tsx_Home_0f157c("Home")
   n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2 -. "rendered in" .-> n_symbol_frontend_src_pages_home_Home_tsx_Home_0f157c
   n_symbol_frontend_src_pages_home_taskAssistant_useTaskAssistantData_ts_useTaskAssistantData_1144fc -. "called in" .-> n_symbol_frontend_src_pages_home_taskAssistant_TaskAssistantSection_tsx_TaskAssistantSection_3daee2
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| autorag (package) | contributes extensions of this point | [autorag](../../autorag/docs/extensions.md#contributes-to-apptaskitem) |
-| eval-hub (package) | contributes extensions of this point | [eval-hub](../../eval-hub/docs/extensions.md#contributes-to-apptaskitem) |
-| feature-store (package) | contributes extensions of this point | [feature-store](../../feature-store/docs/extensions.md#contributes-to-apptaskitem) |
-| gen-ai (package) | contributes extensions of this point | [gen-ai](../../gen-ai/docs/extensions.md#contributes-to-apptaskitem) |
-| frontend (core app) (host) | contributes extensions of this point | [frontend (core app)](../../../frontend/docs/extensions.md#contributes-to-apptaskitem) |
-| maas (package) | contributes extensions of this point | [maas](../../maas/docs/extensions.md#contributes-to-apptaskitem) |
-| mlflow-embedded (package) | contributes extensions of this point | [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#contributes-to-apptaskitem) |
-| model-training (package) | contributes extensions of this point | [model-training](../../model-training/docs/extensions.md#contributes-to-apptaskitem) |
-| app.task/item | this extension point | [app.task/item](#apptaskitem) |
-| TaskAssistantSection | consumer in @odh-dashboard/internal — read; calls useTaskAssistantData (one hop up) | [TaskAssistantSection](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L30-L156)<br>calls useTaskAssistantData at [TaskAssistantSection.tsx:32](../../../frontend/src/pages/home/taskAssistant/TaskAssistantSection.tsx#L32) |
-| useTaskAssistantData | consumer in @odh-dashboard/internal — useResolvedExtensions, read | [useTaskAssistantData](../../../frontend/src/pages/home/taskAssistant/useTaskAssistantData.ts#L15-L92) |
-| Home | renders TaskAssistantSection (one hop up) | renders TaskAssistantSection at [Home.tsx:37](../../../frontend/src/pages/home/Home.tsx#L37) |
 
 ### core.action
 
@@ -1558,6 +1355,20 @@ Declared as [ActionExtension](../src/extension-points/actions.ts#L27).
 
 **Consumed in:** [mlflow-embedded](../../mlflow-embedded/docs/extensions.md#consumes-coreaction), [model-registry](../../model-registry/docs/extensions.md#consumes-coreaction)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [MlflowMcpRegistryDetailPage](../../mlflow-embedded/mcp-registry/MlflowMcpRegistryDetailPage.tsx#L39-L195) | mlflow-embedded | [useExtensions](../../mlflow-embedded/mcp-registry/MlflowMcpRegistryDetailPage.tsx#L47) | — | — |
+| [ExtendedRegisteredModelTableRow](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L53-L273) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L78) | — | ExtendedRegisteredModelTable ([ExtendedRegisteredModelTable.tsx:114](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L114-L121)) |
+| [McpServerDetailsPage](../../model-registry/upstream/frontend/src/app/pages/mcpCatalog/screens/McpServerDetailsPage.tsx#L38-L142) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/mcpCatalog/screens/McpServerDetailsPage.tsx#L42) | — | McpCatalogRoutes ([McpCatalogRoutes.tsx:13](../../model-registry/upstream/frontend/src/app/pages/mcpCatalog/McpCatalogRoutes.tsx#L13)) |
+| [ModelDetailsPage](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsPage.tsx#L61-L299) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsPage.tsx#L74) | `properties.group` — read, direct ([ModelDetailsPage.tsx:76](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsPage.tsx#L76)) | OdhModelDetailsPage ([OdhModelDetailsPage.tsx:14](../../model-registry/upstream/frontend/src/odh/components/OdhModelDetailsPage.tsx#L14))<br>OdhModelDetailsPage ([OdhModelDetailsPage.tsx:18](../../model-registry/upstream/frontend/src/odh/components/OdhModelDetailsPage.tsx#L18-L35)) |
+| [ModelVersionsDetailsContent](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L45-L159) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L49) | — | ModelVersionsDetails ([ModelVersionDetails.tsx:180](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L180)) |
+| [ModelVersionsHeaderActions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsHeaderActions.tsx#L28-L101) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsHeaderActions.tsx#L38) | — | ModelVersionsContent ([ModelVersions.tsx:69](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersions.tsx#L69)) |
+| [ModelVersionsTableRow](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTableRow.tsx#L43-L200) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTableRow.tsx#L54) | — | ModelVersionsArchiveTable ([ModelVersionsArchiveTable.tsx:29](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionsArchive/ModelVersionsArchiveTable.tsx#L29))<br>OdhModelVersionsTableContent ([OdhModelVersionsTable.tsx:51](../../model-registry/upstream/frontend/src/odh/components/OdhModelVersionsTable.tsx#L51-L57)) |
+| [RegisteredModelTableRow](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModels/RegisteredModelTableRow.tsx#L49-L240) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModels/RegisteredModelTableRow.tsx#L64) | — | RegisteredModelsArchiveTable ([RegisteredModelsArchiveTable.tsx:32](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModelsArchive/RegisteredModelsArchiveTable.tsx#L32-L38))<br>enhancedRowRenderer ([OdhRegisteredModelTable.tsx:55](../../model-registry/upstream/frontend/src/odh/components/OdhRegisteredModelTable.tsx#L55-L62)) |
+| [RuntimeCatalogDetailsView](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsView.tsx#L57-L293) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsView.tsx#L66) | — | RuntimeCatalogDetailsRoutes ([RuntimeCatalogDetailsRoutes.tsx:33](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L33-L51)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -1570,23 +1381,24 @@ flowchart LR
   n_pkg__odh_dashboard_model_registry_1fc815 -. "federated" .-> n_core_action_c380ca
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_core_action_c380ca
   n_symbol_packages_mlflow_embedded_mcp_registry_MlflowMcpRegistryDetailPage_tsx_MlflowMcpRegistryDetailPage_b6606b["MlflowMcpRegistryDetailPage"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_mlflow_embedded_mcp_registry_MlflowMcpRegistryDetailPage_tsx_MlflowMcpRegistryDetailPage_b6606b
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpServerDetailsPage_tsx_McpServerDetailsPage_c7540a["McpServerDetailsPage"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpServerDetailsPage_tsx_McpServerDetailsPage_c7540a
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsPage_tsx_ModelDetailsPage_6bbf91["ModelDetailsPage"]
-  n_core_action_c380ca -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsPage_tsx_ModelDetailsPage_6bbf91
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetailsContent_978473["ModelVersionsDetailsContent"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetailsContent_978473
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsHeaderActions_tsx_ModelVersionsHeaderActions_9478a0["ModelVersionsHeaderActions"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsHeaderActions_tsx_ModelVersionsHeaderActions_9478a0
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTableRow_tsx_ModelVersionsTableRow_8a9698["ModelVersionsTableRow"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTableRow_tsx_ModelVersionsTableRow_8a9698
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModels_RegisteredModelTableRow_tsx_RegisteredModelTableRow_a605a8["RegisteredModelTableRow"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModels_RegisteredModelTableRow_tsx_RegisteredModelTableRow_a605a8
+  n_core_action_c380ca --> n_symbol_packages_mlflow_embedded_mcp_registry_MlflowMcpRegistryDetailPage_tsx_MlflowMcpRegistryDetailPage_b6606b
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028["ExtendedRegisteredModelTableRow"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028
+  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpServerDetailsPage_tsx_McpServerDetailsPage_c7540a["McpServerDetailsPage"]
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpServerDetailsPage_tsx_McpServerDetailsPage_c7540a
+  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsPage_tsx_ModelDetailsPage_6bbf91["ModelDetailsPage"]
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsPage_tsx_ModelDetailsPage_6bbf91
+  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetailsContent_978473["ModelVersionsDetailsContent"]
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetailsContent_978473
+  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsHeaderActions_tsx_ModelVersionsHeaderActions_9478a0["ModelVersionsHeaderActions"]
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsHeaderActions_tsx_ModelVersionsHeaderActions_9478a0
+  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTableRow_tsx_ModelVersionsTableRow_8a9698["ModelVersionsTableRow"]
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTableRow_tsx_ModelVersionsTableRow_8a9698
+  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModels_RegisteredModelTableRow_tsx_RegisteredModelTableRow_a605a8["RegisteredModelTableRow"]
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModels_RegisteredModelTableRow_tsx_RegisteredModelTableRow_a605a8
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsView_tsx_RuntimeCatalogDetailsView_5b2fd2["RuntimeCatalogDetailsView"]
-  n_core_action_c380ca -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsView_tsx_RuntimeCatalogDetailsView_5b2fd2
+  n_core_action_c380ca --> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsView_tsx_RuntimeCatalogDetailsView_5b2fd2
+  n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8("ExtendedRegisteredModelTable")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_McpCatalogRoutes_tsx_McpCatalogRoutes_71c3a2("McpCatalogRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelDetailsPage_tsx_OdhModelDetailsPage_ae4fd0("OdhModelDetailsPage")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetails_2b487a("ModelVersionsDetails")
@@ -1595,8 +1407,8 @@ flowchart LR
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelVersionsTable_tsx_OdhModelVersionsTableContent_dfd6a5("OdhModelVersionsTableContent")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModelsArchive_RegisteredModelsArchiveTable_tsx_RegisteredModelsArchiveTable_de6fc0("RegisteredModelsArchiveTable")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhRegisteredModelTable_tsx_enhancedRowRenderer_30e62b("enhancedRowRenderer")
-  n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8("ExtendedRegisteredModelTable")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2("RuntimeCatalogDetailsRoutes")
+  n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_screens_McpServerDetailsPage_tsx_McpServerDetailsPage_c7540a -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_mcpCatalog_McpCatalogRoutes_tsx_McpCatalogRoutes_71c3a2
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsPage_tsx_ModelDetailsPage_6bbf91 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelDetailsPage_tsx_OdhModelDetailsPage_ae4fd0
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetailsContent_978473 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetails_tsx_ModelVersionsDetails_2b487a
@@ -1605,35 +1417,8 @@ flowchart LR
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTableRow_tsx_ModelVersionsTableRow_8a9698 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhModelVersionsTable_tsx_OdhModelVersionsTableContent_dfd6a5
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModels_RegisteredModelTableRow_tsx_RegisteredModelTableRow_a605a8 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModelsArchive_RegisteredModelsArchiveTable_tsx_RegisteredModelsArchiveTable_de6fc0
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_RegisteredModels_RegisteredModelTableRow_tsx_RegisteredModelTableRow_a605a8 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_OdhRegisteredModelTable_tsx_enhancedRowRenderer_30e62b
-  n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8
   n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsView_tsx_RuntimeCatalogDetailsView_5b2fd2 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_pages_runtimeCatalog_RuntimeCatalogDetailsRoutes_tsx_RuntimeCatalogDetailsRoutes_c987d2
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| mlflow (package) | contributes extensions of this point | [mlflow](../../mlflow/docs/extensions.md#contributes-to-coreaction) |
-| model-registry (package) | contributes extensions of this point | [model-registry](../../model-registry/docs/extensions.md#contributes-to-coreaction) |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-coreaction) |
-| core.action | this extension point | [core.action](#coreaction) |
-| MlflowMcpRegistryDetailPage | consumer in @odh-dashboard/mlflow-embedded — useExtensions | [MlflowMcpRegistryDetailPage](../../mlflow-embedded/mcp-registry/MlflowMcpRegistryDetailPage.tsx#L39-L195) |
-| McpServerDetailsPage | consumer in @odh-dashboard/model-registry — useExtensions | [McpServerDetailsPage](../../model-registry/upstream/frontend/src/app/pages/mcpCatalog/screens/McpServerDetailsPage.tsx#L38-L142) |
-| ModelDetailsPage | consumer in @odh-dashboard/model-registry — useExtensions, read | [ModelDetailsPage](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsPage.tsx#L61-L299) |
-| ModelVersionsDetailsContent | consumer in @odh-dashboard/model-registry — useExtensions | [ModelVersionsDetailsContent](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L45-L159) |
-| ModelVersionsHeaderActions | consumer in @odh-dashboard/model-registry — useExtensions | [ModelVersionsHeaderActions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsHeaderActions.tsx#L28-L101) |
-| ModelVersionsTableRow | consumer in @odh-dashboard/model-registry — useExtensions | [ModelVersionsTableRow](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTableRow.tsx#L43-L200) |
-| RegisteredModelTableRow | consumer in @odh-dashboard/model-registry — useExtensions | [RegisteredModelTableRow](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModels/RegisteredModelTableRow.tsx#L49-L240) |
-| ExtendedRegisteredModelTableRow | consumer in @odh-dashboard/model-registry — useExtensions | [ExtendedRegisteredModelTableRow](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L53-L273) |
-| RuntimeCatalogDetailsView | consumer in @odh-dashboard/model-registry — useExtensions | [RuntimeCatalogDetailsView](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsView.tsx#L57-L293) |
-| McpCatalogRoutes | renders McpServerDetailsPage (one hop up) | renders McpServerDetailsPage at [McpCatalogRoutes.tsx:13](../../model-registry/upstream/frontend/src/app/pages/mcpCatalog/McpCatalogRoutes.tsx#L13) |
-| OdhModelDetailsPage | renders ModelDetailsPage (one hop up) | renders ModelDetailsPage at [OdhModelDetailsPage.tsx:14](../../model-registry/upstream/frontend/src/odh/components/OdhModelDetailsPage.tsx#L14)<br>renders ModelDetailsPage at [OdhModelDetailsPage.tsx:18](../../model-registry/upstream/frontend/src/odh/components/OdhModelDetailsPage.tsx#L18-L35) |
-| ModelVersionsDetails | renders ModelVersionsDetailsContent (one hop up) | renders ModelVersionsDetailsContent at [ModelVersionDetails.tsx:180](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L180) |
-| ModelVersionsContent | renders ModelVersionsHeaderActions (one hop up) | renders ModelVersionsHeaderActions at [ModelVersions.tsx:69](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersions.tsx#L69) |
-| ModelVersionsArchiveTable | renders ModelVersionsTableRow (one hop up) | renders ModelVersionsTableRow at [ModelVersionsArchiveTable.tsx:29](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionsArchive/ModelVersionsArchiveTable.tsx#L29) |
-| OdhModelVersionsTableContent | renders ModelVersionsTableRow (one hop up) | renders ModelVersionsTableRow at [OdhModelVersionsTable.tsx:51](../../model-registry/upstream/frontend/src/odh/components/OdhModelVersionsTable.tsx#L51-L57) |
-| RegisteredModelsArchiveTable | renders RegisteredModelTableRow (one hop up) | renders RegisteredModelTableRow at [RegisteredModelsArchiveTable.tsx:32](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModelsArchive/RegisteredModelsArchiveTable.tsx#L32-L38) |
-| enhancedRowRenderer | renders RegisteredModelTableRow (one hop up) | renders RegisteredModelTableRow at [OdhRegisteredModelTable.tsx:55](../../model-registry/upstream/frontend/src/odh/components/OdhRegisteredModelTable.tsx#L55-L62) |
-| ExtendedRegisteredModelTable | renders ExtendedRegisteredModelTableRow (one hop up) | renders ExtendedRegisteredModelTableRow at [ExtendedRegisteredModelTable.tsx:114](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L114-L121) |
-| RuntimeCatalogDetailsRoutes | renders RuntimeCatalogDetailsView (one hop up) | renders RuntimeCatalogDetailsView at [RuntimeCatalogDetailsRoutes.tsx:33](../../model-registry/upstream/frontend/src/odh/pages/runtimeCatalog/RuntimeCatalogDetailsRoutes.tsx#L33-L51) |
 
 ### core.detail-card
 
@@ -1655,25 +1440,13 @@ Declared as [DetailCardExtension](../src/extension-points/detail-cards.ts#L22).
 
 **Consumed in:** [model-registry](../../model-registry/docs/extensions.md#consumes-coredetail-card)
 
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n_pkg__odh_dashboard_model_serving_d0bfea["model-serving (package)"]:::pkg
-  n_core_detail_card_47898a(["core.detail-card"]):::point
-  n_pkg__odh_dashboard_model_serving_d0bfea --> n_core_detail_card_47898a
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelDetailsView_tsx_ModelDetailsView_273628["ModelDetailsView"]
-  n_core_detail_card_47898a -- "useExtensions, lazy-render, read" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelDetailsView_tsx_ModelDetailsView_273628
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTabs_tsx_ModelVersionsTabs_ea1c78("ModelVersionsTabs")
-  n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelDetailsView_tsx_ModelDetailsView_273628 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTabs_tsx_ModelVersionsTabs_ea1c78
-```
+**Consumers:**
 
-| Node | What | Link |
-| --- | --- | --- |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-coredetail-card) |
-| core.detail-card | this extension point | [core.detail-card](#coredetail-card) |
-| ModelDetailsView | consumer in @odh-dashboard/model-registry — useExtensions, lazy-render, read | [ModelDetailsView](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelDetailsView.tsx#L18-L48) |
-| ModelVersionsTabs | renders ModelDetailsView (one hop up) | renders ModelDetailsView at [ModelVersionsTabs.tsx:60](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTabs.tsx#L60-L64) |
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ModelDetailsView](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelDetailsView.tsx#L18-L48) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelDetailsView.tsx#L24) | `properties.group` — read, direct ([ModelDetailsView.tsx:26](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelDetailsView.tsx#L26))<br>`properties.component` — lazy-render, direct ([ModelDetailsView.tsx:30](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelDetailsView.tsx#L30)) | ModelVersionsTabs ([ModelVersionsTabs.tsx:60](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTabs.tsx#L60-L64)) |
+
+**Flow:** model-serving → core.detail-card → model-registry · ModelDetailsView → rendered in ModelVersionsTabs
 
 ### core.detail/tab
 
@@ -1700,6 +1473,17 @@ Declared as [DetailTabExtension](../src/extension-points/detail-tabs.ts#L51).
 
 **Consumed in:** [model-registry](../../model-registry/docs/extensions.md#consumes-coredetailtab), [model-serving](../../model-serving/docs/extensions.md#consumes-coredetailtab)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ModelCatalogRoutes](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L13-L44) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L14) | — | AppRoutes ([AppRoutes.tsx:96](../../model-registry/upstream/frontend/src/app/AppRoutes.tsx#L96))<br>ModelCatalogWrapperContent ([ModelCatalogWrapper.tsx:39](../../model-registry/upstream/frontend/src/odh/ModelCatalogWrapper.tsx#L39)) |
+| [ModelDetailsTabs](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsTabs.tsx#L36-L120) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsTabs.tsx#L47) | — | ModelDetailsPage ([ModelDetailsPage.tsx:285](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsPage.tsx#L285-L294)) |
+| [ModelRegistryRoutes](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/ModelRegistryRoutes.tsx#L23-L129) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/ModelRegistryRoutes.tsx#L24) | — | AppRoutes ([AppRoutes.tsx:93](../../model-registry/upstream/frontend/src/app/AppRoutes.tsx#L93))<br>ModelRegistryWrapperContent ([ModelRegistryWrapper.tsx:40](../../model-registry/upstream/frontend/src/odh/ModelRegistryWrapper.tsx#L40)) |
+| [ModelVersionDetailsTabs](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetailsTabs.tsx#L25-L80) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetailsTabs.tsx#L36) | `properties.id` — read, direct ([ModelVersionDetailsTabs.tsx:44](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetailsTabs.tsx#L44)) | ModelVersionsDetailsContent ([ModelVersionDetails.tsx:147](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L147-L155))<br>ArchiveModelVersionDetails ([ArchiveModelVersionDetails.tsx:83](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionsArchive/ArchiveModelVersionDetails.tsx#L83-L92))<br>ModelVersionsArchiveDetails ([ModelVersionArchiveDetails.tsx:91](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionsArchive/ModelVersionArchiveDetails.tsx#L91-L100)) |
+| [ModelVersionsTabs](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTabs.tsx#L27-L88) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTabs.tsx#L36) | `properties.id` — read, direct ([ModelVersionsTabs.tsx:44](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTabs.tsx#L44)) | ModelVersionsContent ([ModelVersions.tsx:76](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersions.tsx#L76-L82))<br>RegisteredModelsArchiveDetails ([RegisteredModelArchiveDetails.tsx:72](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModelsArchive/RegisteredModelArchiveDetails.tsx#L72-L79)) |
+| [GlobalModelsPage](../../model-serving/src/components/global/GlobalModelsPage.tsx#L105-L196) | model-serving | [useExtensions](../../model-serving/src/components/global/GlobalModelsPage.tsx#L109) | `properties.group` — read, direct ([GlobalModelsPage.tsx:113](../../model-serving/src/components/global/GlobalModelsPage.tsx#L113)) | GlobalModelsRoutes ([GlobalModelsRoutes.tsx:22](../../model-serving/src/GlobalModelsRoutes.tsx#L22))<br>GlobalModelsRoutes ([GlobalModelsRoutes.tsx:23](../../model-serving/src/GlobalModelsRoutes.tsx#L23))<br>GlobalModelsRoutes ([GlobalModelsRoutes.tsx:24](../../model-serving/src/GlobalModelsRoutes.tsx#L24))<br>GlobalModelsRoutes ([GlobalModelsRoutes.tsx:25](../../model-serving/src/GlobalModelsRoutes.tsx#L25))<br>GlobalModelsRoutes ([GlobalModelsRoutes.tsx:27](../../model-serving/src/GlobalModelsRoutes.tsx#L27))<br>GlobalModelsRoutes ([GlobalModelsRoutes.tsx:28](../../model-serving/src/GlobalModelsRoutes.tsx#L28)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -1712,17 +1496,17 @@ flowchart LR
   n_pkg__odh_dashboard_model_registry_1fc815 --> n_core_detail_tab_1d8ba9
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_core_detail_tab_1d8ba9
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db["ModelCatalogRoutes"]
-  n_core_detail_tab_1d8ba9 -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db
+  n_core_detail_tab_1d8ba9 --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_ModelCatalogRoutes_tsx_ModelCatalogRoutes_b582db
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsTabs_tsx_ModelDetailsTabs_27434b["ModelDetailsTabs"]
-  n_core_detail_tab_1d8ba9 -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsTabs_tsx_ModelDetailsTabs_27434b
+  n_core_detail_tab_1d8ba9 --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsTabs_tsx_ModelDetailsTabs_27434b
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_ModelRegistryRoutes_tsx_ModelRegistryRoutes_7a9291["ModelRegistryRoutes"]
-  n_core_detail_tab_1d8ba9 -- "useExtensions" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_ModelRegistryRoutes_tsx_ModelRegistryRoutes_7a9291
+  n_core_detail_tab_1d8ba9 --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_ModelRegistryRoutes_tsx_ModelRegistryRoutes_7a9291
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetailsTabs_tsx_ModelVersionDetailsTabs_2b6f63["ModelVersionDetailsTabs"]
-  n_core_detail_tab_1d8ba9 -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetailsTabs_tsx_ModelVersionDetailsTabs_2b6f63
+  n_core_detail_tab_1d8ba9 --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersionDetails_ModelVersionDetailsTabs_tsx_ModelVersionDetailsTabs_2b6f63
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTabs_tsx_ModelVersionsTabs_ea1c78["ModelVersionsTabs"]
-  n_core_detail_tab_1d8ba9 -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTabs_tsx_ModelVersionsTabs_ea1c78
+  n_core_detail_tab_1d8ba9 --> n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelRegistry_screens_ModelVersions_ModelVersionsTabs_tsx_ModelVersionsTabs_ea1c78
   n_symbol_packages_model_serving_src_components_global_GlobalModelsPage_tsx_GlobalModelsPage_bb5336["GlobalModelsPage"]
-  n_core_detail_tab_1d8ba9 -- "useExtensions, read" --> n_symbol_packages_model_serving_src_components_global_GlobalModelsPage_tsx_GlobalModelsPage_bb5336
+  n_core_detail_tab_1d8ba9 --> n_symbol_packages_model_serving_src_components_global_GlobalModelsPage_tsx_GlobalModelsPage_bb5336
   n_symbol_packages_model_registry_upstream_frontend_src_app_AppRoutes_tsx_AppRoutes_ffd037("AppRoutes")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_ModelCatalogWrapper_tsx_ModelCatalogWrapperContent_6bef92("ModelCatalogWrapperContent")
   n_symbol_packages_model_registry_upstream_frontend_src_app_pages_modelCatalog_screens_ModelDetailsPage_tsx_ModelDetailsPage_6bbf91("ModelDetailsPage")
@@ -1746,29 +1530,6 @@ flowchart LR
   n_symbol_packages_model_serving_src_components_global_GlobalModelsPage_tsx_GlobalModelsPage_bb5336 -. "rendered in" .-> n_symbol_packages_model_serving_src_GlobalModelsRoutes_tsx_GlobalModelsRoutes_a06351
 ```
 
-| Node | What | Link |
-| --- | --- | --- |
-| maas (package) | contributes extensions of this point | [maas](../../maas/docs/extensions.md#contributes-to-coredetailtab) |
-| model-registry (package) | contributes extensions of this point | [model-registry](../../model-registry/docs/extensions.md#contributes-to-coredetailtab) |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-coredetailtab) |
-| core.detail/tab | this extension point | [core.detail/tab](#coredetailtab) |
-| ModelCatalogRoutes | consumer in @odh-dashboard/model-registry — useExtensions | [ModelCatalogRoutes](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/ModelCatalogRoutes.tsx#L13-L44) |
-| ModelDetailsTabs | consumer in @odh-dashboard/model-registry — useExtensions | [ModelDetailsTabs](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsTabs.tsx#L36-L120) |
-| ModelRegistryRoutes | consumer in @odh-dashboard/model-registry — useExtensions | [ModelRegistryRoutes](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/ModelRegistryRoutes.tsx#L23-L129) |
-| ModelVersionDetailsTabs | consumer in @odh-dashboard/model-registry — useExtensions, read | [ModelVersionDetailsTabs](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetailsTabs.tsx#L25-L80) |
-| ModelVersionsTabs | consumer in @odh-dashboard/model-registry — useExtensions, read | [ModelVersionsTabs](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersionsTabs.tsx#L27-L88) |
-| GlobalModelsPage | consumer in @odh-dashboard/model-serving — useExtensions, read | [GlobalModelsPage](../../model-serving/src/components/global/GlobalModelsPage.tsx#L105-L196) |
-| AppRoutes | renders ModelCatalogRoutes, ModelRegistryRoutes (one hop up) | renders ModelCatalogRoutes at [AppRoutes.tsx:96](../../model-registry/upstream/frontend/src/app/AppRoutes.tsx#L96)<br>renders ModelRegistryRoutes at [AppRoutes.tsx:93](../../model-registry/upstream/frontend/src/app/AppRoutes.tsx#L93) |
-| ModelCatalogWrapperContent | renders ModelCatalogRoutes (one hop up) | renders ModelCatalogRoutes at [ModelCatalogWrapper.tsx:39](../../model-registry/upstream/frontend/src/odh/ModelCatalogWrapper.tsx#L39) |
-| ModelDetailsPage | renders ModelDetailsTabs (one hop up) | renders ModelDetailsTabs at [ModelDetailsPage.tsx:285](../../model-registry/upstream/frontend/src/app/pages/modelCatalog/screens/ModelDetailsPage.tsx#L285-L294) |
-| ModelRegistryWrapperContent | renders ModelRegistryRoutes (one hop up) | renders ModelRegistryRoutes at [ModelRegistryWrapper.tsx:40](../../model-registry/upstream/frontend/src/odh/ModelRegistryWrapper.tsx#L40) |
-| ModelVersionsDetailsContent | renders ModelVersionDetailsTabs (one hop up) | renders ModelVersionDetailsTabs at [ModelVersionDetails.tsx:147](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionDetails/ModelVersionDetails.tsx#L147-L155) |
-| ArchiveModelVersionDetails | renders ModelVersionDetailsTabs (one hop up) | renders ModelVersionDetailsTabs at [ArchiveModelVersionDetails.tsx:83](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionsArchive/ArchiveModelVersionDetails.tsx#L83-L92) |
-| ModelVersionsArchiveDetails | renders ModelVersionDetailsTabs (one hop up) | renders ModelVersionDetailsTabs at [ModelVersionArchiveDetails.tsx:91](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersionsArchive/ModelVersionArchiveDetails.tsx#L91-L100) |
-| ModelVersionsContent | renders ModelVersionsTabs (one hop up) | renders ModelVersionsTabs at [ModelVersions.tsx:76](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/ModelVersions/ModelVersions.tsx#L76-L82) |
-| RegisteredModelsArchiveDetails | renders ModelVersionsTabs (one hop up) | renders ModelVersionsTabs at [RegisteredModelArchiveDetails.tsx:72](../../model-registry/upstream/frontend/src/app/pages/modelRegistry/screens/RegisteredModelsArchive/RegisteredModelArchiveDetails.tsx#L72-L79) |
-| GlobalModelsRoutes | renders GlobalModelsPage (one hop up) | renders GlobalModelsPage at [GlobalModelsRoutes.tsx:22](../../model-serving/src/GlobalModelsRoutes.tsx#L22)<br>renders GlobalModelsPage at [GlobalModelsRoutes.tsx:23](../../model-serving/src/GlobalModelsRoutes.tsx#L23)<br>renders GlobalModelsPage at [GlobalModelsRoutes.tsx:24](../../model-serving/src/GlobalModelsRoutes.tsx#L24)<br>renders GlobalModelsPage at [GlobalModelsRoutes.tsx:25](../../model-serving/src/GlobalModelsRoutes.tsx#L25)<br>renders GlobalModelsPage at [GlobalModelsRoutes.tsx:27](../../model-serving/src/GlobalModelsRoutes.tsx#L27)<br>renders GlobalModelsPage at [GlobalModelsRoutes.tsx:28](../../model-serving/src/GlobalModelsRoutes.tsx#L28) |
-
 ### core.table-column
 
 Generic extension point for table columns.
@@ -1789,6 +1550,14 @@ Declared as [TableColumnExtension](../src/extension-points/table-columns.ts#L22)
 
 **Consumed in:** [model-registry](../../model-registry/docs/extensions.md#consumes-coretable-column)
 
+**Consumers:**
+
+| Consumer | Package | Query | Uses | Rendered or called in |
+| --- | --- | --- | --- | --- |
+| [ExtendedRegisteredModelTable](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L24-L125) | model-registry | [useResolvedExtensions](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L32) | `properties.group` — read, direct ([ExtendedRegisteredModelTable.tsx:54](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L54)) | ExtendedRegisteredModelListView ([ExtendedRegisteredModelListView.tsx:110](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelListView.tsx#L110-L126)) |
+| [ExtendedRegisteredModelTableRow](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L53-L273) | model-registry | [useExtensions](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L70) | `properties.group` — read, direct ([ExtendedRegisteredModelTableRow.tsx:72](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L72)) | ExtendedRegisteredModelTable ([ExtendedRegisteredModelTable.tsx:114](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L114-L121)) |
+| [renderExtensionColumns](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L92-L109) | model-registry | — | `properties.component` — lazy-render, direct ([ExtendedRegisteredModelTableRow.tsx:100](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L100)) | ExtendedRegisteredModelTableRow (called at [ExtendedRegisteredModelTableRow.tsx:144](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L144)) |
+
 ```mermaid
 flowchart LR
   classDef pkg stroke-width:2px
@@ -1797,25 +1566,16 @@ flowchart LR
   n_core_table_column_c42d41(["core.table-column"]):::point
   n_pkg__odh_dashboard_model_serving_d0bfea --> n_core_table_column_c42d41
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8["ExtendedRegisteredModelTable"]
-  n_core_table_column_c42d41 -- "useResolvedExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8
+  n_core_table_column_c42d41 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028["ExtendedRegisteredModelTableRow"]
-  n_core_table_column_c42d41 -- "useExtensions, read" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028
+  n_core_table_column_c42d41 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_renderExtensionColumns_733992["renderExtensionColumns"]
-  n_core_table_column_c42d41 -- "lazy-render" --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_renderExtensionColumns_733992
+  n_core_table_column_c42d41 --> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_renderExtensionColumns_733992
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelListView_tsx_ExtendedRegisteredModelListView_072a6c("ExtendedRegisteredModelListView")
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelListView_tsx_ExtendedRegisteredModelListView_072a6c
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028 -. "rendered in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTable_tsx_ExtendedRegisteredModelTable_2439e8
   n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_renderExtensionColumns_733992 -. "called in" .-> n_symbol_packages_model_registry_upstream_frontend_src_odh_components_ExtendedRegisteredModelTableRow_tsx_ExtendedRegisteredModelTableRow_a8e028
 ```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-serving (package) | contributes extensions of this point | [model-serving](../../model-serving/docs/extensions.md#contributes-to-coretable-column) |
-| core.table-column | this extension point | [core.table-column](#coretable-column) |
-| ExtendedRegisteredModelTable | consumer in @odh-dashboard/model-registry — useResolvedExtensions, read; renders ExtendedRegisteredModelTableRow (one hop up) | [ExtendedRegisteredModelTable](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L24-L125)<br>renders ExtendedRegisteredModelTableRow at [ExtendedRegisteredModelTable.tsx:114](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTable.tsx#L114-L121) |
-| ExtendedRegisteredModelTableRow | consumer in @odh-dashboard/model-registry — useExtensions, read; calls renderExtensionColumns (one hop up) | [ExtendedRegisteredModelTableRow](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L53-L273)<br>calls renderExtensionColumns at [ExtendedRegisteredModelTableRow.tsx:144](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L144) |
-| renderExtensionColumns | consumer in @odh-dashboard/model-registry — lazy-render | [renderExtensionColumns](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelTableRow.tsx#L92-L109) |
-| ExtendedRegisteredModelListView | renders ExtendedRegisteredModelTable (one hop up) | renders ExtendedRegisteredModelTable at [ExtendedRegisteredModelListView.tsx:110](../../model-registry/upstream/frontend/src/odh/components/ExtendedRegisteredModelListView.tsx#L110-L126) |
 
 ## Consumes
 
@@ -1847,7 +1607,7 @@ Defined in [app.suppress](#appsuppress).
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
@@ -1874,18 +1634,16 @@ What the analysis could not prove, or thought worth reporting, about this packag
 
 ## Legend
 
+Every diagram on this page is one extension point's flow: the packages that contribute
+extensions of it, the point, the code that queries or uses it, and where that code is itself
+rendered or called. The Consumers table above each diagram carries a link for every node.
+
 | Edge | What it means in these diagrams |
 | --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
+| `A --> B` | Proven use: package A contributes extensions of point B, or consumer B queries or uses point A. |
 | `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
 | `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
+| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
 
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
 Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
 instead.

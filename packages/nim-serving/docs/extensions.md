@@ -6,6 +6,51 @@
 
 Package `@odh-dashboard/nim-serving` (package) at `packages/nim-serving`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes) · [Diagnostics](#diagnostics)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [nim-service-operator](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host |
+| [nim-wizard](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host |
+| [NIM storage](#contributes-to-appcluster-storagestorage-context) | [app.cluster-storage/storage-context](../../plugin-core/docs/extensions.md#appcluster-storagestorage-context) | host |
+| [nim-settings](#contributes-to-appproject-detailssettings-card) | [app.project-details/settings-card](../../plugin-core/docs/extensions.md#appproject-detailssettings-card) | host |
+| [isNIMAuthEnabled](#contributes-to-model-servingauth) | [model-serving.auth](../../model-serving/docs/extensions.md#model-servingauth) | host |
+| [NIMServingDetails](#contributes-to-model-servingdeployed-modelserving-runtime) | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime) | host |
+| [assembleNIMDeployment](#contributes-to-model-servingdeploymentassemble-model-resource) | [model-serving.deployment/assemble-model-resource](../../model-serving/docs/extensions.md#model-servingdeploymentassemble-model-resource) | host |
+| [deployNIMKServeDeployment](#contributes-to-model-servingdeploymentdeploy) | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy) | host |
+| [deployNIMDeployment](#contributes-to-model-servingdeploymentdeploy) | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy) | host |
+| [nimKServeFormDataExtension](#contributes-to-model-servingdeploymentform-data) | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data) | host |
+| [extractNIMEnvironmentVariables](#contributes-to-model-servingdeploymentform-data) | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data) | host |
+| [nimTrackingPropertiesExtension](#contributes-to-model-servingdeploymenttracking-properties) | [model-serving.deployment/tracking-properties](../../model-serving/docs/extensions.md#model-servingdeploymenttracking-properties) | host |
+| [nimImageFieldExtension](#contributes-to-model-servingdeploymentwizard-field) | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | host |
+| [nimPVCFieldExtension](#contributes-to-model-servingdeploymentwizard-field) | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | host |
+| [nimPVCApplyExtension #1](#contributes-to-model-servingdeploymentwizard-field-apply) | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | host |
+| [nimImageApplyExtension #1](#contributes-to-model-servingdeploymentwizard-field-apply) | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | host |
+| [nimImageApplyExtension #2](#contributes-to-model-servingdeploymentwizard-field-apply) | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | host |
+| [nimPVCApplyExtension #2](#contributes-to-model-servingdeploymentwizard-field-apply) | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | host |
+| [nimPVCDeployFunctionsExtension #1](#contributes-to-model-servingdeploymentwizard-field-deployment-functions) | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) | host |
+| [nimPVCDeployFunctionsExtension #2](#contributes-to-model-servingdeploymentwizard-field-deployment-functions) | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) | host |
+| [nimPVCExtractorExtension #1](#contributes-to-model-servingdeploymentwizard-field-extractor) | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | host |
+| [nimImageExtractExtension](#contributes-to-model-servingdeploymentwizard-field-extractor) | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | host |
+| [nimImageExtractorExtension](#contributes-to-model-servingdeploymentwizard-field-extractor) | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | host |
+| [nimPVCExtractorExtension #2](#contributes-to-model-servingdeploymentwizard-field-extractor) | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | host |
+| [nimModelTypeOverride](#contributes-to-model-servingdeploymentwizard-field-override) | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) | host |
+| [nimModelLocationOverride](#contributes-to-model-servingdeploymentwizard-field-override) | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) | host |
+| [patchDeploymentStoppedStatus](#contributes-to-model-servingdeployments-tablestart-stop-action) | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action) | host |
+| [nvidia-nim](#contributes-to-model-servingplatform) | [model-serving.platform](../../model-serving/docs/extensions.md#model-servingplatform) | host |
+| [Delete model deployment?](#contributes-to-model-servingplatformdelete-deployment) | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment) | host |
+| [isNIMOwned](#contributes-to-model-servingplatformexclude-deployment) | [model-serving.platform/exclude-deployment](../../model-serving/docs/extensions.md#model-servingplatformexclude-deployment) | host |
+| [ModelServingRoutes](#contributes-to-model-servingplatformglobal-models-page) | [model-serving.platform/global-models-page](../../model-serving/docs/extensions.md#model-servingplatformglobal-models-page) | host |
+| [ServeModelsSection](#contributes-to-model-servingplatformoverview-section) | [model-serving.platform/overview-section](../../model-serving/docs/extensions.md#model-servingplatformoverview-section) | host |
+| [ModelServingPlatform](#contributes-to-model-servingplatformproject-details-tab) | [model-serving.platform/project-details-tab](../../model-serving/docs/extensions.md#model-servingplatformproject-details-tab) | host |
+| [useWatchDeployments](#contributes-to-model-servingplatformwatch-deployments) | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments) | host |
+
 ## Loading paths
 
 - [index.ts](../extensions/index.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -15,41 +60,6 @@ Package `@odh-dashboard/nim-serving` (package) at `packages/nim-serving`. Everyt
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_nim_serving_974017["nim-serving (package)"]:::pkg
-  n_packages_nim_serving_extensions_nim_service_ts_4753_ab1a4e["nim-service-operator"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_4753_ab1a4e
-  n_packages_nim_serving_extensions_wizard_ts_2259_e59348["nim-wizard"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_wizard_ts_2259_e59348
-  n_packages_nim_serving_extensions_cluster_storage_ts_284_08fcff["NIM storage"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_cluster_storage_ts_284_08fcff
-  n_packages_nim_serving_extensions_project_key_ts_356_33dba0["nim-settings"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_project_key_ts_356_33dba0
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_cluster_storage_storage_context_e68734(["cluster-storage/storage-context"]):::point
-    n_app_project_details_settings_card_bc8e85(["project-details/settings-card"]):::point
-  end
-  n_packages_nim_serving_extensions_nim_service_ts_4753_ab1a4e --> n_app_area_bcfe23
-  n_packages_nim_serving_extensions_wizard_ts_2259_e59348 --> n_app_area_bcfe23
-  n_packages_nim_serving_extensions_cluster_storage_ts_284_08fcff --> n_app_cluster_storage_storage_context_e68734
-  n_packages_nim_serving_extensions_project_key_ts_356_33dba0 --> n_app_project_details_settings_card_bc8e85
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| nim-serving (package) | this package | [packages/nim-serving](..) |
-| nim-service-operator | extension of app.area — bundled | [nim-service.ts](../extensions/nim-service.ts#L130-L137) |
-| nim-wizard | extension of app.area — bundled | [wizard.ts](../extensions/wizard.ts#L74-L81) |
-| NIM storage | extension of app.cluster-storage/storage-context — bundled | [cluster-storage.ts](../extensions/cluster-storage.ts#L6-L19) |
-| nim-settings | extension of app.project-details/settings-card — bundled | [project-key.ts](../extensions/project-key.ts#L9-L19) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| cluster-storage/storage-context | extension point | [app.cluster-storage/storage-context](../../plugin-core/docs/extensions.md#appcluster-storagestorage-context) |
-| project-details/settings-card | extension point | [app.project-details/settings-card](../../plugin-core/docs/extensions.md#appproject-detailssettings-card) |
 
 #### Contributes to app.area
 
@@ -77,177 +87,6 @@ Defined in [app.project-details/settings-card](../../plugin-core/docs/extensions
 | `'nim-settings'` | `'NVIDIA NIM'` | `SupportedArea.NIM_WIZARD` (`'nim-wizard'`) | [NIMSettingsCard#default](../src/pages/projectSettings/NIMSettingsCard.tsx#L59-L330) | host | [project-key.ts](../extensions/project-key.ts#L9-L19) |
 
 ### Namespace `model-serving`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_nim_serving_974017["nim-serving (package)"]:::pkg
-  n_packages_nim_serving_extensions_nim_service_ts_8444_d1b9cf["isNIMAuthEnabled"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_8444_d1b9cf
-  n_packages_nim_serving_extensions_nim_service_ts_5256_ffdbeb["NIMServingDetails"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_5256_ffdbeb
-  n_packages_nim_serving_extensions_nim_service_ts_6283_df8e5a["assembleNIMDeployment"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_6283_df8e5a
-  n_packages_nim_serving_extensions_nim_kserve_ts_5272_bb1340["deployNIMKServeDeployment"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_5272_bb1340
-  n_packages_nim_serving_extensions_nim_service_ts_5854_3e98cf["deployNIMDeployment"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_5854_3e98cf
-  n_packages_nim_serving_extensions_nim_kserve_ts_4239_640acc["nimKServeFormDataExtension"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_4239_640acc
-  n_packages_nim_serving_extensions_nim_service_ts_6702_e871ae["extractNIMEnvironmentVariables"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_6702_e871ae
-  n_packages_nim_serving_extensions_nim_kserve_ts_1993_c00dac["nimTrackingPropertiesExtension"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_1993_c00dac
-  n_packages_nim_serving_extensions_wizard_ts_618_47b345["nimImageFieldExtension"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_wizard_ts_618_47b345
-  n_packages_nim_serving_extensions_wizard_ts_962_e9236d["nimPVCFieldExtension"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_wizard_ts_962_e9236d
-  n_packages_nim_serving_extensions_nim_kserve_ts_1131_dcfdc4["nimPVCApplyExtension #1"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_1131_dcfdc4
-  n_packages_nim_serving_extensions_nim_kserve_ts_2863_fc90b7["nimImageApplyExtension #1"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_2863_fc90b7
-  n_packages_nim_serving_extensions_nim_service_ts_1313_a3b29b["nimImageApplyExtension #2"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_1313_a3b29b
-  n_packages_nim_serving_extensions_nim_service_ts_2259_c0d4e1["nimPVCApplyExtension #2"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_2259_c0d4e1
-  n_packages_nim_serving_extensions_nim_kserve_ts_2407_8a790d["nimPVCDeployFunctionsExtension #1"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_2407_8a790d
-  n_packages_nim_serving_extensions_nim_service_ts_3207_fe53af["nimPVCDeployFunctionsExtension #2"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_3207_fe53af
-  n_packages_nim_serving_extensions_nim_kserve_ts_1554_4720b1["nimPVCExtractorExtension #1"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_1554_4720b1
-  n_packages_nim_serving_extensions_nim_kserve_ts_3290_d1808e["nimImageExtractExtension"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_3290_d1808e
-  n_packages_nim_serving_extensions_nim_service_ts_1776_0dd8ae["nimImageExtractorExtension"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_1776_0dd8ae
-  n_packages_nim_serving_extensions_nim_service_ts_2718_8179dd["nimPVCExtractorExtension #2"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_2718_8179dd
-  n_packages_nim_serving_extensions_wizard_ts_1303_9ce613["nimModelTypeOverride"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_wizard_ts_1303_9ce613
-  n_packages_nim_serving_extensions_wizard_ts_1685_d13286["nimModelLocationOverride"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_wizard_ts_1685_d13286
-  n_packages_nim_serving_extensions_nim_service_ts_8894_112df6["patchDeploymentStoppedStatus"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_8894_112df6
-  n_packages_nim_serving_extensions_legacy_ui_ts_1016_210d1b["nvidia-nim"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_legacy_ui_ts_1016_210d1b
-  n_packages_nim_serving_extensions_nim_kserve_ts_5689_3602d2["Delete model deployment?"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_kserve_ts_5689_3602d2
-  n_packages_nim_serving_extensions_nim_service_ts_5545_388372["isNIMOwned"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_5545_388372
-  n_packages_nim_serving_extensions_legacy_ui_ts_3251_3d000a["ModelServingRoutes"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_legacy_ui_ts_3251_3d000a
-  n_packages_nim_serving_extensions_legacy_ui_ts_2867_7a974c["ServeModelsSection"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_legacy_ui_ts_2867_7a974c
-  n_packages_nim_serving_extensions_legacy_ui_ts_2514_862415["ModelServingPlatform"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_legacy_ui_ts_2514_862415
-  n_packages_nim_serving_extensions_nim_service_ts_4946_ab7652["useWatchDeployments"]
-  n__odh_dashboard_nim_serving_974017 --> n_packages_nim_serving_extensions_nim_service_ts_4946_ab7652
-  subgraph n_ns_model_serving_eced18 ["model-serving"]
-    n_model_serving_auth_5d7b65(["auth"]):::point
-    n_model_serving_deployed_model_serving_runtime_a806c7(["deployed-model/serving-runtime"]):::point
-    n_model_serving_deployment_assemble_model_resource_5b5fd4(["deployment/assemble-model-resource"]):::point
-    n_model_serving_deployment_deploy_35423a(["deployment/deploy"]):::point
-    n_model_serving_deployment_form_data_a37ab2(["deployment/form-data"]):::point
-    n_model_serving_deployment_tracking_properties_2845ae(["deployment/tracking-properties"]):::point
-    n_model_serving_deployment_wizard_field_19398b(["deployment/wizard-field"]):::point
-    n_model_serving_deployment_wizard_field_apply_b7659a(["deployment/wizard-field-apply"]):::point
-    n_model_serving_deployment_wizard_field_deployment_functions_dd7c85(["deployment/wizard-field-deployment-functions"]):::point
-    n_model_serving_deployment_wizard_field_extractor_877f9e(["deployment/wizard-field-extractor"]):::point
-    n_model_serving_deployment_wizard_field_override_756caa(["deployment/wizard-field-override"]):::point
-    n_model_serving_deployments_table_start_stop_action_ea2e4f(["deployments-table/start-stop-action"]):::point
-    n_model_serving_platform_1d1e44(["platform"]):::point
-    n_model_serving_platform_delete_deployment_259f2a(["platform/delete-deployment"]):::point
-    n_model_serving_platform_exclude_deployment_af339f(["platform/exclude-deployment"]):::point
-    n_model_serving_platform_global_models_page_508e89(["platform/global-models-page"]):::point
-    n_model_serving_platform_overview_section_7dcf20(["platform/overview-section"]):::point
-    n_model_serving_platform_project_details_tab_fce2f7(["platform/project-details-tab"]):::point
-    n_model_serving_platform_watch_deployments_cf294d(["platform/watch-deployments"]):::point
-  end
-  n_packages_nim_serving_extensions_nim_service_ts_8444_d1b9cf --> n_model_serving_auth_5d7b65
-  n_packages_nim_serving_extensions_nim_service_ts_5256_ffdbeb --> n_model_serving_deployed_model_serving_runtime_a806c7
-  n_packages_nim_serving_extensions_nim_service_ts_6283_df8e5a --> n_model_serving_deployment_assemble_model_resource_5b5fd4
-  n_packages_nim_serving_extensions_nim_kserve_ts_5272_bb1340 --> n_model_serving_deployment_deploy_35423a
-  n_packages_nim_serving_extensions_nim_service_ts_5854_3e98cf --> n_model_serving_deployment_deploy_35423a
-  n_packages_nim_serving_extensions_nim_kserve_ts_4239_640acc --> n_model_serving_deployment_form_data_a37ab2
-  n_packages_nim_serving_extensions_nim_service_ts_6702_e871ae --> n_model_serving_deployment_form_data_a37ab2
-  n_packages_nim_serving_extensions_nim_kserve_ts_1993_c00dac --> n_model_serving_deployment_tracking_properties_2845ae
-  n_packages_nim_serving_extensions_wizard_ts_618_47b345 --> n_model_serving_deployment_wizard_field_19398b
-  n_packages_nim_serving_extensions_wizard_ts_962_e9236d --> n_model_serving_deployment_wizard_field_19398b
-  n_packages_nim_serving_extensions_nim_kserve_ts_1131_dcfdc4 --> n_model_serving_deployment_wizard_field_apply_b7659a
-  n_packages_nim_serving_extensions_nim_kserve_ts_2863_fc90b7 --> n_model_serving_deployment_wizard_field_apply_b7659a
-  n_packages_nim_serving_extensions_nim_service_ts_1313_a3b29b --> n_model_serving_deployment_wizard_field_apply_b7659a
-  n_packages_nim_serving_extensions_nim_service_ts_2259_c0d4e1 --> n_model_serving_deployment_wizard_field_apply_b7659a
-  n_packages_nim_serving_extensions_nim_kserve_ts_2407_8a790d --> n_model_serving_deployment_wizard_field_deployment_functions_dd7c85
-  n_packages_nim_serving_extensions_nim_service_ts_3207_fe53af --> n_model_serving_deployment_wizard_field_deployment_functions_dd7c85
-  n_packages_nim_serving_extensions_nim_kserve_ts_1554_4720b1 --> n_model_serving_deployment_wizard_field_extractor_877f9e
-  n_packages_nim_serving_extensions_nim_kserve_ts_3290_d1808e --> n_model_serving_deployment_wizard_field_extractor_877f9e
-  n_packages_nim_serving_extensions_nim_service_ts_1776_0dd8ae --> n_model_serving_deployment_wizard_field_extractor_877f9e
-  n_packages_nim_serving_extensions_nim_service_ts_2718_8179dd --> n_model_serving_deployment_wizard_field_extractor_877f9e
-  n_packages_nim_serving_extensions_wizard_ts_1303_9ce613 --> n_model_serving_deployment_wizard_field_override_756caa
-  n_packages_nim_serving_extensions_wizard_ts_1685_d13286 --> n_model_serving_deployment_wizard_field_override_756caa
-  n_packages_nim_serving_extensions_nim_service_ts_8894_112df6 --> n_model_serving_deployments_table_start_stop_action_ea2e4f
-  n_packages_nim_serving_extensions_legacy_ui_ts_1016_210d1b --> n_model_serving_platform_1d1e44
-  n_packages_nim_serving_extensions_nim_kserve_ts_5689_3602d2 --> n_model_serving_platform_delete_deployment_259f2a
-  n_packages_nim_serving_extensions_nim_service_ts_5545_388372 --> n_model_serving_platform_exclude_deployment_af339f
-  n_packages_nim_serving_extensions_legacy_ui_ts_3251_3d000a --> n_model_serving_platform_global_models_page_508e89
-  n_packages_nim_serving_extensions_legacy_ui_ts_2867_7a974c --> n_model_serving_platform_overview_section_7dcf20
-  n_packages_nim_serving_extensions_legacy_ui_ts_2514_862415 --> n_model_serving_platform_project_details_tab_fce2f7
-  n_packages_nim_serving_extensions_nim_service_ts_4946_ab7652 --> n_model_serving_platform_watch_deployments_cf294d
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| nim-serving (package) | this package | [packages/nim-serving](..) |
-| isNIMAuthEnabled | extension of model-serving.auth — bundled | [nim-service.ts](../extensions/nim-service.ts#L242-L252) |
-| NIMServingDetails | extension of model-serving.deployed-model/serving-runtime — bundled | [nim-service.ts](../extensions/nim-service.ts#L149-L158) |
-| assembleNIMDeployment | extension of model-serving.deployment/assemble-model-resource — bundled | [nim-service.ts](../extensions/nim-service.ts#L183-L194) |
-| deployNIMKServeDeployment | extension of model-serving.deployment/deploy — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L139-L151) |
-| deployNIMDeployment | extension of model-serving.deployment/deploy — bundled | [nim-service.ts](../extensions/nim-service.ts#L170-L182) |
-| nimKServeFormDataExtension | extension of model-serving.deployment/form-data — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L113-L125) |
-| extractNIMEnvironmentVariables | extension of model-serving.deployment/form-data — bundled | [nim-service.ts](../extensions/nim-service.ts#L195-L241) |
-| nimTrackingPropertiesExtension | extension of model-serving.deployment/tracking-properties — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L47-L57) |
-| nimImageFieldExtension | extension of model-serving.deployment/wizard-field — bundled | [wizard.ts](../extensions/wizard.ts#L11-L22) |
-| nimPVCFieldExtension | extension of model-serving.deployment/wizard-field — bundled | [wizard.ts](../extensions/wizard.ts#L24-L35) |
-| nimPVCApplyExtension #1 | extension of model-serving.deployment/wizard-field-apply — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L20-L31) |
-| nimImageApplyExtension #1 | extension of model-serving.deployment/wizard-field-apply — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L76-L87) |
-| nimImageApplyExtension #2 | extension of model-serving.deployment/wizard-field-apply — bundled | [nim-service.ts](../extensions/nim-service.ts#L26-L39) |
-| nimPVCApplyExtension #2 | extension of model-serving.deployment/wizard-field-apply — bundled | [nim-service.ts](../extensions/nim-service.ts#L57-L70) |
-| nimPVCDeployFunctionsExtension #1 | extension of model-serving.deployment/wizard-field-deployment-functions — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L62-L74) |
-| nimPVCDeployFunctionsExtension #2 | extension of model-serving.deployment/wizard-field-deployment-functions — bundled | [nim-service.ts](../extensions/nim-service.ts#L90-L107) |
-| nimPVCExtractorExtension #1 | extension of model-serving.deployment/wizard-field-extractor — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L34-L45) |
-| nimImageExtractExtension | extension of model-serving.deployment/wizard-field-extractor — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L92-L108) |
-| nimImageExtractorExtension | extension of model-serving.deployment/wizard-field-extractor — bundled | [nim-service.ts](../extensions/nim-service.ts#L42-L55) |
-| nimPVCExtractorExtension #2 | extension of model-serving.deployment/wizard-field-extractor — bundled | [nim-service.ts](../extensions/nim-service.ts#L72-L85) |
-| nimModelTypeOverride | extension of model-serving.deployment/wizard-field-override — bundled | [wizard.ts](../extensions/wizard.ts#L37-L49) |
-| nimModelLocationOverride | extension of model-serving.deployment/wizard-field-override — bundled | [wizard.ts](../extensions/wizard.ts#L51-L63) |
-| patchDeploymentStoppedStatus | extension of model-serving.deployments-table/start-stop-action — bundled | [nim-service.ts](../extensions/nim-service.ts#L258-L268) |
-| nvidia-nim | extension of model-serving.platform — bundled | [legacy-ui.ts](../extensions/legacy-ui.ts#L23-L58) |
-| Delete model deployment? | extension of model-serving.platform/delete-deployment — bundled | [nim-kserve.ts](../extensions/nim-kserve.ts#L152-L168) |
-| isNIMOwned | extension of model-serving.platform/exclude-deployment — bundled | [nim-service.ts](../extensions/nim-service.ts#L159-L169) |
-| ModelServingRoutes | extension of model-serving.platform/global-models-page — bundled | [legacy-ui.ts](../extensions/legacy-ui.ts#L85-L95) |
-| ServeModelsSection | extension of model-serving.platform/overview-section — bundled | [legacy-ui.ts](../extensions/legacy-ui.ts#L71-L84) |
-| ModelServingPlatform | extension of model-serving.platform/project-details-tab — bundled | [legacy-ui.ts](../extensions/legacy-ui.ts#L59-L70) |
-| useWatchDeployments | extension of model-serving.platform/watch-deployments — bundled | [nim-service.ts](../extensions/nim-service.ts#L138-L148) |
-| auth | extension point | [model-serving.auth](../../model-serving/docs/extensions.md#model-servingauth) |
-| deployed-model/serving-runtime | extension point | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime) |
-| deployment/assemble-model-resource | extension point | [model-serving.deployment/assemble-model-resource](../../model-serving/docs/extensions.md#model-servingdeploymentassemble-model-resource) |
-| deployment/deploy | extension point | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy) |
-| deployment/form-data | extension point | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data) |
-| deployment/tracking-properties | extension point | [model-serving.deployment/tracking-properties](../../model-serving/docs/extensions.md#model-servingdeploymenttracking-properties) |
-| deployment/wizard-field | extension point | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) |
-| deployment/wizard-field-apply | extension point | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) |
-| deployment/wizard-field-deployment-functions | extension point | [model-serving.deployment/wizard-field-deployment-functions](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-deployment-functions) |
-| deployment/wizard-field-extractor | extension point | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) |
-| deployment/wizard-field-override | extension point | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) |
-| deployments-table/start-stop-action | extension point | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action) |
-| platform | extension point | [model-serving.platform](../../model-serving/docs/extensions.md#model-servingplatform) |
-| platform/delete-deployment | extension point | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment) |
-| platform/exclude-deployment | extension point | [model-serving.platform/exclude-deployment](../../model-serving/docs/extensions.md#model-servingplatformexclude-deployment) |
-| platform/global-models-page | extension point | [model-serving.platform/global-models-page](../../model-serving/docs/extensions.md#model-servingplatformglobal-models-page) |
-| platform/overview-section | extension point | [model-serving.platform/overview-section](../../model-serving/docs/extensions.md#model-servingplatformoverview-section) |
-| platform/project-details-tab | extension point | [model-serving.platform/project-details-tab](../../model-serving/docs/extensions.md#model-servingplatformproject-details-tab) |
-| platform/watch-deployments | extension point | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments) |
 
 #### Contributes to model-serving.auth
 
@@ -486,28 +325,10 @@ Defined in [model-serving.platform/watch-deployments](../../model-serving/docs/e
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
 | `unresolved-value` | warning | Cannot resolve 'extractHardwareProfileConfig' of extension 'model-serving.deployment/form-data': the imported module is not re-exported as it is. | [nim-kserve.ts:113](../extensions/nim-kserve.ts#L113-L125) |
 | `unresolved-value` | warning | Cannot resolve 'extractHuggingFaceApiKey' of extension 'model-serving.deployment/form-data': the imported module is not re-exported as it is. | [nim-kserve.ts:113](../extensions/nim-kserve.ts#L113-L125) |
 | `unresolved-value` | warning | Cannot resolve 'extractReplicas' of extension 'model-serving.deployment/form-data': the imported module is not re-exported as it is. | [nim-kserve.ts:113](../extensions/nim-kserve.ts#L113-L125) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

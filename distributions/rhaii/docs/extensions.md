@@ -6,6 +6,21 @@
 
 Package `@odh-dashboard/rhaii-distribution` (distribution) at `distributions/rhaii`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [auth-placeholder](#contributes-to-appmastheadtoolbar-item) | [app.masthead/toolbar-item](../../../packages/plugin-core/docs/extensions.md#appmastheadtoolbar-item) | rhaii |
+| [ai-hub](#contributes-to-appnavigationsection) | [app.navigation/section](../../../packages/plugin-core/docs/extensions.md#appnavigationsection) | rhaii |
+| [RedirectToModels](#contributes-to-approute) | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) | rhaii |
+| [models-tab-page](#contributes-to-apptab-routepage) | [app.tab-route/page](../../../packages/plugin-core/docs/extensions.md#apptab-routepage) | rhaii |
+
 ## Loading paths
 
 - [extensions.ts](../src/extensions.ts) (`local:./extensions`) — local to one distribution
@@ -15,43 +30,6 @@ Package `@odh-dashboard/rhaii-distribution` (distribution) at `distributions/rha
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_rhaii_distribution_68078e["rhaii-distribution (distribution)"]:::pkg
-  n_distributions_rhaii_src_extensions_ts_849_df3a82["auth-placeholder"]
-  n__odh_dashboard_rhaii_distribution_68078e --> n_distributions_rhaii_src_extensions_ts_849_df3a82
-  n_distributions_rhaii_src_extensions_ts_267_d747e8["ai-hub"]
-  n__odh_dashboard_rhaii_distribution_68078e --> n_distributions_rhaii_src_extensions_ts_267_d747e8
-  n_distributions_rhaii_src_extensions_ts_697_567d8f["RedirectToModels"]
-  n__odh_dashboard_rhaii_distribution_68078e --> n_distributions_rhaii_src_extensions_ts_697_567d8f
-  n_distributions_rhaii_src_extensions_ts_435_8c2ee5["models-tab-page"]
-  n__odh_dashboard_rhaii_distribution_68078e --> n_distributions_rhaii_src_extensions_ts_435_8c2ee5
-  subgraph n_ns_app_679587 ["app"]
-    n_app_masthead_toolbar_item_2a7e87(["masthead/toolbar-item"]):::point
-    n_app_navigation_section_34ff18(["navigation/section"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_tab_route_page_976575(["tab-route/page"]):::point
-  end
-  n_distributions_rhaii_src_extensions_ts_849_df3a82 --> n_app_masthead_toolbar_item_2a7e87
-  n_distributions_rhaii_src_extensions_ts_267_d747e8 --> n_app_navigation_section_34ff18
-  n_distributions_rhaii_src_extensions_ts_697_567d8f --> n_app_route_2735df
-  n_distributions_rhaii_src_extensions_ts_435_8c2ee5 --> n_app_tab_route_page_976575
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| rhaii-distribution (distribution) | this package | [distributions/rhaii](..) |
-| auth-placeholder | extension of app.masthead/toolbar-item — local to a distribution | [extensions.ts](../src/extensions.ts#L36-L43) |
-| ai-hub | extension of app.navigation/section — local to a distribution | [extensions.ts](../src/extensions.ts#L10-L17) |
-| RedirectToModels | extension of app.route — local to a distribution | [extensions.ts](../src/extensions.ts#L29-L35) |
-| models-tab-page | extension of app.tab-route/page — local to a distribution | [extensions.ts](../src/extensions.ts#L18-L28) |
-| masthead/toolbar-item | extension point | [app.masthead/toolbar-item](../../../packages/plugin-core/docs/extensions.md#appmastheadtoolbar-item) |
-| navigation/section | extension point | [app.navigation/section](../../../packages/plugin-core/docs/extensions.md#appnavigationsection) |
-| route | extension point | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) |
-| tab-route/page | extension point | [app.tab-route/page](../../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
 
 #### Contributes to app.masthead/toolbar-item
 
@@ -91,21 +69,3 @@ Defined in [app.tab-route/page](../../../packages/plugin-core/docs/extensions.md
 - **path:** `'/ai-hub/models/*'`
 - **Included in:** rhaii
 - **Source:** [extensions.ts](../src/extensions.ts#L18-L28)
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

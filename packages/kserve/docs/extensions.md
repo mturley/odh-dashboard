@@ -6,6 +6,48 @@
 
 Package `@odh-dashboard/kserve` (package) at `packages/kserve`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes) · [Consumes](#consumes) · [Diagnostics](#diagnostics)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [kserve](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host, rhaii |
+| [getConnectedKServeResourceLabels](#contributes-to-appcluster-storageconnected-resources) | [app.cluster-storage/connected-resources](../../plugin-core/docs/extensions.md#appcluster-storageconnected-resources) | host, rhaii |
+| [ServingRuntimeTemplatesFormRoutes ×3](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, rhaii |
+| [route #2](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, rhaii |
+| [route #3](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, rhaii |
+| [route #4](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, rhaii |
+| [route #5](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host, rhaii |
+| [serving-runtime-templates](#contributes-to-apptab-routetab) | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) | host, rhaii |
+| [deploymentServingDetails](#contributes-to-model-servingdeployed-modelserving-runtime) | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime) | host, rhaii |
+| [deployKServeDeployment](#contributes-to-model-servingdeploymentdeploy) | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy) | host, rhaii |
+| [kserveFormDataExtension](#contributes-to-model-servingdeploymentform-data) | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data) | host, rhaii |
+| [kserveServingRuntimeFieldExtension](#contributes-to-model-servingdeploymentwizard-field) | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | host, rhaii |
+| [kserveTimeoutFieldExtension](#contributes-to-model-servingdeploymentwizard-field) | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) | host, rhaii |
+| [applyTimeoutFieldData](#contributes-to-model-servingdeploymentwizard-field-apply) | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) | host, rhaii |
+| [timeoutExtractorExtension](#contributes-to-model-servingdeploymentwizard-field-extractor) | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | host, rhaii |
+| [deploymentMethodExtractorExtension](#contributes-to-model-servingdeploymentwizard-field-extractor) | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) | host, rhaii |
+| [kserveDeploymentStrategyOverride](#contributes-to-model-servingdeploymentwizard-field-override) | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) | host, rhaii |
+| [legacyDeploymentMethodOverride](#contributes-to-model-servingdeploymentwizard-field-override) | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) | host, rhaii |
+| [patchDeploymentStoppedStatus](#contributes-to-model-servingdeployments-tablestart-stop-action) | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action) | host, rhaii |
+| [metrics #1](#contributes-to-model-servingmetrics) | [model-serving.metrics](../../model-serving/docs/extensions.md#model-servingmetrics) | host, rhaii |
+| [kserve](#contributes-to-model-servingplatform) | [model-serving.platform](../../model-serving/docs/extensions.md#model-servingplatform) | host, rhaii |
+| [Delete model deployment?](#contributes-to-model-servingplatformdelete-deployment) | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment) | host, rhaii |
+| [fetchDeploymentStatus](#contributes-to-model-servingplatformfetch-deployment-status) | [model-serving.platform/fetch-deployment-status](../../model-serving/docs/extensions.md#model-servingplatformfetch-deployment-status) | host, rhaii |
+| [useWatchDeployments](#contributes-to-model-servingplatformwatch-deployments) | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments) | host, rhaii |
+| [servingRuntimeTemplate](#contributes-to-model-servingruntime-imageinstall-target) | [model-serving.runtime-image/install-target](../../model-serving/docs/extensions.md#model-servingruntime-imageinstall-target) | host, rhaii |
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [useWatchDeployments](#consumes-model-servingplatformexclude-deployment) | [model-serving.platform/exclude-deployment](../../model-serving/docs/extensions.md#model-servingplatformexclude-deployment) |
+
 ## Loading paths
 
 - [extensions.ts](../extensions.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -15,44 +57,6 @@ Package `@odh-dashboard/kserve` (package) at `packages/kserve`. Everything below
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef collapsed stroke-dasharray: 5 5
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_kserve_e30286["kserve (package)"]:::pkg
-  n_packages_kserve_extensions_ts_7590_ac2426["kserve"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_7590_ac2426
-  n_packages_kserve_extensions_ts_7832_7e62d9["getConnectedKServeResourceLabels"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_7832_7e62d9
-  n_app_route_collapsed_a2cd4d("×7"):::collapsed
-  n__odh_dashboard_kserve_e30286 --> n_app_route_collapsed_a2cd4d
-  n_packages_kserve_extensions_ts_13372_b742d5["serving-runtime-templates"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_13372_b742d5
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_cluster_storage_connected_resources_77ac0c(["cluster-storage/connected-resources"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_tab_route_tab_10b1cd(["tab-route/tab"]):::point
-  end
-  n_packages_kserve_extensions_ts_7590_ac2426 --> n_app_area_bcfe23
-  n_packages_kserve_extensions_ts_7832_7e62d9 --> n_app_cluster_storage_connected_resources_77ac0c
-  n_app_route_collapsed_a2cd4d --> n_app_route_2735df
-  n_packages_kserve_extensions_ts_13372_b742d5 --> n_app_tab_route_tab_10b1cd
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| kserve (package) | this package | [packages/kserve](..) |
-| kserve | extension of app.area — bundled | [extensions.ts](../extensions.ts#L188-L196) |
-| getConnectedKServeResourceLabels | extension of app.cluster-storage/connected-resources — bundled | [extensions.ts](../extensions.ts#L197-L212) |
-| ×7 | 7 extensions of app.route | [see the table below](#contributes-to-approute) |
-| serving-runtime-templates | extension of app.tab-route/tab — bundled | [extensions.ts](../extensions.ts#L389-L402) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| cluster-storage/connected-resources | extension point | [app.cluster-storage/connected-resources](../../plugin-core/docs/extensions.md#appcluster-storageconnected-resources) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
-| tab-route/tab | extension point | [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-routetab) |
 
 #### Contributes to app.area
 
@@ -107,115 +111,6 @@ Defined in [app.tab-route/tab](../../plugin-core/docs/extensions.md#apptab-route
 - **Source:** [extensions.ts](../extensions.ts#L389-L402)
 
 ### Namespace `model-serving`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_kserve_e30286["kserve (package)"]:::pkg
-  n_packages_kserve_extensions_ts_10111_81c5d7["deploymentServingDetails"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_10111_81c5d7
-  n_packages_kserve_extensions_ts_11173_d945da["deployKServeDeployment"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_11173_d945da
-  n_packages_kserve_extensions_ts_4729_b732d3["kserveFormDataExtension"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_4729_b732d3
-  n_packages_kserve_extensions_ts_3063_dade9f["kserveServingRuntimeFieldExtension"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_3063_dade9f
-  n_packages_kserve_extensions_ts_3507_2bf562["kserveTimeoutFieldExtension"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_3507_2bf562
-  n_packages_kserve_extensions_ts_11604_166769["applyTimeoutFieldData"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_11604_166769
-  n_packages_kserve_extensions_ts_3884_f7c6d8["timeoutExtractorExtension"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_3884_f7c6d8
-  n_packages_kserve_extensions_ts_4345_675b61["deploymentMethodExtractorExtension"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_4345_675b61
-  n_packages_kserve_extensions_ts_12026_583120["kserveDeploymentStrategyOverride"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_12026_583120
-  n_packages_kserve_extensions_ts_12341_6094d2["legacyDeploymentMethodOverride"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_12341_6094d2
-  n_packages_kserve_extensions_ts_10566_0a6571["patchDeploymentStoppedStatus"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_10566_0a6571
-  n_packages_kserve_extensions_ts_9923_010de6["metrics #1"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_9923_010de6
-  n_packages_kserve_extensions_ts_8301_e8eedd["kserve"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_8301_e8eedd
-  n_packages_kserve_extensions_ts_9571_26771d["Delete model deployment?"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_9571_26771d
-  n_packages_kserve_extensions_ts_10879_dad25a["fetchDeploymentStatus"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_10879_dad25a
-  n_packages_kserve_extensions_ts_9312_b1b1f4["useWatchDeployments"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_9312_b1b1f4
-  n_packages_kserve_extensions_ts_12669_0f7e0f["servingRuntimeTemplate"]
-  n__odh_dashboard_kserve_e30286 --> n_packages_kserve_extensions_ts_12669_0f7e0f
-  subgraph n_ns_model_serving_eced18 ["model-serving"]
-    n_model_serving_deployed_model_serving_runtime_a806c7(["deployed-model/serving-runtime"]):::point
-    n_model_serving_deployment_deploy_35423a(["deployment/deploy"]):::point
-    n_model_serving_deployment_form_data_a37ab2(["deployment/form-data"]):::point
-    n_model_serving_deployment_wizard_field_19398b(["deployment/wizard-field"]):::point
-    n_model_serving_deployment_wizard_field_apply_b7659a(["deployment/wizard-field-apply"]):::point
-    n_model_serving_deployment_wizard_field_extractor_877f9e(["deployment/wizard-field-extractor"]):::point
-    n_model_serving_deployment_wizard_field_override_756caa(["deployment/wizard-field-override"]):::point
-    n_model_serving_deployments_table_start_stop_action_ea2e4f(["deployments-table/start-stop-action"]):::point
-    n_model_serving_metrics_8c16bc(["metrics"]):::point
-    n_model_serving_platform_1d1e44(["platform"]):::point
-    n_model_serving_platform_delete_deployment_259f2a(["platform/delete-deployment"]):::point
-    n_model_serving_platform_fetch_deployment_status_63d9c2(["platform/fetch-deployment-status"]):::point
-    n_model_serving_platform_watch_deployments_cf294d(["platform/watch-deployments"]):::point
-    n_model_serving_runtime_image_install_target_e22ef9(["runtime-image/install-target"]):::point
-  end
-  n_packages_kserve_extensions_ts_10111_81c5d7 --> n_model_serving_deployed_model_serving_runtime_a806c7
-  n_packages_kserve_extensions_ts_11173_d945da --> n_model_serving_deployment_deploy_35423a
-  n_packages_kserve_extensions_ts_4729_b732d3 --> n_model_serving_deployment_form_data_a37ab2
-  n_packages_kserve_extensions_ts_3063_dade9f --> n_model_serving_deployment_wizard_field_19398b
-  n_packages_kserve_extensions_ts_3507_2bf562 --> n_model_serving_deployment_wizard_field_19398b
-  n_packages_kserve_extensions_ts_11604_166769 --> n_model_serving_deployment_wizard_field_apply_b7659a
-  n_packages_kserve_extensions_ts_3884_f7c6d8 --> n_model_serving_deployment_wizard_field_extractor_877f9e
-  n_packages_kserve_extensions_ts_4345_675b61 --> n_model_serving_deployment_wizard_field_extractor_877f9e
-  n_packages_kserve_extensions_ts_12026_583120 --> n_model_serving_deployment_wizard_field_override_756caa
-  n_packages_kserve_extensions_ts_12341_6094d2 --> n_model_serving_deployment_wizard_field_override_756caa
-  n_packages_kserve_extensions_ts_10566_0a6571 --> n_model_serving_deployments_table_start_stop_action_ea2e4f
-  n_packages_kserve_extensions_ts_9923_010de6 --> n_model_serving_metrics_8c16bc
-  n_packages_kserve_extensions_ts_8301_e8eedd --> n_model_serving_platform_1d1e44
-  n_packages_kserve_extensions_ts_9571_26771d --> n_model_serving_platform_delete_deployment_259f2a
-  n_packages_kserve_extensions_ts_10879_dad25a --> n_model_serving_platform_fetch_deployment_status_63d9c2
-  n_packages_kserve_extensions_ts_9312_b1b1f4 --> n_model_serving_platform_watch_deployments_cf294d
-  n_packages_kserve_extensions_ts_12669_0f7e0f --> n_model_serving_runtime_image_install_target_e22ef9
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| kserve (package) | this package | [packages/kserve](..) |
-| deploymentServingDetails | extension of model-serving.deployed-model/serving-runtime — bundled | [extensions.ts](../extensions.ts#L276-L290) |
-| deployKServeDeployment | extension of model-serving.deployment/deploy — bundled | [extensions.ts](../extensions.ts#L313-L326) |
-| kserveFormDataExtension | extension of model-serving.deployment/form-data — bundled | [extensions.ts](../extensions.ts#L126-L163) |
-| kserveServingRuntimeFieldExtension | extension of model-serving.deployment/wizard-field — bundled | [extensions.ts](../extensions.ts#L64-L76) |
-| kserveTimeoutFieldExtension | extension of model-serving.deployment/wizard-field — bundled | [extensions.ts](../extensions.ts#L81-L91) |
-| applyTimeoutFieldData | extension of model-serving.deployment/wizard-field-apply — bundled | [extensions.ts](../extensions.ts#L329-L342) |
-| timeoutExtractorExtension | extension of model-serving.deployment/wizard-field-extractor — bundled | [extensions.ts](../extensions.ts#L96-L109) |
-| deploymentMethodExtractorExtension | extension of model-serving.deployment/wizard-field-extractor — bundled | [extensions.ts](../extensions.ts#L114-L124) |
-| kserveDeploymentStrategyOverride | extension of model-serving.deployment/wizard-field-override — bundled | [extensions.ts](../extensions.ts#L345-L357) |
-| legacyDeploymentMethodOverride | extension of model-serving.deployment/wizard-field-override — bundled | [extensions.ts](../extensions.ts#L358-L370) |
-| patchDeploymentStoppedStatus | extension of model-serving.deployments-table/start-stop-action — bundled | [extensions.ts](../extensions.ts#L291-L301) |
-| metrics #1 | extension of model-serving.metrics — bundled | [extensions.ts](../extensions.ts#L267-L275) |
-| kserve | extension of model-serving.platform — bundled | [extensions.ts](../extensions.ts#L213-L244) |
-| Delete model deployment? | extension of model-serving.platform/delete-deployment — bundled | [extensions.ts](../extensions.ts#L255-L266) |
-| fetchDeploymentStatus | extension of model-serving.platform/fetch-deployment-status — bundled | [extensions.ts](../extensions.ts#L302-L311) |
-| useWatchDeployments | extension of model-serving.platform/watch-deployments — bundled | [extensions.ts](../extensions.ts#L245-L254) |
-| servingRuntimeTemplate | extension of model-serving.runtime-image/install-target — bundled | [extensions.ts](../extensions.ts#L371-L388) |
-| deployed-model/serving-runtime | extension point | [model-serving.deployed-model/serving-runtime](../../model-serving/docs/extensions.md#model-servingdeployed-modelserving-runtime) |
-| deployment/deploy | extension point | [model-serving.deployment/deploy](../../model-serving/docs/extensions.md#model-servingdeploymentdeploy) |
-| deployment/form-data | extension point | [model-serving.deployment/form-data](../../model-serving/docs/extensions.md#model-servingdeploymentform-data) |
-| deployment/wizard-field | extension point | [model-serving.deployment/wizard-field](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field) |
-| deployment/wizard-field-apply | extension point | [model-serving.deployment/wizard-field-apply](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-apply) |
-| deployment/wizard-field-extractor | extension point | [model-serving.deployment/wizard-field-extractor](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-extractor) |
-| deployment/wizard-field-override | extension point | [model-serving.deployment/wizard-field-override](../../model-serving/docs/extensions.md#model-servingdeploymentwizard-field-override) |
-| deployments-table/start-stop-action | extension point | [model-serving.deployments-table/start-stop-action](../../model-serving/docs/extensions.md#model-servingdeployments-tablestart-stop-action) |
-| metrics | extension point | [model-serving.metrics](../../model-serving/docs/extensions.md#model-servingmetrics) |
-| platform | extension point | [model-serving.platform](../../model-serving/docs/extensions.md#model-servingplatform) |
-| platform/delete-deployment | extension point | [model-serving.platform/delete-deployment](../../model-serving/docs/extensions.md#model-servingplatformdelete-deployment) |
-| platform/fetch-deployment-status | extension point | [model-serving.platform/fetch-deployment-status](../../model-serving/docs/extensions.md#model-servingplatformfetch-deployment-status) |
-| platform/watch-deployments | extension point | [model-serving.platform/watch-deployments](../../model-serving/docs/extensions.md#model-servingplatformwatch-deployments) |
-| runtime-image/install-target | extension point | [model-serving.runtime-image/install-target](../../model-serving/docs/extensions.md#model-servingruntime-imageinstall-target) |
 
 #### Contributes to model-serving.deployed-model/serving-runtime
 
@@ -420,7 +315,7 @@ Defined in [model-serving.platform/exclude-deployment](../../model-serving/docs/
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
@@ -431,21 +326,3 @@ What the analysis could not prove, or thought worth reporting, about this packag
 | `unresolved-value` | warning | Cannot resolve 'component' of extension 'app.route': CallExpression is not a resolvable value. | [extensions.ts:452](../extensions.ts#L452-L455) |
 | `unresolved-value` | warning | Cannot resolve 'component' of extension 'app.route': CallExpression is not a resolvable value. | [extensions.ts:465](../extensions.ts#L465-L468) |
 | `unresolved-value` | warning | Cannot resolve 'component' of extension 'app.route': CallExpression is not a resolvable value. | [extensions.ts:478](../extensions.ts#L478-L481) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

@@ -6,6 +6,143 @@
 
 Package `@odh-dashboard/internal` (host) at `frontend/src`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes) · [Consumes](#consumes) · [Diagnostics](#diagnostics)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [DefaultValueTextRenderer](#contributes-to-appconnection-typesdefault-value-renderer) | [app.connection-types/default-value-renderer](../../packages/plugin-core/docs/extensions.md#appconnection-typesdefault-value-renderer) | host |
+| [ConnectionDetailsHelperText](#contributes-to-appconnection-typesdetails-helper) | [app.connection-types/details-helper](../../packages/plugin-core/docs/extensions.md#appconnection-typesdetails-helper) | host |
+| [ConnectionTypeForm](#contributes-to-appconnection-typesform) | [app.connection-types/form](../../packages/plugin-core/docs/extensions.md#appconnection-typesform) | host |
+| [ConnectionTypeFormFields](#contributes-to-appconnection-typesform-fields) | [app.connection-types/form-fields](../../packages/plugin-core/docs/extensions.md#appconnection-typesform-fields) | host |
+| [fetchConnectionTypes](#contributes-to-appconnection-typesservice) | [app.connection-types/service](../../packages/plugin-core/docs/extensions.md#appconnection-typesservice) | host |
+| [pipeline-definitions](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [runs](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [artifacts](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [executions](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [home](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [workloadMetrics](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [learning-resources](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [apps-installed #1](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [apps-installed #2](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [apps-explore](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-general-cluster-settings](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-storage-classes](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [projects](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-workbench-images](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-connection-types](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-model-registry](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [settings-group-settings](#contributes-to-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [develop-and-train](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [pipelines](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [observe-and-monitor](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [applications](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [settings](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [cluster-settings](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [settings-environment-setup](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [settings-model-resources-and-operations](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [settings-mcp-resources](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [ai-hub](#contributes-to-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) | host |
+| [EnabledApplications #1](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [ExternalRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [ExploreApplications](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #4](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [LearningCenter](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #6](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [ProjectViewRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [NotebookController](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #9](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [NotebookLogoutRedirect](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [ModelServingRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #12](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GlobalPipelinesRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #14](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GlobalPipelineRunsRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #16](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GlobalPipelineExperimentsRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #18](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GlobalArtifactsRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #20](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GlobalPipelineExecutionsRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #22](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [Home](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GlobalModelCustomizationRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #25](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GlobalDistributedWorkloadsRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #27](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [BYONImageRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #29](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [ClusterSettings](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [EnabledApplications #2](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #32](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [ConnectionTypeRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #34](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [StorageClassesPage](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #36](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [ModelRegistrySettingsRoutes](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #38](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [GroupSettings](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #40](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [route #41](#contributes-to-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) | host |
+| [models-tab-page](#contributes-to-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) | host |
+| [mcp-servers-tab-page](#contributes-to-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) | host |
+| [agents-tab-page](#contributes-to-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) | host |
+| [ai-hub](#contributes-to-apptaskgroup) | [app.task/group](../../packages/plugin-core/docs/extensions.md#apptaskgroup) | host |
+| [develop-and-train](#contributes-to-apptaskgroup) | [app.task/group](../../packages/plugin-core/docs/extensions.md#apptaskgroup) | host |
+| [ai-hub-models](#contributes-to-apptaskitem) | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem) | host |
+| [ai-hub-mcp-servers](#contributes-to-apptaskitem) | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem) | host |
+| [develop-workbenches](#contributes-to-apptaskitem) | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem) | host |
+
+**Consumes**
+
+| Consumer | Extension point |
+| --- | --- |
+| [useDevFlags](#consumes-apparea) | [app.area](../../packages/plugin-core/docs/extensions.md#apparea) |
+| [Inner](#consumes-apparea) | [app.area](../../packages/plugin-core/docs/extensions.md#apparea) |
+| [getConnectedResourceLabels](#consumes-appcluster-storageconnected-resources) | [app.cluster-storage/connected-resources](../../packages/plugin-core/docs/extensions.md#appcluster-storageconnected-resources) |
+| [useClusterStorageConnectedResources](#consumes-appcluster-storageconnected-resources) | [app.cluster-storage/connected-resources](../../packages/plugin-core/docs/extensions.md#appcluster-storageconnected-resources) |
+| [useStorageContextType](#consumes-appcluster-storagestorage-context) | [app.cluster-storage/storage-context](../../packages/plugin-core/docs/extensions.md#appcluster-storagestorage-context) |
+| [ExtensibleNav](#consumes-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
+| [NavSection](#consumes-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
+| [collectDescendants](#consumes-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
+| [getLeafAccessReview](#consumes-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
+| [getLeafPath](#consumes-appnavigationhref) | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
+| [ExtensibleNav](#consumes-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) |
+| [NavSection](#consumes-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) |
+| [collectDescendants](#consumes-appnavigationsection) | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) |
+| [OverviewModelsSection](#consumes-appproject-detailsoverview-section) | [app.project-details/overview-section](../../packages/plugin-core/docs/extensions.md#appproject-detailsoverview-section) |
+| [ProjectSettingsPage](#consumes-appproject-detailssettings-card) | [app.project-details/settings-card](../../packages/plugin-core/docs/extensions.md#appproject-detailssettings-card) |
+| [ProjectDetails](#consumes-appproject-detailssettings-card) | [app.project-details/settings-card](../../packages/plugin-core/docs/extensions.md#appproject-detailssettings-card) |
+| [useDeploymentsTab](#consumes-appproject-detailstab) | [app.project-details/tab](../../packages/plugin-core/docs/extensions.md#appproject-detailstab) |
+| [useWorkbenchesV2Tab](#consumes-appproject-detailstab) | [app.project-details/tab](../../packages/plugin-core/docs/extensions.md#appproject-detailstab) |
+| [AppRoutes](#consumes-approute) | [app.route](../../packages/plugin-core/docs/extensions.md#approute) |
+| [StatusReportLoader](#consumes-appstatus-provider) | [app.status-provider](../../packages/plugin-core/docs/extensions.md#appstatus-provider) |
+| [AppRoutes](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [ExtensibleNav](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [NavSection](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [collectDescendants](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [getLeafAccessReview](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [getLeafPath](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [MultiTabContent](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [TabRoutePage](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [useTaskAssistantData](#consumes-apptab-routepage) | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
+| [NavItemTabRoute](#consumes-apptab-routetab) | [app.tab-route/tab](../../packages/plugin-core/docs/extensions.md#apptab-routetab) |
+| [NavSection](#consumes-apptab-routetab) | [app.tab-route/tab](../../packages/plugin-core/docs/extensions.md#apptab-routetab) |
+| [MultiTabContent](#consumes-apptab-routetab) | [app.tab-route/tab](../../packages/plugin-core/docs/extensions.md#apptab-routetab) |
+| [TabRoutePage](#consumes-apptab-routetab) | [app.tab-route/tab](../../packages/plugin-core/docs/extensions.md#apptab-routetab) |
+| [getDefaultTab](#consumes-apptab-routetab) | [app.tab-route/tab](../../packages/plugin-core/docs/extensions.md#apptab-routetab) |
+| [tabSortComparator](#consumes-apptab-routetab) | [app.tab-route/tab](../../packages/plugin-core/docs/extensions.md#apptab-routetab) |
+| [useTaskAssistantData](#consumes-apptab-routetab) | [app.tab-route/tab](../../packages/plugin-core/docs/extensions.md#apptab-routetab) |
+| [TaskAssistantSection](#consumes-apptaskgroup) | [app.task/group](../../packages/plugin-core/docs/extensions.md#apptaskgroup) |
+| [useTaskAssistantData](#consumes-apptaskgroup) | [app.task/group](../../packages/plugin-core/docs/extensions.md#apptaskgroup) |
+| [TaskAssistantSection](#consumes-apptaskitem) | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem) |
+| [useTaskAssistantData](#consumes-apptaskitem) | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem) |
+
 ## Loading paths
 
 - [index.ts](../src/plugins/extensions/index.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -15,106 +152,6 @@ Package `@odh-dashboard/internal` (host) at `frontend/src`. Everything below is 
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef collapsed stroke-dasharray: 5 5
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_internal_b20f2b["internal (host)"]:::pkg
-  n_frontend_src_plugins_extensions_connection_types_ts_1187_6d9eff["DefaultValueTextRenderer"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_connection_types_ts_1187_6d9eff
-  n_frontend_src_plugins_extensions_connection_types_ts_984_2ee14f["ConnectionDetailsHelperText"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_connection_types_ts_984_2ee14f
-  n_frontend_src_plugins_extensions_connection_types_ts_1395_041892["ConnectionTypeForm"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_connection_types_ts_1395_041892
-  n_frontend_src_plugins_extensions_connection_types_ts_810_4919d9["ConnectionTypeFormFields"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_connection_types_ts_810_4919d9
-  n_frontend_src_plugins_extensions_connection_types_ts_517_4a5f4f["fetchConnectionTypes"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_connection_types_ts_517_4a5f4f
-  n_app_navigation_href_collapsed_bf01d6("×17"):::collapsed
-  n__odh_dashboard_internal_b20f2b --> n_app_navigation_href_collapsed_bf01d6
-  n_app_navigation_section_collapsed_07dd9a("×10"):::collapsed
-  n__odh_dashboard_internal_b20f2b --> n_app_navigation_section_collapsed_07dd9a
-  n_app_route_collapsed_a2cd4d("×41"):::collapsed
-  n__odh_dashboard_internal_b20f2b --> n_app_route_collapsed_a2cd4d
-  n_frontend_src_plugins_extensions_navigation_ts_1177_deb5ea["models-tab-page"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_navigation_ts_1177_deb5ea
-  n_frontend_src_plugins_extensions_navigation_ts_1446_369051["mcp-servers-tab-page"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_navigation_ts_1446_369051
-  n_frontend_src_plugins_extensions_navigation_ts_1734_c1c1a9["agents-tab-page"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_navigation_ts_1734_c1c1a9
-  n_frontend_src_plugins_extensions_tasks_ts_388_dc2801["ai-hub"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_tasks_ts_388_dc2801
-  n_frontend_src_plugins_extensions_tasks_ts_718_38e7bc["develop-and-train"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_tasks_ts_718_38e7bc
-  n_frontend_src_plugins_extensions_tasks_ts_1117_1a6616["ai-hub-models"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_tasks_ts_1117_1a6616
-  n_frontend_src_plugins_extensions_tasks_ts_1361_ba9d39["ai-hub-mcp-servers"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_tasks_ts_1361_ba9d39
-  n_frontend_src_plugins_extensions_tasks_ts_1658_0f4b82["develop-workbenches"]
-  n__odh_dashboard_internal_b20f2b --> n_frontend_src_plugins_extensions_tasks_ts_1658_0f4b82
-  subgraph n_ns_app_679587 ["app"]
-    n_app_connection_types_default_value_renderer_01627c(["connection-types/default-value-renderer"]):::point
-    n_app_connection_types_details_helper_f68622(["connection-types/details-helper"]):::point
-    n_app_connection_types_form_81f66d(["connection-types/form"]):::point
-    n_app_connection_types_form_fields_cb02ad(["connection-types/form-fields"]):::point
-    n_app_connection_types_service_2eb1aa(["connection-types/service"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_navigation_section_34ff18(["navigation/section"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_tab_route_page_976575(["tab-route/page"]):::point
-    n_app_task_group_64e4cf(["task/group"]):::point
-    n_app_task_item_001b33(["task/item"]):::point
-  end
-  n_frontend_src_plugins_extensions_connection_types_ts_1187_6d9eff --> n_app_connection_types_default_value_renderer_01627c
-  n_frontend_src_plugins_extensions_connection_types_ts_984_2ee14f --> n_app_connection_types_details_helper_f68622
-  n_frontend_src_plugins_extensions_connection_types_ts_1395_041892 --> n_app_connection_types_form_81f66d
-  n_frontend_src_plugins_extensions_connection_types_ts_810_4919d9 --> n_app_connection_types_form_fields_cb02ad
-  n_frontend_src_plugins_extensions_connection_types_ts_517_4a5f4f --> n_app_connection_types_service_2eb1aa
-  n_app_navigation_href_collapsed_bf01d6 --> n_app_navigation_href_67179c
-  n_app_navigation_section_collapsed_07dd9a --> n_app_navigation_section_34ff18
-  n_app_route_collapsed_a2cd4d --> n_app_route_2735df
-  n_frontend_src_plugins_extensions_navigation_ts_1177_deb5ea --> n_app_tab_route_page_976575
-  n_frontend_src_plugins_extensions_navigation_ts_1446_369051 --> n_app_tab_route_page_976575
-  n_frontend_src_plugins_extensions_navigation_ts_1734_c1c1a9 --> n_app_tab_route_page_976575
-  n_frontend_src_plugins_extensions_tasks_ts_388_dc2801 --> n_app_task_group_64e4cf
-  n_frontend_src_plugins_extensions_tasks_ts_718_38e7bc --> n_app_task_group_64e4cf
-  n_frontend_src_plugins_extensions_tasks_ts_1117_1a6616 --> n_app_task_item_001b33
-  n_frontend_src_plugins_extensions_tasks_ts_1361_ba9d39 --> n_app_task_item_001b33
-  n_frontend_src_plugins_extensions_tasks_ts_1658_0f4b82 --> n_app_task_item_001b33
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| internal (host) | this package | [frontend/src](../src) |
-| DefaultValueTextRenderer | extension of app.connection-types/default-value-renderer — bundled | [connection-types.ts](../src/plugins/extensions/connection-types.ts#L38-L44) |
-| ConnectionDetailsHelperText | extension of app.connection-types/details-helper — bundled | [connection-types.ts](../src/plugins/extensions/connection-types.ts#L31-L37) |
-| ConnectionTypeForm | extension of app.connection-types/form — bundled | [connection-types.ts](../src/plugins/extensions/connection-types.ts#L45-L50) |
-| ConnectionTypeFormFields | extension of app.connection-types/form-fields — bundled | [connection-types.ts](../src/plugins/extensions/connection-types.ts#L25-L30) |
-| fetchConnectionTypes | extension of app.connection-types/service — bundled | [connection-types.ts](../src/plugins/extensions/connection-types.ts#L17-L24) |
-| ×17 | 17 extensions of app.navigation/href | [see the table below](#contributes-to-appnavigationhref) |
-| ×10 | 10 extensions of app.navigation/section | [see the table below](#contributes-to-appnavigationsection) |
-| ×41 | 41 extensions of app.route | [see the table below](#contributes-to-approute) |
-| models-tab-page | extension of app.tab-route/page — bundled | [navigation.ts](../src/plugins/extensions/navigation.ts#L50-L61) |
-| mcp-servers-tab-page | extension of app.tab-route/page — bundled | [navigation.ts](../src/plugins/extensions/navigation.ts#L62-L73) |
-| agents-tab-page | extension of app.tab-route/page — bundled | [navigation.ts](../src/plugins/extensions/navigation.ts#L74-L86) |
-| ai-hub | extension of app.task/group — bundled | [tasks.ts](../src/plugins/extensions/tasks.ts#L11-L22) |
-| develop-and-train | extension of app.task/group — bundled | [tasks.ts](../src/plugins/extensions/tasks.ts#L23-L34) |
-| ai-hub-models | extension of app.task/item — bundled | [tasks.ts](../src/plugins/extensions/tasks.ts#L38-L47) |
-| ai-hub-mcp-servers | extension of app.task/item — bundled | [tasks.ts](../src/plugins/extensions/tasks.ts#L48-L57) |
-| develop-workbenches | extension of app.task/item — bundled | [tasks.ts](../src/plugins/extensions/tasks.ts#L61-L73) |
-| connection-types/default-value-renderer | extension point | [app.connection-types/default-value-renderer](../../packages/plugin-core/docs/extensions.md#appconnection-typesdefault-value-renderer) |
-| connection-types/details-helper | extension point | [app.connection-types/details-helper](../../packages/plugin-core/docs/extensions.md#appconnection-typesdetails-helper) |
-| connection-types/form | extension point | [app.connection-types/form](../../packages/plugin-core/docs/extensions.md#appconnection-typesform) |
-| connection-types/form-fields | extension point | [app.connection-types/form-fields](../../packages/plugin-core/docs/extensions.md#appconnection-typesform-fields) |
-| connection-types/service | extension point | [app.connection-types/service](../../packages/plugin-core/docs/extensions.md#appconnection-typesservice) |
-| navigation/href | extension point | [app.navigation/href](../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
-| navigation/section | extension point | [app.navigation/section](../../packages/plugin-core/docs/extensions.md#appnavigationsection) |
-| route | extension point | [app.route](../../packages/plugin-core/docs/extensions.md#approute) |
-| tab-route/page | extension point | [app.tab-route/page](../../packages/plugin-core/docs/extensions.md#apptab-routepage) |
-| task/group | extension point | [app.task/group](../../packages/plugin-core/docs/extensions.md#apptaskgroup) |
-| task/item | extension point | [app.task/item](../../packages/plugin-core/docs/extensions.md#apptaskitem) |
 
 #### Contributes to app.connection-types/default-value-renderer
 
@@ -755,7 +792,7 @@ Defined in [app.task/item](../../packages/plugin-core/docs/extensions.md#apptask
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
@@ -777,21 +814,3 @@ What the analysis could not prove, or thought worth reporting, about this packag
 | `unresolved-value` | warning | Cannot resolve 'component' of extension 'app.route': CallExpression is not a resolvable value. | [routes.ts:354](../src/plugins/extensions/routes.ts#L354-L357) |
 | `unresolved-value` | warning | Cannot resolve 'component' of extension 'app.route': CallExpression is not a resolvable value. | [routes.ts:377](../src/plugins/extensions/routes.ts#L377-L380) |
 | `unresolved-value` | warning | Cannot resolve 'component' of extension 'app.route': CallExpression is not a resolvable value. | [routes.ts:400](../src/plugins/extensions/routes.ts#L400-L403) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.

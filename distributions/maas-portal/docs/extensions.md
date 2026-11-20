@@ -6,6 +6,34 @@
 
 Package `@odh-dashboard/maas-portal-distribution` (distribution) at `distributions/maas-portal`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes) · [Diagnostics](#diagnostics)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [user-dropdown](#contributes-to-appmastheadtoolbar-item) | [app.masthead/toolbar-item](../../../packages/plugin-core/docs/extensions.md#appmastheadtoolbar-item) | maas-portal |
+| [portal-observability-dashboard](#contributes-to-appnavigationhref) | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref) | maas-portal |
+| [maas-model-access-portal](#contributes-to-appnavigationhref) | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref) | maas-portal |
+| [maas-models](#contributes-to-appnavigationhref) | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref) | maas-portal |
+| [patch #1](#contributes-to-apppatch) | [app.patch](../../../packages/plugin-core/docs/extensions.md#apppatch) | maas-portal |
+| [patch #2](#contributes-to-apppatch) | [app.patch](../../../packages/plugin-core/docs/extensions.md#apppatch) | maas-portal |
+| [patch #3](#contributes-to-apppatch) | [app.patch](../../../packages/plugin-core/docs/extensions.md#apppatch) | maas-portal |
+| [ModelAccessSubscriptionPage.d](#contributes-to-approute) | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) | maas-portal |
+| [ModelAccessPage.d](#contributes-to-approute) | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) | maas-portal |
+| [MaaSModelsPageProvider.d](#contributes-to-approute) | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) | maas-portal |
+| [ObservabilityDashboard](#contributes-to-approute) | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) | maas-portal |
+| [suppress #1](#contributes-to-appsuppress) | [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress) | maas-portal |
+| [suppress #2](#contributes-to-appsuppress) | [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress) | maas-portal |
+| [suppress #3](#contributes-to-appsuppress) | [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress) | maas-portal |
+| [suppress #4](#contributes-to-appsuppress) | [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress) | maas-portal |
+| [suppress #5](#contributes-to-appsuppress) | [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress) | maas-portal |
+| [suppress #6](#contributes-to-appsuppress) | [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress) | maas-portal |
+
 ## Loading paths
 
 - [extensions.ts](../src/extensions.ts) (`local:./extensions`) — local to one distribution
@@ -15,78 +43,6 @@ Package `@odh-dashboard/maas-portal-distribution` (distribution) at `distributio
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef collapsed stroke-dasharray: 5 5
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_maas_portal_distribution_dec952["maas-portal-distribution (distribution)"]:::pkg
-  n_distributions_maas_portal_src_extensions_ts_845_ab2e92["user-dropdown"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_845_ab2e92
-  n_distributions_maas_portal_src_extensions_ts_3057_411a44["portal-observability-dashboard"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_3057_411a44
-  n_distributions_maas_portal_src_extensions_ts_3373_f530ff["maas-model-access-portal"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_3373_f530ff
-  n_distributions_maas_portal_src_extensions_ts_4852_e09de8["maas-models"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_4852_e09de8
-  n_distributions_maas_portal_src_extensions_ts_2592_82165d["patch #1"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_2592_82165d
-  n_distributions_maas_portal_src_extensions_ts_2821_775314["patch #2"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_2821_775314
-  n_distributions_maas_portal_src_extensions_ts_3675_0d29e2["patch #3"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_3675_0d29e2
-  n_distributions_maas_portal_src_extensions_ts_4126_6069d0["ModelAccessSubscriptionPage.d"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_4126_6069d0
-  n_distributions_maas_portal_src_extensions_ts_4410_8aa03e["ModelAccessPage.d"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_4410_8aa03e
-  n_distributions_maas_portal_src_extensions_ts_4661_a53cb8["MaaSModelsPageProvider.d"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_4661_a53cb8
-  n_distributions_maas_portal_src_extensions_ts_537_b5c2b0["ObservabilityDashboard"]
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_distributions_maas_portal_src_extensions_ts_537_b5c2b0
-  n_app_suppress_collapsed_64dd8f("×6"):::collapsed
-  n__odh_dashboard_maas_portal_distribution_dec952 --> n_app_suppress_collapsed_64dd8f
-  subgraph n_ns_app_679587 ["app"]
-    n_app_masthead_toolbar_item_2a7e87(["masthead/toolbar-item"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_patch_ea6dbc(["patch"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_suppress_678209(["suppress"]):::point
-  end
-  n_distributions_maas_portal_src_extensions_ts_845_ab2e92 --> n_app_masthead_toolbar_item_2a7e87
-  n_distributions_maas_portal_src_extensions_ts_3057_411a44 --> n_app_navigation_href_67179c
-  n_distributions_maas_portal_src_extensions_ts_3373_f530ff --> n_app_navigation_href_67179c
-  n_distributions_maas_portal_src_extensions_ts_4852_e09de8 --> n_app_navigation_href_67179c
-  n_distributions_maas_portal_src_extensions_ts_2592_82165d --> n_app_patch_ea6dbc
-  n_distributions_maas_portal_src_extensions_ts_2821_775314 --> n_app_patch_ea6dbc
-  n_distributions_maas_portal_src_extensions_ts_3675_0d29e2 --> n_app_patch_ea6dbc
-  n_distributions_maas_portal_src_extensions_ts_4126_6069d0 --> n_app_route_2735df
-  n_distributions_maas_portal_src_extensions_ts_4410_8aa03e --> n_app_route_2735df
-  n_distributions_maas_portal_src_extensions_ts_4661_a53cb8 --> n_app_route_2735df
-  n_distributions_maas_portal_src_extensions_ts_537_b5c2b0 --> n_app_route_2735df
-  n_app_suppress_collapsed_64dd8f --> n_app_suppress_678209
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| maas-portal-distribution (distribution) | this package | [distributions/maas-portal](..) |
-| user-dropdown | extension of app.masthead/toolbar-item — local to a distribution | [extensions.ts](../src/extensions.ts#L26-L33) |
-| portal-observability-dashboard | extension of app.navigation/href — local to a distribution | [extensions.ts](../src/extensions.ts#L107-L117) |
-| maas-model-access-portal | extension of app.navigation/href — local to a distribution | [extensions.ts](../src/extensions.ts#L118-L127) |
-| maas-models | extension of app.navigation/href — local to a distribution | [extensions.ts](../src/extensions.ts#L163-L172) |
-| patch #1 | extension of app.patch — local to a distribution | [extensions.ts](../src/extensions.ts#L91-L98) |
-| patch #2 | extension of app.patch — local to a distribution | [extensions.ts](../src/extensions.ts#L99-L106) |
-| patch #3 | extension of app.patch — local to a distribution | [extensions.ts](../src/extensions.ts#L128-L135) |
-| ModelAccessSubscriptionPage.d | extension of app.route — local to a distribution | [extensions.ts](../src/extensions.ts#L140-L147) |
-| ModelAccessPage.d | extension of app.route — local to a distribution | [extensions.ts](../src/extensions.ts#L148-L155) |
-| MaaSModelsPageProvider.d | extension of app.route — local to a distribution | [extensions.ts](../src/extensions.ts#L156-L162) |
-| ObservabilityDashboard | extension of app.route — local to a distribution | [extensions.ts](../src/extensions.ts#L16-L23) |
-| ×6 | 6 extensions of app.suppress | [see the table below](#contributes-to-appsuppress) |
-| masthead/toolbar-item | extension point | [app.masthead/toolbar-item](../../../packages/plugin-core/docs/extensions.md#appmastheadtoolbar-item) |
-| navigation/href | extension point | [app.navigation/href](../../../packages/plugin-core/docs/extensions.md#appnavigationhref) |
-| patch | extension point | [app.patch](../../../packages/plugin-core/docs/extensions.md#apppatch) |
-| route | extension point | [app.route](../../../packages/plugin-core/docs/extensions.md#approute) |
-| suppress | extension point | [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress) |
 
 #### Contributes to app.masthead/toolbar-item
 
@@ -137,11 +93,11 @@ Defined in [app.navigation/href](../../../packages/plugin-core/docs/extensions.m
 
 Defined in [app.patch](../../../packages/plugin-core/docs/extensions.md#apppatch).
 
-| targetType | targetId | patch | Included in | Source |
-| --- | --- | --- | --- | --- |
-| `'app.navigation/href'` | `'ai-assets'` | `{ section: null, group: '1_ai_assets', label: null }` | maas-portal | [extensions.ts](../src/extensions.ts#L91-L98) |
-| `'app.navigation/href'` | `'maas-tokens-subscriptions-view'` | `{ section: null, group: '2_api_keys' }` | maas-portal | [extensions.ts](../src/extensions.ts#L99-L106) |
-| `'app.navigation/href'` | `'maas-governance-view'` | `{ section: null, group: '5_maas_governance' }` | maas-portal | [extensions.ts](../src/extensions.ts#L128-L135) |
+| targetType | targetId | patch | Effect | Included in | Source |
+| --- | --- | --- | --- | --- | --- |
+| `'app.navigation/href'` | `'ai-assets'` | `{ section: null, group: '1_ai_assets', label: null }` | maas-portal: no effect — target suppressed | maas-portal | [extensions.ts](../src/extensions.ts#L91-L98) |
+| `'app.navigation/href'` | `'maas-tokens-subscriptions-view'` | `{ section: null, group: '2_api_keys' }` | maas-portal: patches [maas-tokens-subscriptions-view](../../../packages/maas/docs/extensions.md#contributes-to-appnavigationhref) in maas | maas-portal | [extensions.ts](../src/extensions.ts#L99-L106) |
+| `'app.navigation/href'` | `'maas-governance-view'` | `{ section: null, group: '5_maas_governance' }` | maas-portal: no effect — target suppressed | maas-portal | [extensions.ts](../src/extensions.ts#L128-L135) |
 
 #### Contributes to app.route
 
@@ -158,38 +114,20 @@ Defined in [app.route](../../../packages/plugin-core/docs/extensions.md#approute
 
 Defined in [app.suppress](../../../packages/plugin-core/docs/extensions.md#appsuppress).
 
-| targetType | targetId | Included in | Source |
-| --- | --- | --- | --- |
-| `'app.navigation/section'` | `'gen-ai-studio'` | maas-portal | [extensions.ts](../src/extensions.ts#L36-L42) |
-| `'app.route'` | `'gen-ai-routes'` | maas-portal | [extensions.ts](../src/extensions.ts#L45-L51) |
-| `'app.navigation/href'` | `'maas-governance-view'` | maas-portal | [extensions.ts](../src/extensions.ts#L55-L61) |
-| `'gen-ai.ai-assets/tab'` | `'mcpservers'` | maas-portal | [extensions.ts](../src/extensions.ts#L64-L70) |
-| `'app.navigation/href'` | `'ai-assets'` | maas-portal | [extensions.ts](../src/extensions.ts#L73-L79) |
-| `'app.navigation/href'` | `'chat-playground'` | maas-portal | [extensions.ts](../src/extensions.ts#L82-L88) |
+| targetType | targetId | Effect | Included in | Source |
+| --- | --- | --- | --- | --- |
+| `'app.navigation/section'` | `'gen-ai-studio'` | maas-portal: removes [gen-ai-studio](../../../packages/gen-ai/docs/extensions.md#contributes-to-appnavigationsection) from gen-ai, [gen-ai-studio](../../../packages/maas/docs/extensions.md#contributes-to-appnavigationsection) from maas | maas-portal | [extensions.ts](../src/extensions.ts#L36-L42) |
+| `'app.route'` | `'gen-ai-routes'` | maas-portal: removes [gen-ai-routes](../../../packages/gen-ai/docs/extensions.md#contributes-to-approute) from gen-ai | maas-portal | [extensions.ts](../src/extensions.ts#L45-L51) |
+| `'app.navigation/href'` | `'maas-governance-view'` | maas-portal: removes [maas-governance-view](../../../packages/maas/docs/extensions.md#contributes-to-appnavigationhref) from maas | maas-portal | [extensions.ts](../src/extensions.ts#L55-L61) |
+| `'gen-ai.ai-assets/tab'` | `'mcpservers'` | maas-portal: removes [mcpservers](../../../packages/gen-ai/docs/extensions.md#contributes-to-gen-aiai-assetstab) from gen-ai | maas-portal | [extensions.ts](../src/extensions.ts#L64-L70) |
+| `'app.navigation/href'` | `'ai-assets'` | maas-portal: removes [ai-assets](../../../packages/gen-ai/docs/extensions.md#contributes-to-appnavigationhref) from gen-ai | maas-portal | [extensions.ts](../src/extensions.ts#L73-L79) |
+| `'app.navigation/href'` | `'chat-playground'` | maas-portal: removes [chat-playground](../../../packages/gen-ai/docs/extensions.md#contributes-to-appnavigationhref) from gen-ai | maas-portal | [extensions.ts](../src/extensions.ts#L82-L88) |
 
 ## Diagnostics
 
-What the analysis could not prove, or thought worth reporting, about this package. Warnings are gaps in the generated map; info entries are observations.
+What the analysis could not prove, or thought worth reporting, about this package: warnings are things the analysis could not prove, which are gaps in the map; info entries are findings about the code, which the map reports in full.
 
 | Code | Severity | Message | Source |
 | --- | --- | --- | --- |
-| `patch-noop-suppressed` | warning | In maas-portal: every registration of ["app.navigation/href","ai-assets"] is suppressed, so this patch has nothing to apply to. | [extensions.ts:91](../src/extensions.ts#L91-L98) |
-| `patch-noop-suppressed` | warning | In maas-portal: every registration of ["app.navigation/href","maas-governance-view"] is suppressed, so this patch has nothing to apply to. | [extensions.ts:128](../src/extensions.ts#L128-L135) |
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.
+| `patch-noop-suppressed` | info | In maas-portal: every registration of ["app.navigation/href","ai-assets"] is suppressed, so this patch has nothing to apply to. | [extensions.ts:91](../src/extensions.ts#L91-L98) |
+| `patch-noop-suppressed` | info | In maas-portal: every registration of ["app.navigation/href","maas-governance-view"] is suppressed, so this patch has nothing to apply to. | [extensions.ts:128](../src/extensions.ts#L128-L135) |

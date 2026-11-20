@@ -6,6 +6,21 @@
 
 Package `@odh-dashboard/model-training` (package) at `packages/model-training`. Everything below is read out of this repository's sources by static analysis.
 
+[Loading paths](#loading-paths) · [Contributes](#contributes)
+
+## On this page
+
+Every extension point, extension and consumer on this page, each linking to its own section. Links to the code are in those sections.
+
+**Contributes**
+
+| Extension | Extension point | Included in |
+| --- | --- | --- |
+| [plugin-model-training](#contributes-to-apparea) | [app.area](../../plugin-core/docs/extensions.md#apparea) | host |
+| [modelTraining](#contributes-to-appnavigationhref) | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) | host |
+| [ModelTrainingRoutes](#contributes-to-approute) | [app.route](../../plugin-core/docs/extensions.md#approute) | host |
+| [develop-training-jobs](#contributes-to-apptaskitem) | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) | host |
+
 ## Loading paths
 
 - [extensions.ts](../extensions.ts) (`./extensions`) — bundled into the host at build time (the `./extensions` export)
@@ -15,43 +30,6 @@ Package `@odh-dashboard/model-training` (package) at `packages/model-training`. 
 The extensions this package declares, grouped by the namespace of the extension point they target.
 
 ### Namespace `app`
-
-```mermaid
-flowchart LR
-  classDef pkg stroke-width:2px
-  classDef point stroke-width:1px
-  n__odh_dashboard_model_training_d94360["model-training (package)"]:::pkg
-  n_packages_model_training_extensions_ts_434_dea578["plugin-model-training"]
-  n__odh_dashboard_model_training_d94360 --> n_packages_model_training_extensions_ts_434_dea578
-  n_packages_model_training_extensions_ts_637_1701b7["modelTraining"]
-  n__odh_dashboard_model_training_d94360 --> n_packages_model_training_extensions_ts_637_1701b7
-  n_packages_model_training_extensions_ts_939_e71420["ModelTrainingRoutes"]
-  n__odh_dashboard_model_training_d94360 --> n_packages_model_training_extensions_ts_939_e71420
-  n_packages_model_training_extensions_ts_1163_9e2dec["develop-training-jobs"]
-  n__odh_dashboard_model_training_d94360 --> n_packages_model_training_extensions_ts_1163_9e2dec
-  subgraph n_ns_app_679587 ["app"]
-    n_app_area_bcfe23(["area"]):::point
-    n_app_navigation_href_67179c(["navigation/href"]):::point
-    n_app_route_2735df(["route"]):::point
-    n_app_task_item_001b33(["task/item"]):::point
-  end
-  n_packages_model_training_extensions_ts_434_dea578 --> n_app_area_bcfe23
-  n_packages_model_training_extensions_ts_637_1701b7 --> n_app_navigation_href_67179c
-  n_packages_model_training_extensions_ts_939_e71420 --> n_app_route_2735df
-  n_packages_model_training_extensions_ts_1163_9e2dec --> n_app_task_item_001b33
-```
-
-| Node | What | Link |
-| --- | --- | --- |
-| model-training (package) | this package | [packages/model-training](..) |
-| plugin-model-training | extension of app.area — bundled | [extensions.ts](../extensions.ts#L13-L20) |
-| modelTraining | extension of app.navigation/href — bundled | [extensions.ts](../extensions.ts#L21-L33) |
-| ModelTrainingRoutes | extension of app.route — bundled | [extensions.ts](../extensions.ts#L34-L43) |
-| develop-training-jobs | extension of app.task/item — bundled | [extensions.ts](../extensions.ts#L44-L56) |
-| area | extension point | [app.area](../../plugin-core/docs/extensions.md#apparea) |
-| navigation/href | extension point | [app.navigation/href](../../plugin-core/docs/extensions.md#appnavigationhref) |
-| route | extension point | [app.route](../../plugin-core/docs/extensions.md#approute) |
-| task/item | extension point | [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem) |
 
 #### Contributes to app.area
 
@@ -98,21 +76,3 @@ Defined in [app.task/item](../../plugin-core/docs/extensions.md#apptaskitem).
 - **Requires:** `PLUGIN_MODEL_TRAINING` (`'plugin-model-training'`)
 - **Included in:** host
 - **Source:** [extensions.ts](../extensions.ts#L44-L56)
-
-## Legend
-
-| Edge | What it means in these diagrams |
-| --- | --- |
-| `A --> B` | Proven by a declaration or by the type checker. In a Contributes diagram: A is declared by this package and bundled into an app at build time; it may also be exposed through Module Federation, and the node table beside each diagram names every loading path. In a point's flow diagram: package A contributes extensions of point B, bundled into an app at build time. |
-| `A -- "how" --> B` | In a point's flow diagram: consumer B queries or uses point A, proven by the type checker. The label names the query hook (or the wrapper it goes through) and the kinds of use: `lazy-render`, `jsx-render`, `hook-run`, `call`, `read`, `filter`, `type-check`. |
-| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |
-| `A ==> B` | Derived: proven through a type or a JSDoc tag rather than a direct reference. |
-| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |
-| `A -. "called in" .-> B` | B calls A (one hop up). |
-| `A --x B` | A suppresses B. |
-| `A -- "patch" --> B` | A patches B. |
-
-A node with a dashed border stands for several extensions of the same point; its `×N` label is
-the number of extensions, and the table beside the diagram always lists every one of them.
-Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table
-instead.
