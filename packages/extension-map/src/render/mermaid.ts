@@ -111,21 +111,45 @@ export const flowchart = (dir: 'LR' | 'TB'): Flowchart => {
   };
 };
 
-/** The edge styles a reader needs to know, for every page that has a diagram. */
-export const LEGEND_MD = [
-  '## Legend',
-  '',
-  "Every diagram on this page is one extension point's flow: the packages that contribute",
-  'extensions of it, the point, the code that queries or uses it, and where that code is itself',
-  'rendered or called. The Consumers table above each diagram carries a link for every node.',
-  '',
-  '| Edge | What it means in these diagrams |',
-  '| --- | --- |',
-  '| `A --> B` | Proven use: package A contributes extensions of point B, or consumer B queries or uses point A. |',
-  '| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |',
-  '| `A -. "called in" .-> B` | B calls A (one hop up). |',
-  '| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |',
-  '',
-  'Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table',
-  'instead.',
-].join('\n');
+/** One row of the legend: an edge style some diagram on the page actually draws. */
+export type LegendKey = 'solid' | 'renderedIn' | 'calledIn' | 'federated';
+
+/** The legend rows, in the order they are listed, each explaining one edge style. */
+const LEGEND_ROWS: readonly (readonly [LegendKey, string])[] = [
+  [
+    'solid',
+    '| `A --> B` | Proven use: package A contributes extensions of point B, or consumer B queries or uses point A. |',
+  ],
+  ['renderedIn', '| `A -. "rendered in" .-> B` | B renders A as a JSX element (one hop up). |'],
+  ['calledIn', '| `A -. "called in" .-> B` | B calls A (one hop up). |'],
+  [
+    'federated',
+    '| `A -. "federated" .-> B` | A reaches the host only through a Module Federation remote, loaded at runtime. |',
+  ],
+];
+
+/**
+ * The `## Legend` section of a page, describing only the edge styles its diagrams draw. Nothing at
+ * all for a page with no diagram.
+ */
+export const legendMd = (keys: Iterable<LegendKey>): string | undefined => {
+  const used = new Set(keys);
+  const rows = LEGEND_ROWS.filter(([key]) => used.has(key)).map(([, row]) => row);
+  if (rows.length === 0) {
+    return undefined;
+  }
+  return [
+    '## Legend',
+    '',
+    "Every diagram on this page is one extension point's flow: the packages that contribute",
+    'extensions of it, the point, the code that queries or uses it, and where that code is itself',
+    'rendered or called. The Consumers table above each diagram carries a link for every node.',
+    '',
+    '| Edge | What it means in these diagrams |',
+    '| --- | --- |',
+    ...rows,
+    '',
+    'Anything the analysis could not resolve is never drawn — it is listed in a "Not resolved" table',
+    'instead.',
+  ].join('\n');
+};

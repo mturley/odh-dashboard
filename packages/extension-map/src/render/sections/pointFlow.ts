@@ -10,7 +10,7 @@ import type { PointConsumer } from './consumes';
 import { pkgDisplayName } from '../links';
 import { joinBlocks, table } from '../markdown';
 import { flowchart, mermaidId } from '../mermaid';
-import type { EdgeStyle } from '../mermaid';
+import type { EdgeStyle, LegendKey } from '../mermaid';
 import type { ExtensionMapModel, ExtensionPoint, Pkg } from '../../model/types';
 
 /**
@@ -189,15 +189,45 @@ const renderFlowSentence = (
   const consumerText = consumers.map(
     (entry) => `${consumerPkgName(entry, model)} · ${symbolText(entry.consumer.symbol)}`,
   );
-  const parents = [
-    ...new Set(consumers.flatMap(({ consumer }) => consumer.renderedIn.map((ref) => ref.symbol))),
-  ].toSorted();
+  /** The one-hop parents of one kind, in the Consumers table's order, named once each. */
+  const parents = (how: 'jsx' | 'call'): string[] => [
+    ...new Set(
+      consumers.flatMap(({ consumer }) =>
+        consumer.renderedIn.flatMap((ref) => (ref.how === how ? [ref.symbol] : [])),
+      ),
+    ),
+  ];
   const flow = [
     contributors.length === 0 ? '(no contributors)' : contributors.join(', '),
     point.id,
     consumerText.length === 0 ? '(no consumers)' : consumerText.join(', '),
   ].join(' → ');
-  return `**Flow:** ${flow}${parents.length === 0 ? '' : ` → rendered in ${parents.join(', ')}`}`;
+  // A parent that renders the consumer and one that calls it are different relationships.
+  const hops = (
+    [
+      ['rendered in', parents('jsx')],
+      ['called in', parents('call')],
+    ] as const
+  ).flatMap(([words, symbols]) => (symbols.length === 0 ? [] : [`${words} ${symbols.join(', ')}`]));
+  return `**Flow:** ${flow}${hops.map((hop) => ` → ${hop}`).join('')}`;
+};
+
+/** The legend rows one point's diagram needs: nothing at all when its flow is a sentence. */
+export const pointLegendKeys = (point: ExtensionPoint, model: ExtensionMapModel): LegendKey[] => {
+  const consumers = orderedConsumers(point, model);
+  const nodes = flowNodes(consumers);
+  if (nodes.length < FLOW_DIAGRAM_MIN_NODES) {
+    return [];
+  }
+  const contributors = contributorsOf(point, model);
+  const refs = consumers.flatMap(({ consumer }) => consumer.renderedIn);
+  return [
+    // Every drawn flow has at least one point-to-consumer edge.
+    'solid' as const,
+    ...(refs.some((ref) => ref.how === 'jsx') ? (['renderedIn'] as const) : []),
+    ...(refs.some((ref) => ref.how === 'call') ? (['calledIn'] as const) : []),
+    ...(contributors.some(({ federated }) => federated) ? (['federated'] as const) : []),
+  ];
 };
 
 /** Whether this point's flow is drawn as a diagram rather than written as a sentence. */

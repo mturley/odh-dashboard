@@ -103,8 +103,9 @@ describe('extensions on the real repo', () => {
       '[nimKServeFormDataExtension](#contributes-to-model-servingdeploymentform-data)',
     );
     expect(content).toContain('| nimKServeFormDataExtension | hardwareProfilePaths →');
-    // The binding, not the first CodeRef export, names the contribution.
-    expect(content).not.toContain('[extractDeploymentStrategy](#contributes-to');
+    // The binding, not the first CodeRef export, names the contribution: neither a link to a
+    // section nor any table cell on the page ever carries the export as the contribution's name.
+    expect(content).not.toMatch(/extractDeploymentStrategy\]\(#|\| extractDeploymentStrategy \|/);
   });
 
   it('names the declaring file of a re-exported CodeRef target, and the module it imports', () => {

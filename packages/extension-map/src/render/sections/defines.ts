@@ -1,5 +1,5 @@
 import { consumersOf } from './consumes';
-import { pointHasDiagram, renderPointFlow } from './pointFlow';
+import { pointLegendKeys, renderPointFlow } from './pointFlow';
 import {
   consumesLink,
   contributesLink,
@@ -10,6 +10,7 @@ import {
   sourceLink,
 } from '../links';
 import { joinBlocks, oneLine, table } from '../markdown';
+import type { LegendKey } from '../mermaid';
 import type {
   Diagnostic,
   DiagnosticCode,
@@ -223,9 +224,14 @@ const renderPoint = (point: ExtensionPoint, model: ExtensionMapModel, docPath: s
   ]);
 };
 
-/** Whether any point this package declares gets a flow diagram. */
-export const definesHasDiagram = (model: ExtensionMapModel, pkg: Pkg): boolean =>
-  model.points.some((point) => point.pkg === pkg.name && pointHasDiagram(point, model));
+/** The legend rows the diagrams of this package's own points need, across every one of them. */
+export const definesLegendKeys = (model: ExtensionMapModel, pkg: Pkg): LegendKey[] => [
+  ...new Set(
+    model.points
+      .filter((point) => point.pkg === pkg.name)
+      .flatMap((point) => pointLegendKeys(point, model)),
+  ),
+];
 
 /** The `## Defines` section: the extension points this package declares. */
 export const renderDefines = (model: ExtensionMapModel, pkg: Pkg): string | undefined => {

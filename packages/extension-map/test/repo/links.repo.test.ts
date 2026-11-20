@@ -235,6 +235,15 @@ describe('generated page layout', () => {
     expect(small).toContain('**Flow:** ');
   });
 
+  it('calls a call a call in a flow sentence', () => {
+    // applySuppress is called by PluginStore, not rendered by it.
+    const pluginCore = page('packages/plugin-core/docs/extensions.md');
+    const suppress = pointSection(pluginCore, 'app.suppress');
+    expect(suppress).toContain('**Flow:** ');
+    expect(suppress).toContain('called in PluginStore');
+    expect(suppress.slice(suppress.indexOf('**Flow:** '))).not.toContain('rendered in');
+  });
+
   it('puts no source-code link in any table of contents', () => {
     const bad = files.flatMap((file) => {
       const start = file.content.indexOf('## On this page');

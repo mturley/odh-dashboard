@@ -1,5 +1,5 @@
 import path from 'path';
-import { contributesLink, pkgDisplayName, relLink } from './links';
+import { contributesLink, pkgDisplayName, relLink, sourceLink } from './links';
 import { joinBlocks, table } from './markdown';
 import { valueCell } from './values';
 import type { ExtensionMapModel, ExtensionRecord, Override } from '../model/types';
@@ -55,11 +55,19 @@ const targetName = (override: Override, target: ExtensionRecord): string => {
   return path.posix.basename(target.loc.file);
 };
 
-/** What one override does, in words, from the point of view of the extension that performs it. */
+/** Every extension by key, so one Effect cell does not rebuild the index per override. */
+const byKey = (model: ExtensionMapModel): Map<string, ExtensionRecord> =>
+  new Map(model.extensions.map((record) => [record.key, record]));
+
+/**
+ * What one override does, in words, from the point of view of the extension that performs it, or
+ * `undefined` when the analysis proved no target for it.
+ */
 const outcomeText = (
   override: Override,
   model: ExtensionMapModel,
   docPath: string,
+  extensions: Map<string, ExtensionRecord>,
 ): string | undefined => {
   switch (override.effect) {
     case 'noop-suppressed':
@@ -77,9 +85,8 @@ const outcomeText = (
   }
   const [verb, preposition] =
     override.kind === 'suppress' ? ['removes', 'from'] : ['patches', 'in'];
-  const byKey = new Map(model.extensions.map((record) => [record.key, record]));
   const targets = override.targets.flatMap((key) => {
-    const target = byKey.get(key);
+    const target = extensions.get(key);
     if (!target) {
       return [];
     }
@@ -103,11 +110,14 @@ export const effectCell = (
   model: ExtensionMapModel,
   docPath: string,
 ): string => {
-  const parts = overridesBy(record, model).flatMap((override) => {
-    const outcome = outcomeText(override, model, docPath);
-    return outcome === undefined ? [] : [`${override.app}: ${outcome}`];
-  });
-  return parts.length === 0 ? '—' : parts.join('<br>');
+  const extensions = byKey(model);
+  // An override whose targets the analysis could not pin down is reported, never hidden.
+  const unproven = `not proven (${sourceLink(docPath, record.loc)})`;
+  const parts = overridesBy(record, model).map(
+    (override) =>
+      `${override.app}: ${outcomeText(override, model, docPath, extensions) ?? unproven}`,
+  );
+  return parts.length === 0 ? unproven : parts.join('<br>');
 };
 
 /** What an override does to the contribution it targets, in words. */
@@ -145,12 +155,12 @@ export const overrideNotes = (
   docPath: string,
   labels: Map<string, string>,
 ): string | undefined => {
-  const byKey = new Map(model.extensions.map((record) => [record.key, record]));
+  const extensions = byKey(model);
   const rows = records.flatMap((record) =>
     model.overrides
       .filter((override) => override.targets.includes(record.key))
       .map((override) => {
-        const by = byKey.get(override.by);
+        const by = extensions.get(override.by);
         return [
           labels.get(record.key) ?? '',
           override.app,

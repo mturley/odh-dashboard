@@ -361,16 +361,66 @@ describe('consumers table and selective flow diagrams', () => {
     );
   });
 
-  it('describes only the edge styles the remaining diagrams use', () => {
+  it('says "called in" for a parent that calls the consumer, never "rendered in"', () => {
+    const model = fixtureModel();
+    model.consumers = [
+      consumer(SLOT_ID, 'Slot', 'packages/user/src/Slot.tsx', [
+        { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 20 }, how: 'call' },
+      ]),
+    ];
+    const { content } = renderPackagePage(model, definer);
+    expect(content).toContain(`**Flow:** contributor → ${POINT_ID} → user · Slot → called in Page`);
+    expect(content).not.toContain('rendered in');
+  });
+
+  it('names JSX parents and call parents as separate hops, rendered first', () => {
+    // One symbol that both renders the consumer and calls it: two references, one flow node.
+    const model = fixtureModel();
+    model.consumers = [
+      consumer(SLOT_ID, 'Slot', 'packages/user/src/Slot.tsx', [
+        { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 12 }, how: 'jsx' },
+        { symbol: 'Page', loc: { file: 'packages/user/src/Page.tsx', line: 20 }, how: 'call' },
+      ]),
+    ];
+    const { content } = renderPackagePage(model, definer);
+    expect(content).toContain(
+      `**Flow:** contributor → ${POINT_ID} → user · Slot → rendered in Page → called in Page`,
+    );
+    expect(content).not.toContain('rendered in Page, Page');
+  });
+
+  it("describes only the edge styles this page's own diagrams draw", () => {
     const { content } = renderPackagePage(threeNodeModel(), definer);
     const legend = content.slice(content.indexOf('## Legend'));
     expect(legend).toContain('| `A --> B` |');
     expect(legend).toContain('| `A -. "rendered in" .-> B` |');
-    expect(legend).toContain('| `A -. "called in" .-> B` |');
-    expect(legend).toContain('| `A -. "federated" .-> B` |');
+    // This page's one diagram has no call edge and no federated contributor.
+    expect(legend).not.toContain('called in');
+    expect(legend).not.toContain('federated');
     expect(legend).not.toContain('Contributes diagram');
     expect(legend).not.toContain('`A --x B`');
     expect(legend).not.toContain('×N');
+  });
+
+  it('adds the call and federated rows once a diagram draws them', () => {
+    const model = threeNodeModel();
+    model.entries = [{ ...model.entries[0], path: 'federated' }];
+    model.consumers = model.consumers.map((c) =>
+      c.symbol === 'useThing'
+        ? {
+            ...c,
+            renderedIn: [
+              { symbol: 'Slot', loc: { file: 'packages/user/src/Slot.tsx', line: 9 }, how: 'call' },
+            ],
+          }
+        : c,
+    );
+    const legend = renderPackagePage(model, definer).content.slice(
+      renderPackagePage(model, definer).content.indexOf('## Legend'),
+    );
+    expect(legend).toContain('| `A -. "rendered in" .-> B` |');
+    expect(legend).toContain('| `A -. "called in" .-> B` |');
+    expect(legend).toContain('| `A -. "federated" .-> B` |');
   });
 });
 
@@ -467,6 +517,18 @@ describe('override effects on the declaring page', () => {
     expect(content).toContain('| id | Included in | Source |');
     expect(content).not.toContain('| id | Effect |');
     expect(content).toContain('| one | portal | redefined |');
+  });
+
+  it('reports an override with no proven target instead of hiding it', () => {
+    const model = overrideModel();
+    model.overrides = model.overrides.map((override) =>
+      override.kind === 'suppress' ? { ...override, targets: [] } : override,
+    );
+    const { content } = renderPackagePage(model, portal);
+    expect(content).toContain(
+      '| portal: not proven ([extensions.ts:4](../src/extensions.ts#L4)) |',
+    );
+    expect(content).not.toContain('| portal: removes');
   });
 
   it('adds no Effect column to a package that declares no override', () => {

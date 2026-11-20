@@ -1,10 +1,10 @@
 import path from 'path';
 import { docPathFor, fileLink, pkgDisplayName } from './links';
 import { HEADER, joinBlocks, oneLine } from './markdown';
-import { LEGEND_MD } from './mermaid';
+import { legendMd } from './mermaid';
 import { renderContributes } from './sections/contributes';
 import { renderConsumes } from './sections/consumes';
-import { definesHasDiagram, renderDefines } from './sections/defines';
+import { definesLegendKeys, renderDefines } from './sections/defines';
 import { renderDiagnostics } from './sections/diagnostics';
 import { renderToc } from './sections/toc';
 import type { Entry, ExtensionMapModel, Pkg } from '../model/types';
@@ -57,7 +57,7 @@ export const renderPackagePage = (model: ExtensionMapModel, pkg: Pkg): Generated
   const contributes = renderContributes(model, pkg, docPath);
   const consumes = renderConsumes(model, pkg, docPath);
   const diagnostics = renderDiagnostics(model, pkg, docPath);
-  const legend = definesHasDiagram(model, pkg);
+  const legend = legendMd(definesLegendKeys(model, pkg));
   const content = joinBlocks([
     HEADER,
     `# Extensions in ${pkgDisplayName(pkg)}`,
@@ -69,14 +69,14 @@ export const renderPackagePage = (model: ExtensionMapModel, pkg: Pkg): Generated
       contributes: contributes !== undefined,
       consumes: consumes !== undefined,
       diagnostics: diagnostics !== undefined,
-      legend,
+      legend: legend !== undefined,
     }),
     loadingPaths,
     defines,
     contributes,
     consumes,
     diagnostics,
-    legend ? LEGEND_MD : undefined,
+    legend,
   ]);
   return { path: docPath, content: `${content}\n` };
 };
